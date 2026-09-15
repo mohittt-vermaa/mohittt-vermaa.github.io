@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mohittt-vermaa.github.io/sitemap.xml
