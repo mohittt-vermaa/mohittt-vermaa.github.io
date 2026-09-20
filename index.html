@@ -188,13 +188,15 @@ const renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'h
 renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.2;renderer.outputColorSpace=THREE.SRGBColorSpace;
 
-const scene=new THREE.Scene();scene.background=new THREE.Color(0x010104);scene.fog=new THREE.FogExp2(0x010104,0.007);
-const camera=new THREE.PerspectiveCamera(50,innerWidth/innerHeight,0.1,500);camera.position.set(0,1.5,14);
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x010104);scene.fog=new THREE.FogExp2(0x010104,0.003);
+const camera=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,0.1,500);camera.position.set(0,1.5,14);
 
 // LIGHTS — clean, no bloom
 scene.add(new THREE.AmbientLight(0x222244,0.6));
 const keyL=new THREE.DirectionalLight(0xffffff,1.0);keyL.position.set(5,8,5);scene.add(keyL);
 const fillL=new THREE.DirectionalLight(0x6666aa,0.3);fillL.position.set(-5,3,5);scene.add(fillL);
+// Orb light — illuminates astronaut with purple glow
+const orbLight=new THREE.PointLight(0x8833ff,4,50);orbLight.position.set(0,0.5,-18);scene.add(orbLight);
 
 // TEXTURE
 const texLoader=new THREE.TextureLoader();
@@ -221,44 +223,44 @@ const orbCoreMat=new THREE.ShaderMaterial({
     float rim=1.0-max(dot(vNorm,vec3(0.0,0.0,1.0)),0.0);
     float pattern=sin(vUv.x*12.0+uTime*0.3)*sin(vUv.y*12.0-uTime*0.2)*0.5+0.5;
     vec3 deep=vec3(0.01,0.005,0.03);
-    vec3 purple=vec3(0.3,0.08,0.6)*pow(rim,2.0)*1.5;
-    vec3 orange=vec3(0.9,0.35,0.05)*pow(rim,4.0)*1.0;
+    vec3 purple=vec3(0.5,0.15,0.9)*pow(rim,2.0)*2.5;
+    vec3 orange=vec3(1.0,0.45,0.1)*pow(rim,3.5)*2.0;
     vec3 surface=vec3(0.08,0.03,0.15)*pattern*0.3;
     gl_FragColor=vec4(deep+purple+orange+surface,1.0);
   }`
 });
 const orbCore=new THREE.Mesh(new THREE.SphereGeometry(5,64,64),orbCoreMat);
-orbCore.position.set(0,0.5,-30);
+orbCore.position.set(0,0.5,-18);
 scene.add(orbCore);
 
 // Inner glow — additive soft sphere
 const innerGlow=new THREE.Mesh(
-  new THREE.SphereGeometry(6,32,32),
-  new THREE.MeshBasicMaterial({color:0x9933ff,transparent:true,opacity:0.06,side:THREE.BackSide,blending:THREE.AdditiveBlending,depthWrite:false})
+  new THREE.SphereGeometry(6.5,32,32),
+  new THREE.MeshBasicMaterial({color:0xaa44ff,transparent:true,opacity:0.15,side:THREE.BackSide,blending:THREE.AdditiveBlending,depthWrite:false})
 );
 innerGlow.position.copy(orbCore.position);
 scene.add(innerGlow);
 
 // Mid glow — larger, dimmer
 const midGlow=new THREE.Mesh(
-  new THREE.SphereGeometry(9,32,32),
-  new THREE.MeshBasicMaterial({color:0x6622cc,transparent:true,opacity:0.025,side:THREE.BackSide,blending:THREE.AdditiveBlending,depthWrite:false})
+  new THREE.SphereGeometry(10,32,32),
+  new THREE.MeshBasicMaterial({color:0x7722dd,transparent:true,opacity:0.08,side:THREE.BackSide,blending:THREE.AdditiveBlending,depthWrite:false})
 );
 midGlow.position.copy(orbCore.position);
 scene.add(midGlow);
 
 // Outer glow — biggest, faintest
 const outerGlow=new THREE.Mesh(
-  new THREE.SphereGeometry(14,32,32),
-  new THREE.MeshBasicMaterial({color:0x4411aa,transparent:true,opacity:0.01,side:THREE.BackSide,blending:THREE.AdditiveBlending,depthWrite:false})
+  new THREE.SphereGeometry(16,32,32),
+  new THREE.MeshBasicMaterial({color:0x5511bb,transparent:true,opacity:0.04,side:THREE.BackSide,blending:THREE.AdditiveBlending,depthWrite:false})
 );
 outerGlow.position.copy(orbCore.position);
 scene.add(outerGlow);
 
 // Atmosphere haze — very large faint cloud
 const haze=new THREE.Mesh(
-  new THREE.SphereGeometry(20,32,32),
-  new THREE.MeshBasicMaterial({color:0x220866,transparent:true,opacity:0.008,side:THREE.BackSide,blending:THREE.AdditiveBlending,depthWrite:false})
+  new THREE.SphereGeometry(25,32,32),
+  new THREE.MeshBasicMaterial({color:0x330977,transparent:true,opacity:0.025,side:THREE.BackSide,blending:THREE.AdditiveBlending,depthWrite:false})
 );
 haze.position.copy(orbCore.position);
 scene.add(haze);
