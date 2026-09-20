@@ -133,6 +133,41 @@ a{color:inherit;text-decoration:none}
 @keyframes scrollWheel{0%{transform:translateX(-50%) translateY(0);opacity:1}100%{transform:translateX(-50%) translateY(12px);opacity:0}}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(1.8)}}
 @media(max-width:768px){.nav{padding:1rem 1.5rem}.nav-links{display:none}.about-grid{grid-template-columns:1fr;gap:2rem}.about-image{max-width:280px;margin:0 auto}.projects-grid,.skill-categories{grid-template-columns:1fr}.contact-grid{grid-template-columns:1fr 1fr}.section{padding:5rem 1.2rem}.hero-buttons{flex-direction:column;align-items:center}.skills-stats{grid-template-columns:1fr 1fr}.scroll-indicator,.audio-btn,.cursor-dot,.cursor-ring{display:none}}
+/* ═══ EMAIL MODAL ═══ */
+.compose-btn{display:inline-flex;align-items:center;gap:0.7rem;margin-top:2.2rem;padding:1rem 2.6rem;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;font-family:inherit;font-size:0.8rem;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;transition:all 0.5s cubic-bezier(0.16,1,0.3,1);box-shadow:0 10px 35px rgba(124,58,237,0.3)}
+.compose-btn:hover{transform:translateY(-3px);box-shadow:0 18px 50px rgba(124,58,237,0.45)}
+.compose-btn svg{transition:transform 0.4s}.compose-btn:hover svg{transform:translateX(4px) rotate(-8deg)}
+.modal-overlay{position:fixed;inset:0;background:rgba(1,1,4,0.78);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);z-index:500;display:flex;align-items:center;justify-content:center;padding:1.2rem;opacity:0;pointer-events:none;transition:opacity 0.35s cubic-bezier(0.16,1,0.3,1)}
+.modal-overlay.open{opacity:1;pointer-events:auto}
+.modal{background:rgba(8,8,16,0.96);border:1px solid rgba(255,255,255,0.09);max-width:560px;width:100%;padding:2.6rem;position:relative;max-height:88vh;overflow-y:auto;transform:translateY(28px) scale(0.96);transition:transform 0.45s cubic-bezier(0.16,1,0.3,1);box-shadow:0 50px 140px rgba(0,0,0,0.65),0 0 0 1px rgba(124,58,237,0.06),0 0 80px rgba(124,58,237,0.08)}
+.modal-overlay.open .modal{transform:translateY(0) scale(1)}
+.modal::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--pink))}
+.modal-close{position:absolute;top:1rem;right:1rem;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);background:transparent;color:rgba(255,255,255,0.5);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s}
+.modal-close:hover{border-color:var(--accent);color:#fff;transform:rotate(90deg)}
+.modal-tag{font-size:0.6rem;font-weight:700;letter-spacing:0.35em;text-transform:uppercase;color:var(--accent2);margin-bottom:0.9rem}
+.modal h2{font-size:1.7rem;font-weight:900;letter-spacing:-0.03em;margin-bottom:0.5rem}
+.modal .modal-sub{color:rgba(255,255,255,0.4);font-size:0.88rem;line-height:1.7;margin-bottom:1.8rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:0.9rem}
+.form-group{margin-bottom:1rem}
+.form-label{display:block;font-size:0.62rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:0.5rem}
+.form-input,.form-textarea{width:100%;padding:0.85rem 1rem;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:#fff;font-family:inherit;font-size:0.9rem;transition:all 0.25s;outline:none;resize:vertical;border-radius:2px}
+.form-input:focus,.form-textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,58,237,0.18);background:rgba(124,58,237,0.05)}
+.form-input::placeholder,.form-textarea::placeholder{color:rgba(255,255,255,0.22)}
+.form-textarea{min-height:130px;line-height:1.7}
+.form-send{width:100%;display:inline-flex;align-items:center;justify-content:center;gap:0.7rem;padding:1rem;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-family:inherit;font-size:0.82rem;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.4s cubic-bezier(0.16,1,0.3,1);margin-top:0.4rem;box-shadow:0 12px 35px rgba(124,58,237,0.3)}
+.form-send:hover{transform:translateY(-2px);box-shadow:0 18px 50px rgba(124,58,237,0.45)}
+.form-alt{text-align:center;margin-top:1.2rem;font-size:0.75rem;color:rgba(255,255,255,0.3)}
+.form-alt a{color:var(--accent2);font-weight:600;border-bottom:1px dashed rgba(6,182,212,0.5);padding-bottom:2px;transition:all 0.25s}
+.form-alt a:hover{border-bottom-style:solid;color:#fff}
+.modal-success{text-align:center;padding:2.5rem 0;display:none}
+.modal-success.show{display:block}
+.modal-success .check{width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;margin:0 auto 1.3rem;animation:popIn 0.5s cubic-bezier(0.16,1,0.3,1)}
+@keyframes popIn{0%{transform:scale(0)}70%{transform:scale(1.12)}100%{transform:scale(1)}}
+.modal-success .check svg{width:34px;height:34px;stroke:#fff;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.modal-success h3{font-size:1.5rem;font-weight:900;margin-bottom:0.5rem}
+.modal-success p{color:rgba(255,255,255,0.4);font-size:0.88rem;line-height:1.7}
+.form-hidden{display:none}
+@media(max-width:560px){.form-row{grid-template-columns:1fr}.modal{padding:1.8rem 1.4rem}}
 </style>
 </head>
 <body>
@@ -152,7 +187,7 @@ a{color:inherit;text-decoration:none}
 <div class="card reveal reveal-delay-1"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg></span><h3>MLBox</h3><p>Modular ML toolbox with reusable components for data preprocessing, model training, and evaluation.</p><div class="card-tags"><span>Python</span><span>Scikit-learn</span><span>ML</span></div><div class="card-links"><a href="https://github.com/mohittt-vermaa/MLBox" target="_blank" rel="noopener noreferrer">GitHub →</a></div></div>
 <div class="card reveal reveal-delay-2"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></span><h3>ORF-5</h3><p>Open Reading Frame finder for bioinformatics — identifies protein-coding regions in DNA sequences.</p><div class="card-tags"><span>Python</span><span>Bioinformatics</span><span>Genomics</span></div><div class="card-links"><a href="https://github.com/mohittt-vermaa/ORF-5" target="_blank" rel="noopener noreferrer">GitHub →</a></div></div>
 <div class="card reveal reveal-delay-3"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><path d="M8 7h8M8 11h6"/></svg></span><h3>Class 10 Maths</h3><p>Open-source math solutions and study resources for Class 10 students, covering NCERT curriculum.</p><div class="card-tags"><span>Education</span><span>Mathematics</span><span>Open Source</span></div><div class="card-links"><a href="https://github.com/mohittt-vermaa/Class-10-Maths" target="_blank" rel="noopener noreferrer">GitHub →</a></div></div>
-<div class="card reveal reveal-delay-4"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/></svg></span><h3>Portfolio Website</h3><p>Immersive 3D space portfolio with cosmic orb, astronaut, and cinematic scroll camera.</p><div class="card-tags"><span>Three.js</span><span>WebGL</span><span>GLSL</span><span>3D</span></div><div class="card-links"><a href="https://github.com/mohittt-vermaa/mohittt-vermaa.github.io" target="_blank" rel="noopener noreferrer">GitHub →</a><a href="https://mohittt-vermaa.github.io" target="_blank" rel="noopener noreferrer">Live →</a></div></div>
+<div class="card reveal reveal-delay-4"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/></svg></span><h3>Portfolio Website</h3><p>Immersive 3D space portfolio with a real-textured Earth, floating astronaut, and cinematic scroll camera.</p><div class="card-tags"><span>Three.js</span><span>WebGL</span><span>GLSL</span><span>3D</span></div><div class="card-links"><a href="https://github.com/mohittt-vermaa/mohittt-vermaa.github.io" target="_blank" rel="noopener noreferrer">GitHub →</a><a href="https://mohittt-vermaa.github.io" target="_blank" rel="noopener noreferrer">Live →</a></div></div>
 </div></div></section>
 
 <section class="section skills-section" id="skills"><div class="section-inner"><div class="skills-header"><div class="section-label reveal" style="justify-content:center">Tech Stack</div><h2 class="reveal reveal-delay-1">Currently Learning<br>& Interests</h2><p class="reveal reveal-delay-2">Technologies I work with and am actively exploring</p></div><div class="skill-categories">
@@ -169,8 +204,49 @@ a{color:inherit;text-decoration:none}
 <a href="https://www.instagram.com/mohittt_vermaa" target="_blank" rel="noopener noreferrer" class="contact-card reveal reveal-delay-3"><span class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></span><div class="label">Instagram</div><div class="value">@mohittt_vermaa</div></a>
 <a href="https://hashnode.com/@mohit-" target="_blank" rel="noopener noreferrer" class="contact-card reveal"><span class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M22.351 8.019l-6.37-6.37a5.683 5.683 0 00-8.037 0l-6.37 6.37a5.683 5.683 0 000 8.037l6.37 6.37a5.683 5.683 0 008.037 0l6.37-6.37a5.683 5.683 0 000-8.037zM12 15.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z"/></svg></span><div class="label">Hashnode</div><div class="value">@mohit-</div></a>
 <a href="https://mohittt-vermaa.blogspot.com" target="_blank" rel="noopener noreferrer" class="contact-card reveal reveal-delay-1"><span class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm4.95 16.95c-1.02 1.02-2.37 1.55-3.95 1.55H8.5c-1.58 0-2.93-.53-3.95-1.55C3.53 15.93 3 14.58 3 13V8.5c0-1.58.53-2.93 1.55-3.95C5.58 3.53 6.93 3 8.5 3h3c1.58 0 2.93.53 3.95 1.55C16.47 5.58 17 6.93 17 8.5v4.5c0 1.58-.53 2.93-1.55 3.95l.5.5zM14 7H8v2h6V7zm-4 4h4v2H8v-2z"/></svg></span><div class="label">Blog</div><div class="value">Blogger</div></a>
-</div></div></section>
+</div>
+<button class="compose-btn reveal" id="composeBtn" type="button"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Me an Email</button>
+</div></section>
 <footer class="footer"><p>© 2026 Mohit Verma — Crafted with Three.js & Relentless Curiosity</p></footer>
+</div>
+
+<!-- EMAIL COMPOSE MODAL -->
+<div class="modal-overlay" id="modalOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <button class="modal-close" id="modalClose" type="button" aria-label="Close">✕</button>
+    <div id="formContent">
+      <div class="modal-tag">Contact</div>
+      <h2 id="modalTitle">Get in touch 🚀</h2>
+      <p class="modal-sub">Have a project, idea, or just want to say hi? Fill this in and it opens your email app ready to send — straight to my inbox.</p>
+      <form id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="cf-name">Your name</label>
+            <input class="form-input" type="text" id="cf-name" placeholder="Jane Doe" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cf-email">Your email</label>
+            <input class="form-input" type="email" id="cf-email" placeholder="jane@example.com" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="cf-phone">Phone (optional)</label>
+          <input class="form-input" type="tel" id="cf-phone" placeholder="+91 98765 43210">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="cf-msg">Your message</label>
+          <textarea class="form-textarea" id="cf-msg" placeholder="Tell me about your project, idea, or just say hi..." required></textarea>
+        </div>
+        <button type="submit" class="form-send">Send Email <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+      </form>
+      <p class="form-alt">Or email me directly at <a href="mailto:mohitkumar190031@gmail.com">mohitkumar190031@gmail.com</a></p>
+    </div>
+    <div class="modal-success" id="formSuccess">
+      <div class="check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <h3>Email ready!</h3>
+      <p>Your email app should have opened with everything filled in. Hit send there and I'll get back to you soon. 🚀</p>
+    </div>
+  </div>
 </div>
 <button class="audio-btn muted" id="audioBtn" title="Toggle ambient sound">🔇</button>
 
@@ -190,8 +266,8 @@ const scene=new THREE.Scene();scene.background=new THREE.Color(0x010104);
 const camera=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,0.1,500);camera.position.set(0,1.5,14);
 
 // NO BLOOM — clean render
-scene.add(new THREE.AmbientLight(0x222244,0.5));
-const keyL=new THREE.DirectionalLight(0xffffff,0.8);keyL.position.set(5,8,5);scene.add(keyL);
+scene.add(new THREE.AmbientLight(0x223050,0.6));
+const keyL=new THREE.DirectionalLight(0xffffff,0.35);keyL.position.set(5,8,5);scene.add(keyL);
 
 // TEXTURE
 let pTex=null;new THREE.TextureLoader().load('assets/textures/particle_flare.png',t=>{pTex=t});
@@ -205,66 +281,131 @@ new GLTFLoader().load('assets/models/stylized_astronaut__game-ready.glb',
 );
 
 // ═══════════════════════════════════════
-// ETHEREAL COSMIC ORB — Pure glow, no solid sphere
+// EARTH — real textured planet + clouds + atmosphere glow
 // ═══════════════════════════════════════
 const orbPos=new THREE.Vector3(0,0.5,-15);
+const EARTH_R=4.2;
 
-// Tiny bright white core
-const coreMat=new THREE.ShaderMaterial({
-  transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
+const earthGroup=new THREE.Group();
+earthGroup.position.copy(orbPos);
+earthGroup.rotation.z=0.41; // 23.5° axial tilt
+scene.add(earthGroup);
+
+const tl=new THREE.TextureLoader();
+const dayTex=tl.load('assets/textures/earth-blue-marble.jpg');
+dayTex.colorSpace=THREE.SRGBColorSpace;
+dayTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
+const bumpTex=tl.load('assets/textures/earth-topology.png');
+const specTex=tl.load('assets/textures/earth-water.png');
+const nightTex=tl.load('assets/textures/earth-night.jpg');
+nightTex.colorSpace=THREE.SRGBColorSpace;
+
+const earth=new THREE.Mesh(
+  new THREE.SphereGeometry(EARTH_R,96,96),
+  new THREE.MeshPhongMaterial({
+    map:dayTex,
+    bumpMap:bumpTex,bumpScale:0.05,
+    specularMap:specTex,specular:new THREE.Color(0x3a5a7a),shininess:16,
+    emissiveMap:nightTex,emissive:new THREE.Color(0xffc46b),emissiveIntensity:0.16
+  })
+);
+earthGroup.add(earth);
+
+// Procedural drifting cloud layer (fbm shader)
+const cloudMat=new THREE.ShaderMaterial({
+  transparent:true,depthWrite:false,
   uniforms:{uTime:{value:0}},
-  vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
-  fragmentShader:`uniform float uTime;varying vec2 vUv;void main(){float d=length(vUv-0.5)*2.0;float glow=exp(-d*d*12.0);vec3 col=mix(vec3(1.0,0.95,1.0),vec3(0.8,0.5,1.0),d*d);gl_FragColor=vec4(col*glow*3.0,glow);}`
+  vertexShader:`varying vec3 vP;void main(){vP=normalize(position);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
+  fragmentShader:`
+uniform float uTime;varying vec3 vP;
+float h(vec3 p){return fract(sin(dot(p,vec3(127.1,311.7,74.7)))*43758.5453);}
+float n3(vec3 p){vec3 i=floor(p),f=fract(p);f=f*f*(3.0-2.0*f);
+float a=h(i),b=h(i+vec3(1,0,0)),c=h(i+vec3(0,1,0)),d=h(i+vec3(1,1,0));
+float e=h(i+vec3(0,0,1)),g=h(i+vec3(1,0,1)),k=h(i+vec3(0,1,1)),l=h(i+vec3(1,1,1));
+return mix(mix(mix(a,b,f.x),mix(c,d,f.x),f.y),mix(mix(e,g,f.x),mix(k,l,f.x),f.y),f.z);}
+float fbm(vec3 p){float v=0.0,a=0.5;for(int i=0;i<5;i++){v+=a*n3(p);p*=2.15;a*=0.5;}return v;}
+void main(){
+vec3 p=vP*3.6+vec3(uTime*0.008,0.0,uTime*0.005);
+float cl=fbm(p+fbm(p+vec3(5.2)));
+float mask=smoothstep(0.52,0.74,cl);
+gl_FragColor=vec4(vec3(1.0),mask*0.75);}`
 });
-const core=new THREE.Mesh(new THREE.PlaneGeometry(4,4),coreMat);core.position.copy(orbPos);scene.add(core);
+const clouds=new THREE.Mesh(new THREE.SphereGeometry(EARTH_R*1.014,80,80),cloudMat);
+earthGroup.add(clouds);
 
-// Medium purple halo
+// Blue atmosphere halo (glow plane behind Earth)
 const haloMat=new THREE.ShaderMaterial({
   transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,side:THREE.DoubleSide,
   uniforms:{uTime:{value:0}},
   vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
-  fragmentShader:`uniform float uTime;varying vec2 vUv;void main(){float d=length(vUv-0.5)*2.0;float glow=exp(-d*d*3.0);float pulse=sin(uTime*0.5)*0.1+0.9;vec3 col=mix(vec3(0.9,0.6,1.0),vec3(0.4,0.1,0.8),d);gl_FragColor=vec4(col*glow*pulse*1.5,glow*0.6);}`
+  fragmentShader:`uniform float uTime;varying vec2 vUv;void main(){float d=length(vUv-0.5)*2.0;float ring=smoothstep(0.30,0.44,d)*exp(-pow((d-0.46)*3.2,2.0));float glow=exp(-d*d*2.6);float pulse=0.92+0.08*sin(uTime*0.5);vec3 col=vec3(0.25,0.55,1.0)*ring*2.2+vec3(0.12,0.3,0.85)*glow;gl_FragColor=vec4(col*pulse,(ring*0.85+glow*0.4)*pulse);}`
 });
-const halo=new THREE.Mesh(new THREE.PlaneGeometry(14,14),haloMat);halo.position.copy(orbPos);halo.position.z-=0.1;scene.add(halo);
+const halo=new THREE.Mesh(new THREE.PlaneGeometry(17,17),haloMat);halo.position.copy(orbPos);halo.position.z-=0.6;scene.add(halo);
 
-// Large soft outer haze
+// Wide deep-space blue haze
 const hazeMat=new THREE.ShaderMaterial({
   transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,side:THREE.DoubleSide,
   vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
-  fragmentShader:`varying vec2 vUv;void main(){float d=length(vUv-0.5)*2.0;float glow=exp(-d*d*1.5);vec3 col=mix(vec3(0.5,0.2,0.9),vec3(0.1,0.02,0.3),d);gl_FragColor=vec4(col*glow,glow*0.25);}`
+  fragmentShader:`varying vec2 vUv;void main(){float d=length(vUv-0.5)*2.0;float glow=exp(-d*d*1.4);vec3 col=mix(vec3(0.1,0.22,0.5),vec3(0.02,0.05,0.18),d);gl_FragColor=vec4(col*glow,glow*0.22);}`
 });
-const haze=new THREE.Mesh(new THREE.PlaneGeometry(30,30),hazeMat);haze.position.copy(orbPos);haze.position.z-=0.2;scene.add(haze);
+const haze=new THREE.Mesh(new THREE.PlaneGeometry(34,34),hazeMat);haze.position.copy(orbPos);haze.position.z-=0.9;scene.add(haze);
 
-// Huge atmospheric fog
-const fogMat=new THREE.ShaderMaterial({
-  transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,side:THREE.DoubleSide,
-  vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
-  fragmentShader:`varying vec2 vUv;void main(){float d=length(vUv-0.5)*2.0;float glow=exp(-d*d*0.8);vec3 col=vec3(0.15,0.04,0.35);gl_FragColor=vec4(col*glow,glow*0.1);}`
+// Sun + earthshine lights
+const sun=new THREE.DirectionalLight(0xfff1d6,2.6);sun.position.set(28,10,6);scene.add(sun);
+const earthGlow=new THREE.PointLight(0x4488ff,4,50);earthGlow.position.copy(orbPos);earthGlow.position.z+=5;scene.add(earthGlow);
+const fillL=new THREE.PointLight(0x334466,1.2,40);fillL.position.set(-12,4,8);scene.add(fillL);
+
+// ═══ STARFIELD — real twinkling stars on deep black space ═══
+const STAR_N=5500;
+const sPos=new Float32Array(STAR_N*3),sSize=new Float32Array(STAR_N),sCol=new Float32Array(STAR_N*3),sPh=new Float32Array(STAR_N);
+const starPalette=[[1,1,1],[1,1,1],[1,1,1],[0.75,0.85,1],[1,0.9,0.72],[0.95,0.8,0.65],[0.7,0.8,1]];
+for(let i=0;i<STAR_N;i++){
+  const r=55+Math.random()*230,t=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1);
+  sPos[i*3]=r*Math.sin(ph)*Math.cos(t);sPos[i*3+1]=r*Math.sin(ph)*Math.sin(t);sPos[i*3+2]=r*Math.cos(ph);
+  const big=Math.random()<0.06; // a few bright feature stars
+  sSize[i]=big?(1.8+Math.random()*1.3):(0.5+Math.random()*0.9);
+  const c=starPalette[(Math.random()*starPalette.length)|0];
+  sCol[i*3]=c[0];sCol[i*3+1]=c[1];sCol[i*3+2]=c[2];
+  sPh[i]=Math.random()*100;
+}
+const starGeo=new THREE.BufferGeometry();
+starGeo.setAttribute('position',new THREE.BufferAttribute(sPos,3));
+starGeo.setAttribute('aSize',new THREE.BufferAttribute(sSize,1));
+starGeo.setAttribute('aColor',new THREE.BufferAttribute(sCol,3));
+starGeo.setAttribute('aPhase',new THREE.BufferAttribute(sPh,1));
+const starMat=new THREE.ShaderMaterial({
+  transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
+  uniforms:{uTime:{value:0},uPR:{value:Math.min(devicePixelRatio,2)}},
+  vertexShader:`
+attribute float aSize;attribute float aPhase;attribute vec3 aColor;
+uniform float uTime;uniform float uPR;
+varying vec3 vColor;varying float vTw;
+void main(){
+  vec4 mv=modelViewMatrix*vec4(position,1.0);
+  float sp=0.8+fract(aPhase*0.37)*2.2;
+  float tw=0.72+0.28*sin(uTime*sp+aPhase);
+  vTw=tw;vColor=aColor;
+  gl_PointSize=min(aSize*uPR*tw*(210.0/-mv.z),10.0*uPR);
+  gl_Position=projectionMatrix*mv;
+}`,
+  fragmentShader:`
+varying vec3 vColor;varying float vTw;
+void main(){
+  vec2 c=gl_PointCoord-0.5;float d=length(c)*2.0;
+  float core=exp(-d*d*9.0);
+  float spike=max(0.0,1.0-abs(c.x)*24.0)*exp(-abs(c.y)*7.0)+max(0.0,1.0-abs(c.y)*24.0)*exp(-abs(c.x)*7.0);
+  float b=core+spike*0.35;
+  if(b<0.01)discard;
+  gl_FragColor=vec4(vColor*b*vTw,b*vTw);
+}`
 });
-const fogPlane=new THREE.Mesh(new THREE.PlaneGeometry(50,50),fogMat);fogPlane.position.copy(orbPos);fogPlane.position.z-=0.3;scene.add(fogPlane);
-
-// Light rays
-const raysMat=new THREE.ShaderMaterial({
-  transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,side:THREE.DoubleSide,
-  uniforms:{uTime:{value:0}},
-  vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
-  fragmentShader:`uniform float uTime;varying vec2 vUv;void main(){vec2 c=vUv-0.5;float d=length(c);float a=atan(c.y,c.x);float rays=0.0;for(float i=0.0;i<8.0;i++){rays+=pow(max(0.0,cos(a+i*0.785)),12.0)*0.08;}float center=exp(-d*d*10.0);float fade=exp(-d*2.0);vec3 col=mix(vec3(1.0,0.85,1.0),vec3(0.5,0.2,0.9),center);float b=(center*1.5+rays)*fade;gl_FragColor=vec4(col*b,b*0.35);}`
-});
-const rays=new THREE.Mesh(new THREE.PlaneGeometry(35,35),raysMat);rays.position.copy(orbPos);rays.position.z+=0.1;scene.add(rays);
-
-// Orb lights — illuminate astronaut with purple
-const orbLight=new THREE.PointLight(0x8844ff,5,50);orbLight.position.copy(orbPos);scene.add(orbLight);
-const orbLight2=new THREE.PointLight(0xff6644,1.5,25);orbLight2.position.copy(orbPos);orbLight2.position.z+=4;scene.add(orbLight2);
-
-// STARS — 3000
-function mkS(n,sz,col,op,min,max){const g=new THREE.BufferGeometry(),p=new Float32Array(n*3);for(let i=0;i<n;i++){const r=min+Math.random()*(max-min),t=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1);p[i*3]=r*Math.sin(ph)*Math.cos(t);p[i*3+1]=r*Math.sin(ph)*Math.sin(t);p[i*3+2]=r*Math.cos(ph)}g.setAttribute('position',new THREE.BufferAttribute(p,3));scene.add(new THREE.Points(g,new THREE.PointsMaterial({color:col,size:sz,transparent:true,opacity:op,sizeAttenuation:true})))}
-mkS(2500,0.04,0xffffff,0.35,50,250);mkS(400,0.07,0xccddff,0.25,30,100);mkS(200,0.1,0xffddaa,0.2,20,60);
+const stars=new THREE.Points(starGeo,starMat);scene.add(stars);
 
 // DUST — 500
 const dC=500,dG=new THREE.BufferGeometry(),dP=new Float32Array(dC*3),dV=new Float32Array(dC*3);
 for(let i=0;i<dC;i++){dP[i*3]=(Math.random()-.5)*40;dP[i*3+1]=(Math.random()-.5)*25;dP[i*3+2]=(Math.random()-.5)*40;dV[i*3]=(Math.random()-.5)*.002;dV[i*3+1]=(Math.random()-.5)*.002;dV[i*3+2]=(Math.random()-.5)*.002}
 dG.setAttribute('position',new THREE.BufferAttribute(dP,3));
-const dust=new THREE.Points(dG,new THREE.PointsMaterial({color:0x7c3aed,size:.02,transparent:true,opacity:.12,sizeAttenuation:true,map:pTex||undefined,blending:THREE.AdditiveBlending,depthWrite:false}));
+const dust=new THREE.Points(dG,new THREE.PointsMaterial({color:0x9fb4d8,size:.02,transparent:true,opacity:.1,sizeAttenuation:true,map:pTex||undefined,blending:THREE.AdditiveBlending,depthWrite:false}));
 scene.add(dust);
 
 // ORBITING ELEMENTS — 8
@@ -300,18 +441,49 @@ let time=0;const clock=new THREE.Clock();
   if(astro){astro.position.y=-.3+Math.sin(time*.5)*.3;astro.rotation.y=mX*.3+time*.03;astro.rotation.x=Math.sin(time*.3)*.03+mY*.05}
   if(mixer)mixer.update(dt);
 
-  // Orb shaders
-  coreMat.uniforms.uTime.value=time;haloMat.uniforms.uTime.value=time;raysMat.uniforms.uTime.value=time;
-  // Orb breathe
-  const br=1+Math.sin(time*.4)*.03;
-  core.scale.setScalar(br);halo.scale.setScalar(br);haze.scale.setScalar(br);rays.scale.setScalar(br);
-  // Lights pulse
-  orbLight.intensity=5+Math.sin(time*.5)*1.5;orbLight2.intensity=1.5+Math.sin(time*.4)*0.5;
+  // Earth: slow rotation + drifting clouds + atmosphere pulse
+  earth.rotation.y+=dt*0.035;clouds.rotation.y+=dt*0.05;
+  cloudMat.uniforms.uTime.value=time;haloMat.uniforms.uTime.value=time;
+  starMat.uniforms.uTime.value=time;
+  stars.rotation.y+=dt*0.0035;
+  const br=1+Math.sin(time*.4)*.015;halo.scale.setScalar(br);
+  earthGlow.intensity=4+Math.sin(time*.5)*1.2;
 
   orbs.forEach(o=>{o.userData.a+=o.userData.sp*dt;o.position.x=Math.cos(o.userData.a)*o.userData.r;o.position.z=Math.sin(o.userData.a)*o.userData.r;o.position.y=o.userData.yo+Math.sin(time+o.userData.w)*.2;o.rotation.x+=.008;o.rotation.y+=.012});
   const dp=dust.geometry.attributes.position.array;for(let i=0;i<dC;i++){dp[i*3]+=dV[i*3];dp[i*3+1]+=dV[i*3+1];dp[i*3+2]+=dV[i*3+2];if(Math.abs(dp[i*3])>20)dV[i*3]*=-1;if(Math.abs(dp[i*3+1])>12)dV[i*3+1]*=-1;if(Math.abs(dp[i*3+2])>20)dV[i*3+2]*=-1}dust.geometry.attributes.position.needsUpdate=true;
 
   renderer.render(scene,camera);
+})();
+</script>
+<script>
+// ═══ EMAIL COMPOSE MODAL ═══
+(function(){
+  const overlay=document.getElementById('modalOverlay');
+  const formContent=document.getElementById('formContent');
+  const success=document.getElementById('formSuccess');
+  const form=document.getElementById('contactForm');
+  let lastFocus=null;
+  function open(){lastFocus=document.activeElement;overlay.classList.add('open');overlay.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';formContent.classList.remove('form-hidden');success.classList.remove('show');setTimeout(()=>{const f=document.getElementById('cf-name');if(f)f.focus();},250);}
+  function close(){overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true');document.body.style.overflow='';if(lastFocus&&lastFocus.focus)lastFocus.focus();}
+  document.getElementById('composeBtn').addEventListener('click',open);
+  document.getElementById('modalClose').addEventListener('click',close);
+  overlay.addEventListener('click',e=>{if(e.target===overlay)close();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&overlay.classList.contains('open'))close();});
+  form.addEventListener('submit',e=>{
+    e.preventDefault();
+    const name=document.getElementById('cf-name').value.trim();
+    const email=document.getElementById('cf-email').value.trim();
+    const phone=document.getElementById('cf-phone').value.trim();
+    const msg=document.getElementById('cf-msg').value.trim();
+    if(!name||!email||!msg){form.reportValidity&&form.reportValidity();return;}
+    const subject=encodeURIComponent('Portfolio inquiry from '+name);
+    const body=encodeURIComponent('Hi Mohit,\n\n'+msg+'\n\n— '+name+'\nEmail: '+email+(phone?('\nPhone: '+phone):''));
+    const mailto='mailto:mohitkumar190031@gmail.com?subject='+subject+'&body='+body;
+    const a=document.createElement('a');a.href=mailto;a.rel='noopener';a.click();
+    formContent.classList.add('form-hidden');success.classList.add('show');
+    form.reset();
+    setTimeout(close,2600);
+  });
 })();
 </script>
 </body>
