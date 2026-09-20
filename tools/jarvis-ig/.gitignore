@@ -1,0 +1,25 @@
+# Never commit credentials / sessions!
+.env
+*.session
+session.json
+ig_session*.json
+.ig_bot_config.json
+.ig_session_mohit.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp

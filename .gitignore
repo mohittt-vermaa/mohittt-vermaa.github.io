@@ -1,0 +1,9 @@
+# Python / bot secrets — NEVER commit credentials!
+.env
+*.session
+session.json
+ig_session*.json
+__pycache__/
+*.pyc
+venv/
+kenney_particle-pack.zip

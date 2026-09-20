@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jarvis-IG Setup Tutorial — Mohit Verma</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0f;color:#e4e4e7;font-family:'Inter',system-ui,sans-serif;line-height:1.6}
+.hero{background:linear-gradient(135deg,#6d28d9,#ec4899);padding:60px 20px;text-align:center}
+.hero h1{font-size:clamp(28px,5vw,48px);font-weight:800;color:#fff;margin-bottom:10px;font-family:'Space Grotesk',sans-serif}
+.hero p{color:rgba(255,255,255,.85);font-size:18px;max-width:600px;margin:0 auto}
+.container{max-width:900px;margin:0 auto;padding:20px}
+.tabs{display:flex;gap:8px;margin:30px 0 20px;justify-content:center}
+.tab{padding:12px 28px;border-radius:999px;border:2px solid #3f3f46;background:transparent;color:#a1a1aa;font-weight:600;cursor:pointer;font-size:15px;transition:.2s}
+.tab.active{background:linear-gradient(135deg,#6d28d9,#ec4899);color:#fff;border-color:transparent}
+.tab:hover:not(.active){border-color:#6d28d9;color:#e4e4e7}
+.step{display:none}
+.step.active{display:block}
+.step-box{background:#13131a;border:1px solid #27272a;border-radius:16px;padding:24px;margin-bottom:20px;position:relative}
+.step-num{position:absolute;top:-14px;left:24px;background:linear-gradient(135deg,#6d28d9,#ec4899);color:#fff;font-size:12px;font-weight:700;padding:4px 14px;border-radius:999px}
+.step-box h3{color:#f4f4f5;font-size:18px;margin:8px 0 12px;font-family:'Space Grotesk',sans-serif}
+.step-box p{color:#a1a1aa;font-size:14px;margin-bottom:12px}
+.terminal{background:#0d0d12;border:1px solid #1a1a24;border-radius:12px;padding:0;font-family:'Fira Code','Cascadia Code','JetBrains Mono',monospace;font-size:13px;overflow:hidden;margin:12px 0}
+.term-bar{background:#1a1a24;padding:8px 14px;display:flex;gap:6px;align-items:center}
+.term-dot{width:10px;height:10px;border-radius:50%}
+.term-dot.r{background:#ff5f57}.term-dot.y{background:#febc2e}.term-dot.g{background:#28c840}
+.term-title{color:#71717a;font-size:11px;margin-left:8px}
+.term-body{padding:16px;min-height:80px;line-height:1.8}
+.term-body .prompt{color:#6d28d9;font-weight:600}
+.term-body .cmd{color:#22c55e}
+.term-body .out{color:#a1a1aa}
+.term-body .warn{color:#f59e0b}
+.term-body .err{color:#ef4444}
+.term-body .ok{color:#22c55e;font-weight:600}
+.term-body .info{color:#3b82f6}
+.cursor{display:inline-block;width:8px;height:16px;background:#6d28d9;animation:blink 1s step-end infinite;vertical-align:middle;margin-left:2px}
+@keyframes blink{50%{opacity:0}}
+.type-line{overflow:hidden;white-space:nowrap;animation:type .8s steps(40) forwards;width:0}
+@keyframes type{to{width:100%}}
+.delay-1{animation-delay:.5s}.delay-2{animation-delay:1s}.delay-3{animation-delay:1.5s}.delay-4{animation-delay:2s}.delay-5{animation-delay:2.5s}.delay-6{animation-delay:3s}.delay-7{animation-delay:3.5s}.delay-8{animation-delay:4s}.delay-9{animation-delay:4.5s}.delay-10{animation-delay:5s}
+.fade-in{opacity:0;animation:fadeIn .5s ease forwards}
+@keyframes fadeIn{to{opacity:1}}
+.note{background:rgba(109,40,217,.1);border:1px solid rgba(109,40,217,.3);border-radius:12px;padding:16px;margin:16px 0;font-size:14px;color:#c4b5fd}
+.note strong{color:#a78bfa}
+.warn-box{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);border-radius:12px;padding:16px;margin:16px 0;font-size:14px;color:#fca5a5}
+.warn-box strong{color:#f87171}
+.ok-box{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.3);border-radius:12px;padding:16px;margin:16px 0;font-size:14px;color:#86efac}
+.ok-box strong{color:#4ade80}
+.img-placeholder{background:#1a1a24;border:1px dashed #3f3f46;border-radius:12px;padding:40px;text-align:center;color:#52525b;margin:12px 0;font-size:13px}
+.download-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:999px;background:linear-gradient(135deg,#6d28d9,#ec4899);color:#fff;font-weight:600;font-size:15px;text-decoration:none;margin:12px 6px;transition:.2s;cursor:pointer;border:none}
+.download-btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(109,40,217,.3)}
+footer{text-align:center;padding:40px 20px;color:#52525b;font-size:13px;border-top:1px solid #1a1a24;margin-top:40px}
+footer a{color:#6d28d9}
+.checklist{list-style:none;margin:12px 0}
+.checklist li{padding:8px 0;color:#a1a1aa;font-size:14px}
+.checklist li:before{content:"✅ ";color:#22c55e}
+@media(max-width:600px){.container{padding:12px}.terminal{font-size:11px}.step-box{padding:18px}}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Grotesk:wght@600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="hero">
+  <h1>🤖 Jarvis-IG Setup Tutorial</h1>
+  <p>Step-by-step guide to set up your Instagram auto-reply bot on Android (Termux) and PC. Follow along!</p>
+</div>
+
+<div class="container">
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('termux')">📱 Termux (Android)</button>
+  <button class="tab" onclick="switchTab('pc')">💻 PC / Laptop</button>
+</div>
+
+<!-- ==================== TERMUX TAB ==================== -->
+<div class="step active" id="termux">
+
+<div class="step-box">
+  <span class="step-num">Step 0</span>
+  <h3>📱 Install Termux from F-Droid</h3>
+  <p>First, install Termux on your Android phone. <strong>Do NOT use the Play Store version</strong> — it's outdated. Use F-Droid instead.</p>
+  <ol style="color:#a1a1aa;font-size:14px;padding-left:20px">
+    <li>Open your phone browser and go to: <strong style="color:#3b82f6">f-droid.org/packages/com.termux</strong></li>
+    <li>Download and install the APK</li>
+    <li>Allow "Install from unknown sources" if prompted</li>
+    <li>Open Termux — you'll see a black terminal screen</li>
+  </ol>
+  <div class="note"><strong>💡 Tip:</strong> Termux is like a mini Linux terminal on your phone. All commands below are typed in this terminal.</div>
+</div>
+
+<div class="step-box">
+  <span class="step-num">Step 1</span>
+  <h3>📦 Install Required Packages</h3>
+  <p>Copy-paste these commands one by one into Termux. Press Enter after each line.</p>
+  <div class="terminal">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Termux</span></div>
+    <div class="term-body">
+      <div class="fade-in"><span class="prompt">~ $ </span><span class="cmd">pkg update -y && pkg upgrade -y</span></div>
+      <div class="fade-in delay-1"><span class="out">Hit:1 https://termux.net stable InRelease</span></div>
+      <div class="fade-in delay-2"><span class="out">All packages are up to date.</span></div>
+      <div class="fade-in delay-3"><span class="prompt">~ $ </span><span class="cmd">pkg install python python-pillow libjpeg-turbo -y</span></div>
+      <div class="fade-in delay-4"><span class="out">python is already the newest version (3.13.x).</span></div>
+      <div class="fade-in delay-5"><span class="out">Installing: python-pillow libimagequant libraqm</span></div>
+      <div class="fade-in delay-6"><span class="out">Setting up python-pillow (12.2.0) ...</span></div>
+      <div class="fade-in delay-7"><span class="ok">All done!</span></div>
+    </div>
+  </div>
+  <div class="warn-box"><strong>⚠️ Important:</strong> If you see "already installed" — that's fine, just continue to the next step.</div>
+</div>
+
+<div class="step-box">
+  <span class="step-num">Step 2</span>
+  <h3>⬇️ Download the Bot</h3>
+  <p>This downloads the bot file directly from GitHub — no git clone needed!</p>
+  <div class="terminal">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Termux</span></div>
+    <div class="term-body">
+      <div class="fade-in"><span class="prompt">~ $ </span><span class="cmd">curl -o ig_bot.py https://raw.githubusercontent.com/mohittt-vermaa/Jarvis-IG/main/jarvis_ig/ig_bot.py</span></div>
+      <div class="fade-in delay-1"><span class="out">% Total    % Received  Xferd   Time</span></div>
+      <div class="fade-in delay-2"><span class="out">100  9664  100  9664    0     0  12500      0 --:--:--</span></div>
+      <div class="fade-in delay-3"><span class="ok">Downloaded ig_bot.py (9.6 KB)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="step-box">
+  <span class="step-num">Step 3</span>
+  <h3>▶️ Run the Bot (First Time Setup)</h3>
+  <p>The bot will automatically install dependencies and ask you for your Instagram login. <strong>No editing needed!</strong></p>
+  <div class="terminal">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Termux — First Run</span></div>
+    <div class="term-body">
+      <div class="fade-in"><span class="prompt">~ $ </span><span class="cmd">python ig_bot.py</span></div>
+      <div class="fade-in delay-1"><span class="out">==============================================================</span></div>
+      <div class="fade-in delay-1"><span class="out">   MOHIT's IG AUTO-REPLY BOT   (Termux / Phone / PC)</span></div>
+      <div class="fade-in delay-1"><span class="out">==============================================================</span></div>
+      <div class="fade-in delay-2"><span class="warn">&gt;&gt;&gt; Installing typing_extensions...</span></div>
+      <div class="fade-in delay-3"><span class="warn">&gt;&gt;&gt; Installing pydantic v1 (Termux-friendly)...</span></div>
+      <div class="fade-in delay-4"><span class="warn">&gt;&gt;&gt; Installing instagrapi...</span></div>
+      <div class="fade-in delay-5"><span class="ok">&gt;&gt;&gt; All dependencies installed!</span></div>
+      <div class="fade-in delay-6"><span class="out"></span></div>
+      <div class="fade-in delay-6"><span class="out">========================================================</span></div>
+      <div class="fade-in delay-6"><span class="out">  FIRST TIME SETUP</span></div>
+      <div class="fade-in delay-6"><span class="out">  Please enter your Instagram login details.</span></div>
+      <div class="fade-in delay-6"><span class="out">========================================================</span></div>
+      <div class="fade-in delay-7"><span class="info">Instagram username (without @): </span><span class="cmd">mohittt_vermaa0</span></div>
+      <div class="fade-in delay-8"><span class="info">Instagram password: </span><span class="out">************</span><span style="color:#52525b;font-size:11px"> (hidden typing)</span></div>
+      <div class="fade-in delay-9"><span class="out"></span></div>
+      <div class="fade-in delay-9"><span class="info">Auto-reply message (press Enter to use the default):</span></div>
+      <div class="fade-in delay-9"><span class="out">  &gt; Hey! Thanks for messaging me. This is Mohit's auto-reply</span></div>
+      <div class="fade-in delay-9"><span class="out">    bot — I'll get back to you personally very soon!</span></div>
+      <div class="fade-in delay-10"><span class="info">Custom message (or Enter for default): </span><span class="cmd">[Enter]</span></div>
+      <div class="fade-in delay-10"><span class="ok">&gt;&gt;&gt; Saved! You can edit later by running: nano ~/.ig_bot_config.json</span></div>
+    </div>
+  </div>
+  <div class="note"><strong>💡 Note:</strong> The password is <strong>hidden</strong> — you won't see anything as you type. That's normal! Just type your real password and press Enter. The bot uses <code>mohittt_vermaa0</code> as the username (without @).</div>
+</div>
+
+<div class="step-box">
+  <span class="step-num">Step 4</span>
+  <h3>🔐 2FA / Login Approval</h3>
+  <p>If you have Two-Factor Authentication enabled on Instagram (recommended!), the bot will ask for your 6-digit code.</p>
+  <div class="terminal">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Termux — 2FA Prompt</span></div>
+    <div class="term-body">
+      <div class="fade-in"><span class="warn">[2fa] Enter the 6-digit code from SMS/Auth app: </span><span class="cmd">847291</span></div>
+      <div class="fade-in delay-2"><span class="ok">[ok] Logged in as @mohittt_vermaa0!</span></div>
+      <div class="fade-in delay-3"><span class="ok">[session] Saved login session -> .ig_session_mohit.json</span></div>
+    </div>
+  </div>
+  <div class="note"><strong>💡 Tip:</strong> You'll only need to enter 2FA <strong>once</strong> — the bot saves your session for next time!</div>
+  <div class="warn-box"><strong>⚠️ "Challenge Required"?</strong> If Instagram asks for security check — open the Instagram app, approve the login ("Was this you?"), then press Enter in Termux to continue.</div>
+</div>
+
+<div class="step-box">
+  <span class="step-num">Step 5</span>
+  <h3>🤖 Bot is LIVE! Auto-Replying to DMs</h3>
+  <p>The bot is now running and will auto-reply to every new DM you receive.</p>
+  <div class="terminal">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Termux — Bot Running</span></div>
+    <div class="term-body">
+      <div class="fade-in"><span class="out">==============================================================</span></div>
+      <div class="fade-in"><span class="out">  Mohit's IG Auto-Reply is LIVE  (Ctrl+C to stop)</span></div>
+      <div class="fade-in"><span class="out">  Reply message    : Hey! Thanks for messaging me...</span></div>
+      <div class="fade-in"><span class="out">  New threads only : True</span></div>
+      <div class="fade-in"><span class="out">  Check interval   : 20s</span></div>
+      <div class="fade-in"><span class="out">==============================================================</span></div>
+      <div class="fade-in delay-3"><span class="ok">[dm] New DM from @random_user: Hey Mohit, love your projects!</span></div>
+      <div class="fade-in delay-4"><span class="ok">     -&gt; Auto-reply sent.</span></div>
+      <div class="fade-in delay-7"><span class="ok">[dm] New DM from @coding_fan: Can you help me with Python?</span></div>
+      <div class="fade-in delay-8"><span class="ok">     -&gt; Auto-reply sent.</span></div>
+      <div class="fade-in delay-10"><span class="info">[rate] Instagram asked us to slow down; sleeping 10 minutes...</span></div>
+    </div>
+  </div>
+  <div class="ok-box"><strong>✅ Done!</strong> The bot is running in the background. Every new DM gets an instant auto-reply. To stop it, press <code>Ctrl+C</code> in Termux.</div>
+</div>
+
+<div class="step-box">
+  <span class="step-num">Step 6 (Optional)</span>
+  <h3>🔄 Running 24/7 in Background</h3>
+  <p>Want the bot to keep running even when you switch apps? Follow these steps:</p>
+  <ol style="color:#a1a1aa;font-size:14px;padding-left:20px;line-height:2">
+    <li>Go to <strong>Android Settings → Apps → Termux → Battery</strong></li>
+    <li>Select <strong>"Unrestricted"</strong> (disables battery optimization)</li>
+    <li>The bot will now keep running in the background!</li>
+  </ol>
+  <div class="note"><strong>💡 Advanced:</strong> For true 24/7 (even when phone is off), host the bot on a free cloud like <strong>PythonAnywhere</strong> or <strong>Render</strong>. See the <a href="https://github.com/mohittt-vermaa/Jarvis-IG" style="color:#a78bfa">README</a> for cloud hosting instructions.</div>
+</div>
+
+<div class="step-box">
+  <span class="step-num">Useful Commands</span>
+  <h3>🛠️ Quick Reference</h3>
+  <div class="terminal">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Termux — Commands</span></div>
+    <div class="term-body">
+      <div><span class="info"># Start the bot:</span></div>
+      <div><span class="prompt">~ $ </span><span class="cmd">python ig_bot.py</span></div>
+      <div><span class="out"></span></div>
+      <div><span class="info"># Change account / re-enter password:</span></div>
+      <div><span class="prompt">~ $ </span><span class="cmd">python ig_bot.py --reset</span></div>
+      <div><span class="out"></span></div>
+      <div><span class="info"># Stop the bot:</span></div>
+      <div><span class="prompt">~ $ </span><span class="cmd">Ctrl + C</span></div>
+      <div><span class="out"></span></div>
+      <div><span class="info"># Re-download latest version:</span></div>
+      <div><span class="prompt">~ $ </span><span class="cmd">curl -o ig_bot.py https://raw.githubusercontent.com/mohittt-vermaa/Jarvis-IG/main/jarvis_ig/ig_bot.py</span></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /termux -->
+
+<!-- ==================== PC TAB ==================== -->
+<div class="step" id="pc">
+
+<div class="step-box">
+  <span class="step-num">Step 0</span>
+  <h3>💻 Prerequisites</h3>
+  <p>Make sure you have Python 3.9+ installed on your PC.</p>
+  <ul class="checklist">
+    <li>Download Python from <strong>python.org</strong> (Windows) or use your package manager (Mac/Linux)</li>
+    <li>Make sure to check <strong>"Add Python to PATH"</strong> during installation (Windows)</li>
+    <li>Open Command Prompt (Windows) or Terminal (Mac/Linux)</li>
+  </ul>
+</div>
+
+<div class="step-box">
+  <span class="step-num">Step 1</span>
+  <h3>📦 Install Dependencies</h3>
+  <div class="terminal">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Command Prompt / Terminal</span></div>
+    <div class="term-body">
+      <div class="fade-in"><span class="prompt">C:\Users\Mohit&gt; </span><span class="cmd">pip install Pillow pydantic instagrapi</span></div>
+      <div class="fade-in delay-1"><span class="out">Collecting Pillow...</span></div>
+      <div class="fade-in delay-2"><span class="out">Collecting pydantic...</span></div>
+      <div class="fade-in delay-3"><span class="out">Collecting instagrapi...</span></div>
+      <div class="fade-in delay-4"><span class="out">Successfully installed Pillow pydantic instagrapi</span></div>
+    </div>
+  </div>
+  <div class="note"><strong>💡 Mac/Linux users:</strong> Use <code>pip3</code> instead of <code>pip</code> if needed. If you get permission errors, try <code>pip install --user Pillow pydantic instagrapi</code></div>
+</div>
+
+<div class="step-box">
+  <span class="step-num">Step 2</span>
+  <h3>⬇️ Download the Bot</h3>
+  <div class="terminal">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Command Prompt / Terminal</span></div>
+    <div class="term-body">
+      <div class="fade-in"><span class="prompt">C:\Users\Mohit&gt; </span><span class="cmd">curl -o ig_bot.py https://raw.githubusercontent.com/mohittt-vermaa/Jarvis-IG/main/jarvis_ig/ig_bot.py</span></div>
+      <div class="fade-in delay-1"><span class="ok">Downloaded ig_bot.py</span></div>
+    </div>
+  </div>
+  <div class="note"><strong>💡 No curl on Windows?</strong> Right-click the <a href="https://raw.githubusercontent.com/mohittt-vermaa/Jarvis-IG/main/jarvis_ig/ig_bot.py" style="color:#a78bfa">download link</a>, "Save As" → save as <code>ig_bot.py</code> in any folder.</div>
+</div>
+
+<div class="step-box">
+  <span class="step-num">Step 3</span>
+  <h3>▶️ Run the Bot</h3>
+  <div class="terminal">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Command Prompt — First Run</span></div>
+    <div class="term-body">
+      <div class="fade-in"><span class="prompt">C:\Users\Mohit&gt; </span><span class="cmd">python ig_bot.py</span></div>
+      <div class="fade-in delay-1"><span class="out">==============================================================</span></div>
+      <div class="fade-in delay-1"><span class="out">   MOHIT's IG AUTO-REPLY BOT   (Termux / Phone / PC)</span></div>
+      <div class="fade-in delay-1"><span class="out">==============================================================</span></div>
+      <div class="fade-in delay-2"><span class="out"></span></div>
+      <div class="fade-in delay-2"><span class="out">========================================================</span></div>
+      <div class="fade-in delay-2"><span class="out">  FIRST TIME SETUP</span></div>
+      <div class="fade-in delay-2"><span class="out">  Please enter your Instagram login details.</span></div>
+      <div class="fade-in delay-2"><span class="out">========================================================</span></div>
+      <div class="fade-in delay-3"><span class="info">Instagram username (without @): </span><span class="cmd">mohittt_vermaa0</span></div>
+      <div class="fade-in delay-4"><span class="info">Instagram password: </span><span class="out">**************</span></div>
+      <div class="fade-in delay-5"><span class="info">Custom message (or Enter for default): </span><span class="cmd">[Enter]</span></div>
+      <div class="fade-in delay-6"><span class="ok">&gt;&gt;&gt; Saved!</span></div>
+      <div class="fade-in delay-7"><span class="warn">[2fa] Enter the 6-digit code from SMS/Auth app: </span><span class="cmd">592847</span></div>
+      <div class="fade-in delay-8"><span class="ok">[ok] Logged in as @mohittt_vermaa0!</span></div>
+      <div class="fade-in delay-9"><span class="out"></span></div>
+      <div class="fade-in delay-9"><span class="out">==============================================================</span></div>
+      <div class="fade-in delay-9"><span class="out">  Mohit's IG Auto-Reply is LIVE  (Ctrl+C to stop)</span></div>
+      <div class="fade-in delay-9"><span class="out">==============================================================</span></div>
+      <div class="fade-in delay-10"><span class="ok">[dm] New DM from @fan_123: Amazing work bro!</span></div>
+      <div class="fade-in delay-10"><span class="ok">     -&gt; Auto-reply sent.</span></div>
+    </div>
+  </div>
+  <div class="ok-box"><strong>✅ Done!</strong> Your bot is running on PC! It will auto-reply to every new Instagram DM.</div>
+</div>
+
+<div class="step-box">
+  <span class="step-num">Useful Commands</span>
+  <h3>🛠️ Quick Reference (PC)</h3>
+  <div class="terminal">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Command Prompt — Commands</span></div>
+    <div class="term-body">
+      <div><span class="info"># Start the bot:</span></div>
+      <div><span class="prompt">C:\Users\Mohit&gt; </span><span class="cmd">python ig_bot.py</span></div>
+      <div><span class="out"></span></div>
+      <div><span class="info"># Change account / re-enter password:</span></div>
+      <div><span class="prompt">C:\Users\Mohit&gt; </span><span class="cmd">python ig_bot.py --reset</span></div>
+      <div><span class="out"></span></div>
+      <div><span class="info"># Stop the bot:</span></div>
+      <div><span class="prompt">C:\Users\Mohit&gt; </span><span class="cmd">Ctrl + C</span></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /pc -->
+
+<div style="text-align:center;margin:30px 0">
+  <a href="https://github.com/mohittt-vermaa/Jarvis-IG" target="_blank" class="download-btn">📦 View on GitHub</a>
+  <a href="https://github.com/mohittt-vermaa/Jarvis-IG/blob/main/jarvis_ig/ig_bot.py" target="_blank" class="download-btn" style="background:linear-gradient(135deg,#3b82f6,#06b6d4)">⬇️ Download Bot File</a>
+</div>
+
+</div><!-- /container -->
+
+<footer>
+  <p>Built with ❤️ by <a href="https://mohittt-vermaa.github.io/" target="_blank">Mohit Verma</a> · <a href="https://github.com/mohittt-vermaa/Jarvis-IG" target="_blank">Jarvis-IG on GitHub</a></p>
+  <p style="margin-top:8px">⚠️ Never share your Instagram password with anyone. This bot runs 100% on your own device.</p>
+</footer>
+
+<script>
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.querySelector(`[onclick="switchTab('${tab}')"]`).classList.add('active');
+  document.getElementById(tab).classList.add('active');
+}
+</script>
+</body>
+</html>
