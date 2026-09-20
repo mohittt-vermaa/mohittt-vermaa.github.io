@@ -15,7 +15,6 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--white);o
 canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;display:block}
 .scroll-content{position:relative;z-index:1}
 a{color:inherit;text-decoration:none}
-
 .nav{position:fixed;top:0;left:0;width:100%;z-index:100;padding:1.8rem 3rem;display:flex;justify-content:space-between;align-items:center;transition:all 0.5s cubic-bezier(0.16,1,0.3,1)}
 .nav.scrolled{padding:1rem 3rem;background:rgba(2,2,6,0.92);backdrop-filter:blur(30px);border-bottom:1px solid rgba(255,255,255,0.04)}
 .nav-logo{font-size:1.3rem;font-weight:900;letter-spacing:0.25em;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;cursor:pointer}
@@ -143,37 +142,36 @@ a{color:inherit;text-decoration:none}
 <nav class="nav" id="nav"><div class="nav-logo" onclick="scrollTo({top:0,behavior:'smooth'})">MV</div><div class="nav-links"><a href="#about">About</a><a href="#projects">Work</a><a href="#skills">Skills</a><a href="#contact">Contact</a></div></nav>
 
 <div class="scroll-content">
-  <section class="hero" id="hero"><div class="hero-content"><div class="hero-badge"><span class="pulse"></span> Available for new projects</div><h1 class="hero-title"><span>Mohit</span><span class="line2">Verma</span></h1><p class="hero-sub">Building intelligent systems and immersive digital experiences at the intersection of AI, machine learning, and creative technology.</p><div class="hero-buttons"><a href="#projects" class="btn btn-primary">Explore Projects</a><a href="#contact" class="btn">Let's Connect</a></div></div></section>
-  <div class="scroll-indicator"><span>Scroll to explore</span><div class="mouse"></div></div>
+<section class="hero" id="hero"><div class="hero-content"><div class="hero-badge"><span class="pulse"></span> Available for new projects</div><h1 class="hero-title"><span>Mohit</span><span class="line2">Verma</span></h1><p class="hero-sub">Building intelligent systems and immersive digital experiences at the intersection of AI, machine learning, and creative technology.</p><div class="hero-buttons"><a href="#projects" class="btn btn-primary">Explore Projects</a><a href="#contact" class="btn">Let's Connect</a></div></div></section>
+<div class="scroll-indicator"><span>Scroll to explore</span><div class="mouse"></div></div>
 
-  <section class="section" id="about"><div class="section-inner about-grid"><div class="about-image reveal"><img src="IMG_20260803_093359.png" alt="Mohit Verma" loading="lazy"><div class="corner-bl"></div></div><div class="about-text"><div class="section-label reveal">About Me</div><h2 class="reveal reveal-delay-1">Turning ideas into<br>intelligent systems</h2><p class="reveal reveal-delay-2">I'm <strong>Mohit Verma</strong>, a B.Tech CSE (AI/ML) student at JNU, New Delhi. I build ML-powered tools, automation bots, and interactive web experiences that solve real problems.</p><p class="reveal reveal-delay-2">From training object detection models to building Instagram automation bots, I love pushing the boundaries of what's possible with code. Currently exploring <strong>LLMs, computer vision, and immersive 3D web development</strong>.</p><div class="about-links reveal reveal-delay-3"><a href="https://mohittt-vermaa.blogspot.com/2026/09/about-me-my-journey-into-coding-ai.html" target="_blank" rel="noopener noreferrer" class="btn" style="font-size:0.68rem;padding:0.65rem 1.4rem">Read My Story →</a><a href="https://www.linkedin.com/in/mohit-verma-a05570437" target="_blank" rel="noopener noreferrer" class="btn" style="font-size:0.68rem;padding:0.65rem 1.4rem">LinkedIn →</a></div></div></div></section>
+<section class="section" id="about"><div class="section-inner about-grid"><div class="about-image reveal"><img src="IMG_20260803_093359.png" alt="Mohit Verma" loading="lazy"><div class="corner-bl"></div></div><div class="about-text"><div class="section-label reveal">About Me</div><h2 class="reveal reveal-delay-1">Turning ideas into<br>intelligent systems</h2><p class="reveal reveal-delay-2">I'm <strong>Mohit Verma</strong>, a B.Tech CSE (AI/ML) student at JNU, New Delhi. I build ML-powered tools, automation bots, and interactive web experiences that solve real problems.</p><p class="reveal reveal-delay-2">From training object detection models to building Instagram automation bots, I love pushing the boundaries of what's possible with code. Currently exploring <strong>LLMs, computer vision, and immersive 3D web development</strong>.</p><div class="about-links reveal reveal-delay-3"><a href="https://mohittt-vermaa.blogspot.com/2026/09/about-me-my-journey-into-coding-ai.html" target="_blank" rel="noopener noreferrer" class="btn" style="font-size:0.68rem;padding:0.65rem 1.4rem">Read My Story →</a><a href="https://www.linkedin.com/in/mohit-verma-a05570437" target="_blank" rel="noopener noreferrer" class="btn" style="font-size:0.68rem;padding:0.65rem 1.4rem">LinkedIn →</a></div></div></div></section>
 
-  <section class="section" id="projects"><div class="section-inner"><div class="projects-header"><div class="section-label reveal" style="justify-content:center">Featured Work</div><h2 class="reveal reveal-delay-1">Projects that<br>make an impact</h2><p class="reveal reveal-delay-2">Real work, real results — from ML models to automation tools</p></div><div class="projects-grid">
-    <div class="card reveal"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.5"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4M8 15h0M16 15h0"/></svg></span><h3>Jarvis-IG</h3><p>AI-powered Instagram automation bot with auto-replies, engagement tracking, and intelligent conversation handling.</p><div class="card-tags"><span>Python</span><span>Instagram API</span><span>AI Bot</span></div><div class="card-links"><a href="https://github.com/mohittt-vermaa/Jarvis-IG" target="_blank" rel="noopener noreferrer">GitHub →</a><a href="https://mohittt-vermaa.github.io/tools/tutorial.html" target="_blank" rel="noopener noreferrer">Tutorial →</a></div></div>
-    <div class="card reveal reveal-delay-1"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg></span><h3>MLBox</h3><p>Modular ML toolbox with reusable components for data preprocessing, model training, and evaluation pipelines.</p><div class="card-tags"><span>Python</span><span>Scikit-learn</span><span>ML</span></div><div class="card-links"><a href="https://github.com/mohittt-vermaa/MLBox" target="_blank" rel="noopener noreferrer">GitHub →</a></div></div>
-    <div class="card reveal reveal-delay-2"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></span><h3>ORF-5</h3><p>Open Reading Frame finder for bioinformatics — identifies potential protein-coding regions in DNA sequences.</p><div class="card-tags"><span>Python</span><span>Bioinformatics</span><span>Genomics</span></div><div class="card-links"><a href="https://github.com/mohittt-vermaa/ORF-5" target="_blank" rel="noopener noreferrer">GitHub →</a></div></div>
-    <div class="card reveal reveal-delay-3"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><path d="M8 7h8M8 11h6"/></svg></span><h3>Class 10 Maths</h3><p>Open-source math solutions and study resources for Class 10 students, covering complete NCERT curriculum.</p><div class="card-tags"><span>Education</span><span>Mathematics</span><span>Open Source</span></div><div class="card-links"><a href="https://github.com/mohittt-vermaa/Class-10-Maths" target="_blank" rel="noopener noreferrer">GitHub →</a></div></div>
-    <div class="card reveal reveal-delay-4"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/></svg></span><h3>Portfolio Website</h3><p>Immersive 3D space portfolio with cosmic orb, astronaut, particle systems, and cinematic scroll camera.</p><div class="card-tags"><span>Three.js</span><span>WebGL</span><span>GLSL</span><span>3D</span></div><div class="card-links"><a href="https://github.com/mohittt-vermaa/mohittt-vermaa.github.io" target="_blank" rel="noopener noreferrer">GitHub →</a><a href="https://mohittt-vermaa.github.io" target="_blank" rel="noopener noreferrer">Live →</a></div></div>
-  </div></div></section>
+<section class="section" id="projects"><div class="section-inner"><div class="projects-header"><div class="section-label reveal" style="justify-content:center">Featured Work</div><h2 class="reveal reveal-delay-1">Projects that<br>make an impact</h2><p class="reveal reveal-delay-2">Real work, real results</p></div><div class="projects-grid">
+<div class="card reveal"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.5"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4M8 15h0M16 15h0"/></svg></span><h3>Jarvis-IG</h3><p>AI-powered Instagram automation bot with auto-replies and intelligent conversation handling.</p><div class="card-tags"><span>Python</span><span>Instagram API</span><span>AI Bot</span></div><div class="card-links"><a href="https://github.com/mohittt-vermaa/Jarvis-IG" target="_blank" rel="noopener noreferrer">GitHub →</a><a href="https://mohittt-vermaa.github.io/tools/tutorial.html" target="_blank" rel="noopener noreferrer">Tutorial →</a></div></div>
+<div class="card reveal reveal-delay-1"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg></span><h3>MLBox</h3><p>Modular ML toolbox with reusable components for data preprocessing, model training, and evaluation.</p><div class="card-tags"><span>Python</span><span>Scikit-learn</span><span>ML</span></div><div class="card-links"><a href="https://github.com/mohittt-vermaa/MLBox" target="_blank" rel="noopener noreferrer">GitHub →</a></div></div>
+<div class="card reveal reveal-delay-2"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></span><h3>ORF-5</h3><p>Open Reading Frame finder for bioinformatics — identifies protein-coding regions in DNA sequences.</p><div class="card-tags"><span>Python</span><span>Bioinformatics</span><span>Genomics</span></div><div class="card-links"><a href="https://github.com/mohittt-vermaa/ORF-5" target="_blank" rel="noopener noreferrer">GitHub →</a></div></div>
+<div class="card reveal reveal-delay-3"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><path d="M8 7h8M8 11h6"/></svg></span><h3>Class 10 Maths</h3><p>Open-source math solutions and study resources for Class 10 students, covering NCERT curriculum.</p><div class="card-tags"><span>Education</span><span>Mathematics</span><span>Open Source</span></div><div class="card-links"><a href="https://github.com/mohittt-vermaa/Class-10-Maths" target="_blank" rel="noopener noreferrer">GitHub →</a></div></div>
+<div class="card reveal reveal-delay-4"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/></svg></span><h3>Portfolio Website</h3><p>Immersive 3D space portfolio with cosmic orb, astronaut, and cinematic scroll camera.</p><div class="card-tags"><span>Three.js</span><span>WebGL</span><span>GLSL</span><span>3D</span></div><div class="card-links"><a href="https://github.com/mohittt-vermaa/mohittt-vermaa.github.io" target="_blank" rel="noopener noreferrer">GitHub →</a><a href="https://mohittt-vermaa.github.io" target="_blank" rel="noopener noreferrer">Live →</a></div></div>
+</div></div></section>
 
-  <section class="section skills-section" id="skills"><div class="section-inner"><div class="skills-header"><div class="section-label reveal" style="justify-content:center">Tech Stack</div><h2 class="reveal reveal-delay-1">Currently Learning<br>& Interests</h2><p class="reveal reveal-delay-2">Technologies I work with and am actively exploring</p></div><div class="skill-categories">
-    <div class="skill-category reveal" style="--cat-color:#7c3aed"><div class="cat-header"><div class="cat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.5"><path d="M12 2a7 7 0 017 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 01-2 2h-4a2 2 0 01-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 017-7z"/><path d="M9 21h6M10 21v1a2 2 0 004 0v-1"/></svg></div><div><div class="cat-title">AI & Machine Learning</div><div class="cat-subtitle">Core expertise area</div></div></div><div class="skill-items"><div class="skill-item"><span class="dot"></span><span class="name">Python</span><span class="level">Advanced</span></div><div class="skill-item"><span class="dot"></span><span class="name">TensorFlow / Keras</span><span class="level">Intermediate</span></div><div class="skill-item"><span class="dot"></span><span class="name">PyTorch</span><span class="level">Learning</span></div><div class="skill-item"><span class="dot"></span><span class="name">Scikit-learn</span><span class="level">Intermediate</span></div><div class="skill-item"><span class="dot"></span><span class="name">OpenCV / Computer Vision</span><span class="level">Intermediate</span></div><div class="skill-item"><span class="dot"></span><span class="name">NLP / LLMs</span><span class="level">Learning</span></div></div><div class="skill-tags"><span>Pandas</span><span>NumPy</span><span>Matplotlib</span><span>Jupyter</span><span>Hugging Face</span></div></div>
-    <div class="skill-category reveal reveal-delay-1" style="--cat-color:#06b6d4"><div class="cat-header"><div class="cat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/></svg></div><div><div class="cat-title">Web Development</div><div class="cat-subtitle">Frontend & backend</div></div></div><div class="skill-items"><div class="skill-item"><span class="dot"></span><span class="name">JavaScript / TypeScript</span><span class="level">Intermediate</span></div><div class="skill-item"><span class="dot"></span><span class="name">React / Next.js</span><span class="level">Intermediate</span></div><div class="skill-item"><span class="dot"></span><span class="name">HTML5 / CSS3</span><span class="level">Advanced</span></div><div class="skill-item"><span class="dot"></span><span class="name">Three.js / WebGL</span><span class="level">Learning</span></div><div class="skill-item"><span class="dot"></span><span class="name">Node.js / Express</span><span class="level">Basic</span></div><div class="skill-item"><span class="dot"></span><span class="name">REST APIs</span><span class="level">Intermediate</span></div></div><div class="skill-tags"><span>Tailwind</span><span>GSAP</span><span>Vite</span><span>Webpack</span><span>Vercel</span></div></div>
-    <div class="skill-category reveal reveal-delay-2" style="--cat-color:#ec4899"><div class="cat-header"><div class="cat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div><div><div class="cat-title">Tools & DevOps</div><div class="cat-subtitle">Development workflow</div></div></div><div class="skill-items"><div class="skill-item"><span class="dot"></span><span class="name">Git / GitHub</span><span class="level">Advanced</span></div><div class="skill-item"><span class="dot"></span><span class="name">Docker</span><span class="level">Intermediate</span></div><div class="skill-item"><span class="dot"></span><span class="name">Linux / Bash</span><span class="level">Intermediate</span></div><div class="skill-item"><span class="dot"></span><span class="name">SQL / MongoDB</span><span class="level">Intermediate</span></div><div class="skill-item"><span class="dot"></span><span class="name">GitHub Actions / CI/CD</span><span class="level">Basic</span></div><div class="skill-item"><span class="dot"></span><span class="name">VS Code / Vim</span><span class="level">Advanced</span></div></div><div class="skill-tags"><span>PostgreSQL</span><span>Redis</span><span>Postman</span><span>Figma</span><span>Notion</span></div></div>
-    <div class="skill-category reveal reveal-delay-3" style="--cat-color:#f59e0b"><div class="cat-header"><div class="cat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4M8 15h0M16 15h0"/></svg></div><div><div class="cat-title">Automation & Bots</div><div class="cat-subtitle">Real-world applications</div></div></div><div class="skill-items"><div class="skill-item"><span class="dot"></span><span class="name">Instagram Bot (Instagrapi)</span><span class="level">Built</span></div><div class="skill-item"><span class="dot"></span><span class="name">Web Scraping</span><span class="level">Intermediate</span></div><div class="skill-item"><span class="dot"></span><span class="name">Selenium / Puppeteer</span><span class="level">Intermediate</span></div><div class="skill-item"><span class="dot"></span><span class="name">API Integration</span><span class="level">Intermediate</span></div><div class="skill-item"><span class="dot"></span><span class="name">Task Scheduling</span><span class="level">Basic</span></div><div class="skill-item"><span class="dot"></span><span class="name">Discord / Telegram Bots</span><span class="level">Learning</span></div></div><div class="skill-tags"><span>Selenium</span><span>BeautifulSoup</span><span>Requests</span><span>Cron</span><span>Webhooks</span></div></div>
-  </div><div class="skills-stats"><div class="stat-item reveal"><div class="stat-number">5+</div><div class="stat-label">Public Repos</div></div><div class="stat-item reveal reveal-delay-1"><div class="stat-number">3+</div><div class="stat-label">ML Projects</div></div><div class="stat-item reveal reveal-delay-2"><div class="stat-number">12+</div><div class="stat-label">Technologies</div></div><div class="stat-item reveal reveal-delay-3"><div class="stat-number">∞</div><div class="stat-label">Curiosity</div></div></div></div></section>
+<section class="section skills-section" id="skills"><div class="section-inner"><div class="skills-header"><div class="section-label reveal" style="justify-content:center">Tech Stack</div><h2 class="reveal reveal-delay-1">Currently Learning<br>& Interests</h2><p class="reveal reveal-delay-2">Technologies I work with and am actively exploring</p></div><div class="skill-categories">
+<div class="skill-category reveal" style="--cat-color:#7c3aed"><div class="cat-header"><div class="cat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.5"><path d="M12 2a7 7 0 017 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 01-2 2h-4a2 2 0 01-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 017-7z"/><path d="M9 21h6M10 21v1a2 2 0 004 0v-1"/></svg></div><div><div class="cat-title">AI & Machine Learning</div><div class="cat-subtitle">Core expertise area</div></div></div><div class="skill-items"><div class="skill-item"><span class="dot"></span><span class="name">Python</span><span class="level">Advanced</span></div><div class="skill-item"><span class="dot"></span><span class="name">TensorFlow / Keras</span><span class="level">Intermediate</span></div><div class="skill-item"><span class="dot"></span><span class="name">PyTorch</span><span class="level">Learning</span></div><div class="skill-item"><span class="dot"></span><span class="name">Scikit-learn</span><span class="level">Intermediate</span></div><div class="skill-item"><span class="dot"></span><span class="name">OpenCV / Computer Vision</span><span class="level">Intermediate</span></div><div class="skill-item"><span class="dot"></span><span class="name">NLP / LLMs</span><span class="level">Learning</span></div></div><div class="skill-tags"><span>Pandas</span><span>NumPy</span><span>Matplotlib</span><span>Jupyter</span><span>Hugging Face</span></div></div>
+<div class="skill-category reveal reveal-delay-1" style="--cat-color:#06b6d4"><div class="cat-header"><div class="cat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/></svg></div><div><div class="cat-title">Web Development</div><div class="cat-subtitle">Frontend & backend</div></div></div><div class="skill-items"><div class="skill-item"><span class="dot"></span><span class="name">JavaScript / TypeScript</span><span class="level">Intermediate</span></div><div class="skill-item"><span class="dot"></span><span class="name">React / Next.js</span><span class="level">Intermediate</span></div><div class="skill-item"><span class="dot"></span><span class="name">HTML5 / CSS3</span><span class="level">Advanced</span></div><div class="skill-item"><span class="dot"></span><span class="name">Three.js / WebGL</span><span class="level">Learning</span></div><div class="skill-item"><span class="dot"></span><span class="name">Node.js / Express</span><span class="level">Basic</span></div><div class="skill-item"><span class="dot"></span><span class="name">REST APIs</span><span class="level">Intermediate</span></div></div><div class="skill-tags"><span>Tailwind</span><span>GSAP</span><span>Vite</span><span>Webpack</span><span>Vercel</span></div></div>
+<div class="skill-category reveal reveal-delay-2" style="--cat-color:#ec4899"><div class="cat-header"><div class="cat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div><div><div class="cat-title">Tools & DevOps</div><div class="cat-subtitle">Development workflow</div></div></div><div class="skill-items"><div class="skill-item"><span class="dot"></span><span class="name">Git / GitHub</span><span class="level">Advanced</span></div><div class="skill-item"><span class="dot"></span><span class="name">Docker</span><span class="level">Intermediate</span></div><div class="skill-item"><span class="dot"></span><span class="name">Linux / Bash</span><span class="level">Intermediate</span></div><div class="skill-item"><span class="dot"></span><span class="name">SQL / MongoDB</span><span class="level">Intermediate</span></div><div class="skill-item"><span class="dot"></span><span class="name">GitHub Actions / CI/CD</span><span class="level">Basic</span></div><div class="skill-item"><span class="dot"></span><span class="name">VS Code / Vim</span><span class="level">Advanced</span></div></div><div class="skill-tags"><span>PostgreSQL</span><span>Redis</span><span>Postman</span><span>Figma</span><span>Notion</span></div></div>
+<div class="skill-category reveal reveal-delay-3" style="--cat-color:#f59e0b"><div class="cat-header"><div class="cat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4M8 15h0M16 15h0"/></svg></div><div><div class="cat-title">Automation & Bots</div><div class="cat-subtitle">Real-world applications</div></div></div><div class="skill-items"><div class="skill-item"><span class="dot"></span><span class="name">Instagram Bot (Instagrapi)</span><span class="level">Built</span></div><div class="skill-item"><span class="dot"></span><span class="name">Web Scraping</span><span class="level">Intermediate</span></div><div class="skill-item"><span class="dot"></span><span class="name">Selenium / Puppeteer</span><span class="level">Intermediate</span></div><div class="skill-item"><span class="dot"></span><span class="name">API Integration</span><span class="level">Intermediate</span></div><div class="skill-item"><span class="dot"></span><span class="name">Task Scheduling</span><span class="level">Basic</span></div><div class="skill-item"><span class="dot"></span><span class="name">Discord / Telegram Bots</span><span class="level">Learning</span></div></div><div class="skill-tags"><span>Selenium</span><span>BeautifulSoup</span><span>Requests</span><span>Cron</span><span>Webhooks</span></div></div>
+</div><div class="skills-stats"><div class="stat-item reveal"><div class="stat-number">5+</div><div class="stat-label">Public Repos</div></div><div class="stat-item reveal reveal-delay-1"><div class="stat-number">3+</div><div class="stat-label">ML Projects</div></div><div class="stat-item reveal reveal-delay-2"><div class="stat-number">12+</div><div class="stat-label">Technologies</div></div><div class="stat-item reveal reveal-delay-3"><div class="stat-number">∞</div><div class="stat-label">Curiosity</div></div></div></div></section>
 
-  <section class="section" id="contact"><div class="section-inner contact-inner"><div class="section-label reveal" style="justify-content:center">Get in Touch</div><h2 class="reveal reveal-delay-1">Let's Build<br>Something Wild</h2><p class="reveal reveal-delay-2">Open for collaborations, freelance projects, and interesting conversations about AI, tech, and creative coding.</p><div class="contact-grid">
-    <a href="mailto:mohitkumar190031@gmail.com" class="contact-card reveal"><span class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg></span><div class="label">Email</div><div class="value">mohitkumar190031@gmail.com</div></a>
-    <a href="https://www.linkedin.com/in/mohit-verma-a05570437" target="_blank" rel="noopener noreferrer" class="contact-card reveal reveal-delay-1"><span class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></span><div class="label">LinkedIn</div><div class="value">Mohit Verma</div></a>
-    <a href="https://github.com/mohittt-vermaa" target="_blank" rel="noopener noreferrer" class="contact-card reveal reveal-delay-2"><span class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span><div class="label">GitHub</div><div class="value">mohittt-vermaa</div></a>
-    <a href="https://www.instagram.com/mohittt_vermaa" target="_blank" rel="noopener noreferrer" class="contact-card reveal reveal-delay-3"><span class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></span><div class="label">Instagram</div><div class="value">@mohittt_vermaa</div></a>
-    <a href="https://hashnode.com/@mohit-" target="_blank" rel="noopener noreferrer" class="contact-card reveal"><span class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M22.351 8.019l-6.37-6.37a5.683 5.683 0 00-8.037 0l-6.37 6.37a5.683 5.683 0 000 8.037l6.37 6.37a5.683 5.683 0 008.037 0l6.37-6.37a5.683 5.683 0 000-8.037zM12 15.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z"/></svg></span><div class="label">Hashnode</div><div class="value">@mohit-</div></a>
-    <a href="https://mohittt-vermaa.blogspot.com" target="_blank" rel="noopener noreferrer" class="contact-card reveal reveal-delay-1"><span class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm4.95 16.95c-1.02 1.02-2.37 1.55-3.95 1.55H8.5c-1.58 0-2.93-.53-3.95-1.55C3.53 15.93 3 14.58 3 13V8.5c0-1.58.53-2.93 1.55-3.95C5.58 3.53 6.93 3 8.5 3h3c1.58 0 2.93.53 3.95 1.55C16.47 5.58 17 6.93 17 8.5v4.5c0 1.58-.53 2.93-1.55 3.95l.5.5zM14 7H8v2h6V7zm-4 4h4v2H8v-2z"/></svg></span><div class="label">Blog</div><div class="value">Blogger</div></a>
-  </div></div></section>
-  <footer class="footer"><p>© 2026 Mohit Verma — Crafted with Three.js & Relentless Curiosity</p></footer>
+<section class="section" id="contact"><div class="section-inner contact-inner"><div class="section-label reveal" style="justify-content:center">Get in Touch</div><h2 class="reveal reveal-delay-1">Let's Build<br>Something Wild</h2><p class="reveal reveal-delay-2">Open for collaborations, freelance projects, and interesting conversations about AI, tech, and creative coding.</p><div class="contact-grid">
+<a href="mailto:mohitkumar190031@gmail.com" class="contact-card reveal"><span class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg></span><div class="label">Email</div><div class="value">mohitkumar190031@gmail.com</div></a>
+<a href="https://www.linkedin.com/in/mohit-verma-a05570437" target="_blank" rel="noopener noreferrer" class="contact-card reveal reveal-delay-1"><span class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></span><div class="label">LinkedIn</div><div class="value">Mohit Verma</div></a>
+<a href="https://github.com/mohittt-vermaa" target="_blank" rel="noopener noreferrer" class="contact-card reveal reveal-delay-2"><span class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span><div class="label">GitHub</div><div class="value">mohittt-vermaa</div></a>
+<a href="https://www.instagram.com/mohittt_vermaa" target="_blank" rel="noopener noreferrer" class="contact-card reveal reveal-delay-3"><span class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></span><div class="label">Instagram</div><div class="value">@mohittt_vermaa</div></a>
+<a href="https://hashnode.com/@mohit-" target="_blank" rel="noopener noreferrer" class="contact-card reveal"><span class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M22.351 8.019l-6.37-6.37a5.683 5.683 0 00-8.037 0l-6.37 6.37a5.683 5.683 0 000 8.037l6.37 6.37a5.683 5.683 0 008.037 0l6.37-6.37a5.683 5.683 0 000-8.037zM12 15.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z"/></svg></span><div class="label">Hashnode</div><div class="value">@mohit-</div></a>
+<a href="https://mohittt-vermaa.blogspot.com" target="_blank" rel="noopener noreferrer" class="contact-card reveal reveal-delay-1"><span class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm4.95 16.95c-1.02 1.02-2.37 1.55-3.95 1.55H8.5c-1.58 0-2.93-.53-3.95-1.55C3.53 15.93 3 14.58 3 13V8.5c0-1.58.53-2.93 1.55-3.95C5.58 3.53 6.93 3 8.5 3h3c1.58 0 2.93.53 3.95 1.55C16.47 5.58 17 6.93 17 8.5v4.5c0 1.58-.53 2.93-1.55 3.95l.5.5zM14 7H8v2h6V7zm-4 4h4v2H8v-2z"/></svg></span><div class="label">Blog</div><div class="value">Blogger</div></a>
+</div></div></section>
+<footer class="footer"><p>© 2026 Mohit Verma — Crafted with Three.js & Relentless Curiosity</p></footer>
 </div>
-
 <button class="audio-btn muted" id="audioBtn" title="Toggle ambient sound">🔇</button>
 
 <script type="importmap">
@@ -188,198 +186,130 @@ const renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'h
 renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.2;renderer.outputColorSpace=THREE.SRGBColorSpace;
 
-const scene=new THREE.Scene();scene.background=new THREE.Color(0x010104);scene.fog=new THREE.FogExp2(0x010104,0.003);
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x010104);
 const camera=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,0.1,500);camera.position.set(0,1.5,14);
 
-// LIGHTS — clean, no bloom
-scene.add(new THREE.AmbientLight(0x222244,0.6));
-const keyL=new THREE.DirectionalLight(0xffffff,1.0);keyL.position.set(5,8,5);scene.add(keyL);
-const fillL=new THREE.DirectionalLight(0x6666aa,0.3);fillL.position.set(-5,3,5);scene.add(fillL);
-// Orb light — illuminates astronaut with purple glow
-const orbLight=new THREE.PointLight(0x8833ff,4,50);orbLight.position.set(0,0.5,-18);scene.add(orbLight);
+// NO BLOOM — clean render
+scene.add(new THREE.AmbientLight(0x222244,0.5));
+const keyL=new THREE.DirectionalLight(0xffffff,0.8);keyL.position.set(5,8,5);scene.add(keyL);
 
 // TEXTURE
-const texLoader=new THREE.TextureLoader();
-let pTex=null;texLoader.load('assets/textures/particle_flare.png',t=>{pTex=t});
+let pTex=null;new THREE.TextureLoader().load('assets/textures/particle_flare.png',t=>{pTex=t});
 
 // LOAD ASTRONAUT
 let astro=null,mixer=null;
 new GLTFLoader().load('assets/models/stylized_astronaut__game-ready.glb',
-  gltf=>{astro=gltf.scene;astro.scale.set(2.8,2.8,2.8);astro.position.set(0,-0.3,0);astro.traverse(c=>{if(c.isMesh)c.material.envMapIntensity=1.0});scene.add(astro);if(gltf.animations?.length){mixer=new THREE.AnimationMixer(astro);gltf.animations.forEach(c=>mixer.clipAction(c).play())}setTimeout(()=>document.getElementById('loader').classList.add('done'),600)},
+  gltf=>{astro=gltf.scene;astro.scale.set(2.8,2.8,2.8);astro.position.set(0,-0.3,0);astro.traverse(c=>{if(c.isMesh)c.material.envMapIntensity=0.8});scene.add(astro);if(gltf.animations?.length){mixer=new THREE.AnimationMixer(astro);gltf.animations.forEach(c=>mixer.clipAction(c).play())}setTimeout(()=>document.getElementById('loader').classList.add('done'),600)},
   xhr=>{if(xhr.lengthComputable)document.getElementById('loaderFill').style.width=(xhr.loaded/xhr.total*100)+'%'},
-  ()=>{const g=new THREE.Group();g.add(Object.assign(new THREE.Mesh(new THREE.SphereGeometry(.8,32,32),new THREE.MeshStandardMaterial({color:0xdddde0,metalness:.7,roughness:.3})),{position:new THREE.Vector3(0,2.5,0)}));g.scale.set(2,2,2);g.position.y=-.3;astro=g;scene.add(g);setTimeout(()=>document.getElementById('loader').classList.add('done'),400)}
+  ()=>{setTimeout(()=>document.getElementById('loader').classList.add('done'),400)}
 );
 
-// ═══════════════════════════════════════════════
-// MYSTERIOUS COSMIC ORB — Reference image style
-// Deep dark space, single glowing orb with ethereal glow
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════
+// ETHEREAL COSMIC ORB — Pure glow, no solid sphere
+// ═══════════════════════════════════════
+const orbPos=new THREE.Vector3(0,0.5,-15);
 
-// Core orb — dark sphere with subtle surface detail
-const orbCoreMat=new THREE.ShaderMaterial({
+// Tiny bright white core
+const coreMat=new THREE.ShaderMaterial({
+  transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
   uniforms:{uTime:{value:0}},
-  vertexShader:`varying vec3 vNorm;varying vec2 vUv;void main(){vNorm=normalize(normalMatrix*normal);vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
-  fragmentShader:`uniform float uTime;varying vec3 vNorm;varying vec2 vUv;void main(){
-    float rim=1.0-max(dot(vNorm,vec3(0.0,0.0,1.0)),0.0);
-    float pattern=sin(vUv.x*12.0+uTime*0.3)*sin(vUv.y*12.0-uTime*0.2)*0.5+0.5;
-    vec3 deep=vec3(0.01,0.005,0.03);
-    vec3 purple=vec3(0.5,0.15,0.9)*pow(rim,2.0)*2.5;
-    vec3 orange=vec3(1.0,0.45,0.1)*pow(rim,3.5)*2.0;
-    vec3 surface=vec3(0.08,0.03,0.15)*pattern*0.3;
-    gl_FragColor=vec4(deep+purple+orange+surface,1.0);
-  }`
+  vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
+  fragmentShader:`uniform float uTime;varying vec2 vUv;void main(){float d=length(vUv-0.5)*2.0;float glow=exp(-d*d*12.0);vec3 col=mix(vec3(1.0,0.95,1.0),vec3(0.8,0.5,1.0),d*d);gl_FragColor=vec4(col*glow*3.0,glow);}`
 });
-const orbCore=new THREE.Mesh(new THREE.SphereGeometry(5,64,64),orbCoreMat);
-orbCore.position.set(0,0.5,-18);
-scene.add(orbCore);
+const core=new THREE.Mesh(new THREE.PlaneGeometry(4,4),coreMat);core.position.copy(orbPos);scene.add(core);
 
-// Inner glow — additive soft sphere
-const innerGlow=new THREE.Mesh(
-  new THREE.SphereGeometry(6.5,32,32),
-  new THREE.MeshBasicMaterial({color:0xaa44ff,transparent:true,opacity:0.15,side:THREE.BackSide,blending:THREE.AdditiveBlending,depthWrite:false})
-);
-innerGlow.position.copy(orbCore.position);
-scene.add(innerGlow);
+// Medium purple halo
+const haloMat=new THREE.ShaderMaterial({
+  transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,side:THREE.DoubleSide,
+  uniforms:{uTime:{value:0}},
+  vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
+  fragmentShader:`uniform float uTime;varying vec2 vUv;void main(){float d=length(vUv-0.5)*2.0;float glow=exp(-d*d*3.0);float pulse=sin(uTime*0.5)*0.1+0.9;vec3 col=mix(vec3(0.9,0.6,1.0),vec3(0.4,0.1,0.8),d);gl_FragColor=vec4(col*glow*pulse*1.5,glow*0.6);}`
+});
+const halo=new THREE.Mesh(new THREE.PlaneGeometry(14,14),haloMat);halo.position.copy(orbPos);halo.position.z-=0.1;scene.add(halo);
 
-// Mid glow — larger, dimmer
-const midGlow=new THREE.Mesh(
-  new THREE.SphereGeometry(10,32,32),
-  new THREE.MeshBasicMaterial({color:0x7722dd,transparent:true,opacity:0.08,side:THREE.BackSide,blending:THREE.AdditiveBlending,depthWrite:false})
-);
-midGlow.position.copy(orbCore.position);
-scene.add(midGlow);
+// Large soft outer haze
+const hazeMat=new THREE.ShaderMaterial({
+  transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,side:THREE.DoubleSide,
+  vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
+  fragmentShader:`varying vec2 vUv;void main(){float d=length(vUv-0.5)*2.0;float glow=exp(-d*d*1.5);vec3 col=mix(vec3(0.5,0.2,0.9),vec3(0.1,0.02,0.3),d);gl_FragColor=vec4(col*glow,glow*0.25);}`
+});
+const haze=new THREE.Mesh(new THREE.PlaneGeometry(30,30),hazeMat);haze.position.copy(orbPos);haze.position.z-=0.2;scene.add(haze);
 
-// Outer glow — biggest, faintest
-const outerGlow=new THREE.Mesh(
-  new THREE.SphereGeometry(16,32,32),
-  new THREE.MeshBasicMaterial({color:0x5511bb,transparent:true,opacity:0.04,side:THREE.BackSide,blending:THREE.AdditiveBlending,depthWrite:false})
-);
-outerGlow.position.copy(orbCore.position);
-scene.add(outerGlow);
+// Huge atmospheric fog
+const fogMat=new THREE.ShaderMaterial({
+  transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,side:THREE.DoubleSide,
+  vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
+  fragmentShader:`varying vec2 vUv;void main(){float d=length(vUv-0.5)*2.0;float glow=exp(-d*d*0.8);vec3 col=vec3(0.15,0.04,0.35);gl_FragColor=vec4(col*glow,glow*0.1);}`
+});
+const fogPlane=new THREE.Mesh(new THREE.PlaneGeometry(50,50),fogMat);fogPlane.position.copy(orbPos);fogPlane.position.z-=0.3;scene.add(fogPlane);
 
-// Atmosphere haze — very large faint cloud
-const haze=new THREE.Mesh(
-  new THREE.SphereGeometry(25,32,32),
-  new THREE.MeshBasicMaterial({color:0x330977,transparent:true,opacity:0.025,side:THREE.BackSide,blending:THREE.AdditiveBlending,depthWrite:false})
-);
-haze.position.copy(orbCore.position);
-scene.add(haze);
+// Light rays
+const raysMat=new THREE.ShaderMaterial({
+  transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,side:THREE.DoubleSide,
+  uniforms:{uTime:{value:0}},
+  vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
+  fragmentShader:`uniform float uTime;varying vec2 vUv;void main(){vec2 c=vUv-0.5;float d=length(c);float a=atan(c.y,c.x);float rays=0.0;for(float i=0.0;i<8.0;i++){rays+=pow(max(0.0,cos(a+i*0.785)),12.0)*0.08;}float center=exp(-d*d*10.0);float fade=exp(-d*2.0);vec3 col=mix(vec3(1.0,0.85,1.0),vec3(0.5,0.2,0.9),center);float b=(center*1.5+rays)*fade;gl_FragColor=vec4(col*b,b*0.35);}`
+});
+const rays=new THREE.Mesh(new THREE.PlaneGeometry(35,35),raysMat);rays.position.copy(orbPos);rays.position.z+=0.1;scene.add(rays);
 
-// Orb ring — thin subtle
-const orbRing=new THREE.Mesh(
-  new THREE.TorusGeometry(7,0.02,8,128),
-  new THREE.MeshBasicMaterial({color:0xff6633,transparent:true,opacity:0.1,blending:THREE.AdditiveBlending,depthWrite:false})
-);
-orbRing.position.copy(orbCore.position);
-orbRing.rotation.x=Math.PI/2.15;
-scene.add(orbRing);
+// Orb lights — illuminate astronaut with purple
+const orbLight=new THREE.PointLight(0x8844ff,5,50);orbLight.position.copy(orbPos);scene.add(orbLight);
+const orbLight2=new THREE.PointLight(0xff6644,1.5,25);orbLight2.position.copy(orbPos);orbLight2.position.z+=4;scene.add(orbLight2);
 
-// Second ring — tilted
-const orbRing2=new THREE.Mesh(
-  new THREE.TorusGeometry(9,0.015,8,128),
-  new THREE.MeshBasicMaterial({color:0x7c3aed,transparent:true,opacity:0.06,blending:THREE.AdditiveBlending,depthWrite:false})
-);
-orbRing2.position.copy(orbCore.position);
-orbRing2.rotation.x=Math.PI/2.3;
-orbRing2.rotation.z=0.4;
-scene.add(orbRing2);
+// STARS — 3000
+function mkS(n,sz,col,op,min,max){const g=new THREE.BufferGeometry(),p=new Float32Array(n*3);for(let i=0;i<n;i++){const r=min+Math.random()*(max-min),t=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1);p[i*3]=r*Math.sin(ph)*Math.cos(t);p[i*3+1]=r*Math.sin(ph)*Math.sin(t);p[i*3+2]=r*Math.cos(ph)}g.setAttribute('position',new THREE.BufferAttribute(p,3));scene.add(new THREE.Points(g,new THREE.PointsMaterial({color:col,size:sz,transparent:true,opacity:op,sizeAttenuation:true})))}
+mkS(2500,0.04,0xffffff,0.35,50,250);mkS(400,0.07,0xccddff,0.25,30,100);mkS(200,0.1,0xffddaa,0.2,20,60);
 
-// ═══════════════════════════════════════
-// STARS — 4000 subtle
-// ═══════════════════════════════════════
-function mkStars(n,sz,col,op,min,max){
-  const g=new THREE.BufferGeometry(),p=new Float32Array(n*3);
-  for(let i=0;i<n;i++){const r=min+Math.random()*(max-min),t=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1);p[i*3]=r*Math.sin(ph)*Math.cos(t);p[i*3+1]=r*Math.sin(ph)*Math.sin(t);p[i*3+2]=r*Math.cos(ph)}
-  g.setAttribute('position',new THREE.BufferAttribute(p,3));
-  scene.add(new THREE.Points(g,new THREE.PointsMaterial({color:col,size:sz,transparent:true,opacity:op,sizeAttenuation:true})));
-}
-mkStars(3000,0.05,0xffffff,0.4,50,250);
-mkStars(600,0.08,0xccddff,0.3,30,120);
-mkStars(300,0.1,0xffddaa,0.25,20,70);
-
-// ═══════════════════════════════════════
-// DUST — 800 subtle particles
-// ═══════════════════════════════════════
-const dC=800,dG=new THREE.BufferGeometry(),dP=new Float32Array(dC*3),dV=new Float32Array(dC*3);
-for(let i=0;i<dC;i++){dP[i*3]=(Math.random()-.5)*50;dP[i*3+1]=(Math.random()-.5)*30;dP[i*3+2]=(Math.random()-.5)*50;dV[i*3]=(Math.random()-.5)*.002;dV[i*3+1]=(Math.random()-.5)*.002;dV[i*3+2]=(Math.random()-.5)*.002}
+// DUST — 500
+const dC=500,dG=new THREE.BufferGeometry(),dP=new Float32Array(dC*3),dV=new Float32Array(dC*3);
+for(let i=0;i<dC;i++){dP[i*3]=(Math.random()-.5)*40;dP[i*3+1]=(Math.random()-.5)*25;dP[i*3+2]=(Math.random()-.5)*40;dV[i*3]=(Math.random()-.5)*.002;dV[i*3+1]=(Math.random()-.5)*.002;dV[i*3+2]=(Math.random()-.5)*.002}
 dG.setAttribute('position',new THREE.BufferAttribute(dP,3));
-const dust=new THREE.Points(dG,new THREE.PointsMaterial({color:0x7c3aed,size:.025,transparent:true,opacity:.15,sizeAttenuation:true,map:pTex||undefined,blending:THREE.AdditiveBlending,depthWrite:false}));
+const dust=new THREE.Points(dG,new THREE.PointsMaterial({color:0x7c3aed,size:.02,transparent:true,opacity:.12,sizeAttenuation:true,map:pTex||undefined,blending:THREE.AdditiveBlending,depthWrite:false}));
 scene.add(dust);
 
-// ═══════════════════════════════════════
-// ORBITING ELEMENTS — 10 subtle
-// ═══════════════════════════════════════
+// ORBITING ELEMENTS — 8
 const orbs=[];
-for(let i=0;i<10;i++){
-  const g=[new THREE.OctahedronGeometry(.12),new THREE.TetrahedronGeometry(.1),new THREE.IcosahedronGeometry(.1)][i%3];
-  const c=[0x7c3aed,0x06b6d4,0xff6633][i%3];
-  const m=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:c,metalness:.7,roughness:.3,emissive:c,emissiveIntensity:.15}));
-  const a=Math.random()*Math.PI*2,r=3+Math.random()*5,sp=.08+Math.random()*.15,yo=(Math.random()-.5)*4;
-  m.userData={a,r,sp,yo,w:Math.random()*Math.PI*2};
-  m.position.set(Math.cos(a)*r,yo,Math.sin(a)*r);
-  scene.add(m);orbs.push(m);
-}
+for(let i=0;i<8;i++){const g=[new THREE.OctahedronGeometry(.1),new THREE.TetrahedronGeometry(.08),new THREE.IcosahedronGeometry(.08)][i%3];const c=[0x7c3aed,0x06b6d4,0xff6633][i%3];const m=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:c,metalness:.7,roughness:.3,emissive:c,emissiveIntensity:.1}));const a=Math.random()*Math.PI*2,r=2.5+Math.random()*4,sp=.06+Math.random()*.12,yo=(Math.random()-.5)*3;m.userData={a,r,sp,yo,w:Math.random()*Math.PI*2};m.position.set(Math.cos(a)*r,yo,Math.sin(a)*r);scene.add(m);orbs.push(m)}
 
 // AUDIO
-const listener=new THREE.AudioListener();camera.add(listener);
-const sound=new THREE.Audio(listener);
-new THREE.AudioLoader().load('assets/audio/mixkit-movie-whoosh-impact-presentation-2903.wav',b=>{sound.setBuffer(b);sound.setLoop(true);sound.setVolume(.05)});
+const listener=new THREE.AudioListener();camera.add(listener);const sound=new THREE.Audio(listener);
+new THREE.AudioLoader().load('assets/audio/mixkit-movie-whoosh-impact-presentation-2903.wav',b=>{sound.setBuffer(b);sound.setLoop(true);sound.setVolume(.04)});
 const aBtn=document.getElementById('audioBtn');let aOn=false;
 aBtn.onclick=()=>{if(!aOn&&sound.buffer){sound.play();aOn=true;aBtn.textContent='🔊';aBtn.classList.remove('muted')}else if(sound.isPlaying){sound.pause();aBtn.textContent='🔇';aBtn.classList.add('muted')}else{sound.play();aBtn.textContent='🔊';aBtn.classList.remove('muted')}};
 
 // SCROLL + MOUSE
 let sProg=0,tScroll=0,mX=0,mY=0,tMX=0,tMY=0;
 const mS=()=>document.documentElement.scrollHeight-innerHeight;
-addEventListener('scroll',()=>{tScroll=scrollY/mS()});
-addEventListener('mousemove',e=>{tMX=(e.clientX/innerWidth-.5)*2;tMY=(e.clientY/innerHeight-.5)*2});
+addEventListener('scroll',()=>{tScroll=scrollY/mS()});addEventListener('mousemove',e=>{tMX=(e.clientX/innerWidth-.5)*2;tMY=(e.clientY/innerHeight-.5)*2});
 addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',scrollY>100)});
-
-const cD=document.getElementById('cDot'),cR=document.getElementById('cRing');
-let cX=0,cY=0,rX=0,rY=0;
+const cD=document.getElementById('cDot'),cR=document.getElementById('cRing');let cX=0,cY=0,rX=0,rY=0;
 (function u(){cX+=((tMX+1)/2*innerWidth-cX)*.12;cY+=((tMY+1)/2*innerHeight-cY)*.12;rX+=((tMX+1)/2*innerWidth-rX)*.07;rY+=((tMY+1)/2*innerHeight-rY)*.07;if(cD){cD.style.left=cX-4+'px';cD.style.top=cY-4+'px';cR.style.left=rX-22+'px';cR.style.top=rY-22+'px'}requestAnimationFrame(u)})();
-
 const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-
 addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
 
-// ═══════════════════════════════════════
 // ANIMATE
-// ═══════════════════════════════════════
 let time=0;const clock=new THREE.Clock();
 (function loop(){
-  requestAnimationFrame(loop);
-  const dt=clock.getDelta();time+=dt;
+  requestAnimationFrame(loop);const dt=clock.getDelta();time+=dt;
   sProg+=(tScroll-sProg)*.04;mX+=(tMX-mX)*.04;mY+=(tMY-mY)*.04;
-
   const cY=1.5-sProg*12,cZ=14-sProg*8;
   camera.position.x=mX*2;camera.position.y=cY-mY*0.8;camera.position.z=cZ;
-  camera.lookAt(0,cY*.3,-8);
+  camera.lookAt(0,cY*.3,-5);
 
-  // Astronaut — CLEAN
   if(astro){astro.position.y=-.3+Math.sin(time*.5)*.3;astro.rotation.y=mX*.3+time*.03;astro.rotation.x=Math.sin(time*.3)*.03+mY*.05}
   if(mixer)mixer.update(dt);
 
-  // Cosmic orb — slow breathe
-  orbCoreMat.uniforms.uTime.value=time;
-  const breathe=1+Math.sin(time*.4)*.03;
-  orbCore.scale.setScalar(breathe);
-  innerGlow.scale.setScalar(breathe*1.05);
-  midGlow.scale.setScalar(breathe*1.02);
-  outerGlow.scale.setScalar(breathe);
-  haze.scale.setScalar(breathe);
+  // Orb shaders
+  coreMat.uniforms.uTime.value=time;haloMat.uniforms.uTime.value=time;raysMat.uniforms.uTime.value=time;
+  // Orb breathe
+  const br=1+Math.sin(time*.4)*.03;
+  core.scale.setScalar(br);halo.scale.setScalar(br);haze.scale.setScalar(br);rays.scale.setScalar(br);
+  // Lights pulse
+  orbLight.intensity=5+Math.sin(time*.5)*1.5;orbLight2.intensity=1.5+Math.sin(time*.4)*0.5;
 
-  // Rings slow rotate
-  orbRing.rotation.z=time*.03;
-  orbRing2.rotation.z=-time*.02;
-
-  // Orbiters
-  orbs.forEach(o=>{o.userData.a+=o.userData.sp*dt;o.position.x=Math.cos(o.userData.a)*o.userData.r;o.position.z=Math.sin(o.userData.a)*o.userData.r;o.position.y=o.userData.yo+Math.sin(time+o.userData.w)*.25;o.rotation.x+=.008;o.rotation.y+=.012});
-
-  // Dust
-  const dp=dust.geometry.attributes.position.array;
-  for(let i=0;i<dC;i++){dp[i*3]+=dV[i*3];dp[i*3+1]+=dV[i*3+1];dp[i*3+2]+=dV[i*3+2];if(Math.abs(dp[i*3])>25)dV[i*3]*=-1;if(Math.abs(dp[i*3+1])>15)dV[i*3+1]*=-1;if(Math.abs(dp[i*3+2])>25)dV[i*3+2]*=-1}
-  dust.geometry.attributes.position.needsUpdate=true;
+  orbs.forEach(o=>{o.userData.a+=o.userData.sp*dt;o.position.x=Math.cos(o.userData.a)*o.userData.r;o.position.z=Math.sin(o.userData.a)*o.userData.r;o.position.y=o.userData.yo+Math.sin(time+o.userData.w)*.2;o.rotation.x+=.008;o.rotation.y+=.012});
+  const dp=dust.geometry.attributes.position.array;for(let i=0;i<dC;i++){dp[i*3]+=dV[i*3];dp[i*3+1]+=dV[i*3+1];dp[i*3+2]+=dV[i*3+2];if(Math.abs(dp[i*3])>20)dV[i*3]*=-1;if(Math.abs(dp[i*3+1])>12)dV[i*3+1]*=-1;if(Math.abs(dp[i*3+2])>20)dV[i*3+2]*=-1}dust.geometry.attributes.position.needsUpdate=true;
 
   renderer.render(scene,camera);
 })();
