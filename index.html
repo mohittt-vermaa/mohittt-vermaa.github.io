@@ -386,14 +386,21 @@ earthGroup.add(clouds);
 
 // ═══ ASTRONAUT — "Mercenary Astronaut" by Peter_D (CC-BY-4.0, via Sketchfab) ═══
 let astro=null;const astroBase=new THREE.Vector3(6.5,0.1,-4);
-function astroFail(msg){console.error('Astronaut load failed:',msg);const t=document.createElement('div');t.textContent='⚠ 3D astronaut load nahi hua — check console';t.style.cssText='position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);z-index:999;background:rgba(200,40,40,.9);color:#fff;padding:.6rem 1.2rem;font-size:.75rem;border-radius:100px;letter-spacing:.05em';document.body.appendChild(t);setTimeout(()=>t.remove(),6000);}
+// Status chip: always shows what's happening with the model
+const astroChip=document.createElement('div');
+astroChip.style.cssText='position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);z-index:999;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(10px);color:rgba(255,255,255,.75);padding:.45rem 1.1rem;font-size:.68rem;border-radius:100px;letter-spacing:.05em;transition:opacity .6s';
+astroChip.textContent='🧑‍🚀 Astronaut loading…';
+document.body.appendChild(astroChip);
+const chipDone=()=>{astroChip.style.opacity='0';setTimeout(()=>astroChip.remove(),700);};
+const chipFail=msg=>{astroChip.textContent=msg;astroChip.style.background='rgba(200,40,40,.85)';astroChip.style.color='#fff';};
 {
   const draco=new DRACOLoader();
   draco.setDecoderPath('assets/draco/');  // bundled locally — no external CDN
   draco.preload();
   const gl=new GLTFLoader();gl.setDRACOLoader(draco);
-  gl.load('assets/models/mercenary_astronaut.glb?v=7',
+  gl.load('assets/models/mercenary_astronaut.glb?v=8',
     gltf=>{
+      astroChip.textContent='🧑‍🚀 Astronaut ready, fitting…';
       astro=gltf.scene;
       astro.visible=false;
       scene.add(astro);
@@ -403,22 +410,29 @@ function astroFail(msg){console.error('Astronaut load failed:',msg);const t=docu
         const box=new THREE.Box3().setFromObject(astro);
         const h=box.getSize(new THREE.Vector3()).y;
         tries++;
-        if((h<0.5||h>500)&&tries<6){setTimeout(fit,700);return;} // geometry not decoded yet — retry
+        if((h<0.5||h>500)&&tries<40){setTimeout(fit,700);return;} // geometry not decoded yet — retry up to ~28s
         const s=Math.min(Math.max(2.2/Math.max(h,1e-4),0.001),30);
         astro.scale.setScalar(s);
         const c=new THREE.Box3().setFromObject(astro).getCenter(new THREE.Vector3());
         astro.position.set(astroBase.x-c.x,astroBase.y-c.y,astroBase.z-c.z);
         astro.rotation.y=-0.5; // angled toward camera/center
         astro.visible=true;
+        chipDone();
         document.getElementById('loader').classList.add('done');
       };
       setTimeout(fit,400);
     },
-    xhr=>{if(xhr.lengthComputable)document.getElementById('loaderFill').style.width=Math.max(parseFloat(document.getElementById('loaderFill').style.width)||0,xhr.loaded/xhr.total*100)+'%'},
-    err=>{astroFail(err&&err.message||String(err));setTimeout(()=>document.getElementById('loader').classList.add('done'),300)}
+    xhr=>{
+      if(xhr.lengthComputable){
+        const pct=Math.round(xhr.loaded/xhr.total*100);
+        astroChip.textContent='🧑‍🚀 Astronaut loading… '+pct+'%';
+        document.getElementById('loaderFill').style.width=Math.max(parseFloat(document.getElementById('loaderFill').style.width)||0,pct)+'%';
+      }
+    },
+    err=>{chipFail('⚠ Astronaut load fail: '+(err&&err.message?err.message.slice(0,60):'network error')+' — refresh karo');console.error('Astronaut load failed:',err);document.getElementById('loader').classList.add('done');}
   );
-  // Watchdog: if model still not loaded in 12s, tell the user
-  setTimeout(()=>{if(!astro)astroFail('timeout — model 12s me load nahi hua (network/draco issue)');},12000);
+  // Watchdog: still not even started after 60s -> tell the user
+  setTimeout(()=>{if(!astro)chipFail('⚠ Astronaut abhi tak load nahi hua — internet slow ya refresh karo');},60000);
 }
 
 // Sun light only — clean, no glow planes / pulse lights
