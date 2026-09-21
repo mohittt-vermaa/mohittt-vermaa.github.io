@@ -183,7 +183,7 @@ a{color:inherit;text-decoration:none}
 </style>
 </head>
 <body>
-<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space · v5</div></div>
+<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space · v6</div></div>
 <div class="cursor-dot" id="cDot"></div><div class="cursor-ring" id="cRing"></div>
 <canvas id="canvas"></canvas>
 <nav class="nav" id="nav"><div class="nav-logo" onclick="scrollTo({top:0,behavior:'smooth'})">MV</div><div class="nav-links"><a href="#about">About</a><a href="#projects">Work</a><a href="#skills">Skills</a><a href="#blog">Blog</a><a href="#contact">Contact</a></div></nav>
@@ -392,25 +392,31 @@ function astroFail(msg){console.error('Astronaut load failed:',msg);const t=docu
   draco.setDecoderPath('assets/draco/');  // bundled locally — no external CDN
   draco.preload();
   const gl=new GLTFLoader();gl.setDRACOLoader(draco);
-  gl.load('assets/models/mercenary_astronaut.glb?v=5',
+  gl.load('assets/models/mercenary_astronaut.glb?v=6',
     gltf=>{
       astro=gltf.scene;
-      // Auto-fit: normalize height to ~3.2 units (robust against odd bounding boxes)
-      const box=new THREE.Box3().setFromObject(astro);
-      const size=box.getSize(new THREE.Vector3());
-      const h=Math.max(size.y,1e-4);
-      const s=1.2/h;
-      astro.scale.setScalar(s);
-      const box2=new THREE.Box3().setFromObject(astro);
-      const c=box2.getCenter(new THREE.Vector3());
-      astro.position.set(astroBase.x-c.x,astroBase.y-c.y,astroBase.z-c.z);
-      astro.rotation.y=-0.5; // angled toward camera/center
+      astro.visible=false;
       scene.add(astro);
-      // Debug toast: confirms which version loaded on the device
-      const dt2=document.createElement('div');dt2.textContent='v5 · astronaut h='+h.toFixed(2)+' scale='+s.toFixed(3);
-      dt2.style.cssText='position:fixed;top:0.6rem;left:50%;transform:translateX(-50%);z-index:999;background:rgba(20,160,90,.9);color:#fff;padding:.4rem 1rem;font-size:.65rem;border-radius:100px;letter-spacing:.05em';
-      document.body.appendChild(dt2);setTimeout(()=>dt2.remove(),8000);
-      document.getElementById('loader').classList.add('done');
+      // Draco decodes async — wait for real geometry before measuring, retry if not ready
+      let tries=0;
+      const fit=()=>{
+        const box=new THREE.Box3().setFromObject(astro);
+        const h=box.getSize(new THREE.Vector3()).y;
+        tries++;
+        if((h<0.5||h>500)&&tries<6){setTimeout(fit,700);return;} // geometry not decoded yet — retry
+        const s=Math.min(Math.max(1.2/Math.max(h,1e-4),0.001),30);
+        astro.scale.setScalar(s);
+        const c=new THREE.Box3().setFromObject(astro).getCenter(new THREE.Vector3());
+        astro.position.set(astroBase.x-c.x,astroBase.y-c.y,astroBase.z-c.z);
+        astro.rotation.y=-0.5; // angled toward camera/center
+        astro.visible=true;
+        // Debug toast: confirms which version loaded on the device
+        const dt2=document.createElement('div');dt2.textContent='v6 · h='+h.toFixed(2)+' s='+s.toFixed(3)+' try='+tries;
+        dt2.style.cssText='position:fixed;top:0.6rem;left:50%;transform:translateX(-50%);z-index:999;background:rgba(20,160,90,.9);color:#fff;padding:.4rem 1rem;font-size:.65rem;border-radius:100px;letter-spacing:.05em';
+        document.body.appendChild(dt2);setTimeout(()=>dt2.remove(),8000);
+        document.getElementById('loader').classList.add('done');
+      };
+      setTimeout(fit,400);
     },
     xhr=>{if(xhr.lengthComputable)document.getElementById('loaderFill').style.width=Math.max(parseFloat(document.getElementById('loaderFill').style.width)||0,xhr.loaded/xhr.total*100)+'%'},
     err=>{astroFail(err&&err.message||String(err));setTimeout(()=>document.getElementById('loader').classList.add('done'),300)}
