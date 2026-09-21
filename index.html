@@ -187,7 +187,7 @@ a{color:inherit;text-decoration:none}
 <div class="card reveal reveal-delay-1"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg></span><h3>MLBox</h3><p>Modular ML toolbox with reusable components for data preprocessing, model training, and evaluation.</p><div class="card-tags"><span>Python</span><span>Scikit-learn</span><span>ML</span></div><div class="card-links"><a href="https://github.com/mohittt-vermaa/MLBox" target="_blank" rel="noopener noreferrer">GitHub →</a></div></div>
 <div class="card reveal reveal-delay-2"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></span><h3>ORF-5</h3><p>Open Reading Frame finder for bioinformatics — identifies protein-coding regions in DNA sequences.</p><div class="card-tags"><span>Python</span><span>Bioinformatics</span><span>Genomics</span></div><div class="card-links"><a href="https://github.com/mohittt-vermaa/ORF-5" target="_blank" rel="noopener noreferrer">GitHub →</a></div></div>
 <div class="card reveal reveal-delay-3"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><path d="M8 7h8M8 11h6"/></svg></span><h3>Class 10 Maths</h3><p>Open-source math solutions and study resources for Class 10 students, covering NCERT curriculum.</p><div class="card-tags"><span>Education</span><span>Mathematics</span><span>Open Source</span></div><div class="card-links"><a href="https://github.com/mohittt-vermaa/Class-10-Maths" target="_blank" rel="noopener noreferrer">GitHub →</a></div></div>
-<div class="card reveal reveal-delay-4"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/></svg></span><h3>Portfolio Website</h3><p>Immersive 3D space portfolio with a real-textured Earth, floating astronaut, and cinematic scroll camera.</p><div class="card-tags"><span>Three.js</span><span>WebGL</span><span>GLSL</span><span>3D</span></div><div class="card-links"><a href="https://github.com/mohittt-vermaa/mohittt-vermaa.github.io" target="_blank" rel="noopener noreferrer">GitHub →</a><a href="https://mohittt-vermaa.github.io" target="_blank" rel="noopener noreferrer">Live →</a></div></div>
+<div class="card reveal reveal-delay-4"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/></svg></span><h3>Portfolio Website</h3><p>Immersive 3D space portfolio with a real-textured Earth, twinkling stars, and a cinematic scroll camera.</p><div class="card-tags"><span>Three.js</span><span>WebGL</span><span>GLSL</span><span>3D</span></div><div class="card-links"><a href="https://github.com/mohittt-vermaa/mohittt-vermaa.github.io" target="_blank" rel="noopener noreferrer">GitHub →</a><a href="https://mohittt-vermaa.github.io" target="_blank" rel="noopener noreferrer">Live →</a></div></div>
 </div></div></section>
 
 <section class="section skills-section" id="skills"><div class="section-inner"><div class="skills-header"><div class="section-label reveal" style="justify-content:center">Tech Stack</div><h2 class="reveal reveal-delay-1">Currently Learning<br>& Interests</h2><p class="reveal reveal-delay-2">Technologies I work with and am actively exploring</p></div><div class="skill-categories">
@@ -255,7 +255,6 @@ a{color:inherit;text-decoration:none}
 </script>
 <script type="module">
 import*as THREE from'three';
-import{GLTFLoader}from'three/addons/loaders/GLTFLoader.js';
 
 const canvas=document.getElementById('canvas');
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});
@@ -272,13 +271,11 @@ const keyL=new THREE.DirectionalLight(0xffffff,0.35);keyL.position.set(5,8,5);sc
 // TEXTURE
 // (dust particles removed — clean space with only Earth + stars)
 
-// LOAD ASTRONAUT
-let astro=null,mixer=null;
-new GLTFLoader().load('assets/models/stylized_astronaut__game-ready.glb',
-  gltf=>{astro=gltf.scene;astro.scale.set(2.8,2.8,2.8);astro.position.set(0,-0.3,0);astro.traverse(c=>{if(c.isMesh)c.material.envMapIntensity=0.8});scene.add(astro);if(gltf.animations?.length){mixer=new THREE.AnimationMixer(astro);gltf.animations.forEach(c=>mixer.clipAction(c).play())}setTimeout(()=>document.getElementById('loader').classList.add('done'),600)},
-  xhr=>{if(xhr.lengthComputable)document.getElementById('loaderFill').style.width=(xhr.loaded/xhr.total*100)+'%'},
-  ()=>{setTimeout(()=>document.getElementById('loader').classList.add('done'),400)}
-);
+// LOADER — driven by Earth texture loading (astronaut removed for now)
+const manager=new THREE.LoadingManager();
+manager.onProgress=(url,loaded,total)=>{document.getElementById('loaderFill').style.width=Math.min(100,loaded/total*100)+'%'};
+manager.onLoad=()=>setTimeout(()=>document.getElementById('loader').classList.add('done'),500);
+setTimeout(()=>document.getElementById('loader').classList.add('done'),7000); // safety fallback
 
 // ═══════════════════════════════════════
 // EARTH — real textured planet + clouds + atmosphere glow
@@ -291,46 +288,80 @@ earthGroup.position.copy(orbPos);
 earthGroup.rotation.z=0.41; // 23.5° axial tilt
 scene.add(earthGroup);
 
-const tl=new THREE.TextureLoader();
-const dayTex=tl.load('assets/textures/earth-blue-marble.jpg');
+const tl=new THREE.TextureLoader(manager);
+const dayTex=tl.load('assets/textures/earth-blue-marble.jpg');   // 4096×2048 NASA Blue Marble
 dayTex.colorSpace=THREE.SRGBColorSpace;
 dayTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
-const bumpTex=tl.load('assets/textures/earth-topology.png');
 const specTex=tl.load('assets/textures/earth-water.png');
-const nightTex=tl.load('assets/textures/earth-night.jpg');
+const nightTex=tl.load('assets/textures/earth-night.jpg');       // 4096×2048 city lights
 nightTex.colorSpace=THREE.SRGBColorSpace;
+nightTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
 
-const earth=new THREE.Mesh(
-  new THREE.SphereGeometry(EARTH_R,96,96),
-  new THREE.MeshPhongMaterial({
-    map:dayTex,
-    bumpMap:bumpTex,bumpScale:0.05,
-    specularMap:specTex,specular:new THREE.Color(0x3a5a7a),shininess:16,
-    emissiveMap:nightTex,emissive:new THREE.Color(0xffc46b),emissiveIntensity:0.16
-  })
-);
+// Custom high-quality Earth shader: realistic day/night terminator, city lights
+// only on the dark side, sunset band, ocean sparkle, subtle atmosphere limb
+const sunDirU={value:new THREE.Vector3(1,0.3,0.6).normalize()};
+const earthMat=new THREE.ShaderMaterial({
+  uniforms:{uDay:{value:dayTex},uNight:{value:nightTex},uSpec:{value:specTex},uSunDir:sunDirU},
+  vertexShader:`
+varying vec2 vUv;varying vec3 vN;varying vec3 vWP;
+void main(){
+  vUv=uv;
+  vN=normalize(mat3(modelMatrix)*normal);
+  vec4 wp=modelMatrix*vec4(position,1.0);
+  vWP=wp.xyz;
+  gl_Position=projectionMatrix*viewMatrix*wp;
+}`,
+  fragmentShader:`
+uniform sampler2D uDay,uNight,uSpec;uniform vec3 uSunDir;
+varying vec2 vUv;varying vec3 vN;varying vec3 vWP;
+void main(){
+  vec3 N=normalize(vN);
+  vec3 V=normalize(cameraPosition-vWP);
+  vec3 S=normalize(uSunDir);
+  float sunDot=dot(N,S);
+  vec3 day=texture2D(uDay,vUv).rgb;
+  vec3 night=texture2D(uNight,vUv).rgb;
+  float spec=texture2D(uSpec,vUv).r;
+  float dayL=smoothstep(-0.08,0.38,sunDot);
+  vec3 col=day*(0.05+1.3*dayL);
+  float dusk=smoothstep(-0.14,0.06,sunDot)*(1.0-smoothstep(0.06,0.4,sunDot));
+  col+=vec3(0.9,0.42,0.12)*dusk*day*0.4;
+  float nightSide=1.0-smoothstep(-0.2,0.02,sunDot);
+  col+=night*vec3(1.0,0.84,0.58)*1.6*nightSide;
+  vec3 H=normalize(S+V);
+  col+=vec3(0.85,0.92,1.0)*pow(max(dot(N,H),0.0),48.0)*spec*dayL*0.7;
+  float fr=pow(1.0-max(dot(N,V),0.0),2.8);
+  col+=vec3(0.2,0.44,0.95)*fr*(0.1+0.5*dayL);
+  gl_FragColor=vec4(col,1.0);
+  #include <tonemapping_fragment>
+  #include <colorspace_fragment>
+}`
+});
+const earth=new THREE.Mesh(new THREE.SphereGeometry(EARTH_R,128,128),earthMat);
 earthGroup.add(earth);
 
-// Procedural drifting cloud layer (fbm shader)
+// Procedural drifting cloud layer (fbm shader, sunlit — fades on night side)
 const cloudMat=new THREE.ShaderMaterial({
   transparent:true,depthWrite:false,
-  uniforms:{uTime:{value:0}},
-  vertexShader:`varying vec3 vP;void main(){vP=normalize(position);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
+  uniforms:{uTime:{value:0},uSunDir:sunDirU},
+  vertexShader:`varying vec3 vP;varying vec3 vN;void main(){vP=normalize(position);vN=normalize(mat3(modelMatrix)*normal);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
   fragmentShader:`
-uniform float uTime;varying vec3 vP;
+uniform float uTime;uniform vec3 uSunDir;varying vec3 vP;varying vec3 vN;
 float h(vec3 p){return fract(sin(dot(p,vec3(127.1,311.7,74.7)))*43758.5453);}
 float n3(vec3 p){vec3 i=floor(p),f=fract(p);f=f*f*(3.0-2.0*f);
 float a=h(i),b=h(i+vec3(1,0,0)),c=h(i+vec3(0,1,0)),d=h(i+vec3(1,1,0));
 float e=h(i+vec3(0,0,1)),g=h(i+vec3(1,0,1)),k=h(i+vec3(0,1,1)),l=h(i+vec3(1,1,1));
 return mix(mix(mix(a,b,f.x),mix(c,d,f.x),f.y),mix(mix(e,g,f.x),mix(k,l,f.x),f.y),f.z);}
-float fbm(vec3 p){float v=0.0,a=0.5;for(int i=0;i<5;i++){v+=a*n3(p);p*=2.15;a*=0.5;}return v;}
+float fbm(vec3 p){float v=0.0,a=0.5;for(int i=0;i<6;i++){v+=a*n3(p);p*=2.15;a*=0.5;}return v;}
 void main(){
 vec3 p=vP*3.6+vec3(uTime*0.008,0.0,uTime*0.005);
 float cl=fbm(p+fbm(p+vec3(5.2)));
 float mask=smoothstep(0.52,0.74,cl);
-gl_FragColor=vec4(vec3(1.0),mask*0.75);}`
+float lit=clamp(dot(normalize(vN),normalize(uSunDir)),0.0,1.0);
+float dayL=0.06+0.94*smoothstep(-0.05,0.3,lit);
+gl_FragColor=vec4(vec3(1.0)*mix(0.06,1.0,dayL),mask*0.8*dayL);}`
 });
-const clouds=new THREE.Mesh(new THREE.SphereGeometry(EARTH_R*1.014,80,80),cloudMat);
+const clouds=new THREE.Mesh(new THREE.SphereGeometry(EARTH_R*1.014,96,96),cloudMat);
 earthGroup.add(clouds);
 
 // Sun light only — clean, no glow planes / pulse lights
@@ -338,7 +369,7 @@ const sun=new THREE.DirectionalLight(0xfff1d6,2.6);sun.position.set(28,10,6);sce
 const fillL=new THREE.PointLight(0x334466,1.2,40);fillL.position.set(-12,4,8);scene.add(fillL);
 
 // ═══ STARFIELD — real twinkling stars on deep black space ═══
-const STAR_N=5500;
+const STAR_N=12000;
 const sPos=new Float32Array(STAR_N*3),sSize=new Float32Array(STAR_N),sCol=new Float32Array(STAR_N*3),sPh=new Float32Array(STAR_N);
 const starPalette=[[1,1,1],[1,1,1],[1,1,1],[0.75,0.85,1],[1,0.9,0.72],[0.95,0.8,0.65],[0.7,0.8,1]];
 for(let i=0;i<STAR_N;i++){
@@ -417,12 +448,10 @@ let time=0;const clock=new THREE.Clock();
   const ly=cY*0.3*(1-sProg)+0.5*sProg;
   camera.lookAt(0,ly,-5-sProg*10);
 
-  if(astro){astro.position.x=-sProg*10;astro.position.y=-.3+Math.sin(time*.5)*.3-sProg*4;astro.rotation.y=mX*.3+time*.03;astro.rotation.x=Math.sin(time*.3)*.03+mY*.05}
-  if(mixer)mixer.update(dt);
-
-  // Earth: slow rotation + drifting clouds + atmosphere pulse
+  // Earth: slow rotation + drifting sunlit clouds
   earth.rotation.y+=dt*0.035;clouds.rotation.y+=dt*0.05;
   cloudMat.uniforms.uTime.value=time;
+  sunDirU.value.copy(sun.position).sub(earthGroup.position).normalize();
   starMat.uniforms.uTime.value=time;
   stars.rotation.y+=dt*0.0035;
 
