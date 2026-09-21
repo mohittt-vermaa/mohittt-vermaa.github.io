@@ -385,7 +385,7 @@ const clouds=new THREE.Mesh(new THREE.SphereGeometry(EARTH_R*1.014,96,96),cloudM
 earthGroup.add(clouds);
 
 // ═══ ASTRONAUT — "Mercenary Astronaut" by Peter_D (CC-BY-4.0, via Sketchfab) ═══
-let astro=null;const astroBase=new THREE.Vector3(5.2,0.3,-1);
+let astro=null;const astroBase=new THREE.Vector3(5.2,0.2,-3);
 function astroFail(msg){console.error('Astronaut load failed:',msg);const t=document.createElement('div');t.textContent='⚠ 3D astronaut load nahi hua — check console';t.style.cssText='position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);z-index:999;background:rgba(200,40,40,.9);color:#fff;padding:.6rem 1.2rem;font-size:.75rem;border-radius:100px;letter-spacing:.05em';document.body.appendChild(t);setTimeout(()=>t.remove(),6000);}
 {
   const draco=new DRACOLoader();
@@ -481,7 +481,7 @@ const cD=document.getElementById('cDot'),cR=document.getElementById('cRing');let
 const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 // Astronaut side position depends on screen shape (portrait phones get closer to center)
-const setAstroX=()=>{astroBase.x=(innerWidth/innerHeight<0.85)?2.8:5.2;};setAstroX();
+const setAstroX=()=>{astroBase.x=(innerWidth/innerHeight<0.85)?3.1:5.6;};setAstroX();
 addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);setAstroX()});
 
 // ANIMATE
