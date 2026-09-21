@@ -284,9 +284,9 @@ renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.
 const scene=new THREE.Scene();scene.background=new THREE.Color(0x010104);
 const camera=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,0.1,500);camera.position.set(0,1.5,14);
 
-// NO BLOOM — clean render
-scene.add(new THREE.AmbientLight(0x223050,0.6));
-const keyL=new THREE.DirectionalLight(0xffffff,0.35);keyL.position.set(5,8,5);scene.add(keyL);
+// NO BLOOM — clean render, bright enough to see the astronaut
+scene.add(new THREE.AmbientLight(0x3a4666,0.9));
+const keyL=new THREE.DirectionalLight(0xffffff,0.7);keyL.position.set(-4,6,10);scene.add(keyL);
 
 // TEXTURE
 // (dust particles removed — clean space with only Earth + stars)
@@ -385,28 +385,31 @@ const clouds=new THREE.Mesh(new THREE.SphereGeometry(EARTH_R*1.014,96,96),cloudM
 earthGroup.add(clouds);
 
 // ═══ ASTRONAUT — "Mercenary Astronaut" by Peter_D (CC-BY-4.0, via Sketchfab) ═══
-let astro=null;const astroBase=new THREE.Vector3();
+let astro=null;const astroBase=new THREE.Vector3(5.2,0.3,-1);
+function astroFail(msg){console.error('Astronaut load failed:',msg);const t=document.createElement('div');t.textContent='⚠ 3D astronaut load nahi hua — check console';t.style.cssText='position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);z-index:999;background:rgba(200,40,40,.9);color:#fff;padding:.6rem 1.2rem;font-size:.75rem;border-radius:100px;letter-spacing:.05em';document.body.appendChild(t);setTimeout(()=>t.remove(),6000);}
 {
   const draco=new DRACOLoader();
-  draco.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/libs/draco/gltf/');
+  draco.setDecoderPath('assets/draco/');  // bundled locally — no external CDN
+  draco.preload();
   const gl=new GLTFLoader();gl.setDRACOLoader(draco);
   gl.load('assets/models/mercenary_astronaut.glb',
     gltf=>{
       astro=gltf.scene;
-      // Auto-fit: normalize height to ~3 units and center it
+      // Auto-fit: normalize height to ~3.2 units (robust against odd bounding boxes)
       const box=new THREE.Box3().setFromObject(astro);
       const size=box.getSize(new THREE.Vector3());
-      astro.scale.setScalar(3.0/Math.max(size.y,1e-4));
+      const h=Math.max(size.y,1e-4);
+      const s=(h>100||h<0.01)?1:3.2/h;
+      astro.scale.setScalar(s);
       const box2=new THREE.Box3().setFromObject(astro);
       const c=box2.getCenter(new THREE.Vector3());
-      astro.position.set(-c.x,-c.y+0.2,-c.z);
-      astroBase.copy(astro.position);
-      astro.traverse(o=>{if(o.isMesh){o.castShadow=false;o.frustumCulled=true}});
+      astro.position.set(astroBase.x-c.x,astroBase.y-c.y,astroBase.z-c.z);
+      astro.rotation.y=-0.5; // angled toward camera/center
       scene.add(astro);
       document.getElementById('loader').classList.add('done');
     },
     xhr=>{if(xhr.lengthComputable)document.getElementById('loaderFill').style.width=Math.max(parseFloat(document.getElementById('loaderFill').style.width)||0,xhr.loaded/xhr.total*100)+'%'},
-    ()=>{setTimeout(()=>document.getElementById('loader').classList.add('done'),600)}
+    err=>{astroFail(err&&err.message||String(err));setTimeout(()=>document.getElementById('loader').classList.add('done'),300)}
   );
 }
 
@@ -477,7 +480,9 @@ const cD=document.getElementById('cDot'),cR=document.getElementById('cRing');let
 (function u(){cX+=((tMX+1)/2*innerWidth-cX)*.12;cY+=((tMY+1)/2*innerHeight-cY)*.12;rX+=((tMX+1)/2*innerWidth-rX)*.07;rY+=((tMY+1)/2*innerHeight-rY)*.07;if(cD){cD.style.left=cX-4+'px';cD.style.top=cY-4+'px';cR.style.left=rX-22+'px';cR.style.top=rY-22+'px'}requestAnimationFrame(u)})();
 const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+// Astronaut side position depends on screen shape (portrait phones get closer to center)
+const setAstroX=()=>{astroBase.x=(innerWidth/innerHeight<0.85)?2.8:5.2;};setAstroX();
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);setAstroX()});
 
 // ANIMATE
 let time=0;const clock=new THREE.Clock();
@@ -494,8 +499,8 @@ let time=0;const clock=new THREE.Clock();
   const ly=cY*0.3*(1-sProg)+0.5*sProg;
   camera.lookAt(0,ly,-5-sProg*10);
 
-  // Astronaut: gentle float + slow spin, drifts aside as camera flies to Earth
-  if(astro){astro.position.x=astroBase.x-sProg*10;astro.position.y=astroBase.y+Math.sin(time*.5)*.25-sProg*4;astro.position.z=astroBase.z;astro.rotation.y=mX*.3+time*.05;astro.rotation.x=Math.sin(time*.3)*.02}
+  // Astronaut: gentle float + slow spin on the right side, drifts aside on scroll
+  if(astro){astro.position.x=astroBase.x+Math.sin(time*.23)*.15-sProg*6;astro.position.y=astroBase.y+Math.sin(time*.5)*.3-sProg*2;astro.position.z=astroBase.z;astro.rotation.y=-0.5+Math.sin(time*.2)*.12+mX*.15;astro.rotation.x=Math.sin(time*.3)*.02}
 
   // Earth: slow rotation + drifting sunlit clouds
   earth.rotation.y+=dt*0.035;clouds.rotation.y+=dt*0.05;
