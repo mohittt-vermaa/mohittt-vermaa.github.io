@@ -433,12 +433,19 @@ addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updat
 let time=0;const clock=new THREE.Clock();
 (function loop(){
   requestAnimationFrame(loop);const dt=clock.getDelta();time+=dt;
-  sProg+=(tScroll-sProg)*.04;mX+=(tMX-mX)*.04;mY+=(tMY-mY)*.04;
-  const cY=1.5-sProg*12,cZ=14-sProg*8;
-  camera.position.x=mX*2;camera.position.y=cY-mY*0.8;camera.position.z=cZ;
-  camera.lookAt(0,cY*.3,-5);
+  sProg+=(tScroll-sProg)*.05;mX+=(tMX-mX)*.04;mY+=(tMY-mY)*.04;
 
-  if(astro){astro.position.y=-.3+Math.sin(time*.5)*.3;astro.rotation.y=mX*.3+time*.03;astro.rotation.x=Math.sin(time*.3)*.03+mY*.05}
+  // SCROLL FLIGHT: scroll down -> Earth comes closer; scroll up -> Earth recedes
+  const ez=-15-(1-sProg)*6;                 // Earth: far (z=-21) at top -> near (z=-15) at bottom
+  earthGroup.position.z=ez;
+  halo.position.z=ez-0.6;haze.position.z=ez-0.9;earthGlow.position.z=ez+5;
+
+  const cY=1.5-sProg*3.5,cZ=14-sProg*20;    // Camera flies in: z 14 -> -6
+  camera.position.x=mX*2;camera.position.y=cY-mY*0.8;camera.position.z=cZ;
+  const ly=cY*0.3*(1-sProg)+0.5*sProg;
+  camera.lookAt(0,ly,-5-sProg*10);
+
+  if(astro){astro.position.x=-sProg*10;astro.position.y=-.3+Math.sin(time*.5)*.3-sProg*4;astro.rotation.y=mX*.3+time*.03;astro.rotation.x=Math.sin(time*.3)*.03+mY*.05}
   if(mixer)mixer.update(dt);
 
   // Earth: slow rotation + drifting clouds + atmosphere pulse
