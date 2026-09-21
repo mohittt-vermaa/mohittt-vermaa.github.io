@@ -317,6 +317,12 @@ const nightTex=tl.load('assets/textures/earth-night.jpg');       // 4096×2048 c
 nightTex.colorSpace=THREE.SRGBColorSpace;
 nightTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
 
+// Bihar, India (25.6°N, 85.1°E) — scroll target: Earth rotates to face Bihar at full scroll
+const _th=(90-25.6)*Math.PI/180,_ph=(85.1+180)*Math.PI/180;
+const _bx=-Math.cos(_ph)*Math.sin(_th),_bz=Math.sin(_ph)*Math.sin(_th);
+const biharY=Math.atan2(-_bx,_bz);
+let spinY=0;
+
 // Custom high-quality Earth shader: realistic day/night terminator, city lights
 // only on the dark side, sunset band, ocean sparkle, subtle atmosphere limb
 const sunDirU={value:new THREE.Vector3(1,0.3,0.6).normalize()};
@@ -524,8 +530,10 @@ let time=0;const clock=new THREE.Clock();
   // Astronaut: gentle float + slow spin on the right side, drifts aside on scroll
   if(astro){astro.position.x=astroBase.x+Math.sin(time*.23)*.15-sProg*6;astro.position.y=astroBase.y+Math.sin(time*.5)*.3-sProg*2;astro.position.z=astroBase.z;astro.rotation.y=-0.5+Math.sin(time*.2)*.12+mX*.15;astro.rotation.x=Math.sin(time*.3)*.02}
 
-  // Earth: slow rotation + drifting sunlit clouds
-  earth.rotation.y+=dt*0.035;clouds.rotation.y+=dt*0.05;
+  // Earth: spins freely at top; as you scroll down it rotates to stop over Bihar, India
+  spinY+=dt*0.035*(1-Math.min(1,sProg*1.15));
+  earth.rotation.y=spinY*(1-sProg)+biharY*sProg;
+  clouds.rotation.y+=dt*0.05*(1-sProg*0.8);
   cloudMat.uniforms.uTime.value=time;
   sunDirU.value.copy(sun.position).sub(earthGroup.position).normalize();
   starMat.uniforms.uTime.value=time;
