@@ -309,11 +309,11 @@ earthGroup.rotation.z=0.41; // 23.5° axial tilt
 scene.add(earthGroup);
 
 const tl=new THREE.TextureLoader(manager);
-const dayTex=tl.load('assets/textures/earth-blue-marble.jpg');   // 4096×2048 NASA Blue Marble
+const dayTex=tl.load('assets/textures/earth-blue-marble.jpg?v=2');   // 2K NASA Blue Marble
 dayTex.colorSpace=THREE.SRGBColorSpace;
 dayTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
-const specTex=tl.load('assets/textures/earth-water.png');
-const nightTex=tl.load('assets/textures/earth-night.jpg');       // 4096×2048 city lights
+const specTex=tl.load('assets/textures/earth-water.png?v=2');
+const nightTex=tl.load('assets/textures/earth-night.jpg?v=2');       // 2K city lights
 nightTex.colorSpace=THREE.SRGBColorSpace;
 nightTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
 
@@ -353,9 +353,10 @@ void main(){
   float dusk=smoothstep(-0.14,0.06,sunDot)*(1.0-smoothstep(0.06,0.4,sunDot));
   col+=vec3(0.9,0.42,0.12)*dusk*day*0.4;
   float nightSide=1.0-smoothstep(-0.2,0.02,sunDot);
-  col+=night*vec3(1.0,0.84,0.58)*1.6*nightSide;
+  col+=night*vec3(1.0,0.84,0.58)*1.25*nightSide;
   vec3 H=normalize(S+V);
-  col+=vec3(0.85,0.92,1.0)*pow(max(dot(N,H),0.0),48.0)*spec*dayL*0.7;
+  float specW=smoothstep(0.5,0.9,spec); // soft water mask — no patchy highlights
+  col+=vec3(0.85,0.92,1.0)*pow(max(dot(N,H),0.0),20.0)*specW*dayL*0.25;
   float fr=pow(1.0-max(dot(N,V),0.0),2.8);
   col+=vec3(0.2,0.44,0.95)*fr*(0.1+0.5*dayL);
   gl_FragColor=vec4(col,1.0);
@@ -524,8 +525,8 @@ let time=0;const clock=new THREE.Clock();
 
   const cY=1.5-sProg*3.5,cZ=14-sProg*20;    // Camera flies in: z 14 -> -6
   camera.position.x=mX*2;camera.position.y=cY-mY*0.8;camera.position.z=cZ;
-  const ly=cY*0.3*(1-sProg)+0.5*sProg;
-  camera.lookAt(0,ly,-5-sProg*10);
+  const ly=cY*0.3*(1-sProg)+1.8*sProg; // at full scroll, aim at Bihar's height so India sits centre-screen
+  camera.lookAt(-sProg*0.7,ly,-5-sProg*10);
 
   // Astronaut: gentle float + slow spin on the right side, drifts aside on scroll
   if(astro){astro.position.x=astroBase.x+Math.sin(time*.23)*.15-sProg*6;astro.position.y=astroBase.y+Math.sin(time*.5)*.3-sProg*2;astro.position.z=astroBase.z;astro.rotation.y=-0.5+Math.sin(time*.2)*.12+mX*.15;astro.rotation.x=Math.sin(time*.3)*.02}
