@@ -225,7 +225,7 @@ a{color:inherit;text-decoration:none}
 </div>
 <button class="compose-btn reveal" id="composeBtn" type="button"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Me an Email</button>
 </div></section>
-<footer class="footer"><p>© 2026 Mohit Verma — Crafted with Three.js & Relentless Curiosity</p></footer>
+<footer class="footer"><p>© 2026 Mohit Verma — Crafted with Three.js & Relentless Curiosity</p><p style="margin-top:0.5rem;font-size:0.55rem;opacity:0.7"><a href="https://sketchfab.com/3d-models/mercenary-astronaut-7fd399d488ae4576a0fc62715892956c" target="_blank" rel="noopener noreferrer" style="text-decoration:underline dotted">"Mercenary Astronaut"</a> by Peter_D · CC-BY-4.0 · via Sketchfab</p></footer>
 </div>
 
 <!-- EMAIL COMPOSE MODAL -->
@@ -273,6 +273,8 @@ a{color:inherit;text-decoration:none}
 </script>
 <script type="module">
 import*as THREE from'three';
+import{GLTFLoader}from'three/addons/loaders/GLTFLoader.js';
+import{DRACOLoader}from'three/addons/loaders/DRACOLoader.js';
 
 const canvas=document.getElementById('canvas');
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});
@@ -382,6 +384,32 @@ gl_FragColor=vec4(vec3(1.0)*mix(0.06,1.0,dayL),mask*0.8*dayL);}`
 const clouds=new THREE.Mesh(new THREE.SphereGeometry(EARTH_R*1.014,96,96),cloudMat);
 earthGroup.add(clouds);
 
+// ═══ ASTRONAUT — "Mercenary Astronaut" by Peter_D (CC-BY-4.0, via Sketchfab) ═══
+let astro=null;const astroBase=new THREE.Vector3();
+{
+  const draco=new DRACOLoader();
+  draco.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/libs/draco/gltf/');
+  const gl=new GLTFLoader();gl.setDRACOLoader(draco);
+  gl.load('assets/models/mercenary_astronaut.glb',
+    gltf=>{
+      astro=gltf.scene;
+      // Auto-fit: normalize height to ~3 units and center it
+      const box=new THREE.Box3().setFromObject(astro);
+      const size=box.getSize(new THREE.Vector3());
+      astro.scale.setScalar(3.0/Math.max(size.y,1e-4));
+      const box2=new THREE.Box3().setFromObject(astro);
+      const c=box2.getCenter(new THREE.Vector3());
+      astro.position.set(-c.x,-c.y+0.2,-c.z);
+      astroBase.copy(astro.position);
+      astro.traverse(o=>{if(o.isMesh){o.castShadow=false;o.frustumCulled=true}});
+      scene.add(astro);
+      document.getElementById('loader').classList.add('done');
+    },
+    xhr=>{if(xhr.lengthComputable)document.getElementById('loaderFill').style.width=Math.max(parseFloat(document.getElementById('loaderFill').style.width)||0,xhr.loaded/xhr.total*100)+'%'},
+    ()=>{setTimeout(()=>document.getElementById('loader').classList.add('done'),600)}
+  );
+}
+
 // Sun light only — clean, no glow planes / pulse lights
 const sun=new THREE.DirectionalLight(0xfff1d6,2.6);sun.position.set(28,10,6);scene.add(sun);
 const fillL=new THREE.PointLight(0x334466,1.2,40);fillL.position.set(-12,4,8);scene.add(fillL);
@@ -465,6 +493,9 @@ let time=0;const clock=new THREE.Clock();
   camera.position.x=mX*2;camera.position.y=cY-mY*0.8;camera.position.z=cZ;
   const ly=cY*0.3*(1-sProg)+0.5*sProg;
   camera.lookAt(0,ly,-5-sProg*10);
+
+  // Astronaut: gentle float + slow spin, drifts aside as camera flies to Earth
+  if(astro){astro.position.x=astroBase.x-sProg*10;astro.position.y=astroBase.y+Math.sin(time*.5)*.25-sProg*4;astro.position.z=astroBase.z;astro.rotation.y=mX*.3+time*.05;astro.rotation.x=Math.sin(time*.3)*.02}
 
   // Earth: slow rotation + drifting sunlit clouds
   earth.rotation.y+=dt*0.035;clouds.rotation.y+=dt*0.05;
