@@ -270,7 +270,7 @@ scene.add(new THREE.AmbientLight(0x223050,0.6));
 const keyL=new THREE.DirectionalLight(0xffffff,0.35);keyL.position.set(5,8,5);scene.add(keyL);
 
 // TEXTURE
-let pTex=null;new THREE.TextureLoader().load('assets/textures/particle_flare.png',t=>{pTex=t});
+// (dust particles removed — clean space with only Earth + stars)
 
 // LOAD ASTRONAUT
 let astro=null,mixer=null;
@@ -333,26 +333,8 @@ gl_FragColor=vec4(vec3(1.0),mask*0.75);}`
 const clouds=new THREE.Mesh(new THREE.SphereGeometry(EARTH_R*1.014,80,80),cloudMat);
 earthGroup.add(clouds);
 
-// Blue atmosphere halo (glow plane behind Earth)
-const haloMat=new THREE.ShaderMaterial({
-  transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,side:THREE.DoubleSide,
-  uniforms:{uTime:{value:0}},
-  vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
-  fragmentShader:`uniform float uTime;varying vec2 vUv;void main(){float d=length(vUv-0.5)*2.0;float ring=smoothstep(0.30,0.44,d)*exp(-pow((d-0.46)*3.2,2.0));float glow=exp(-d*d*2.6);float pulse=0.92+0.08*sin(uTime*0.5);vec3 col=vec3(0.25,0.55,1.0)*ring*2.2+vec3(0.12,0.3,0.85)*glow;gl_FragColor=vec4(col*pulse,(ring*0.85+glow*0.4)*pulse);}`
-});
-const halo=new THREE.Mesh(new THREE.PlaneGeometry(17,17),haloMat);halo.position.copy(orbPos);halo.position.z-=0.6;scene.add(halo);
-
-// Wide deep-space blue haze
-const hazeMat=new THREE.ShaderMaterial({
-  transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,side:THREE.DoubleSide,
-  vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
-  fragmentShader:`varying vec2 vUv;void main(){float d=length(vUv-0.5)*2.0;float glow=exp(-d*d*1.4);vec3 col=mix(vec3(0.1,0.22,0.5),vec3(0.02,0.05,0.18),d);gl_FragColor=vec4(col*glow,glow*0.22);}`
-});
-const haze=new THREE.Mesh(new THREE.PlaneGeometry(34,34),hazeMat);haze.position.copy(orbPos);haze.position.z-=0.9;scene.add(haze);
-
-// Sun + earthshine lights
+// Sun light only — clean, no glow planes / pulse lights
 const sun=new THREE.DirectionalLight(0xfff1d6,2.6);sun.position.set(28,10,6);scene.add(sun);
-const earthGlow=new THREE.PointLight(0x4488ff,4,50);earthGlow.position.copy(orbPos);earthGlow.position.z+=5;scene.add(earthGlow);
 const fillL=new THREE.PointLight(0x334466,1.2,40);fillL.position.set(-12,4,8);scene.add(fillL);
 
 // ═══ STARFIELD — real twinkling stars on deep black space ═══
@@ -401,16 +383,7 @@ void main(){
 });
 const stars=new THREE.Points(starGeo,starMat);scene.add(stars);
 
-// DUST — 500
-const dC=500,dG=new THREE.BufferGeometry(),dP=new Float32Array(dC*3),dV=new Float32Array(dC*3);
-for(let i=0;i<dC;i++){dP[i*3]=(Math.random()-.5)*40;dP[i*3+1]=(Math.random()-.5)*25;dP[i*3+2]=(Math.random()-.5)*40;dV[i*3]=(Math.random()-.5)*.002;dV[i*3+1]=(Math.random()-.5)*.002;dV[i*3+2]=(Math.random()-.5)*.002}
-dG.setAttribute('position',new THREE.BufferAttribute(dP,3));
-const dust=new THREE.Points(dG,new THREE.PointsMaterial({color:0x9fb4d8,size:.02,transparent:true,opacity:.1,sizeAttenuation:true,map:pTex||undefined,blending:THREE.AdditiveBlending,depthWrite:false}));
-scene.add(dust);
-
-// ORBITING ELEMENTS — 8
-const orbs=[];
-for(let i=0;i<8;i++){const g=[new THREE.OctahedronGeometry(.1),new THREE.TetrahedronGeometry(.08),new THREE.IcosahedronGeometry(.08)][i%3];const c=[0x7c3aed,0x06b6d4,0xff6633][i%3];const m=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:c,metalness:.7,roughness:.3,emissive:c,emissiveIntensity:.1}));const a=Math.random()*Math.PI*2,r=2.5+Math.random()*4,sp=.06+Math.random()*.12,yo=(Math.random()-.5)*3;m.userData={a,r,sp,yo,w:Math.random()*Math.PI*2};m.position.set(Math.cos(a)*r,yo,Math.sin(a)*r);scene.add(m);orbs.push(m)}
+// Clean space — only Earth + stars (dust & orbiting elements removed)
 
 // AUDIO
 const listener=new THREE.AudioListener();camera.add(listener);const sound=new THREE.Audio(listener);
@@ -438,7 +411,6 @@ let time=0;const clock=new THREE.Clock();
   // SCROLL FLIGHT: scroll down -> Earth comes closer; scroll up -> Earth recedes
   const ez=-15-(1-sProg)*6;                 // Earth: far (z=-21) at top -> near (z=-15) at bottom
   earthGroup.position.z=ez;
-  halo.position.z=ez-0.6;haze.position.z=ez-0.9;earthGlow.position.z=ez+5;
 
   const cY=1.5-sProg*3.5,cZ=14-sProg*20;    // Camera flies in: z 14 -> -6
   camera.position.x=mX*2;camera.position.y=cY-mY*0.8;camera.position.z=cZ;
@@ -450,14 +422,11 @@ let time=0;const clock=new THREE.Clock();
 
   // Earth: slow rotation + drifting clouds + atmosphere pulse
   earth.rotation.y+=dt*0.035;clouds.rotation.y+=dt*0.05;
-  cloudMat.uniforms.uTime.value=time;haloMat.uniforms.uTime.value=time;
+  cloudMat.uniforms.uTime.value=time;
   starMat.uniforms.uTime.value=time;
   stars.rotation.y+=dt*0.0035;
-  const br=1+Math.sin(time*.4)*.015;halo.scale.setScalar(br);
-  earthGlow.intensity=4+Math.sin(time*.5)*1.2;
 
-  orbs.forEach(o=>{o.userData.a+=o.userData.sp*dt;o.position.x=Math.cos(o.userData.a)*o.userData.r;o.position.z=Math.sin(o.userData.a)*o.userData.r;o.position.y=o.userData.yo+Math.sin(time+o.userData.w)*.2;o.rotation.x+=.008;o.rotation.y+=.012});
-  const dp=dust.geometry.attributes.position.array;for(let i=0;i<dC;i++){dp[i*3]+=dV[i*3];dp[i*3+1]+=dV[i*3+1];dp[i*3+2]+=dV[i*3+2];if(Math.abs(dp[i*3])>20)dV[i*3]*=-1;if(Math.abs(dp[i*3+1])>12)dV[i*3+1]*=-1;if(Math.abs(dp[i*3+2])>20)dV[i*3+2]*=-1}dust.geometry.attributes.position.needsUpdate=true;
+
 
   renderer.render(scene,camera);
 })();
