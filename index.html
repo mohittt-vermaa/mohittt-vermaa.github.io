@@ -1033,21 +1033,13 @@ const stars=new THREE.Points(starGeo,starMat);scene.add(stars);
 
 // Clean space — only Earth + stars (dust & orbiting elements removed)
 
-// AUDIO
-const listener=new THREE.AudioListener();camera.add(listener);const sound=new THREE.Audio(listener);
-new THREE.AudioLoader().load('assets/audio/mixkit-movie-whoosh-impact-presentation-2903.wav',b=>{sound.setBuffer(b);sound.setLoop(true);sound.setVolume(.04)});
-const aBtn=document.getElementById('audioBtn');let aOn=false;
-aBtn.onclick=()=>{if(!aOn&&sound.buffer){sound.play();aOn=true;aBtn.textContent='🔊';aBtn.classList.remove('muted')}else if(sound.isPlaying){sound.pause();aBtn.textContent='🔇';aBtn.classList.add('muted')}else{sound.play();aBtn.textContent='🔊';aBtn.classList.remove('muted')}};
-
 // SCROLL + MOUSE
 let sProg=0,tScroll=0,mX=0,mY=0,tMX=0,tMY=0;
 const mS=()=>document.documentElement.scrollHeight-innerHeight;
-addEventListener('scroll',()=>{tScroll=scrollY/mS()});addEventListener('mousemove',e=>{tMX=(e.clientX/innerWidth-.5)*2;tMY=(e.clientY/innerHeight-.5)*2});
-addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',scrollY>100)});
-const cD=document.getElementById('cDot'),cR=document.getElementById('cRing');let cX=0,cY=0,rX=0,rY=0;
-(function u(){cX+=((tMX+1)/2*innerWidth-cX)*.12;cY+=((tMY+1)/2*innerHeight-cY)*.12;rX+=((tMX+1)/2*innerWidth-rX)*.07;rY+=((tMY+1)/2*innerHeight-rY)*.07;if(cD){cD.style.left=cX-4+'px';cD.style.top=cY-4+'px';cR.style.left=rX-22+'px';cR.style.top=rY-22+'px'}requestAnimationFrame(u)})();
-const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+addEventListener('scroll',()=>{tScroll=scrollY/mS()});
+addEventListener('mousemove',e=>{tMX=(e.clientX/innerWidth-.5)*2;tMY=(e.clientY/innerHeight-.5)*2});
+const navEl=document.querySelector('nav');
+addEventListener('scroll',()=>{if(navEl)navEl.classList.toggle('scrolled',scrollY>100)});
 // Astronaut side position depends on screen shape (portrait phones get closer to center)
 const setAstroX=()=>{astroBase.x=(innerWidth/innerHeight<0.85)?2.6:6.5;};setAstroX();
 addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);setAstroX()});
