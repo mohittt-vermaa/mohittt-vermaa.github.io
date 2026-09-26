@@ -7,7 +7,7 @@
 <meta name="author" content="Mohit Verma">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="google-site-verification" content="Rz8-di0MGkBmQT6YZdqLyDSrZ6EChOyVqh1XoZNoh7o">
-<meta name="theme-color" content="#fafafa">
+<meta name="theme-color" content="#0a0a0f">
 <meta property="og:title" content="Mohit Verma — Student, Teen Coder &amp; Software AI Enthusiast">
 <meta property="og:description" content="Mohit Verma is a student and teen coder exploring Python, AI, machine learning, software development and open source.">
 <meta property="og:type" content="profile">
@@ -445,9 +445,6 @@ section,footer,.marquee{position:relative;z-index:2}
     <li><a href="#profiles">Connect</a></li>
   </ul>
   <div class="nav-right">
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode">
-      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-    </button>
     <a href="#" class="nav-cta" data-open-contact><span class="dot"></span>Get in touch</a>
   </div>
   <button class="burger" aria-label="Menu" aria-expanded="false"><span></span></button>
@@ -1173,31 +1170,10 @@ let time=0;const clock=new THREE.Clock();
     setTimeout(closeModal, 3500);
   });
 
-  // =========== DARK / LIGHT MODE TOGGLE ===========
-  const themeToggle = document.getElementById('themeToggle');
-  const themeIcon = document.getElementById('themeIcon');
+  // =========== PERMANENT DARK THEME ===========
+  document.body.classList.add('dark');
   const metaTheme = document.querySelector('meta[name="theme-color"]');
-  const SUN_SVG = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>';
-  const MOON_SVG = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
-  function applyTheme(dark){
-    document.body.classList.toggle('dark',dark);
-    themeIcon.innerHTML = dark ? MOON_SVG : SUN_SVG;
-    metaTheme.setAttribute('content', dark?'#0a0a0f':'#fafafa');
-    // update 3D background clear color
-    if(typeof renderer!=='undefined'){
-      renderer.setClearColor(dark?0x0a0a0f:0xfafafa,1);
-      scene.fog.color.setHex(dark?0x0a0a0f:0xfafafa);
-    }
-    try{localStorage.setItem('theme',dark?'dark':'light');}catch(e){}
-  }
-  // initial theme: saved preference or system
-  let saved = null;
-  try{saved = localStorage.getItem('theme');}catch(e){}
-  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches;
-  applyTheme(saved ? saved==='dark' : true);
-  themeToggle.addEventListener('click',()=>{
-    applyTheme(!document.body.classList.contains('dark'));
-  });
+  if(metaTheme) metaTheme.setAttribute('content','#0a0a0f');
 })();
 
 </script>
