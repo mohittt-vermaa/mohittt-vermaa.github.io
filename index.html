@@ -413,13 +413,44 @@ body.dark .form-input,body.dark .form-textarea{background:#1a1a22;border-color:v
   *,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;animation-iteration-count:1!important}
   .m-track{animation:none}
 }
-\n/* ══ DEEP-SPACE LAYER (kept from space redesign) ══ */\n#canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;display:block;pointer-events:none}\nsection,footer,.marquee{position:relative;z-index:2}\n#loader{position:fixed;inset:0;background:#050508;z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all 1.2s cubic-bezier(0.16,1,0.3,1)}\n#loader.done{opacity:0;visibility:hidden;pointer-events:none}\n#loader .loader-brand{font-size:2rem;font-weight:900;letter-spacing:0.3em;background:linear-gradient(135deg,#6d28d9,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:2rem}\n#loader .loader-track{width:180px;height:2px;background:rgba(255,255,255,0.06);overflow:hidden;border-radius:1px}\n#loader .loader-fill{height:100%;;background:linear-gradient(90deg,#6d28d9,#ec4899);width:0%;transition:width 0.4s;border-radius:1px}\n#loader .loader-status{margin-top:1rem;font-size:0.6rem;font-weight:600;letter-spacing:0.4em;text-transform:uppercase;color:rgba(255,255,255,0.25)}\n</style>
+/* ══ DEEP-SPACE LAYER (kept from space redesign) ══ */
+#canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;display:block;pointer-events:none}
+section,footer,.marquee{position:relative;z-index:2}
+#loader{position:fixed;inset:0;background:#050508;z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all 1.2s cubic-bezier(0.16,1,0.3,1)}
+#loader.done{opacity:0;visibility:hidden;pointer-events:none}
+#loader .loader-brand{font-size:2rem;font-weight:900;letter-spacing:0.3em;background:linear-gradient(135deg,#6d28d9,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:2rem}
+#loader .loader-track{width:180px;height:2px;background:rgba(255,255,255,0.06);overflow:hidden;border-radius:1px}
+#loader .loader-fill{height:100%;background:linear-gradient(90deg,#6d28d9,#ec4899);width:0%;transition:width 0.4s;border-radius:1px}
+#loader .loader-status{margin-top:1rem;font-size:0.6rem;font-weight:600;letter-spacing:0.4em;text-transform:uppercase;color:rgba(255,255,255,0.25)}
+</style>
 </head>
-<body>
+<body class="dark">
 
 <!-- DEEP SPACE LAYER -->
 <div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div></div>
-<canvas id="canvas" aria-hidden="true"></canvas>
+<canvas id="canvas" aria-hidden="true" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;display:block;pointer-events:none"></canvas>
+<script>
+// TEMP DEBUG BEACON — remove before final
+window.__DBG={t:'',pos:'',z:'',cv:'',gl:0,astro:'loading',err:''};
+window.onerror=function(m,src,line){window.__DBG.err=(m||'')+' @'+(line||'?');};
+(function(){
+  var b=document.createElement('div');
+  b.id='dbgBeacon';
+  b.style.cssText='position:fixed;bottom:10px;left:10px;z-index:99999;background:rgba(0,20,0,.88);border:1px solid #0f0;color:#0f0;font:11px/1.35 monospace;padding:8px 10px;border-radius:6px;pointer-events:none;white-space:pre-wrap;max-width:92vw;word-break:break-all';
+  document.body.appendChild(b);
+  function upd(){
+    var c=document.getElementById('canvas');
+    var cs=c?getComputedStyle(c):null;
+    window.__DBG.t=document.body.className||'(none)';
+    window.__DBG.pos=cs?cs.position:'?';
+    window.__DBG.z=cs?cs.zIndex:'?';
+    if(c){try{window.__DBG.cv=c.width+'x'+c.height+' / '+c.clientWidth+'x'+c.clientHeight;}catch(e){}}
+    b.textContent='t='+window.__DBG.t+' pos='+window.__DBG.pos+' z='+window.__DBG.z+' cv='+window.__DBG.cv+' gl='+window.__DBG.gl+' astro='+window.__DBG.astro+(window.__DBG.err?' err='+window.__DBG.err.slice(0,120):'');
+  }
+  setInterval(upd,300);
+  upd();
+})();
+</script>
 
 <!-- =========== FULL 3D BACKGROUND CANVAS =========== -->
 
@@ -823,6 +854,7 @@ const canvas=document.getElementById('canvas');
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});
 renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.2;renderer.outputColorSpace=THREE.SRGBColorSpace;
+try{window.__DBG.gl=1;window.__DBG.cv=canvas.width+'x'+canvas.height;}catch(e){}
 
 const scene=new THREE.Scene();scene.background=new THREE.Color(0x010104);
 const camera=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,0.1,500);camera.position.set(0,1.5,14);
@@ -958,6 +990,7 @@ let astro=null;const astroBase=new THREE.Vector3(6.5,0.1,-4);
         astro.position.set(astroBase.x-c.x,astroBase.y-c.y,astroBase.z-c.z);
         astro.rotation.y=-0.5;
         astro.visible=true;
+        try{window.__DBG.astro='ok';}catch(e){}
         document.getElementById('loader').classList.add('done');
       };
       setTimeout(fit,400);
@@ -968,7 +1001,7 @@ let astro=null;const astroBase=new THREE.Vector3(6.5,0.1,-4);
         document.getElementById('loaderFill').style.width=Math.max(parseFloat(document.getElementById('loaderFill').style.width)||0,pct)+'%';
       }
     },
-    err=>{console.error('Astronaut load failed:',err);document.getElementById('loader').classList.add('done');}
+    err=>{console.error('Astronaut load failed:',err);try{window.__DBG.astro='err:'+(err&&err.message?err.message.slice(0,60):'load');}catch(e){}document.getElementById('loader').classList.add('done');}
   );
 }
 
