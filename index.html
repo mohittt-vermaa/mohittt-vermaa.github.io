@@ -455,6 +455,7 @@ section,footer,.marquee{position:relative;z-index:2}
 
 <!-- DEEP SPACE LAYER -->
 <div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div></div>
+<video id="auraVideo" aria-hidden="true" muted playsinline preload="auto" disablepictureinpicture disableremoteplayback src="assets/video/aura_bg_web.mp4?v=1" style="position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:0;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35);opacity:0;transition:opacity 1.5s ease"></video>
 <canvas id="canvas" aria-hidden="true" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;display:block;pointer-events:none"></canvas>
 
 <!-- =========== FULL 3D BACKGROUND CANVAS =========== -->
@@ -875,8 +876,9 @@ section,footer,.marquee{position:relative;z-index:2}
 import*as THREE from'three';
 import{GLTFLoader}from'three/addons/loaders/GLTFLoader.js';
 import{DRACOLoader}from'three/addons/loaders/DRACOLoader.js';
-
 const canvas=document.getElementById('canvas');
+const auraV=document.getElementById('auraVideo');
+
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});
 renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.2;renderer.outputColorSpace=THREE.SRGBColorSpace;
@@ -1119,7 +1121,17 @@ let time=0;const clock=new THREE.Clock();
   starMat.uniforms.uTime.value=time;
   stars.rotation.y+=dt*0.0035;
 
-
+  // AURA VIDEO: scroll-scrubbed background animation (under the 3D scene)
+  // scroll down -> video plays forward slowly; scroll up -> it reverses
+  if(auraV&&auraV.readyState>=2&&auraV.duration){
+    const targetT=sProg*(auraV.duration-0.05);
+    const diff=targetT-auraV.currentTime;
+    if(Math.abs(diff)>0.033){                 // only seek when drift > 1 frame
+      try{auraV.currentTime=targetT;}catch(e){}
+    }
+    const vis=(sProg>0.005&&sProg<0.995);     // fade in mid-scroll, out at edges
+    auraV.style.opacity=vis?'0.55':'0';
+  }
 
   renderer.render(scene,camera);
 })();
