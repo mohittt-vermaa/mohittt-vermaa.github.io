@@ -84,6 +84,33 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 ::selection{background:rgba(109,40,217,.2);color:var(--acc)}
 :focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:6px}
 
+/* ========= LIQUID GLASS (showcase + upgrade) ========= */
+.glass-panel{
+  position:relative;border-radius:24px;padding:14px;
+  background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.05));
+  -webkit-backdrop-filter:blur(24px) saturate(200%);backdrop-filter:blur(24px) saturate(200%);
+  border:1px solid rgba(255,255,255,.25);
+  box-shadow:0 8px 40px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.35);
+  overflow:hidden;transition:transform .4s var(--fast),box-shadow .4s
+}
+.glass-panel:hover{transform:translateY(-4px);box-shadow:0 16px 60px rgba(109,40,217,.3),inset 0 1px 0 rgba(255,255,255,.4)}
+/* liquid shine sweep */
+.glass-panel::before{
+  content:'';position:absolute;top:0;left:-80%;width:60%;height:100%;z-index:1;pointer-events:none;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.18),transparent);
+  animation:liquid-sweep 6s ease-in-out infinite
+}
+@keyframes liquid-sweep{0%,60%{left:-80%}90%,100%{left:120%}}
+.glass-panel>*{position:relative;z-index:2}
+.video-frame{border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.2);box-shadow:0 4px 24px rgba(0,0,0,.35);aspect-ratio:16/9;max-width:720px;margin:0 auto}
+.video-frame iframe{width:100%;height:100%;display:block}
+.glass-caption{padding:14px 8px 4px;font-size:14px;color:var(--muted);text-align:center;max-width:720px;margin:0 auto}
+.glass-caption a{color:var(--acc);text-decoration:none;font-weight:600}
+.glass-caption a:hover{text-decoration:underline}
+.showcase-grid{display:grid;grid-template-columns:1fr;gap:20px}
+@media (prefers-reduced-motion: reduce){.glass-panel::before{animation:none}}
+body.dark .glass-panel{background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.03));border-color:rgba(255,255,255,.16);box-shadow:0 8px 40px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.18)}
+
 /* ========= 3D BACKGROUND CANVAS (FULL VIEWPORT, IMMERSIVE) ========= */
 #c3d{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
 .c3d-fog{position:fixed;inset:0;z-index:1;pointer-events:none;
@@ -439,6 +466,7 @@ section,footer,.marquee{position:relative;z-index:2}
   <a href="#" class="logo" aria-label="Mohit Verma home">M</a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
+    <li><a href="#showcase">Showcase</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#blog">Blog</a></li>
@@ -538,6 +566,29 @@ section,footer,.marquee{position:relative;z-index:2}
       <div class="info-row"><span class="k">Based in</span><span class="v">India 🇮🇳</span></div>
       <div class="info-row"><span class="k">Focus</span><span class="v">AI · Python · Web</span></div>
       <div class="info-row"><span class="k">Status</span><span class="v" style="color:var(--green);display:inline-flex;align-items:center;gap:6px"><span class="pulse" style="width:8px;height:8px;border-radius:50%;background:var(--green);position:relative"></span>Building &amp; Learning</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOWCASE (YouTube animation + liquid glass) -->
+<section class="section" id="showcase">
+  <div class="sec-head reveal">
+    <div>
+      <span class="sec-tag">02 · Showcase</span>
+      <h2>Featured <span class="grad">animation.</span></h2>
+    </div>
+    <p class="sec-sub">A glimpse of what inspires my work — motion, visuals, and the 3D worlds I'm learning to build.</p>
+  </div>
+  <div class="showcase-grid">
+    <div class="glass-panel reveal">
+      <div class="video-frame">
+        <iframe src="https://www.youtube.com/embed/TuMot7E1AJ0" title="Her Aura Was Insane — Black Myth animation short"
+          loading="lazy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+      <div class="glass-caption">
+        <strong>Featured short:</strong> "Her Aura Was Insane!" — Black Myth animation. <a href="https://youtube.com/shorts/TuMot7E1AJ0" target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a>
       </div>
     </div>
   </div>
