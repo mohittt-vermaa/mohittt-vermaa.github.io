@@ -1101,13 +1101,14 @@ let time=0;const clock=new THREE.Clock();
   // scroll down -> video plays forward slowly; scroll up -> it reverses
   if(auraV&&auraV.readyState>=2&&auraV.duration){
     if(auraV.paused){auraV.play().catch(()=>{});}
-    const targetT=sProg*(auraV.duration-0.05);
-    const diff=targetT-auraV.currentTime;
-    if(Math.abs(diff)>0.033){                 // only seek when drift > 1 frame
-      try{auraV.currentTime=targetT;}catch(e){}
-    }
-    const vis=(sProg>0.005&&sProg<0.995);     // fade in mid-scroll, out at edges
-    auraV.style.opacity=vis?'0.9':'0';
+    // map only the FIRST 70% of scroll to the video (keeps it visible through the end)
+    const vProg=Math.min(1,sProg/0.7);
+    const targetT=vProg*(auraV.duration-0.05);
+    // smooth the scrub: lerp currentTime toward target instead of hard seek (fixes lag)
+    auraV.currentTime+=(targetT-auraV.currentTime)*0.12;
+    // visible from very early scroll through the end — no fade-out at bottom
+    const vis=sProg>0.003;
+    auraV.style.opacity=vis?'0.95':'0';
   }
 
   renderer.render(scene,camera);
