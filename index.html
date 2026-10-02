@@ -467,7 +467,6 @@ section,footer,.marquee{position:relative;z-index:2}
   <a href="#" class="logo" aria-label="Mohit Verma home">M</a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
-    <li><a href="#showcase">Showcase</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#blog">Blog</a></li>
@@ -567,29 +566,6 @@ section,footer,.marquee{position:relative;z-index:2}
       <div class="info-row"><span class="k">Based in</span><span class="v">India 🇮🇳</span></div>
       <div class="info-row"><span class="k">Focus</span><span class="v">AI · Python · Web</span></div>
       <div class="info-row"><span class="k">Status</span><span class="v" style="color:var(--green);display:inline-flex;align-items:center;gap:6px"><span class="pulse" style="width:8px;height:8px;border-radius:50%;background:var(--green);position:relative"></span>Building &amp; Learning</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SHOWCASE (YouTube animation + liquid glass) -->
-<section class="section" id="showcase">
-  <div class="sec-head reveal">
-    <div>
-      <span class="sec-tag">02 · Showcase</span>
-      <h2>Featured <span class="grad">animation.</span></h2>
-    </div>
-    <p class="sec-sub">A glimpse of what inspires my work — motion, visuals, and the 3D worlds I'm learning to build.</p>
-  </div>
-  <div class="showcase-grid">
-    <div class="glass-panel reveal">
-      <div class="video-frame">
-        <iframe src="https://www.youtube.com/embed/TuMot7E1AJ0" title="Her Aura Was Insane — Black Myth animation short"
-          loading="lazy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-      </div>
-      <div class="glass-caption">
-        <strong>Featured short:</strong> "Her Aura Was Insane!" — Black Myth animation. <a href="https://youtube.com/shorts/TuMot7E1AJ0" target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a>
       </div>
     </div>
   </div>
@@ -1124,13 +1100,14 @@ let time=0;const clock=new THREE.Clock();
   // AURA VIDEO: scroll-scrubbed background animation (under the 3D scene)
   // scroll down -> video plays forward slowly; scroll up -> it reverses
   if(auraV&&auraV.readyState>=2&&auraV.duration){
+    if(auraV.paused){auraV.play().catch(()=>{});}
     const targetT=sProg*(auraV.duration-0.05);
     const diff=targetT-auraV.currentTime;
     if(Math.abs(diff)>0.033){                 // only seek when drift > 1 frame
       try{auraV.currentTime=targetT;}catch(e){}
     }
     const vis=(sProg>0.005&&sProg<0.995);     // fade in mid-scroll, out at edges
-    auraV.style.opacity=vis?'0.55':'0';
+    auraV.style.opacity=vis?'0.9':'0';
   }
 
   renderer.render(scene,camera);
