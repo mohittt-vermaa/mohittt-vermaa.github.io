@@ -491,7 +491,7 @@ section,footer,.marquee{position:relative;z-index:2}
 </div>
 
 <!-- HERO -->
-<section class="hero">
+<section class="hero" id="homeTop">
   <div class="hero-text">
     <div class="badges">
       <span class="badge"><span class="pulse"></span>Available for new projects</span>
@@ -1073,6 +1073,36 @@ let astro=null;const astroBase=new THREE.Vector3(6.5,0.1,-4);
     err=>{console.error('Astronaut load failed:',err);document.getElementById('loader').classList.add('done');}
   );
 }
+
+// ═══ ASTRONAUT CLICK → homepage top (animation video wala area) ═══
+// canvas pointer-events none hai, isliye document-level click + raycast distance check
+(function(){
+  const ray=new THREE.Raycaster(),v2=new THREE.Vector2();
+  function astroHit(e){
+    if(!astro||!astro.visible) return false;
+    v2.x=(e.clientX/innerWidth)*2-1; v2.y=-(e.clientY/innerHeight)*2+1;
+    ray.setFromCamera(v2,camera);
+    // astronaut ke saare meshes + scale-adjusted hit test (loose threshold for touch)
+    const hits=ray.intersectObject(astro,true);
+    if(hits.length) return true;
+    // fallback: screen-space distance from astro projected position (touch friendly, ~70px radius)
+    const p=astro.getWorldPosition(new THREE.Vector3()).project(camera);
+    const sx=(p.x*0.5+0.5)*innerWidth, sy=(-p.y*0.5+0.5)*innerHeight;
+    const d=Math.hypot(e.clientX-sx,e.clientY-sy);
+    return d<70;
+  }
+  let lastTap=0;
+  addEventListener('click',e=>{
+    const now=Date.now();
+    if(now-lastTap<350) return; // double-click guard
+    if(e.target.closest('a,button,input,select,textarea,.proj,.pf,.blog-card,.chip,.modal-overlay,nav,.mobile-menu')) return;
+    if(astroHit(e)){
+      lastTap=now;
+      document.getElementById('homeTop').scrollIntoView({behavior:'smooth'});
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+  },{passive:true});
+})();
 
 // Sun light only — clean, no glow planes / pulse lights
 const sun=new THREE.DirectionalLight(0xfff1d6,2.6);sun.position.set(28,10,6);scene.add(sun);
