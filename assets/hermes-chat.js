@@ -127,7 +127,7 @@
     '<div class="hc-head">' +
       '<div class="hc-ava">H</div>' +
       '<div><div class="hc-title">Hermes</div>' +
-      '<div class="hc-sub"><span class="pulse" style="width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block"></span>Online · offline chat</div></div>' +
+      '<div class="hc-sub"><span class="pulse" style="width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block"></span><span id="hcStatus">Online</span></div></div>' +
       '<button class="hc-close" aria-label="Close chat">✕</button>' +
     '</div>' +
     '<div class="hc-body" id="hcBody"></div>' +
@@ -142,6 +142,21 @@
   const body = box.querySelector('#hcBody');
   const chipsEl = box.querySelector('#hcChips');
   const input = box.querySelector('#hcInput');
+  const statusEl = box.querySelector('#hcStatus');
+
+  const THINKING_STEPS = [
+    'Searching the web…',
+    'Reading sources…',
+    'Thinking…',
+    'Analyzing results…',
+    'Composing answer…',
+  ];
+
+  function setStatus(text, thinking) {
+    if (!statusEl) return;
+    statusEl.textContent = text || '';
+    statusEl.classList.toggle('thinking', !!thinking);
+  }
 
   function addMsg(text, who) {
     const m = document.createElement('div');
@@ -149,6 +164,37 @@
     m.textContent = text;
     body.appendChild(m);
     body.scrollTop = body.scrollHeight;
+  }
+
+  function showTyping() {
+    const t = document.createElement('div');
+    t.className = 'hc-typing';
+    t.id = 'hcTyping';
+    t.innerHTML = '<span></span><span></span><span></span>';
+    body.appendChild(t);
+    body.scrollTop = body.scrollHeight;
+  }
+  function hideTyping() {
+    const t = document.getElementById('hcTyping');
+    if (t) t.remove();
+  }
+
+  // fake "Google AI" thinking sequence — cycles status steps while waiting
+  function fakeThink(cb) {
+    let i = 0;
+    setStatus(THINKING_STEPS[0], true);
+    showTyping();
+    const iv = setInterval(() => {
+      i++;
+      if (i < THINKING_STEPS.length) {
+        setStatus(THINKING_STEPS[i], true);
+      } else {
+        clearInterval(iv);
+        hideTyping();
+        setStatus('Online', false);
+        cb();
+      }
+    }, 420 + Math.random() * 260);
   }
 
   function normalize(s) {
@@ -179,7 +225,7 @@
     }
     const reply = (bestScore >= 40 && best) ? best :
       "Hmm, I don't have that answer pre-loaded yet 🤔 — but I know 50+ things about Mohit! Try: \"who is mohit verma\", \"his projects\", \"his skills\", \"his website\", or \"who made you\".";
-    setTimeout(() => addMsg(reply, 'bot'), 350 + Math.random() * 400);
+    fakeThink(() => addMsg(reply, 'bot'));
   }
 
   // chips: 8 suggested questions
