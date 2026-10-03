@@ -190,6 +190,7 @@
   document.body.appendChild(overlay);
   document.body.appendChild(page);
   page.appendChild(stars);
+  page.appendChild(box); // CRITICAL: chat UI ko page mein add karo (black screen fix)
   // nebula glows inside stars layer
   const neb1 = document.createElement('div');
   neb1.className = 'hc-nebula n1';

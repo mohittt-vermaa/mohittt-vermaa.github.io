@@ -177,9 +177,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 28px;display:fl
 .nav-links{display:flex;gap:6px;align-items:center;list-style:none}
 .nav-links a{display:block;padding:8px 16px;border-radius:var(--radius-pill);font-size:14px;font-weight:500;color:var(--muted);transition:.2s var(--fast)}
 .nav-links a:hover{color:var(--ink);background:rgba(109,40,217,.06)}
-.nav-cta{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:var(--radius-pill);background:var(--ink);color:#fff;font-size:14px;font-weight:600;transition:.25s var(--fast);border:1px solid var(--ink)}
-.nav-cta:hover{background:var(--acc);border-color:var(--acc);box-shadow:0 10px 28px var(--acc-glow);transform:translateY(-1px)}
+.nav-cta{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:var(--radius-pill);background:linear-gradient(135deg,#0a0a0a,#1a0b2e);color:var(--acc2,#8b5cf6);font-size:14px;font-weight:600;transition:.25s var(--fast);border:1px solid var(--acc,#6d28d9)}
+.nav-cta:hover{background:var(--acc);color:#fff;border-color:var(--acc);box-shadow:0 10px 28px var(--acc-glow);transform:translateY(-1px)}
 .nav-cta .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+.mobile-menu .nav-cta{background:linear-gradient(135deg,#0a0a0a,#1a0b2e);color:var(--acc2,#8b5cf6);border:1px solid var(--acc,#6d28d9)}
+.mobile-menu .nav-cta:hover{background:var(--acc);color:#fff}
 .burger{display:none;width:40px;height:40px;border-radius:10px;place-items:center;border:1px solid var(--line);background:#fff}
 .burger span{display:block;width:18px;height:2px;background:var(--ink);border-radius:2px;position:relative;transition:.3s}
 .burger span:before,.burger span:after{content:'';position:absolute;left:0;width:18px;height:2px;background:var(--ink);border-radius:2px;transition:.3s}
@@ -450,12 +452,12 @@ section,footer,.marquee{position:relative;z-index:2}
 #loader .loader-fill{height:100%;background:linear-gradient(90deg,#6d28d9,#ec4899);width:0%;transition:width 0.4s;border-radius:1px}
 #loader .loader-status{margin-top:1rem;font-size:0.6rem;font-weight:600;letter-spacing:0.4em;text-transform:uppercase;color:rgba(255,255,255,0.25)}
 </style>
-<link rel="stylesheet" href="assets/hermes-chat.css?v=7">
+<link rel="stylesheet" href="assets/hermes-chat.css?v=8">
 </head>
 <body class="dark">
 
 <!-- DEEP SPACE LAYER -->
-<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div></div>
+<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><button id="scanDevice" type="button" style="margin-top:1.6rem;padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><div id="scanResult" style="display:none;margin-top:1.2rem;width:min(320px,84vw);padding:14px 16px;border-radius:16px;border:1px solid rgba(139,92,246,.3);background:rgba(10,11,18,.85);backdrop-filter:blur(12px);color:#c9cede;font-size:12px;line-height:1.9;text-align:left"></div></div>
 <canvas id="canvas" aria-hidden="true" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;display:block;pointer-events:none;visibility:hidden"></canvas>
 <video id="auraVideo" aria-hidden="true" muted playsinline preload="auto" loop disablepictureinpicture disableremoteplayback src="assets/video/aura_bg_2k_opt.mp4?v=1" style="position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:1;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35)"></video>
 
@@ -874,8 +876,71 @@ const keyL=new THREE.DirectionalLight(0xffffff,0.7);keyL.position.set(-4,6,10);s
 // LOADER — driven by Earth texture loading (astronaut removed for now)
 const manager=new THREE.LoadingManager();
 manager.onProgress=(url,loaded,total)=>{document.getElementById('loaderFill').style.width=Math.min(100,loaded/total*100)+'%'};
-manager.onLoad=()=>setTimeout(()=>document.getElementById('loader').classList.add('done'),500);
-setTimeout(()=>document.getElementById('loader').classList.add('done'),7000); // safety fallback
+manager.onLoad=()=>setTimeout(()=>document.getElementById('loader').classList.add('done'),1200);
+
+// ═══ SCAN DEVICE — loader page device info (IP, model, RAM, efficiency) ═══
+(function(){
+  const btn=document.getElementById('scanDevice');
+  const out=document.getElementById('scanResult');
+  if(!btn||!out) return;
+  let busy=false;
+  function estRam(){
+    let gb='unknown';
+    if(navigator.deviceMemory) gb=navigator.deviceMemory+' GB (approx)';
+    else{
+      // Android UA heuristic: common Redmi/Realme/Samsung tiers
+      const ua=navigator.userAgent;
+      if(/Redmi 12 5G|Redmi Note 1[0-9]/.test(ua)) gb='4-8 GB (Redmi class)';
+      else if(/SM-[A-Z0-9]+/.test(ua)) gb='4-8 GB (Samsung class)';
+      else gb='unknown (browser hides it)';
+    }
+    return gb;
+  }
+  function efficiencyScore(){
+    // lightweight heuristic: cores × memory × connection
+    let score=60;
+    const cores=navigator.hardwareConcurrency||4;
+    score+=Math.min(cores*4,20);
+    if(navigator.deviceMemory>=6) score+=10; else if(navigator.deviceMemory>=4) score+=5;
+    const conn=navigator.connection||{};
+    if(conn.effectiveType==='4g') score+=10; else if(conn.effectiveType==='3g') score-=10;
+    if(window.devicePixelRatio>=2) score+=3;
+    return Math.min(Math.max(score,15),99);
+  }
+  btn.addEventListener('click', async ()=>{
+    if(busy) return; busy=true;
+    const old=btn.innerHTML; btn.innerHTML='Scanning…'; btn.style.opacity='.6';
+    out.style.display='block';
+    out.innerHTML='<span style="color:#a78bfa">⏳ Scanning device…</span>';
+    // fetch IP (free, no key)
+    let ip='unavailable', city='', isp='';
+    try{
+      const r=await fetch('https://ipapi.co/json/',{timeout:8000});
+      const d=await r.json();
+      ip=d.ip||'unavailable'; city=d.city||''; isp=d.org||'';
+    }catch(e){
+      try{
+        const r2=await fetch('https://api.ipify.org?format=json',{timeout:6000});
+        ip=(await r2.json()).ip||'unavailable';
+      }catch(e2){ ip='unavailable (network blocked)'; }
+    }
+    const nav=navigator;
+    const model=(nav.userAgent.match(/Android[^;)]*;\s*([^;)]+?(?:\s+Build[^;)]+)?)\s*(?:;|\))/)||[])[1]||nav.platform||'Unknown device';
+    const screenInfo=window.innerWidth+'×'+window.innerHeight+' @'+(nav.devicePixelRatio||1)+'x';
+    const eff=efficiencyScore();
+    const effLabel=eff>=80?'⚡ Smooth — website full speed chalega!':eff>=60?'✅ Good — website ache se chalega':eff>=40?'⚠️ OK — thoda lag ho sakta hai':'🐌 Slow — heavy 3D elements lag karenge';
+    out.innerHTML=
+      '<div style="color:#a78bfa;font-weight:700;letter-spacing:.06em;margin-bottom:6px">📱 DEVICE SCAN RESULT</div>'+
+      '<div>🌐 <b>IP:</b> '+ip+(city?' <span style="color:#71717a">('+city+')</span>':'')+'</div>'+
+      '<div>📱 <b>Model:</b> '+model+'</div>'+
+      '<div>🧠 <b>RAM:</b> '+estRam()+'</div>'+
+      '<div>🖥️ <b>Screen:</b> '+screenInfo+'</div>'+
+      '<div>⚙️ <b>Cores:</b> '+(nav.hardwareConcurrency||'unknown')+' · <b>Network:</b> '+((nav.connection||{}).effectiveType||'unknown')+(isp?' · <span style="color:#71717a">'+isp+'</span>':'')+'</div>'+
+      '<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(139,92,246,.2)"><b>Efficiency:</b> '+eff+'% — '+effLabel+'</div>';
+    btn.innerHTML=old; btn.style.opacity='1'; busy=false;
+  });
+})();
+setTimeout(()=>document.getElementById('loader').classList.add('done'),11000); // safety fallback (badhaya — elements ache se load hon)
 
 // ═══════════════════════════════════════
 // EARTH — real textured planet + clouds + atmosphere glow
