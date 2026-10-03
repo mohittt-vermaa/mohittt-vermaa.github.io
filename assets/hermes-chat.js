@@ -119,41 +119,87 @@
   ];
 
   // --- DOM ---
-  // fullscreen PAGE (new page feel — full viewport, stars behind)
+  // fullscreen PAGE (new page feel — full viewport, bg video + stars behind)
   const overlay = document.createElement('div');
   overlay.className = 'hc-overlay';
   const stars = document.createElement('div');
   stars.className = 'hc-stars';
   const page = document.createElement('div');
-  page.className = 'hc-page';
+  page.className = 'hc-page sidebar-open';
+  // cinematic bg video (inside the page — mirrors homepage video)
+  const auraV2 = document.getElementById('auraVideo');
+  const bgVideoWrap = document.createElement('div');
+  bgVideoWrap.className = 'hc-bgvideo';
+  const bgVideo = document.createElement('video');
+  bgVideo.muted = true; bgVideo.playsInline = true; bgVideo.loop = true; bgVideo.preload = 'auto';
+  bgVideo.setAttribute('aria-hidden', 'true');
+  bgVideo.src = auraV2 ? auraV2.src : 'assets/video/cosmic_bg.mp4?v=1';
+  bgVideoWrap.appendChild(bgVideo);
   const box = document.createElement('div');
   box.className = 'hc-box';
   box.innerHTML =
-    '<div class="hc-head">' +
-      '<div class="hc-ava">H</div>' +
-      '<div><div class="hc-title">Hermes</div>' +
-      '<div class="hc-sub"><span class="pulse" style="width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block"></span><span id="hcStatus">Online</span></div></div>' +
-      '<button class="hc-close" aria-label="Back to site">←</button>' +
+    '<div class="hc-nav">' +
+      '<div class="hc-logo"><div class="hc-ava">H</div>Hermes</div>' +
+      '<div class="hc-nav-right">' +
+        '<button class="hc-icon-btn" id="hcSidebarBtn" aria-label="Menu" title="Menu">' +
+          '<svg viewBox="0 0 24 24"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="14" y2="17"/></svg>' +
+        '</button>' +
+        '<button class="hc-icon-btn" aria-label="Settings" title="Settings">' +
+          '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>' +
+        '</button>' +
+        '<button class="hc-icon-btn" id="hcProfile" aria-label="Profile" title="Profile">' +
+          '<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' +
+        '</button>' +
+        '<button class="hc-icon-btn" id="hcCloseBtn" aria-label="Back to site" title="Back">' +
+          '<svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
+        '</button>' +
+      '</div>' +
     '</div>' +
-    '<div class="hc-model-bar">' +
-      '<select class="hc-model-select" id="hcModel">' +
-        '<option value="hermes-1">⚡ Hermes 1</option>' +
-        '<option value="hermes-mini">⚡ Hermes Mini</option>' +
-        '<option value="hermes-pro">⚡ Hermes Pro</option>' +
-      '</select>' +
-      '<span class="hc-model-tag" id="hcModelTag">offline · pre-generated</span>' +
-      '<button class="hc-newchat" id="hcNewChat">＋ New chat</button>' +
-    '</div>' +
-    '<div class="hc-body" id="hcBody"></div>' +
-    '<div class="hc-chips" id="hcChips"></div>' +
-    '<div class="hc-input">' +
-      '<input id="hcInput" type="text" placeholder="Ask me anything about Mohit..." autocomplete="off" maxlength="200">' +
-      '<button id="hcSend">Send</button>' +
+    '<div style="display:flex;flex:1;min-height:0">' +
+      '<aside class="hc-sidebar" id="hcSidebar">' +
+        '<button class="hc-side-btn" id="hcNewChat"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>New Chat</button>' +
+        '<button class="hc-side-btn" id="hcSearchBtn"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Search</button>' +
+        '<div class="hc-side-label">Recent</div>' +
+        '<div id="hcRecent"></div>' +
+        '<div class="hc-side-label" style="margin-top:auto"></div>' +
+        '<button class="hc-side-btn" id="hcSettings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</button>' +
+      '</aside>' +
+      '<main class="hc-main">' +
+        '<div class="hc-model-bar">' +
+          '<select class="hc-model-select" id="hcModel">' +
+            '<option value="hermes-1">⚡ Hermes 1</option>' +
+            '<option value="hermes-mini">⚡ Hermes Mini</option>' +
+            '<option value="hermes-pro">⚡ Hermes Pro</option>' +
+          '</select>' +
+          '<span class="hc-model-tag" id="hcModelTag">offline · pre-generated</span>' +
+        '</div>' +
+        '<div class="hc-body" id="hcBody">' +
+          '<div class="hc-welcome" id="hcWelcome">' +
+            '<h1>Where should we begin?</h1>' +
+            '<p>Ask me anything about Mohit Verma — his projects, skills, website, or work. Fully offline, right in your browser.</p>' +
+            '<div class="hc-cards" id="hcCards"></div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="hc-composer-wrap">' +
+          '<div class="hc-composer">' +
+            '<button class="hc-icon-btn" id="hcAttach" aria-label="Attach" title="Attach" style="width:32px;height:32px">' +
+              '<svg viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.44a6 6 0 0 1-8.49-8.49l9.19-9.44a4 4 0 0 1 5.66 5.66l-9.2 9.43a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>' +
+            '</button>' +
+            '<input id="hcInput" type="text" placeholder="Message Hermes…" autocomplete="off" maxlength="300">' +
+            '<button class="hc-icon-btn" id="hcMic" aria-label="Voice" title="Voice" style="width:32px;height:32px">' +
+              '<svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>' +
+            '</button>' +
+            '<button class="hc-send" id="hcSend" aria-label="Send">' +
+              '<svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="currentColor" stroke="none" style="fill-opacity:.9"/></svg>' +
+            '</button>' +
+          '</div>' +
+        '</div>' +
+      '</main>' +
     '</div>';
-  page.appendChild(stars);
-  page.appendChild(box);
   document.body.appendChild(overlay);
   document.body.appendChild(page);
+  page.insertBefore(bgVideoWrap, page.firstChild);
+  page.appendChild(stars);
   // nebula glows inside stars layer
   const neb1 = document.createElement('div');
   neb1.className = 'hc-nebula n1';
@@ -316,19 +362,28 @@
     fakeThink(() => addMsg(reply, 'bot'));
   }
 
-  // chips: suggested questions in a horizontal slide (swipeable row)
-  const suggestions = ["Who is Mohit Verma?", "What he learns?", "Who are you?", "Who made you?", "His projects", "His website", "His skills", "His socials", "Contact him", "Joke", "The Earth", "The astronaut"];
-  suggestions.forEach(s => {
-    const c = document.createElement('button');
-    c.className = 'hc-chip';
-    c.textContent = s;
-    c.addEventListener('click', () => {
-      chipsEl.querySelectorAll('.hc-chip').forEach(x => x.classList.remove('active'));
-      c.classList.add('active');
-      answer(s);
+  // suggested prompt cards (welcome screen) — Gemini style
+  const suggestions = [
+    ["Who is Mohit Verma?", "Teen coder from India — full intro"],
+    ["What he learns?", "Python, AI, ML, web dev & more"],
+    ["His projects", "mlbox, ORF-5, StudyA, this website"],
+    ["His website", "About this 3D deep-space site"],
+    ["The Earth & astronaut", "How the 3D scene works"],
+    ["Contact him", "Socials, blog, LinkedIn, Instagram"],
+  ];
+  const cardsEl = document.getElementById('hcCards');
+  if (cardsEl) {
+    suggestions.forEach(([title, sub]) => {
+      const c = document.createElement('button');
+      c.className = 'hc-card';
+      c.innerHTML = '<strong>' + title + '</strong>' + sub;
+      c.addEventListener('click', () => { trackRecent(title); answer(title); });
+      cardsEl.appendChild(c);
     });
-    chipsEl.appendChild(c);
-  });
+  }
+
+  // chips: legacy horizontal chips — hidden (welcome cards take over)
+  if (chipsEl) chipsEl.style.display = 'none';
 
   // --- /mohit190031 SECRET ACTIVATION (real-time admin mode) ---
   // Note: this is a client-side fun gate — NOT real security. No secrets stored here.
@@ -416,10 +471,10 @@
     overlay.classList.add('open');
     page.classList.add('open');
     stars.classList.add('on');
-    if (!body.children.length) {
-      setTimeout(() => addMsg("Hi! 👋 I'm Hermes — Mohit's personal AI assistant. Ask me anything about Mohit, his projects, his website, or his work. Fully offline, right here in your browser! 🤖", 'bot'), 250);
-    }
-    setTimeout(() => input.focus(), 350);
+    if (bgVideo && bgVideo.paused) { bgVideo.play().catch(()=>{}); }
+    if (!welcomeEl) return;
+    // welcome state stays until first message
+    setTimeout(() => input.focus(), 400);
   }
   function close() {
     overlay.classList.remove('open');
@@ -427,18 +482,89 @@
     stars.classList.remove('on');
   }
 
-  // new chat: clear conversation
+  // welcome hide/show helpers
+  let welcomeEl = document.getElementById('hcWelcome');
+  function hideWelcome() {
+    welcomeEl = document.getElementById('hcWelcome');
+    if (welcomeEl) welcomeEl.style.display = 'none';
+  }
+  function showWelcome() {
+    welcomeEl = document.getElementById('hcWelcome');
+    if (welcomeEl) welcomeEl.style.display = 'flex';
+  }
+
+  // wrap addMsg: first user message hides the welcome screen
+  const _addMsg = addMsg;
+  addMsg = function(text, who) {
+    if (who === 'user') hideWelcome();
+    _addMsg(text, who);
+  };
+
+  // recent conversations tracking
+  const recent = [];
+  function trackRecent(q) {
+    const label = q.length > 34 ? q.slice(0, 34) + '…' : q;
+    if (!recent.includes(label)) {
+      recent.unshift(label);
+      if (recent.length > 6) recent.pop();
+      renderRecent();
+    }
+  }
+  function renderRecent() {
+    const el = document.getElementById('hcRecent');
+    if (!el) return;
+    el.innerHTML = '';
+    recent.forEach(r => {
+      const d = document.createElement('div');
+      d.className = 'hc-recent';
+      d.textContent = r;
+      d.addEventListener('click', () => { input.value = r; input.focus(); });
+      el.appendChild(d);
+    });
+  }
+
+  // new chat: clear conversation + show welcome
   box.querySelector('#hcNewChat').addEventListener('click', () => {
     body.innerHTML = '';
     input.value = '';
+    showWelcome();
     setTimeout(() => addMsg("New chat started ✨ — fresh session, " + ({'hermes-1':'Hermes 1','hermes-mini':'Hermes Mini','hermes-pro':'Hermes Pro'})[currentModel] + ". Ask me anything about Mohit! 🤖", 'bot'), 200);
   });
 
-  box.querySelector('.hc-close').addEventListener('click', close);
+  // sidebar toggle
+  box.querySelector('#hcSidebarBtn').addEventListener('click', () => {
+    page.classList.toggle('sidebar-open');
+  });
+
+  // search in sidebar focuses input
+  box.querySelector('#hcSearchBtn').addEventListener('click', () => {
+    input.focus();
+  });
+
+  // profile / settings / attach / mic — friendly placeholder actions (frontend only)
+  box.querySelector('#hcProfile').addEventListener('click', () => {
+    answer("who is mohit verma");
+  });
+  box.querySelector('#hcSettings').addEventListener('click', () => {
+    setStatus('Settings — model switcher use karo (Hermes 1/Mini/Pro)', false);
+    setTimeout(() => setStatus('Online', false), 2200);
+  });
+  const attachBtn = box.querySelector('#hcAttach');
+  if (attachBtn) attachBtn.addEventListener('click', () => {
+    setStatus('Attachments coming soon (frontend demo)', false);
+    setTimeout(() => setStatus('Online', false), 2000);
+  });
+  const micBtn = box.querySelector('#hcMic');
+  if (micBtn) micBtn.addEventListener('click', () => {
+    setStatus('Voice input coming soon (frontend demo)', false);
+    setTimeout(() => setStatus('Online', false), 2000);
+  });
+
+  box.querySelector('#hcCloseBtn').addEventListener('click', close);
   overlay.addEventListener('click', close);
-  box.querySelector('#hcSend').addEventListener('click', () => { answer(input.value); input.value = ''; });
+  box.querySelector('#hcSend').addEventListener('click', () => { const v = input.value; trackRecent(v); answer(v); input.value = ''; });
   input.addEventListener('keydown', e => {
-    if (e.key === 'Enter') { answer(input.value); input.value = ''; }
+    if (e.key === 'Enter') { const v = input.value; trackRecent(v); answer(v); input.value = ''; }
   });
 
   // wire the menu option(s) — mobile menu + any desktop triggers
