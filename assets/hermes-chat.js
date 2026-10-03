@@ -119,22 +119,13 @@
   ];
 
   // --- DOM ---
-  // fullscreen PAGE (new page feel — full viewport, bg video + stars behind)
+  // fullscreen PAGE (new page feel — full viewport, dark space + stars behind)
   const overlay = document.createElement('div');
   overlay.className = 'hc-overlay';
   const stars = document.createElement('div');
   stars.className = 'hc-stars';
   const page = document.createElement('div');
   page.className = 'hc-page sidebar-open';
-  // cinematic bg video (inside the page — mirrors homepage video)
-  const auraV2 = document.getElementById('auraVideo');
-  const bgVideoWrap = document.createElement('div');
-  bgVideoWrap.className = 'hc-bgvideo';
-  const bgVideo = document.createElement('video');
-  bgVideo.muted = true; bgVideo.playsInline = true; bgVideo.loop = true; bgVideo.preload = 'auto';
-  bgVideo.setAttribute('aria-hidden', 'true');
-  bgVideo.src = auraV2 ? auraV2.src : 'assets/video/cosmic_bg.mp4?v=1';
-  bgVideoWrap.appendChild(bgVideo);
   const box = document.createElement('div');
   box.className = 'hc-box';
   box.innerHTML =
@@ -198,7 +189,6 @@
     '</div>';
   document.body.appendChild(overlay);
   document.body.appendChild(page);
-  page.insertBefore(bgVideoWrap, page.firstChild);
   page.appendChild(stars);
   // nebula glows inside stars layer
   const neb1 = document.createElement('div');
@@ -471,7 +461,6 @@
     overlay.classList.add('open');
     page.classList.add('open');
     stars.classList.add('on');
-    if (bgVideo && bgVideo.paused) { bgVideo.play().catch(()=>{}); }
     if (!welcomeEl) return;
     // welcome state stays until first message
     setTimeout(() => input.focus(), 400);
