@@ -450,7 +450,7 @@ section,footer,.marquee{position:relative;z-index:2}
 #loader .loader-fill{height:100%;background:linear-gradient(90deg,#6d28d9,#ec4899);width:0%;transition:width 0.4s;border-radius:1px}
 #loader .loader-status{margin-top:1rem;font-size:0.6rem;font-weight:600;letter-spacing:0.4em;text-transform:uppercase;color:rgba(255,255,255,0.25)}
 </style>
-<link rel="stylesheet" href="assets/hermes-chat.css?v=4">
+<link rel="stylesheet" href="assets/hermes-chat.css?v=5">
 </head>
 <body class="dark">
 
@@ -1105,6 +1105,16 @@ let time=0;const clock=new THREE.Clock();
     if(auraV.loop===false)auraV.loop=true;
     auraV.style.opacity='0.9';
   }
+  // GLITCH TRANSITION at video loop point (fires the full-site glitch effect)
+  if(auraV&&auraV.duration&&!auraV.ended){
+    if(auraV.currentTime>auraV.duration-0.4&&!window._glitchFired){
+      window._glitchFired=true;
+      document.body.classList.add('glitch');
+      const go=document.querySelector('.glitch-overlay');
+      if(go){go.classList.remove('on');void go.offsetWidth;go.classList.add('on');}
+      setTimeout(()=>{document.body.classList.remove('glitch');window._glitchFired=false;},520);
+    }
+  }
 
   renderer.render(scene,camera);
 })();
@@ -1213,6 +1223,6 @@ let time=0;const clock=new THREE.Clock();
 })();
 
 </script>
-<script src="assets/hermes-chat.js?v=4" defer></script>
+<script src="assets/hermes-chat.js?v=5" defer></script>
 </body>
 </html>

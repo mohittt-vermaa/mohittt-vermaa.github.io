@@ -154,6 +154,17 @@
   page.appendChild(box);
   document.body.appendChild(overlay);
   document.body.appendChild(page);
+  // nebula glows inside stars layer
+  const neb1 = document.createElement('div');
+  neb1.className = 'hc-nebula n1';
+  const neb2 = document.createElement('div');
+  neb2.className = 'hc-nebula n2';
+  stars.appendChild(neb1);
+  stars.appendChild(neb2);
+  // glitch overlay for video loop point (full site effect)
+  const glitchEl = document.createElement('div');
+  glitchEl.className = 'glitch-overlay';
+  document.body.appendChild(glitchEl);
 
   const body = box.querySelector('#hcBody');
   const chipsEl = box.querySelector('#hcChips');
@@ -305,13 +316,17 @@
     fakeThink(() => addMsg(reply, 'bot'));
   }
 
-  // chips: 10 suggested questions (incl. contact — scrolls to section after answer)
-  const suggestions = ["Who is Mohit Verma?", "What he learns?", "Who are you?", "Who made you?", "His projects", "His website", "His skills", "His socials", "Contact him", "Joke"];
+  // chips: suggested questions in a horizontal slide (swipeable row)
+  const suggestions = ["Who is Mohit Verma?", "What he learns?", "Who are you?", "Who made you?", "His projects", "His website", "His skills", "His socials", "Contact him", "Joke", "The Earth", "The astronaut"];
   suggestions.forEach(s => {
     const c = document.createElement('button');
     c.className = 'hc-chip';
     c.textContent = s;
-    c.addEventListener('click', () => { answer(s); });
+    c.addEventListener('click', () => {
+      chipsEl.querySelectorAll('.hc-chip').forEach(x => x.classList.remove('active'));
+      c.classList.add('active');
+      answer(s);
+    });
     chipsEl.appendChild(c);
   });
 
