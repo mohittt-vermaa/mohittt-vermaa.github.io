@@ -1,8 +1,12 @@
-/* ========= HERMES AI AGENT — FULLSCREEN MODE (Claude-style) ========= */
-.hc-box.fullscreen{top:0;left:0;right:0;bottom:0;max-height:100vh;width:100vw;border-radius:0;border:none;transform:translateY(0);transition:transform .35s var(--fast)}
-.hc-box.fullscreen .hc-head{padding:16px 20px;background:linear-gradient(90deg,rgba(124,58,237,.2),transparent);border-bottom:1px solid rgba(139,92,246,.3)}
-.hc-full-btn{margin-left:8px;width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--muted);font-size:14px;cursor:pointer;transition:.2s;display:grid;place-items:center}
-.hc-full-btn:hover{color:var(--acc);border-color:var(--acc)}
+/* ========= HERMES AI AGENT — FULLSCREEN PAGE (new page feel) ========= */
+.hc-page{position:fixed;inset:0;z-index:9998;display:flex;flex-direction:column;background:#0a0a0f;transform:translateY(100%);transition:transform .4s var(--fast);visibility:hidden}
+.hc-page.open{transform:translateY(0);visibility:visible}
+.hc-page .hc-box{position:relative;bottom:auto;left:auto;right:auto;z-index:2;max-height:none;flex:1;display:flex;flex-direction:column;
+  background:transparent;border:none;border-radius:0;box-shadow:none;transform:none;transition:none}
+.hc-page .hc-body{flex:1}
+.hc-page .hc-head{padding-top:20px}
+.hc-page .hc-stars{z-index:0;opacity:1}
+.hc-close{font-size:18px}
 /* starfield behind the fullscreen chat */
 .hc-stars{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity 1s ease;
   background:radial-gradient(ellipse at 30% 20%,rgba(124,58,237,.15),transparent 50%),

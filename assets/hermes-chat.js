@@ -119,10 +119,13 @@
   ];
 
   // --- DOM ---
+  // fullscreen PAGE (new page feel — full viewport, stars behind)
   const overlay = document.createElement('div');
   overlay.className = 'hc-overlay';
   const stars = document.createElement('div');
   stars.className = 'hc-stars';
+  const page = document.createElement('div');
+  page.className = 'hc-page';
   const box = document.createElement('div');
   box.className = 'hc-box';
   box.innerHTML =
@@ -130,8 +133,7 @@
       '<div class="hc-ava">H</div>' +
       '<div><div class="hc-title">Hermes</div>' +
       '<div class="hc-sub"><span class="pulse" style="width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block"></span><span id="hcStatus">Online</span></div></div>' +
-      '<button class="hc-full-btn" id="hcFull" aria-label="Full screen" title="Full screen">⛶</button>' +
-      '<button class="hc-close" aria-label="Close chat">✕</button>' +
+      '<button class="hc-close" aria-label="Back to site">←</button>' +
     '</div>' +
     '<div class="hc-model-bar">' +
       '<select class="hc-model-select" id="hcModel">' +
@@ -148,9 +150,10 @@
       '<input id="hcInput" type="text" placeholder="Ask me anything about Mohit..." autocomplete="off" maxlength="200">' +
       '<button id="hcSend">Send</button>' +
     '</div>';
+  page.appendChild(stars);
+  page.appendChild(box);
   document.body.appendChild(overlay);
-  document.body.appendChild(stars);
-  document.body.appendChild(box);
+  document.body.appendChild(page);
 
   const body = box.querySelector('#hcBody');
   const chipsEl = box.querySelector('#hcChips');
@@ -302,8 +305,8 @@
     fakeThink(() => addMsg(reply, 'bot'));
   }
 
-  // chips: 8 suggested questions
-  const suggestions = ["Who is Mohit Verma?", "What he learns?", "Who are you?", "Who made you?", "His projects", "His website", "His skills", "Contact him"];
+  // chips: 10 suggested questions (incl. contact — scrolls to section after answer)
+  const suggestions = ["Who is Mohit Verma?", "What he learns?", "Who are you?", "Who made you?", "His projects", "His website", "His skills", "His socials", "Contact him", "Joke"];
   suggestions.forEach(s => {
     const c = document.createElement('button');
     c.className = 'hc-chip';
@@ -312,9 +315,91 @@
     chipsEl.appendChild(c);
   });
 
+  // --- /mohit190031 SECRET ACTIVATION (real-time admin mode) ---
+  // Note: this is a client-side fun gate — NOT real security. No secrets stored here.
+  let adminMode = false;
+  function trySecret(raw) {
+    const t = raw.trim().toLowerCase();
+    if (t === '/mohit190031' && !adminMode) {
+      adminMode = true;
+      chipsEl.innerHTML = '';
+      const adminChips = [
+        "Current task", "Current status", "What's pending?", "Last post status",
+        "Automation status", "Website status", "Recent commits", "Today's report",
+      ];
+      adminChips.forEach(s => {
+        const c = document.createElement('button');
+        c.className = 'hc-chip';
+        c.textContent = s;
+        c.addEventListener('click', () => { answer(s); });
+        chipsEl.appendChild(c);
+      });
+      fakeThink(() => addMsg("🔓 Admin mode ACTIVATED, Mohit bhai! 🤖\n\nAb tum mujhse real-time status puch sakte ho — current task, automation status, last post, website status. Chips ready hain neeche 👇\n\n(Note: ye client-side gate hai — real-time data ke liye ye answers bhi pre-loaded hain, live nahi.)", 'bot'));
+      return true;
+    }
+    if (adminMode && t === '/exit') {
+      adminMode = false;
+      chipsEl.innerHTML = '';
+      suggestions.forEach(s => {
+        const c = document.createElement('button');
+        c.className = 'hc-chip';
+        c.textContent = s;
+        c.addEventListener('click', () => { answer(s); });
+        chipsEl.appendChild(c);
+      });
+      addMsg("Admin mode off 👋 — normal chat mode wapas.", 'bot');
+      return true;
+    }
+    return false;
+  }
+
+  // ADMIN MODE answers (pre-loaded status responses)
+  const ADMIN_QA = [
+    ["current task", "📋 Current task: Sab complete hai bhai! Aaj ka kaam — website upgrade (2K video + Hermes AI page + chat) DONE. Daily automation chal raha hai. Koi pending task nahi."],
+    ["current status", "🟢 Current status: LIVE — website upgraded (2K video bg + fullscreen Hermes page), daily news automation chal rahi hai (Blogger + LinkedIn), sab systems operational. Kuch bhi atka nahi."],
+    ["what's pending", "⏳ Pending: Kuch major nahi — (1) Earth/astronaut wapas lana hai background mein (temp hidden hai), (2) LinkedIn token ~55 din mein expire (re-auth chahiye), (3) contact form privacy decision. Baaki sab done!"],
+    ["last post status", "📰 Last post: Daily AI news digest — Blogger pe enhanced article (hero image + styled cards) + LinkedIn pe branded news card. Live URLs blog pe hain. Automation har 3h check karti hai, din mein 1 post."],
+    ["automation status", "🤖 Automation status: LIVE — daily-ai-news-poster cron (har 3h check, 1 post/day gate), Blogger auto-post ✅, LinkedIn auto-post ✅ (with image), Instagram/Hashnode drafts Telegram pe. Resume-worker completed."],
+    ["website status", "🌐 Website status: LIVE — 2K video background (1440x1440), fullscreen Hermes AI page, starfield, model switcher, 100+ offline Q&A, liquid glass, scroll animations. Sab verified live."],
+    ["recent commits", "📝 Recent commits: cf360b9 (HERMES CHAT), 2853894 (VIDEO ALWAYS PLAYING + chat enhanced), 408b1f2 (HERMES AI AGENT MODE), 3c5d904 (video layer fix), a096746 (smooth scrub), a228183 (play fix + showcase removal), 0172379 (SHOWCASE + LIQUID GLASS)."],
+    ["today's report", "📊 Today's report: Website upgraded (2K video, fullscreen AI page, starfield, model switcher, improvised answers) — sab live verified. Daily automation ok. Chat box enhanced (fake thinking + typing dots). Kuch bhi broken nahi! 🚀"],
+  ];
+
+  // extend answer() to check admin QA when adminMode
+  const _origAnswer = answer;
+  answer = function(raw) {
+    if (trySecret(raw)) return;
+    if (adminMode) {
+      const q = normalize(raw);
+      let best = null, bestScore = 0;
+      for (const [k, a] of ADMIN_QA) {
+        const nk = normalize(k);
+        let score = 0;
+        if (q === nk) score = 100;
+        else if (nk.includes(q) && q.length > 3) score = 70;
+        else if (q.includes(nk) && nk.length > 3) score = 60;
+        else {
+          const qw = new Set(q.split(' '));
+          const kw = nk.split(' ');
+          let hits = 0;
+          kw.forEach(w => { if (qw.has(w) && w.length > 2) hits++; });
+          score = Math.round(hits / kw.length * 50);
+        }
+        if (score > bestScore) { bestScore = score; best = a; }
+      }
+      if (bestScore >= 40 && best) {
+        addMsg(raw, 'user');
+        fakeThink(() => addMsg(best, 'bot'));
+        return;
+      }
+      // fall through to normal QA/improvise
+    }
+    _origAnswer(raw);
+  };
+
   function open() {
     overlay.classList.add('open');
-    box.classList.add('open');
+    page.classList.add('open');
     stars.classList.add('on');
     if (!body.children.length) {
       setTimeout(() => addMsg("Hi! 👋 I'm Hermes — Mohit's personal AI assistant. Ask me anything about Mohit, his projects, his website, or his work. Fully offline, right here in your browser! 🤖", 'bot'), 250);
@@ -323,15 +408,9 @@
   }
   function close() {
     overlay.classList.remove('open');
-    box.classList.remove('open');
-    box.classList.remove('fullscreen');
+    page.classList.remove('open');
     stars.classList.remove('on');
   }
-
-  // fullscreen toggle
-  box.querySelector('#hcFull').addEventListener('click', () => {
-    box.classList.toggle('fullscreen');
-  });
 
   // new chat: clear conversation
   box.querySelector('#hcNewChat').addEventListener('click', () => {
