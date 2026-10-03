@@ -907,6 +907,7 @@ manager.onLoad=()=>setTimeout(()=>document.getElementById('loader').classList.ad
     if(window.devicePixelRatio>=2) score+=3;
     return Math.min(Math.max(score,15),99);
   }
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&','<':'<','>':'>','"':'"',"'":'&#39;'}[c]));}
   btn.addEventListener('click', async ()=>{
     if(busy) return; busy=true;
     const old=btn.innerHTML; btn.innerHTML='Scanning…'; btn.style.opacity='.6';
@@ -917,15 +918,15 @@ manager.onLoad=()=>setTimeout(()=>document.getElementById('loader').classList.ad
     try{
       const r=await fetch('https://ipapi.co/json/',{timeout:8000});
       const d=await r.json();
-      ip=d.ip||'unavailable'; city=d.city||''; isp=d.org||'';
+      ip=esc(d.ip||'unavailable'); city=esc(d.city||''); isp=esc(d.org||'');
     }catch(e){
       try{
         const r2=await fetch('https://api.ipify.org?format=json',{timeout:6000});
-        ip=(await r2.json()).ip||'unavailable';
+        ip=esc((await r2.json()).ip||'unavailable');
       }catch(e2){ ip='unavailable (network blocked)'; }
     }
     const nav=navigator;
-    const model=(nav.userAgent.match(/Android[^;)]*;\s*([^;)]+?(?:\s+Build[^;)]+)?)\s*(?:;|\))/)||[])[1]||nav.platform||'Unknown device';
+    const model=esc((nav.userAgent.match(/Android[^;)]*;\s*([^;)]+?(?:\s+Build[^;)]+)?)\s*(?:;|\))/)||[])[1]||nav.platform||'Unknown device');
     const screenInfo=window.innerWidth+'×'+window.innerHeight+' @'+(nav.devicePixelRatio||1)+'x';
     const eff=efficiencyScore();
     const effLabel=eff>=80?'⚡ Smooth — website full speed chalega!':eff>=60?'✅ Good — website ache se chalega':eff>=40?'⚠️ OK — thoda lag ho sakta hai':'🐌 Slow — heavy 3D elements lag karenge';
