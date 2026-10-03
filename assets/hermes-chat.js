@@ -121,6 +121,8 @@
   // --- DOM ---
   const overlay = document.createElement('div');
   overlay.className = 'hc-overlay';
+  const stars = document.createElement('div');
+  stars.className = 'hc-stars';
   const box = document.createElement('div');
   box.className = 'hc-box';
   box.innerHTML =
@@ -128,7 +130,17 @@
       '<div class="hc-ava">H</div>' +
       '<div><div class="hc-title">Hermes</div>' +
       '<div class="hc-sub"><span class="pulse" style="width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block"></span><span id="hcStatus">Online</span></div></div>' +
+      '<button class="hc-full-btn" id="hcFull" aria-label="Full screen" title="Full screen">⛶</button>' +
       '<button class="hc-close" aria-label="Close chat">✕</button>' +
+    '</div>' +
+    '<div class="hc-model-bar">' +
+      '<select class="hc-model-select" id="hcModel">' +
+        '<option value="hermes-1">⚡ Hermes 1</option>' +
+        '<option value="hermes-mini">⚡ Hermes Mini</option>' +
+        '<option value="hermes-pro">⚡ Hermes Pro</option>' +
+      '</select>' +
+      '<span class="hc-model-tag" id="hcModelTag">offline · pre-generated</span>' +
+      '<button class="hc-newchat" id="hcNewChat">＋ New chat</button>' +
     '</div>' +
     '<div class="hc-body" id="hcBody"></div>' +
     '<div class="hc-chips" id="hcChips"></div>' +
@@ -137,12 +149,15 @@
       '<button id="hcSend">Send</button>' +
     '</div>';
   document.body.appendChild(overlay);
+  document.body.appendChild(stars);
   document.body.appendChild(box);
 
   const body = box.querySelector('#hcBody');
   const chipsEl = box.querySelector('#hcChips');
   const input = box.querySelector('#hcInput');
   const statusEl = box.querySelector('#hcStatus');
+  const modelSel = box.querySelector('#hcModel');
+  const modelTag = box.querySelector('#hcModelTag');
 
   const THINKING_STEPS = [
     'Searching the web…',
@@ -201,6 +216,61 @@
     return s.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
   }
 
+  // IMPROVISE mode: per-model improvised answers for unknown questions (not pre-loaded)
+  const MODEL_STYLES = {
+    'hermes-1': {
+      tag: 'offline · pre-generated',
+      improvise: (q) => {
+        const openers = [
+          "Interesting question about ",
+          "Let me think about ",
+          "Good one — ",
+        ];
+        const op = openers[Math.floor(Math.random() * openers.length)];
+        const closers = [
+          " That's not in my pre-loaded knowledge yet, but Mohit might cover it on his blog — mohittt-vermaa.blogspot.com. Meanwhile try \"his projects\" or \"his skills\"!",
+          " I don't have that pre-loaded 🤔 but I know 50+ things about Mohit — try \"who is mohit verma\" or \"his website\"!",
+          " Beyond my offline knowledge for now — ask me about Mohit's projects, skills, website, or Earth/astronaut! 💪",
+        ];
+        const cl = closers[Math.floor(Math.random() * closers.length)];
+        return op + "\"" + q + "\"" + cl;
+      }
+    },
+    'hermes-mini': {
+      tag: 'offline · compact',
+      improvise: (q) => {
+        const opts = [
+          "Wah, interesting! 😄 But ye meri pre-loaded knowledge mein nahi — try \"his projects\" ya \"who is mohit verma\"!",
+          "Hmm 🤔 ye to advance level ho gaya — mujhe Mohit ke baare mein 50+ answers aate hain, try karo!",
+          "Not pre-loaded! 💪 But Mohit ke baare mein sab bata sakta hoon — \"his website\", \"his skills\", \"his github\" try karo!",
+        ];
+        return opts[Math.floor(Math.random() * opts.length)];
+      }
+    },
+    'hermes-pro': {
+      tag: 'offline · deep reasoning',
+      improvise: (q) => {
+        const words = q.split(' ').filter(w => w.length > 3);
+        const topic = words.slice(0, 4).join(' ');
+        const opts = [
+          "Deep-dive mode ON 🧠 — \"" + topic + "\" ke baare mein mere paas pre-loaded data nahi hai, lekin main batata hoon kya pata hai: Mohit Verma teen coder hai (India), Python/AI/ML/web dev seekh raha hai, aur ye website usne Termux se banayi. In topics pe 50+ answers hain — \"his projects\", \"his github\", \"the earth\", \"the astronaut\" try karo!",
+          "Analyzing… 🧠 \"" + topic + "\" mera offline scope se bahar hai. Mera knowledge Mohit Verma ke baare mein hai — uske projects (mlbox, ORF-5, class10-midterm-maths, Jarvis-IG), uski skills, uska website. In pe 50+ answers ready hain — koi try karo!",
+          "Ye deep question hai 🧠 — pre-loaded nahi, par main Mohit ke baare mein kuch bhi bata sakta hoon: uski learning (Python, AI, ML, web dev), uske projects, uski website ka 3D scene (Earth + astronaut + 50k stars). Try: \"his projects\" ya \"who is mohit verma\"!",
+        ];
+        return opts[Math.floor(Math.random() * opts.length)];
+      }
+    },
+  };
+  let currentModel = 'hermes-1';
+
+  modelSel.addEventListener('change', () => {
+    currentModel = modelSel.value;
+    modelTag.textContent = MODEL_STYLES[currentModel].tag;
+    const names = {'hermes-1': 'Hermes 1', 'hermes-mini': 'Hermes Mini', 'hermes-pro': 'Hermes Pro'};
+    setStatus(names[currentModel] + ' ready', false);
+    setTimeout(() => setStatus('Online', false), 1400);
+  });
+
   function answer(raw) {
     const q = normalize(raw);
     if (!q) return;
@@ -223,8 +293,12 @@
       }
       if (score > bestScore) { bestScore = score; best = a; }
     }
-    const reply = (bestScore >= 40 && best) ? best :
-      "Hmm, I don't have that answer pre-loaded yet 🤔 — but I know 50+ things about Mohit! Try: \"who is mohit verma\", \"his projects\", \"his skills\", \"his website\", or \"who made you\".";
+    let reply;
+    if (bestScore >= 40 && best) {
+      reply = best;
+    } else {
+      reply = MODEL_STYLES[currentModel].improvise(q);
+    }
     fakeThink(() => addMsg(reply, 'bot'));
   }
 
@@ -241,6 +315,7 @@
   function open() {
     overlay.classList.add('open');
     box.classList.add('open');
+    stars.classList.add('on');
     if (!body.children.length) {
       setTimeout(() => addMsg("Hi! 👋 I'm Hermes — Mohit's personal AI assistant. Ask me anything about Mohit, his projects, his website, or his work. Fully offline, right here in your browser! 🤖", 'bot'), 250);
     }
@@ -249,7 +324,21 @@
   function close() {
     overlay.classList.remove('open');
     box.classList.remove('open');
+    box.classList.remove('fullscreen');
+    stars.classList.remove('on');
   }
+
+  // fullscreen toggle
+  box.querySelector('#hcFull').addEventListener('click', () => {
+    box.classList.toggle('fullscreen');
+  });
+
+  // new chat: clear conversation
+  box.querySelector('#hcNewChat').addEventListener('click', () => {
+    body.innerHTML = '';
+    input.value = '';
+    setTimeout(() => addMsg("New chat started ✨ — fresh session, " + ({'hermes-1':'Hermes 1','hermes-mini':'Hermes Mini','hermes-pro':'Hermes Pro'})[currentModel] + ". Ask me anything about Mohit! 🤖", 'bot'), 200);
+  });
 
   box.querySelector('.hc-close').addEventListener('click', close);
   overlay.addEventListener('click', close);

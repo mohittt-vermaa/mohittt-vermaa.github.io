@@ -1,36 +1,29 @@
-/* ========= HERMES CHAT (offline pre-generated Q&A) ========= */
-.hc-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:9998;opacity:0;pointer-events:none;transition:opacity .25s ease}
-.hc-overlay.open{opacity:1;pointer-events:auto}
-.hc-box{position:fixed;bottom:0;left:0;right:0;z-index:9999;max-height:80vh;display:flex;flex-direction:column;
-  background:linear-gradient(160deg,rgba(30,30,45,.97),rgba(18,18,30,.99));
-  border:1px solid rgba(139,92,246,.35);border-radius:24px 24px 0 0;
-  box-shadow:0 -12px 70px rgba(109,40,217,.35);transform:translateY(100%);transition:transform .3s var(--fast)}
-.hc-box.open{transform:translateY(0)}
-.hc-head{display:flex;align-items:center;gap:11px;padding:15px 18px;border-bottom:1px solid rgba(139,92,246,.25);background:linear-gradient(90deg,rgba(124,58,237,.15),transparent)}
-.hc-ava{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff;font-size:16px;font-weight:700;box-shadow:0 4px 16px rgba(124,58,237,.4);animation:hc-breathe 2.5s ease-in-out infinite}
-@keyframes hc-breathe{0%,100%{box-shadow:0 4px 16px rgba(124,58,237,.4)}50%{box-shadow:0 4px 26px rgba(236,72,153,.6)}}
-.hc-title{font-weight:700;font-size:15px;color:var(--ink)}
-.hc-sub{font-size:11.5px;color:var(--green);display:inline-flex;align-items:center;gap:5px;font-weight:500}
-.hc-status{font-size:11px;color:var(--muted2);font-style:italic;min-height:14px;display:block;margin-top:2px;transition:color .3s}
-.hc-status.thinking{color:var(--acc)}
-.hc-close{margin-left:auto;width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--muted);font-size:16px;cursor:pointer;transition:.2s}
-.hc-close:hover{color:var(--ink);border-color:var(--acc)}
-.hc-body{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px;-webkit-overflow-scrolling:touch}
-.hc-msg{max-width:86%;padding:11px 15px;border-radius:16px;font-size:14px;line-height:1.6;white-space:pre-wrap;animation:hc-in .3s ease}
-@keyframes hc-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.hc-msg.bot{align-self:flex-start;background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(124,58,237,.08));border:1px solid rgba(124,58,237,.3);color:var(--ink)}
-.hc-msg.user{align-self:flex-end;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;box-shadow:0 4px 14px rgba(124,58,237,.3)}
-.hc-typing{align-self:flex-start;display:flex;gap:4px;padding:12px 16px;background:rgba(124,58,237,.12);border-radius:16px;border:1px solid rgba(124,58,237,.25)}
-.hc-typing span{width:7px;height:7px;border-radius:50%;background:var(--acc);animation:hc-dot 1.2s ease-in-out infinite}
-.hc-typing span:nth-child(2){animation-delay:.15s}
-.hc-typing span:nth-child(3){animation-delay:.3s}
-@keyframes hc-dot{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
-.hc-chips{display:flex;flex-wrap:wrap;gap:6px;padding:10px 16px 4px;max-height:70px;overflow-y:auto}
-.hc-chip{padding:7px 13px;border-radius:999px;border:1px solid rgba(139,92,246,.35);background:rgba(124,58,237,.1);color:var(--ink-soft);font-size:12.5px;cursor:pointer;transition:.15s}
-.hc-chip:hover{border-color:var(--acc);color:var(--acc);background:rgba(124,58,237,.2)}
-.hc-input{display:flex;gap:8px;padding:12px 16px 16px}
-.hc-input input{flex:1;padding:12px 15px;border-radius:14px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:14px;outline:none;transition:border-color .2s}
-.hc-input input:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(124,58,237,.15)}
-.hc-input button{padding:12px 20px;border-radius:14px;border:none;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;font-weight:600;cursor:pointer;box-shadow:0 4px 14px rgba(124,58,237,.3);transition:.2s}
-.hc-input button:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(124,58,237,.45)}
-body,nav,.bio-card,.info-card,.proj,.sk-card,.blog-card,.pf,.f-soc,.mobile-menu,.btn-o,.chip,.portrait-name,.portrait-badge,.portrait-frame,.about-img,.proj-links a,.pf-ic,.badge,.burger,.f-bot,.marquee,.blog-foot,.info-row{transition:background .4s ease,color .4s ease,border-color .4s ease,box-shadow .4s ease}
+/* ========= HERMES AI AGENT — FULLSCREEN MODE (Claude-style) ========= */
+.hc-box.fullscreen{top:0;left:0;right:0;bottom:0;max-height:100vh;width:100vw;border-radius:0;border:none;transform:translateY(0);transition:transform .35s var(--fast)}
+.hc-box.fullscreen .hc-head{padding:16px 20px;background:linear-gradient(90deg,rgba(124,58,237,.2),transparent);border-bottom:1px solid rgba(139,92,246,.3)}
+.hc-full-btn{margin-left:8px;width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--muted);font-size:14px;cursor:pointer;transition:.2s;display:grid;place-items:center}
+.hc-full-btn:hover{color:var(--acc);border-color:var(--acc)}
+/* starfield behind the fullscreen chat */
+.hc-stars{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity 1s ease;
+  background:radial-gradient(ellipse at 30% 20%,rgba(124,58,237,.15),transparent 50%),
+             radial-gradient(ellipse at 70% 80%,rgba(236,72,153,.1),transparent 50%),
+             #0a0a0f}
+.hc-stars.on{opacity:1}
+.hc-stars::before{content:'';position:absolute;inset:0;
+  background-image:radial-gradient(1.5px 1.5px at 20px 30px,#fff,transparent),
+    radial-gradient(1px 1px at 90px 140px,rgba(255,255,255,.8),transparent),
+    radial-gradient(1.5px 1.5px at 160px 60px,rgba(167,139,250,.9),transparent),
+    radial-gradient(1px 1px at 240px 110px,rgba(255,255,255,.6),transparent),
+    radial-gradient(2px 2px at 300px 40px,rgba(236,72,153,.7),transparent),
+    radial-gradient(1px 1px at 360px 160px,#fff,transparent),
+    radial-gradient(1.5px 1.5px at 420px 80px,rgba(167,139,250,.8),transparent),
+    radial-gradient(1px 1px at 480px 130px,rgba(255,255,255,.5),transparent);
+  background-size:520px 200px;animation:hc-twinkle 4s ease-in-out infinite alternate}
+@keyframes hc-twinkle{from{opacity:.5}to{opacity:1}}
+/* claude-style model switcher */
+.hc-model-bar{display:flex;align-items:center;gap:8px;padding:8px 16px;border-bottom:1px solid rgba(139,92,246,.2);background:rgba(124,58,237,.06)}
+.hc-model-select{padding:7px 12px;border-radius:10px;border:1px solid rgba(139,92,246,.35);background:rgba(124,58,237,.12);color:var(--ink);font-size:12.5px;font-weight:600;cursor:pointer;outline:none}
+.hc-model-select:hover{border-color:var(--acc)}
+.hc-newchat{margin-left:auto;padding:7px 14px;border-radius:10px;border:1px solid rgba(139,92,246,.35);background:transparent;color:var(--acc);font-size:12.5px;font-weight:600;cursor:pointer;transition:.2s}
+.hc-newchat:hover{background:rgba(124,58,237,.15)}
+.hc-model-tag{font-size:11px;color:var(--muted2)}
