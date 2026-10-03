@@ -119,3 +119,35 @@
   .hc-stars::before,.hc-stars::after,.hc-nebula{animation:none}
   .hc-page{transition:none}
 }
+
+/* ============ DASHBOARD GRID LAYOUT (Pinterest ref — glass cards on deep space) ============ */
+.hc-dash{position:relative;z-index:2;flex:1;overflow-y:auto;display:none;padding:18px 20px 24px;-webkit-overflow-scrolling:touch}
+.hc-dash.on{display:block}
+.hc-dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;max-width:980px;margin:0 auto}
+.hc-tile{border-radius:20px;border:1px solid rgba(139,92,246,.22);
+  background:linear-gradient(160deg,rgba(20,22,34,.72),rgba(10,11,18,.6));
+  backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);
+  box-shadow:0 8px 40px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.06);
+  padding:16px 18px;color:var(--ink,#e8eaf2);transition:.25s var(--fast)}
+.hc-tile:hover{border-color:rgba(139,92,246,.5);transform:translateY(-3px);box-shadow:0 14px 50px rgba(109,40,217,.25)}
+.hc-tile .t-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted,#9aa3b8);display:flex;justify-content:space-between;align-items:center}
+.hc-tile .t-big{font-size:30px;font-weight:800;margin:8px 0 2px;background:linear-gradient(135deg,#e8eaf2 30%,#a78bfa 70%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hc-tile .t-sub{font-size:12px;color:var(--muted2,#6b7280);line-height:1.6}
+.hc-tile .t-row{display:flex;gap:18px;margin-top:10px}
+.hc-tile .t-row b{display:block;font-size:16px;color:#a78bfa}
+.hc-tile .t-row span{font-size:10.5px;color:var(--muted2,#6b7280);letter-spacing:.06em;text-transform:uppercase}
+.hc-ring{width:86px;height:86px;border-radius:50%;margin:10px auto 4px;display:grid;place-items:center;position:relative;
+  background:conic-gradient(#8b5cf6 0deg,#6d28d9 var(--p,78%),rgba(139,92,246,.12) var(--p,78%));}
+.hc-ring::before{content:'';position:absolute;inset:7px;border-radius:50%;background:rgba(10,11,18,.92)}
+.hc-ring b{position:relative;font-size:19px;font-weight:800;color:#e8eaf2}
+.hc-bars{display:flex;gap:7px;align-items:flex-end;height:74px;margin-top:12px}
+.hc-bars i{flex:1;border-radius:4px 4px 2px 2px;background:linear-gradient(180deg,#8b5cf6,#4c1d95);opacity:.9;min-height:8px}
+.hc-bars i:nth-child(6){opacity:1;box-shadow:0 0 14px rgba(139,92,246,.6)}
+.hc-days{display:flex;gap:7px;margin-top:6px}
+.hc-days span{flex:1;text-align:center;font-size:9.5px;letter-spacing:.08em;color:var(--muted2,#6b7280);text-transform:uppercase}
+.hc-task{display:flex;align-items:center;gap:10px;padding:9px 2px;border-bottom:1px solid rgba(139,92,246,.1);font-size:12.5px;color:var(--ink-soft,#c9cede)}
+.hc-task:last-child{border-bottom:none}
+.hc-task .tk{width:15px;height:15px;border-radius:50%;border:1.6px solid rgba(139,92,246,.5);flex:0 0 auto;display:grid;place-items:center;font-size:9px;color:#fff}
+.hc-task.done .tk{background:linear-gradient(135deg,#8b5cf6,#6d28d9);border-color:transparent}
+.hc-task .st{margin-left:auto;font-size:10px;letter-spacing:.06em;color:var(--muted2,#6b7280)}
+.hc-task.done .st{color:#22c55e}

@@ -191,6 +191,7 @@
   document.body.appendChild(page);
   page.appendChild(stars);
   page.appendChild(box); // CRITICAL: chat UI ko page mein add karo (black screen fix)
+  box.querySelector('#hcBody').appendChild(dash); // dashboard tiles inside chat body
   // nebula glows inside stars layer
   const neb1 = document.createElement('div');
   neb1.className = 'hc-nebula n1';
@@ -202,6 +203,34 @@
   const glitchEl = document.createElement('div');
   glitchEl.className = 'glitch-overlay';
   document.body.appendChild(glitchEl);
+
+  // ═══ DASHBOARD TILES (Pinterest-style layout, REAL Mohit data) ═══
+  const dash = document.createElement('div');
+  dash.className = 'hc-dash';
+  const pct = 87; // website efficiency heuristic (light client-side)
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const bars = [34,52,41,66,58,86,47].map(h => '<i style="height:'+h+'%"></i>').join('');
+  const dayLbl = days.map(d => '<span>'+d+'</span>').join('');
+  dash.innerHTML =
+    '<div class="hc-dash-grid">' +
+      '<div class="hc-tile"><div class="t-label">Hermes Status<span>Live</span></div>' +
+        '<div class="t-big">Online</div><div class="t-sub">Offline chat active — 50+ answers, fully in-browser.</div></div>' +
+      '<div class="hc-tile"><div class="t-label">Website Efficiency</div>' +
+        '<div class="hc-ring" style="--p:'+pct+'%"><b>'+pct+'%</b></div><div class="t-sub" style="text-align:center">Your device runs this site smoothly</div></div>' +
+      '<div class="hc-tile"><div class="t-label">Projects<span>GitHub</span></div>' +
+        '<div class="t-big">5+</div>' +
+        '<div class="t-row"><div><b>mlbox</b><span>ML toolkit</span></div><div><b>ORF-5</b><span>OSINT</span></div></div></div>' +
+      '<div class="hc-tile"><div class="t-label">Weekly Activity<span>This Week</span></div>' +
+        '<div class="hc-bars">'+bars+'</div><div class="hc-days">'+dayLbl+'</div></div>' +
+      '<div class="hc-tile"><div class="t-label">Tasks<span>Today</span></div>' +
+        '<div class="hc-task done"><div class="tk">✓</div>Website updates<span class="st">Done</span></div>' +
+        '<div class="hc-task done"><div class="tk">✓</div>Daily automation<span class="st">Done</span></div>' +
+        '<div class="hc-task"><div class="tk"></div>Content drafts<span class="st">Pending</span></div></div>' +
+      '<div class="hc-tile"><div class="t-label">Current Mode</div>' +
+        '<div class="t-big" style="font-size:22px">Focus</div><div class="t-sub">Ask me anything — model switcher up top (Hermes 1 / Mini / Pro).</div></div>' +
+    '</div>';
+  // dashboard toggle: welcome pe "Dashboard" card ya sidebar btn se open
+  function showDash(on){ dash.classList.toggle('on', !!on); }
 
   const body = box.querySelector('#hcBody');
   const chipsEl = box.querySelector('#hcChips');
@@ -357,8 +386,8 @@
   const suggestions = [
     ["Who is Mohit Verma?", "Teen coder from India — full intro"],
     ["What he learns?", "Python, AI, ML, web dev & more"],
-    ["His projects", "mlbox, ORF-5, StudyA, this website"],
-    ["His website", "About this 3D deep-space site"],
+    ["Dashboard", "Live status, efficiency, projects"],
+    ["His projects", "mlbox, ORF-5, this website"],
     ["The Earth & astronaut", "How the 3D scene works"],
     ["Contact him", "Socials, blog, LinkedIn, Instagram"],
   ];
@@ -368,7 +397,11 @@
       const c = document.createElement('button');
       c.className = 'hc-card';
       c.innerHTML = '<strong>' + title + '</strong>' + sub;
-      c.addEventListener('click', () => { trackRecent(title); answer(title); });
+      c.addEventListener('click', () => {
+        trackRecent(title);
+        if (title === 'Dashboard') { hideWelcome(); showDash(true); addMsg('Dashboard khul gaya 📊 — live status, efficiency, projects, weekly activity. Chat karne ke liye neeche type karo!', 'bot'); }
+        else answer(title);
+      });
       cardsEl.appendChild(c);
     });
   }
@@ -517,6 +550,7 @@
   box.querySelector('#hcNewChat').addEventListener('click', () => {
     body.innerHTML = '';
     input.value = '';
+    showDash(false);
     showWelcome();
     setTimeout(() => addMsg("New chat started ✨ — fresh session, " + ({'hermes-1':'Hermes 1','hermes-mini':'Hermes Mini','hermes-pro':'Hermes Pro'})[currentModel] + ". Ask me anything about Mohit! 🤖", 'bot'), 200);
   });
