@@ -118,6 +118,18 @@
   neb2.style.cssText = 'position:absolute;width:500px;height:500px;right:-10%;bottom:10%;background:radial-gradient(circle,rgba(236,72,153,0.2),transparent 70%);filter:blur(30px);pointer-events:none';
   stars.appendChild(neb1);
   stars.appendChild(neb2);
+  // Floating space emojis — dark space stars + emojis as requested
+  const spaceEmojis = ['🚀','🌌','🛰️','👨‍🚀','🌍','⭐','🌠','🪐','☄️','🌙','✨','🛸','🔭','🌟','💫'];
+  for(let i=0;i<18;i++){
+    const em = document.createElement('div');
+    em.className = 'hc-emoji-float';
+    em.textContent = spaceEmojis[i % spaceEmojis.length];
+    em.style.left = (Math.random()*100)+'%';
+    em.style.animationDuration = (12 + Math.random()*18)+'s';
+    em.style.animationDelay = (Math.random()*8)+'s';
+    em.style.fontSize = (14 + Math.random()*16)+'px';
+    stars.appendChild(em);
+  }
 
   // Dashboard - defined BEFORE use
   const dash = document.createElement('div');

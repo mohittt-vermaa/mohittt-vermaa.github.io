@@ -893,9 +893,23 @@ document.documentElement.classList.add('splash-lock');
 // splash ke dauraan video dim — dark space + 50k stars ka look
 if(auraV)auraV.style.opacity='0.25';
 function enterSiteNow(){
-  document.documentElement.classList.remove('splash-lock');
-  document.getElementById('loader').classList.add('done');
-  if(auraV)auraV.style.opacity='0.9'; // entry ke baad aura video wapas
+  const loader=document.getElementById('loader');
+  if(loader.classList.contains('done')) return;
+  // Fill loader
+  const fill=document.getElementById('loaderFill');
+  if(fill) fill.style.width='100%';
+  // Trigger entry animation — astronaut + Earth fly, portfolio reveal
+  window._entryAnim = 1;
+  window._entryStart = performance.now();
+  // Animate loader brand
+  const brand=loader.querySelector('.loader-brand');
+  if(brand){ brand.style.transition='transform .8s cubic-bezier(.34,1.56,.64,1), opacity .6s'; brand.style.transform='scale(1.2)'; brand.style.opacity='0'; }
+  setTimeout(()=>{
+    document.documentElement.classList.remove('splash-lock');
+    loader.classList.add('done');
+    if(auraV){ auraV.style.transition='opacity 1s ease'; auraV.style.opacity='0.7'; }
+    window.scrollTo({top:0,behavior:'smooth'});
+  }, 600);
 }
 
 // ═══ SCAN DEVICE — loader page device info (IP, model, RAM, efficiency) — FIXED & ROBUST ═══
@@ -1209,9 +1223,46 @@ addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updat
 
 // ANIMATE
 let time=0;const clock=new THREE.Clock();
+let entryT=0;
 (function loop(){
   requestAnimationFrame(loop);const dt=clock.getDelta();time+=dt;
   sProg+=(tScroll-sProg)*.05;mX+=(tMX-mX)*.04;mY+=(tMY-mY)*.04;
+
+  // ENTRY ANIMATION: when enter site clicked, play smooth flight from splash to portfolio (was removed earlier)
+  if(window._entryAnim){
+    const elapsed=(performance.now()-(window._entryStart||0))/1400;
+    entryT=Math.min(elapsed,1);
+    const ease=1-Math.pow(1-entryT,3);
+    if(entryT>=1) window._entryAnim=0;
+    // Earth comes closer, camera flies in, astronaut drifts — cinematic entry
+    const ez=-21+ease*6;
+    earthGroup.position.z=ez;
+    const cY=1.5-ease*0.5;
+    const cZ=22-ease*8;
+    camera.position.x=mX*2;
+    camera.position.y=cY-mY*0.8;
+    camera.position.z=cZ;
+    const ly=cY*0.3+ease*0.3;
+    camera.lookAt(-ease*0.2,ly,-5-ease*2);
+    if(astro){
+      astro.position.x=astroBase.x+Math.sin(time*.23)*.15-ease*1;
+      astro.position.y=astroBase.y+Math.sin(time*.5)*.3;
+      astro.position.z=astroBase.z;
+      astro.rotation.y=-0.5+Math.sin(time*.2)*.12+mX*.15+ease*0.3;
+      astro.rotation.x=Math.sin(time*.3)*.02;
+      astro.scale.setScalar(0.8+ease*0.4);
+    }
+    spinY+=dt*0.035;
+    earth.rotation.y=spinY;
+    clouds.rotation.y+=dt*0.05;
+    cloudMat.uniforms.uTime.value=time;
+    sunDirU.value.copy(sun.position).sub(earthGroup.position).normalize();
+    starMat.uniforms.uTime.value=time;
+    stars.rotation.y+=dt*0.0035;
+    if(auraV&&auraV.readyState>=2 && auraV.paused) auraV.play().catch(()=>{});
+    renderer.render(scene,camera);
+    return;
+  }
 
   // SCROLL FLIGHT: scroll down -> Earth comes closer; scroll up -> Earth recedes
   const ez=-15-(1-sProg)*6;                 // Earth: far (z=-21) at top -> near (z=-15) at bottom
