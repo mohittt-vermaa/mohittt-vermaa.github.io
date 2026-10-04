@@ -442,12 +442,17 @@ body.dark .form-input,body.dark .form-textarea{background:#1a1a22;border-color:v
   *,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;animation-iteration-count:1!important}
   .m-track{animation:none}
 }
-/* ══ DEEP-SPACE LAYER (kept from space redesign) ══ */
-#canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;display:block;pointer-events:none}
-#auraVideo{position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:0;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35)}
+/* ══ DEEP-SPACE LAYER — Entering Deep Space = full blank page like Hermes chat page ══ */
+#canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;display:block;pointer-events:none;transition:opacity .6s ease}
+#auraVideo{position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:0;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35);transition:opacity .6s ease}
 section,footer,.marquee{position:relative;z-index:2}
-#loader{position:fixed;inset:0;background:rgba(5,5,10,0.15);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all 1.2s cubic-bezier(0.16,1,0.3,1);backdrop-filter:blur(2px) saturate(120%)}
-html.splash-lock,html.splash-lock body{overflow:hidden!important;height:100%}
+#loader{position:fixed;inset:0;background:transparent;z-index:10002;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all 1.2s cubic-bezier(0.16,1,0.3,1)}
+html.splash-lock,html.splash-lock body{overflow:hidden!important;height:100%;background:#05060a!important}
+/* Splash = full blank page: hide home portfolio, hide aura video, show only dark space canvas + astronaut */
+html.splash-lock .wrap{opacity:0!important;pointer-events:none!important;visibility:hidden!important}
+html.splash-lock #auraVideo{opacity:0!important;pointer-events:none!important}
+html.splash-lock #canvas{z-index:10000!important;opacity:1!important;pointer-events:auto!important}
+html.splash-lock #loader{background:transparent}
 #loader .loader-hint{margin-top:.7rem;font-size:.62rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.28);transition:color .5s}
 #loader .loader-hint.ready{color:#a78bfa;animation:hintPulse 1.8s ease-in-out infinite}
 @keyframes hintPulse{0%,100%{opacity:.55}50%{opacity:1}}
@@ -465,7 +470,7 @@ html.splash-lock,html.splash-lock body{overflow:hidden!important;height:100%}
 <!-- DEEP SPACE LAYER -->
 <div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">tap the astronaut to enter</div><button id="enterSite" type="button">Enter Site</button><button id="scanDevice" type="button" style="margin-top:1.6rem;padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><div id="scanResult" style="display:none;margin-top:1.2rem;width:min(320px,84vw);padding:14px 16px;border-radius:16px;border:1px solid rgba(139,92,246,.3);background:rgba(10,11,18,.85);backdrop-filter:blur(12px);color:#c9cede;font-size:12px;line-height:1.9;text-align:left"></div></div>
 <canvas id="canvas" aria-hidden="true" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;display:block;pointer-events:none"></canvas>
-<video id="auraVideo" aria-hidden="true" muted playsinline preload="auto" loop disablepictureinpicture disableremoteplayback src="assets/video/aura_bg_2k_opt.mp4?v=1" style="position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:0;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35);opacity:0.25"></video>
+<video id="auraVideo" aria-hidden="true" muted playsinline preload="auto" loop disablepictureinpicture disableremoteplayback src="assets/video/aura_bg_2k_opt.mp4?v=1" style="position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:0;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35);opacity:0"></video>
 
 <!-- =========== FULL 3D BACKGROUND CANVAS =========== -->
 
@@ -1261,9 +1266,9 @@ let entryT=0;
     stars.rotation.y+=dt*0.0035;
     // stars fade out at end of entry
     if(starMat){ starMat.opacity = ease>0.7 ? 1-(ease-0.7)/0.3 : 1; starMat.transparent=true; }
-    // aura video: 0.25 -> 0.7
+    // aura video: 0 -> 0.7 (blank page -> home aura)
     if(auraV){
-      auraV.style.opacity=String(0.25 + ease*0.45);
+      auraV.style.opacity=String(ease*0.7);
       if(auraV.readyState>=2 && auraV.paused) auraV.play().catch(()=>{});
     }
     renderer.render(scene,camera);
@@ -1295,7 +1300,7 @@ let entryT=0;
   const inSplash=loaderEl && !loaderEl.classList.contains('done');
 
   if(inSplash){
-    // Splash: Earth at -15, camera 22-ish, stars + astronaut visible
+    // Splash: Earth at -15, camera 22-ish, stars + astronaut visible — BLANK PAGE (no home content, no aura)
     earthGroup.visible=true;
     if(stars){ stars.visible=true; starMat.opacity=1; }
     if(astro && astro.visible===false){
@@ -1318,8 +1323,8 @@ let entryT=0;
     starMat.uniforms.uTime.value=time;
     stars.rotation.y+=dt*0.0035;
     if(auraV){
-      auraV.style.opacity='0.25';
-      if(auraV.readyState>=2 && auraV.paused) auraV.play().catch(()=>{});
+      auraV.style.opacity='0';
+      if(auraV.readyState>=2 && !auraV.paused) auraV.pause();
     }
     renderer.render(scene,camera);
     return;
