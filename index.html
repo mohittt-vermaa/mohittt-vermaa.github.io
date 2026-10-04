@@ -894,22 +894,17 @@ document.documentElement.classList.add('splash-lock');
 if(auraV)auraV.style.opacity='0.25';
 function enterSiteNow(){
   const loader=document.getElementById('loader');
-  if(loader.classList.contains('done')) return;
-  // Fill loader
+  if(loader.classList.contains('done')||window._entryAnim) return;
   const fill=document.getElementById('loaderFill');
   if(fill) fill.style.width='100%';
-  // Trigger entry animation — astronaut + Earth fly, portfolio reveal
   window._entryAnim = 1;
   window._entryStart = performance.now();
-  // Animate loader brand
   const brand=loader.querySelector('.loader-brand');
-  if(brand){ brand.style.transition='transform .8s cubic-bezier(.34,1.56,.64,1), opacity .6s'; brand.style.transform='scale(1.2)'; brand.style.opacity='0'; }
-  setTimeout(()=>{
-    document.documentElement.classList.remove('splash-lock');
-    loader.classList.add('done');
-    if(auraV){ auraV.style.transition='opacity 1s ease'; auraV.style.opacity='0.7'; }
-    window.scrollTo({top:0,behavior:'smooth'});
-  }, 600);
+  if(brand){ brand.style.transition='transform .8s cubic-bezier(.34,1.56,.64,1), opacity .6s'; brand.style.transform='scale(1.25)'; brand.style.opacity='0'; }
+  const hint=document.getElementById('loaderHint'), btn=document.getElementById('enterSite');
+  if(hint) hint.style.opacity='0';
+  if(btn) btn.style.opacity='0';
+  // entry animation will handle removal + hiding stars/astronaut after 1400ms
 }
 
 // ═══ SCAN DEVICE — loader page device info (IP, model, RAM, efficiency) — FIXED & ROBUST ═══
@@ -1221,36 +1216,41 @@ addEventListener('scroll',()=>{if(navEl)navEl.classList.toggle('scrolled',scroll
 const setAstroX=()=>{astroBase.x=(innerWidth/innerHeight<0.85)?2.6:6.5;};setAstroX();
 addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);setAstroX()});
 
-// ANIMATE
+// ANIMATE — splash has dark space 50K stars + astronaut + Earth, home has only aura video (stars+astronaut only on entering page)
 let time=0;const clock=new THREE.Clock();
 let entryT=0;
 (function loop(){
   requestAnimationFrame(loop);const dt=clock.getDelta();time+=dt;
   sProg+=(tScroll-sProg)*.05;mX+=(tMX-mX)*.04;mY+=(tMY-mY)*.04;
 
-  // ENTRY ANIMATION: when enter site clicked, play smooth flight from splash to portfolio (was removed earlier)
+  // ENTRY ANIMATION: cinematic flight from splash (Earth -15, cam 22) to home top (Earth -21, cam 14)
   if(window._entryAnim){
     const elapsed=(performance.now()-(window._entryStart||0))/1400;
     entryT=Math.min(elapsed,1);
-    const ease=1-Math.pow(1-entryT,3);
-    if(entryT>=1) window._entryAnim=0;
-    // Earth comes closer, camera flies in, astronaut drifts — cinematic entry
-    const ez=-21+ease*6;
+    const ease=1-Math.pow(1-entryT,3); // easeOutCubic
+    // Earth: -15 (splash) -> -21 (far at top)
+    const ez=-15 - ease*6;
     earthGroup.position.z=ez;
-    const cY=1.5-ease*0.5;
-    const cZ=22-ease*8;
+    const cY=1.5;
+    const cZ=22 - ease*8; // 22 -> 14
     camera.position.x=mX*2;
-    camera.position.y=cY-mY*0.8;
+    camera.position.y=cY - mY*0.8;
     camera.position.z=cZ;
-    const ly=cY*0.3+ease*0.3;
-    camera.lookAt(-ease*0.2,ly,-5-ease*2);
+    camera.lookAt(mX*0.3, cY*0.2, -5 - ease*5);
     if(astro){
-      astro.position.x=astroBase.x+Math.sin(time*.23)*.15-ease*1;
-      astro.position.y=astroBase.y+Math.sin(time*.5)*.3;
-      astro.position.z=astroBase.z;
-      astro.rotation.y=-0.5+Math.sin(time*.2)*.12+mX*.15+ease*0.3;
+      // astronaut flies slightly forward and scales up during entry
+      astro.position.x=astroBase.x + Math.sin(time*.23)*.15 - ease*0.5;
+      astro.position.y=astroBase.y + Math.sin(time*.5)*.3;
+      astro.position.z=astroBase.z - ease*1;
+      astro.rotation.y=-0.5 + Math.sin(time*.2)*.12 + mX*.15 + ease*0.4;
       astro.rotation.x=Math.sin(time*.3)*.02;
-      astro.scale.setScalar(0.8+ease*0.4);
+      const sc=0.9 + ease*0.5;
+      astro.scale.setScalar(sc);
+      // fade out astronaut at very end
+      if(ease>0.85 && astro.traverse){
+        const op=1-(ease-0.85)/0.15;
+        astro.traverse(o=>{ if(o.isMesh&&o.material){ o.material.transparent=true; o.material.opacity=Math.max(op,0); } });
+      }
     }
     spinY+=dt*0.035;
     earth.rotation.y=spinY;
@@ -1259,49 +1259,81 @@ let entryT=0;
     sunDirU.value.copy(sun.position).sub(earthGroup.position).normalize();
     starMat.uniforms.uTime.value=time;
     stars.rotation.y+=dt*0.0035;
-    if(auraV&&auraV.readyState>=2 && auraV.paused) auraV.play().catch(()=>{});
+    // stars fade out at end of entry
+    if(starMat){ starMat.opacity = ease>0.7 ? 1-(ease-0.7)/0.3 : 1; starMat.transparent=true; }
+    // aura video: 0.25 -> 0.7
+    if(auraV){
+      auraV.style.opacity=String(0.25 + ease*0.45);
+      if(auraV.readyState>=2 && auraV.paused) auraV.play().catch(()=>{});
+    }
+    renderer.render(scene,camera);
+    if(entryT>=1){
+      window._entryAnim=0;
+      // --- ENTRY COMPLETE: hide dark space + astronaut from home page, keep only aura video ---
+      document.documentElement.classList.remove('splash-lock');
+      const loader=document.getElementById('loader');
+      if(loader) loader.classList.add('done');
+      if(auraV){ auraV.style.transition='opacity .8s ease'; auraV.style.opacity='0.7'; }
+      // hide stars + astronaut + clouds from home page (only on entering deep space page)
+      if(stars) stars.visible=false;
+      if(astro) astro.visible=false;
+      if(clouds) clouds.visible=false;
+      // keep Earth for scroll? user said dark space + astronaut should only be on entering page, so hide Earth too for clean home
+      // If you want Earth scroll on home, comment next line
+      earthGroup.visible=false;
+      // hide canvas completely for performance on home
+      if(canvas){ canvas.style.opacity='0'; canvas.style.pointerEvents='none'; }
+      window.scrollTo({top:0,behavior:'smooth'});
+      // reset scroll progress to top
+      tScroll=0; sProg=0;
+    }
+    return;
+  }
+
+  // If still in splash (loader not done) — show dark space 50K stars + astronaut + Earth
+  const loaderEl=document.getElementById('loader');
+  const inSplash=loaderEl && !loaderEl.classList.contains('done');
+
+  if(inSplash){
+    // Splash: Earth at -15, camera 22-ish, stars + astronaut visible
+    earthGroup.visible=true;
+    if(stars){ stars.visible=true; starMat.opacity=1; }
+    if(astro && astro.visible===false){
+      // restore astronaut opacity if it was faded
+      astro.visible=true;
+      astro.traverse&&astro.traverse(o=>{ if(o.isMesh&&o.material){ o.material.opacity=1; } });
+    }
+    if(clouds) clouds.visible=true;
+    if(canvas) canvas.style.opacity='1';
+    earthGroup.position.z=-15;
+    camera.position.x=mX*2;
+    camera.position.y=1.5 - mY*0.8;
+    camera.position.z=22;
+    camera.lookAt(0,0.5,-5);
+    spinY+=dt*0.035;
+    earth.rotation.y=spinY;
+    clouds.rotation.y+=dt*0.05;
+    cloudMat.uniforms.uTime.value=time;
+    sunDirU.value.copy(sun.position).sub(earthGroup.position).normalize();
+    starMat.uniforms.uTime.value=time;
+    stars.rotation.y+=dt*0.0035;
+    if(auraV){
+      auraV.style.opacity='0.25';
+      if(auraV.readyState>=2 && auraV.paused) auraV.play().catch(()=>{});
+    }
     renderer.render(scene,camera);
     return;
   }
 
-  // SCROLL FLIGHT: scroll down -> Earth comes closer; scroll up -> Earth recedes
-  const ez=-15-(1-sProg)*6;                 // Earth: far (z=-21) at top -> near (z=-15) at bottom
-  earthGroup.position.z=ez;
-
-  const cY=1.5-sProg*3.5,cZ=14-sProg*20;    // Camera flies in: z 14 -> -6
-  camera.position.x=mX*2;camera.position.y=cY-mY*0.8;camera.position.z=cZ;
-  const ly=cY*0.3*(1-sProg)+1.8*sProg; // at full scroll, aim at Bihar's height so India sits centre-screen
-  camera.lookAt(-sProg*0.7,ly,-5-sProg*10);
-
-  // Astronaut: gentle float + slow spin on the right side, drifts aside on scroll
-  if(astro){astro.position.x=astroBase.x+Math.sin(time*.23)*.15-sProg*6;astro.position.y=astroBase.y+Math.sin(time*.5)*.3-sProg*2;astro.position.z=astroBase.z;astro.rotation.y=-0.5+Math.sin(time*.2)*.12+mX*.15;astro.rotation.x=Math.sin(time*.3)*.02}
-
-  // Earth: spins freely at top; as you scroll down it rotates to stop over Bihar, India
-  spinY+=dt*0.035*(1-Math.min(1,sProg*1.15));
-  earth.rotation.y=spinY*(1-sProg)+biharY*sProg;
-  clouds.rotation.y+=dt*0.05*(1-sProg*0.8);
-  cloudMat.uniforms.uTime.value=time;
-  sunDirU.value.copy(sun.position).sub(earthGroup.position).normalize();
-  starMat.uniforms.uTime.value=time;
-  stars.rotation.y+=dt*0.0035;
-
-  // AURA VIDEO: plain looping background video (no scroll control — always playing)
+  // HOME PAGE: only aura video background, no dark space stars, no astronaut (as per user request)
+  // Earth hidden, stars hidden, astronaut hidden — clean portfolio with aura video
   if(auraV&&auraV.readyState>=2){
-    if(auraV.paused){auraV.play().catch(()=>{});}
-    if(auraV.loop===false)auraV.loop=true;
-    auraV.style.opacity='0.9';
+    if(auraV.paused) auraV.play().catch(()=>{});
+    if(auraV.loop===false) auraV.loop=true;
+    // keep aura at 0.7 on home, not 0.9 (was glitch covering content)
+    if(parseFloat(auraV.style.opacity||'0')<0.6) auraV.style.opacity='0.7';
   }
-  // GLITCH TRANSITION at video loop point (fires the full-site glitch effect)
-  if(auraV&&auraV.duration&&!auraV.ended){
-    if(auraV.currentTime>auraV.duration-0.4&&!window._glitchFired){
-      window._glitchFired=true;
-      document.body.classList.add('glitch');
-      const go=document.querySelector('.glitch-overlay');
-      if(go){go.classList.remove('on');void go.offsetWidth;go.classList.add('on');}
-      setTimeout(()=>{document.body.classList.remove('glitch');window._glitchFired=false;},520);
-    }
-  }
-
+  // keep 3D hidden on home for clean look — but still render empty scene for future if needed
   renderer.render(scene,camera);
 })();
 </script>
