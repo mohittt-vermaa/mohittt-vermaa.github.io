@@ -445,7 +445,12 @@ body.dark .form-input,body.dark .form-textarea{background:#1a1a22;border-color:v
 /* ══ DEEP-SPACE LAYER (kept from space redesign) ══ */
 #canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;display:block;pointer-events:none}
 section,footer,.marquee{position:relative;z-index:2}
-#loader{position:fixed;inset:0;background:#050508;z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all 1.2s cubic-bezier(0.16,1,0.3,1)}
+#loader{position:fixed;inset:0;background:transparent;z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all 1.2s cubic-bezier(0.16,1,0.3,1)}
+html.splash-lock,html.splash-lock body{overflow:hidden!important;height:100%}
+#loader .loader-hint{margin-top:.7rem;font-size:.62rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.28);transition:color .5s}
+#loader .loader-hint.ready{color:#a78bfa;animation:hintPulse 1.8s ease-in-out infinite}
+@keyframes hintPulse{0%,100%{opacity:.55}50%{opacity:1}}
+#enterSite{margin-top:1.2rem;padding:10px 26px;border-radius:999px;border:1px solid rgba(167,139,250,.6);background:rgba(124,58,237,.18);color:#c4b5fd;font-size:12px;font-weight:700;letter-spacing:.12em;cursor:pointer;display:none;align-items:center;gap:7px}
 #loader.done{opacity:0;visibility:hidden;pointer-events:none}
 #loader .loader-brand{font-size:2rem;font-weight:900;letter-spacing:0.3em;background:linear-gradient(135deg,#6d28d9,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:2rem}
 #loader .loader-track{width:180px;height:2px;background:rgba(255,255,255,0.06);overflow:hidden;border-radius:1px}
@@ -457,8 +462,8 @@ section,footer,.marquee{position:relative;z-index:2}
 <body class="dark">
 
 <!-- DEEP SPACE LAYER -->
-<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><button id="scanDevice" type="button" style="margin-top:1.6rem;padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><div id="scanResult" style="display:none;margin-top:1.2rem;width:min(320px,84vw);padding:14px 16px;border-radius:16px;border:1px solid rgba(139,92,246,.3);background:rgba(10,11,18,.85);backdrop-filter:blur(12px);color:#c9cede;font-size:12px;line-height:1.9;text-align:left"></div></div>
-<canvas id="canvas" aria-hidden="true" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;display:block;pointer-events:none;visibility:hidden"></canvas>
+<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">tap the astronaut to enter</div><button id="enterSite" type="button">Enter Site</button><button id="scanDevice" type="button" style="margin-top:1.6rem;padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><div id="scanResult" style="display:none;margin-top:1.2rem;width:min(320px,84vw);padding:14px 16px;border-radius:16px;border:1px solid rgba(139,92,246,.3);background:rgba(10,11,18,.85);backdrop-filter:blur(12px);color:#c9cede;font-size:12px;line-height:1.9;text-align:left"></div></div>
+<canvas id="canvas" aria-hidden="true" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;display:block;pointer-events:none"></canvas>
 <video id="auraVideo" aria-hidden="true" muted playsinline preload="auto" loop disablepictureinpicture disableremoteplayback src="assets/video/aura_bg_2k_opt.mp4?v=1" style="position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:1;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35)"></video>
 
 <!-- =========== FULL 3D BACKGROUND CANVAS =========== -->
@@ -873,10 +878,23 @@ const keyL=new THREE.DirectionalLight(0xffffff,0.7);keyL.position.set(-4,6,10);s
 // TEXTURE
 // (dust particles removed — clean space with only Earth + stars)
 
-// LOADER — driven by Earth texture loading (astronaut removed for now)
+// LOADER — Earth texture loading se progress; entry sirf user click pe (astronaut ya Enter button)
 const manager=new THREE.LoadingManager();
 manager.onProgress=(url,loaded,total)=>{document.getElementById('loaderFill').style.width=Math.min(100,loaded/total*100)+'%'};
-manager.onLoad=()=>setTimeout(()=>document.getElementById('loader').classList.add('done'),1200);
+manager.onLoad=()=>{ // auto-close band — splash ready mark karo, entry click se hogi
+  const h=document.getElementById('loaderHint'),b=document.getElementById('enterSite');
+  if(h)h.classList.add('ready');
+  if(b)b.style.display='inline-flex';
+};
+// Splash mode: scroll lock — user device/elements ko aaram se scan kar sake
+document.documentElement.classList.add('splash-lock');
+// splash ke dauraan video dim — dark space + 50k stars ka look
+if(auraV)auraV.style.opacity='0.25';
+function enterSiteNow(){
+  document.documentElement.classList.remove('splash-lock');
+  document.getElementById('loader').classList.add('done');
+  if(auraV)auraV.style.opacity='0.9'; // entry ke baad aura video wapas
+}
 
 // ═══ SCAN DEVICE — loader page device info (IP, model, RAM, efficiency) ═══
 (function(){
@@ -941,7 +959,11 @@ manager.onLoad=()=>setTimeout(()=>document.getElementById('loader').classList.ad
     btn.innerHTML=old; btn.style.opacity='1'; busy=false;
   });
 })();
-setTimeout(()=>document.getElementById('loader').classList.add('done'),11000); // safety fallback (badhaya — elements ache se load hon)
+setTimeout(()=>{ // 11s fallback: agar kuch load nahi hua toh bhi user exit kar sake (auto-close nahi)
+  const h=document.getElementById('loaderHint'),b=document.getElementById('enterSite');
+  if(h)h.classList.add('ready');
+  if(b)b.style.display='inline-flex';
+},11000);
 
 // ═══════════════════════════════════════
 // EARTH — real textured planet + clouds + atmosphere glow
@@ -1061,7 +1083,7 @@ let astro=null;const astroBase=new THREE.Vector3(6.5,0.1,-4);
         astro.position.set(astroBase.x-c.x,astroBase.y-c.y,astroBase.z-c.z);
         astro.rotation.y=-0.5;
         astro.visible=true;
-        document.getElementById('loader').classList.add('done');
+        // splash click-gated — yahan auto-close nahi (entry sirf user click se)
       };
       setTimeout(fit,400);
     },
@@ -1071,7 +1093,7 @@ let astro=null;const astroBase=new THREE.Vector3(6.5,0.1,-4);
         document.getElementById('loaderFill').style.width=Math.max(parseFloat(document.getElementById('loaderFill').style.width)||0,pct)+'%';
       }
     },
-    err=>{console.error('Astronaut load failed:',err);document.getElementById('loader').classList.add('done');}
+    err=>{console.error('Astronaut load failed:',err);const h=document.getElementById('loaderHint'),b=document.getElementById('enterSite');if(h)h.classList.add('ready');if(b)b.style.display='inline-flex';}
   );
 }
 
@@ -1099,10 +1121,14 @@ let astro=null;const astroBase=new THREE.Vector3(6.5,0.1,-4);
     if(e.target.closest('a,button,input,select,textarea,.proj,.pf,.blog-card,.chip,.modal-overlay,nav,.mobile-menu')) return;
     if(astroHit(e)){
       lastTap=now;
+      const ld=document.getElementById('loader');
+      if(ld&&!ld.classList.contains('done')){enterSiteNow();return;} // splash mode: astronaut tap = site entry
       document.getElementById('homeTop').scrollIntoView({behavior:'smooth'});
       window.scrollTo({top:0,behavior:'smooth'});
     }
   },{passive:true});
+  const enterBtn=document.getElementById('enterSite');
+  if(enterBtn)enterBtn.addEventListener('click',enterSiteNow);
 })();
 
 // Sun light only — clean, no glow planes / pulse lights
