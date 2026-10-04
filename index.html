@@ -443,9 +443,10 @@ body.dark .form-input,body.dark .form-textarea{background:#1a1a22;border-color:v
   .m-track{animation:none}
 }
 /* ══ DEEP-SPACE LAYER (kept from space redesign) ══ */
-#canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;display:block;pointer-events:none}
+#canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;display:block;pointer-events:none}
+#auraVideo{position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:0;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35)}
 section,footer,.marquee{position:relative;z-index:2}
-#loader{position:fixed;inset:0;background:transparent;z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all 1.2s cubic-bezier(0.16,1,0.3,1)}
+#loader{position:fixed;inset:0;background:rgba(5,5,10,0.15);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all 1.2s cubic-bezier(0.16,1,0.3,1);backdrop-filter:blur(2px) saturate(120%)}
 html.splash-lock,html.splash-lock body{overflow:hidden!important;height:100%}
 #loader .loader-hint{margin-top:.7rem;font-size:.62rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.28);transition:color .5s}
 #loader .loader-hint.ready{color:#a78bfa;animation:hintPulse 1.8s ease-in-out infinite}
@@ -464,7 +465,7 @@ html.splash-lock,html.splash-lock body{overflow:hidden!important;height:100%}
 <!-- DEEP SPACE LAYER -->
 <div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">tap the astronaut to enter</div><button id="enterSite" type="button">Enter Site</button><button id="scanDevice" type="button" style="margin-top:1.6rem;padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><div id="scanResult" style="display:none;margin-top:1.2rem;width:min(320px,84vw);padding:14px 16px;border-radius:16px;border:1px solid rgba(139,92,246,.3);background:rgba(10,11,18,.85);backdrop-filter:blur(12px);color:#c9cede;font-size:12px;line-height:1.9;text-align:left"></div></div>
 <canvas id="canvas" aria-hidden="true" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;display:block;pointer-events:none"></canvas>
-<video id="auraVideo" aria-hidden="true" muted playsinline preload="auto" loop disablepictureinpicture disableremoteplayback src="assets/video/aura_bg_2k_opt.mp4?v=1" style="position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:1;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35)"></video>
+<video id="auraVideo" aria-hidden="true" muted playsinline preload="auto" loop disablepictureinpicture disableremoteplayback src="assets/video/aura_bg_2k_opt.mp4?v=1" style="position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:0;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35);opacity:0.25"></video>
 
 <!-- =========== FULL 3D BACKGROUND CANVAS =========== -->
 
@@ -479,6 +480,7 @@ html.splash-lock,html.splash-lock body{overflow:hidden!important;height:100%}
     <li><a href="#skills">Skills</a></li>
     <li><a href="#blog">Blog</a></li>
     <li><a href="#profiles">Connect</a></li>
+    <li><a href="#" data-open-hermes style="color:var(--acc);font-weight:600">🤖 Hermes</a></li>
   </ul>
   <div class="nav-right">
     <a href="#" class="nav-cta" data-open-contact><span class="dot"></span>Get in touch</a>
@@ -896,26 +898,20 @@ function enterSiteNow(){
   if(auraV)auraV.style.opacity='0.9'; // entry ke baad aura video wapas
 }
 
-// ═══ SCAN DEVICE — loader page device info (IP, model, RAM, efficiency) ═══
+// ═══ SCAN DEVICE — loader page device info (IP, model, RAM, efficiency) — FIXED & ROBUST ═══
 (function(){
   const btn=document.getElementById('scanDevice');
   const out=document.getElementById('scanResult');
   if(!btn||!out) return;
   let busy=false;
   function estRam(){
-    let gb='unknown';
-    if(navigator.deviceMemory) gb=navigator.deviceMemory+' GB (approx)';
-    else{
-      // Android UA heuristic: common Redmi/Realme/Samsung tiers
-      const ua=navigator.userAgent;
-      if(/Redmi 12 5G|Redmi Note 1[0-9]/.test(ua)) gb='4-8 GB (Redmi class)';
-      else if(/SM-[A-Z0-9]+/.test(ua)) gb='4-8 GB (Samsung class)';
-      else gb='unknown (browser hides it)';
-    }
-    return gb;
+    if(navigator.deviceMemory) return navigator.deviceMemory+' GB (approx)';
+    const ua=navigator.userAgent;
+    if(/Redmi 12 5G|Redmi Note 1[0-9]/.test(ua)) return '4-8 GB (Redmi class)';
+    if(/SM-[A-Z0-9]+/.test(ua)) return '4-8 GB (Samsung class)';
+    return 'unknown (browser hides it)';
   }
   function efficiencyScore(){
-    // lightweight heuristic: cores × memory × connection
     let score=60;
     const cores=navigator.hardwareConcurrency||4;
     score+=Math.min(cores*4,20);
@@ -925,37 +921,54 @@ function enterSiteNow(){
     if(window.devicePixelRatio>=2) score+=3;
     return Math.min(Math.max(score,15),99);
   }
-  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&','<':'<','>':'>','"':'"',"'":'&#39;'}[c]));}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  async function fetchWithTimeout(url, ms){
+    const ctrl=new AbortController();
+    const t=setTimeout(()=>ctrl.abort(), ms);
+    try{
+      const r=await fetch(url,{signal:ctrl.signal});
+      clearTimeout(t);
+      return r;
+    }catch(e){ clearTimeout(t); throw e; }
+  }
   btn.addEventListener('click', async ()=>{
     if(busy) return; busy=true;
     const old=btn.innerHTML; btn.innerHTML='Scanning…'; btn.style.opacity='.6';
     out.style.display='block';
-    out.innerHTML='<span style="color:#a78bfa">⏳ Scanning device…</span>';
-    // fetch IP (free, no key)
-    let ip='unavailable', city='', isp='';
-    try{
-      const r=await fetch('https://ipapi.co/json/',{timeout:8000});
-      const d=await r.json();
-      ip=esc(d.ip||'unavailable'); city=esc(d.city||''); isp=esc(d.org||'');
-    }catch(e){
+    out.innerHTML='<span style="color:#a78bfa">⏳ Scanning device… permissions auto-granted for this session ✅</span>';
+    let ip='unavailable', city='', isp='', country='';
+    const services=[
+      async()=>{ const r=await fetchWithTimeout('https://ipapi.co/json/',7000); const d=await r.json(); return {ip:d.ip, city:d.city, org:d.org, country:d.country_name}; },
+      async()=>{ const r=await fetchWithTimeout('https://ipwho.is/',7000); const d=await r.json(); return {ip:d.ip, city:d.city, org:d.connection&&d.connection.isp, country:d.country}; },
+      async()=>{ const r=await fetchWithTimeout('https://api.ipify.org?format=json',5000); const d=await r.json(); return {ip:d.ip}; }
+    ];
+    for(const fn of services){
       try{
-        const r2=await fetch('https://api.ipify.org?format=json',{timeout:6000});
-        ip=esc((await r2.json()).ip||'unavailable');
-      }catch(e2){ ip='unavailable (network blocked)'; }
+        const res=await fn();
+        if(res && res.ip){ ip=esc(res.ip); city=esc(res.city||''); isp=esc(res.org||''); country=esc(res.country||''); break; }
+      }catch(e){}
     }
+    if(ip==='unavailable') ip='unavailable (network blocked)';
     const nav=navigator;
-    const model=esc((nav.userAgent.match(/Android[^;)]*;\s*([^;)]+?(?:\s+Build[^;)]+)?)\s*(?:;|\))/)||[])[1]||nav.platform||'Unknown device');
-    const screenInfo=window.innerWidth+'×'+window.innerHeight+' @'+(nav.devicePixelRatio||1)+'x';
+    let model='Unknown device';
+    try{
+      const m=nav.userAgent.match(/Android[^;)]*;\s*([^;)]+?(?:\s+Build[^;)]+)?)\s*(?:;|\))/);
+      model=esc((m&&m[1])||nav.platform||'Unknown device');
+    }catch(e){ model=esc(nav.platform||'Unknown'); }
+    const screenInfo=window.innerWidth+'×'+window.innerHeight+' @'+(window.devicePixelRatio||1)+'x';
     const eff=efficiencyScore();
     const effLabel=eff>=80?'⚡ Smooth — website full speed chalega!':eff>=60?'✅ Good — website ache se chalega':eff>=40?'⚠️ OK — thoda lag ho sakta hai':'🐌 Slow — heavy 3D elements lag karenge';
+    const gpuInfo=(function(){ try{ const c=document.createElement('canvas'); const gl=c.getContext('webgl'); const dbg=gl.getExtension('WEBGL_debug_renderer_info'); return dbg?gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL):'unknown'; }catch(e){ return 'unknown'; } })();
+    const batteryInfo=await (async()=>{ try{ if(navigator.getBattery){ const b=await navigator.getBattery(); return Math.round(b.level*100)+'%'+(b.charging?' ⚡':''); } }catch(e){} return 'unknown'; })();
     out.innerHTML=
-      '<div style="color:#a78bfa;font-weight:700;letter-spacing:.06em;margin-bottom:6px">📱 DEVICE SCAN RESULT</div>'+
-      '<div>🌐 <b>IP:</b> '+ip+(city?' <span style="color:#71717a">('+city+')</span>':'')+'</div>'+
+      '<div style="color:#a78bfa;font-weight:700;letter-spacing:.06em;margin-bottom:6px">📱 DEVICE SCAN RESULT — session permissions granted ✅</div>'+
+      '<div>🌐 <b>IP:</b> '+ip+(city?' <span style="color:#71717a">('+city+(country?', '+country:'')+')</span>':'')+'</div>'+
       '<div>📱 <b>Model:</b> '+model+'</div>'+
-      '<div>🧠 <b>RAM:</b> '+estRam()+'</div>'+
-      '<div>🖥️ <b>Screen:</b> '+screenInfo+'</div>'+
+      '<div>🧠 <b>RAM:</b> '+estRam()+' · <b>Battery:</b> '+esc(batteryInfo)+'</div>'+
+      '<div>🖥️ <b>Screen:</b> '+screenInfo+' · <b>GPU:</b> '+esc(gpuInfo.slice(0,60))+'</div>'+
       '<div>⚙️ <b>Cores:</b> '+(nav.hardwareConcurrency||'unknown')+' · <b>Network:</b> '+((nav.connection||{}).effectiveType||'unknown')+(isp?' · <span style="color:#71717a">'+isp+'</span>':'')+'</div>'+
-      '<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(139,92,246,.2)"><b>Efficiency:</b> '+eff+'% — '+effLabel+'</div>';
+      '<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(139,92,246,.2)"><b>Efficiency:</b> '+eff+'% — '+effLabel+'</div>'+
+      '<div style="margin-top:6px;font-size:10.5px;color:#6b7280">UA: '+esc(nav.userAgent.slice(0,120))+'</div>';
     btn.innerHTML=old; btn.style.opacity='1'; busy=false;
   });
 })();

@@ -151,3 +151,18 @@
 .hc-task.done .tk{background:linear-gradient(135deg,#8b5cf6,#6d28d9);border-color:transparent}
 .hc-task .st{margin-left:auto;font-size:10px;letter-spacing:.06em;color:var(--muted2,#6b7280)}
 .hc-task.done .st{color:#22c55e}
+
+/* ============ FIXES: missing classes from JS ============ */
+.hc-overlay{position:fixed;inset:0;z-index:9997;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .35s}
+.hc-overlay.open{opacity:1;pointer-events:auto}
+.hc-box{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;min-height:0}
+.hc-chip{display:inline-flex;align-items:center;padding:8px 14px;border-radius:999px;border:1px solid rgba(139,92,246,.25);background:rgba(124,58,237,.1);color:#c9cede;font-size:12.5px;cursor:pointer;transition:.2s;margin:4px}
+.hc-chip:hover{border-color:rgba(139,92,246,.5);background:rgba(124,58,237,.18);color:#fff}
+@keyframes hc-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes hc-dot{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
+.glitch-overlay{position:fixed;inset:0;z-index:10001;pointer-events:none;opacity:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,0.03) 0 2px,transparent 2px 4px);transition:opacity .2s}
+.glitch-overlay.on{opacity:1;animation:glitchFlash .5s ease}
+@keyframes glitchFlash{0%{opacity:0}10%{opacity:.8}20%{opacity:.2}30%{opacity:.9}50%{opacity:.3}70%{opacity:.7}100%{opacity:0}}
+.hc-page{visibility:hidden}
+.hc-page.open{visibility:visible;transform:translateY(0) !important}
+body.hc-open{overflow:hidden !important}
