@@ -110,13 +110,13 @@
   stars.className = 'hc-stars';
   stars.style.cssText = 'position:absolute;inset:0;z-index:1;opacity:1;pointer-events:none;background:#05060a;overflow:hidden';
 
-  // 50K stars canvas for Hermes chat background (only dark space stars as requested)
+  // 10K stars canvas for Hermes chat background (only dark space stars as requested)
   const starCanvas = document.createElement('canvas');
   starCanvas.width = 800;
   starCanvas.height = 600;
   starCanvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;display:block';
   stars.appendChild(starCanvas);
-  // Draw 50K stars on canvas
+  // Draw 10K stars on canvas
   try{
     const ctx = starCanvas.getContext('2d');
     const dpr = Math.min(window.devicePixelRatio||1, 2);
@@ -125,8 +125,8 @@
       starCanvas.height = stars.clientHeight * dpr;
       ctx.fillStyle='#05060a';
       ctx.fillRect(0,0,starCanvas.width,starCanvas.height);
-      // 50K stars
-      for(let i=0;i<50000;i++){
+      // 10K stars
+      for(let i=0;i<10000;i++){
         const x=Math.random()*starCanvas.width;
         const y=Math.random()*starCanvas.height;
         const r=Math.random()<0.02 ? (1.5+Math.random()*1.5)*dpr : (0.5+Math.random()*0.8)*dpr;
@@ -148,11 +148,11 @@
     window.addEventListener('resize', resizeHCStars);
   }catch(e){ console.error('HC stars canvas error', e); }
 
-  // 4 small floating astronauts (as requested)
+  // 4 small astronaut models (as requested, not emoji)
   for(let i=0;i<4;i++){
     const astroDiv = document.createElement('div');
     astroDiv.className = 'hc-astronaut-float';
-    astroDiv.innerHTML = '<div style="font-size:28px;filter:drop-shadow(0 0 8px rgba(139,92,246,0.6))">👨‍🚀</div>';
+    astroDiv.innerHTML = '<img src="assets/astronaut-small.png?v=1" alt="astronaut" style="width:36px;height:36px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(139,92,246,0.7))">';
     astroDiv.style.left = (10 + i*22 + Math.random()*8)+'%';
     astroDiv.style.top = (15 + Math.random()*70)+'%';
     astroDiv.style.animationDuration = (18 + Math.random()*12)+'s';
