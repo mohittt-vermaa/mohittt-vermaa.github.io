@@ -1793,32 +1793,20 @@ starGeo.setAttribute('position',new THREE.BufferAttribute(sPos,3));
 starGeo.setAttribute('aSize',new THREE.BufferAttribute(sSize,1));
 starGeo.setAttribute('aColor',new THREE.BufferAttribute(sCol,3));
 starGeo.setAttribute('aPhase',new THREE.BufferAttribute(sPh,1));
-const starMat=new THREE.ShaderMaterial({
-  transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
-  uniforms:{uTime:{value:0},uPR:{value:Math.min(devicePixelRatio,2)}},
-  vertexShader:`
-attribute float aSize;attribute float aPhase;attribute vec3 aColor;
-uniform float uTime;uniform float uPR;
-varying vec3 vColor;varying float vTw;
-void main(){
-  vec4 mv=modelViewMatrix*vec4(position,1.0);
-  float sp=0.8+fract(aPhase*0.37)*2.2;
-  float tw=0.72+0.28*sin(uTime*sp+aPhase);
-  vTw=tw;vColor=aColor;
-  gl_PointSize=min(aSize*uPR*tw*(210.0/-mv.z),10.0*uPR);
-  gl_Position=projectionMatrix*mv;
-}`,
-  fragmentShader:`
-varying vec3 vColor;varying float vTw;
-void main(){
-  vec2 c=gl_PointCoord-0.5;float d=length(c)*2.0;
-  float core=exp(-d*d*9.0);
-  float spike=max(0.0,1.0-abs(c.x)*24.0)*exp(-abs(c.y)*7.0)+max(0.0,1.0-abs(c.y)*24.0)*exp(-abs(c.x)*7.0);
-  float b=core+spike*0.35;
-  if(b<0.01)discard;
-  gl_FragColor=vec4(vColor*b*vTw,b*vTw);
-}`
+const starMat=new THREE.PointsMaterial({
+  size:1.2,
+  sizeAttenuation:true,
+  transparent:true,
+  opacity:1,
+  vertexColors:true,
+  blending:THREE.AdditiveBlending,
+  depthWrite:false
 });
+// Keep aSize for compatibility but use PointsMaterial
+starMat.onBeforeCompile = (shader)=>{
+  shader.uniforms.uTime={value:0};
+  starMat.userData.shader=shader;
+};
 const stars=new THREE.Points(starGeo,starMat);scene.add(stars);
 
 // Clean space — only Earth + stars (dust & orbiting elements removed)
@@ -1877,7 +1865,8 @@ let entryT=0;
     clouds.rotation.y+=dt*0.05;
     cloudMat.uniforms.uTime.value=time;
     sunDirU.value.copy(sun.position).sub(earthGroup.position).normalize();
-    starMat.uniforms.uTime.value=time;
+    if(starMat && starMat.uniforms && starMat.uniforms.uTime) starMat.uniforms.uTime.value=time;
+    else if(starMat && starMat.userData && starMat.userData.shader && starMat.userData.shader.uniforms && starMat.userData.shader.uniforms.uTime) starMat.userData.shader.uniforms.uTime.value=time;
     stars.rotation.y+=dt*0.0035;
     // stars fade out at end of entry
     if(starMat){ starMat.opacity = ease>0.7 ? 1-(ease-0.7)/0.3 : 1; starMat.transparent=true; }
@@ -1954,7 +1943,7 @@ let entryT=0;
     clouds.rotation.y+=dt*0.05;
     cloudMat.uniforms.uTime.value=time;
     sunDirU.value.copy(sun.position).sub(earthGroup.position).normalize();
-    starMat.uniforms.uTime.value=time;
+    if(starMat && starMat.uniforms && starMat.uniforms.uTime) starMat.uniforms.uTime.value=time;
     stars.rotation.y+=dt*0.0035;
     if(auraV){
       auraV.style.opacity='0';
