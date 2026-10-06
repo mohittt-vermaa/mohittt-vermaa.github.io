@@ -103,32 +103,61 @@
   overlay.style.cssText = 'position:fixed;inset:0;z-index:9997;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .35s';
 
   const page = document.createElement('div');
-  page.className = 'hc-page sidebar-open';
+  page.className = 'hc-page'; // sidebar closed by default per user request
   page.style.cssText = 'position:fixed;inset:0;z-index:9998;display:flex;flex-direction:column;background:#05060a;transform:translateY(100%);transition:transform .45s cubic-bezier(.2,.8,.2,1);visibility:hidden';
 
   const stars = document.createElement('div');
   stars.className = 'hc-stars';
-  stars.style.cssText = 'position:absolute;inset:0;z-index:1;opacity:1;pointer-events:none;background:radial-gradient(ellipse at 30% 20%,rgba(109,40,217,0.15),transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(236,72,153,0.12),transparent 50%),#05060a';
+  stars.style.cssText = 'position:absolute;inset:0;z-index:1;opacity:1;pointer-events:none;background:#05060a;overflow:hidden';
 
-  const neb1 = document.createElement('div');
-  neb1.className = 'hc-nebula n1';
-  neb1.style.cssText = 'position:absolute;width:600px;height:600px;left:-10%;top:-10%;background:radial-gradient(circle,rgba(109,40,217,0.25),transparent 70%);filter:blur(30px);pointer-events:none';
-  const neb2 = document.createElement('div');
-  neb2.className = 'hc-nebula n2';
-  neb2.style.cssText = 'position:absolute;width:500px;height:500px;right:-10%;bottom:10%;background:radial-gradient(circle,rgba(236,72,153,0.2),transparent 70%);filter:blur(30px);pointer-events:none';
-  stars.appendChild(neb1);
-  stars.appendChild(neb2);
-  // Floating space emojis — dark space stars + emojis as requested
-  const spaceEmojis = ['🚀','🌌','🛰️','👨‍🚀','🌍','⭐','🌠','🪐','☄️','🌙','✨','🛸','🔭','🌟','💫'];
-  for(let i=0;i<18;i++){
-    const em = document.createElement('div');
-    em.className = 'hc-emoji-float';
-    em.textContent = spaceEmojis[i % spaceEmojis.length];
-    em.style.left = (Math.random()*100)+'%';
-    em.style.animationDuration = (12 + Math.random()*18)+'s';
-    em.style.animationDelay = (Math.random()*8)+'s';
-    em.style.fontSize = (14 + Math.random()*16)+'px';
-    stars.appendChild(em);
+  // 50K stars canvas for Hermes chat background (only dark space stars as requested)
+  const starCanvas = document.createElement('canvas');
+  starCanvas.width = 800;
+  starCanvas.height = 600;
+  starCanvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;display:block';
+  stars.appendChild(starCanvas);
+  // Draw 50K stars on canvas
+  try{
+    const ctx = starCanvas.getContext('2d');
+    const dpr = Math.min(window.devicePixelRatio||1, 2);
+    function resizeHCStars(){
+      starCanvas.width = stars.clientWidth * dpr;
+      starCanvas.height = stars.clientHeight * dpr;
+      ctx.fillStyle='#05060a';
+      ctx.fillRect(0,0,starCanvas.width,starCanvas.height);
+      // 50K stars
+      for(let i=0;i<50000;i++){
+        const x=Math.random()*starCanvas.width;
+        const y=Math.random()*starCanvas.height;
+        const r=Math.random()<0.02 ? (1.5+Math.random()*1.5)*dpr : (0.5+Math.random()*0.8)*dpr;
+        const alpha=0.5+Math.random()*0.5;
+        ctx.globalAlpha=alpha;
+        // color variation
+        const colRand=Math.random();
+        if(colRand<0.7) ctx.fillStyle='#ffffff';
+        else if(colRand<0.85) ctx.fillStyle='#a78bfa';
+        else if(colRand<0.95) ctx.fillStyle='#f9a8d4';
+        else ctx.fillStyle='#8b5cf6';
+        ctx.beginPath();
+        ctx.arc(x,y,r,0,Math.PI*2);
+        ctx.fill();
+      }
+      ctx.globalAlpha=1;
+    }
+    resizeHCStars();
+    window.addEventListener('resize', resizeHCStars);
+  }catch(e){ console.error('HC stars canvas error', e); }
+
+  // 4 small floating astronauts (as requested)
+  for(let i=0;i<4;i++){
+    const astroDiv = document.createElement('div');
+    astroDiv.className = 'hc-astronaut-float';
+    astroDiv.innerHTML = '<div style="font-size:28px;filter:drop-shadow(0 0 8px rgba(139,92,246,0.6))">👨‍🚀</div>';
+    astroDiv.style.left = (10 + i*22 + Math.random()*8)+'%';
+    astroDiv.style.top = (15 + Math.random()*70)+'%';
+    astroDiv.style.animationDuration = (18 + Math.random()*12)+'s';
+    astroDiv.style.animationDelay = (i*2 + Math.random()*3)+'s';
+    stars.appendChild(astroDiv);
   }
 
   // Dashboard - defined BEFORE use

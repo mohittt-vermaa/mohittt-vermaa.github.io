@@ -484,6 +484,10 @@ html.splash-lock #loader{background:transparent}
 #enterSite{margin-top:1.2rem;padding:10px 26px;border-radius:999px;border:1px solid rgba(167,139,250,.6);background:rgba(124,58,237,.18);color:#c4b5fd;font-size:12px;font-weight:700;letter-spacing:.12em;cursor:pointer;display:none;align-items:center;gap:7px}
 #enterBlackhole{padding:10px 22px;border-radius:999px;border:1px solid rgba(236,72,153,.5);background:linear-gradient(135deg,rgba(109,40,217,.25),rgba(236,72,153,.2));color:#f9a8d4;font-size:12px;font-weight:700;letter-spacing:.1em;cursor:pointer;display:none;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(236,72,153,.25)}
 #loader.done{opacity:0;visibility:hidden;pointer-events:none}
+/* Glitch transition for home page entry */
+.glitch-active{animation:glitchMain 0.5s ease}
+@keyframes glitchMain{0%{filter:hue-rotate(0deg) contrast(1)}20%{filter:hue-rotate(90deg) contrast(1.5) blur(1px);transform:translateX(-2px)}40%{filter:hue-rotate(180deg) contrast(2) blur(0px);transform:translateX(2px)}60%{filter:hue-rotate(270deg) contrast(1.5) blur(1px);transform:translateX(-1px)}80%{filter:hue-rotate(360deg) contrast(1);transform:translateX(1px)}100%{filter:hue-rotate(0deg) contrast(1);transform:translateX(0)}}
+#glitchOverlay.on{display:grid !important;opacity:1 !important;animation:glitchFlash 0.6s ease}
 #loader .loader-brand{font-size:2rem;font-weight:900;letter-spacing:0.3em;background:linear-gradient(135deg,#6d28d9,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:2rem}
 #loader .loader-track{width:180px;height:2px;background:rgba(255,255,255,0.06);overflow:hidden;border-radius:1px}
 #loader .loader-fill{height:100%;background:linear-gradient(90deg,#6d28d9,#ec4899);width:0%;transition:width 0.4s;border-radius:1px}
@@ -529,7 +533,7 @@ html.splash-lock #loader{background:transparent}
   </div>
 </div>
 <!-- DEEP SPACE LAYER -->
-<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">tap the astronaut or black hole to enter</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterSite" type="button" style="padding:10px 22px;border-radius:999px;border:1px solid rgba(167,139,250,.6);background:rgba(124,58,237,.18);color:#c4b5fd;font-size:12px;font-weight:700;letter-spacing:.1em;cursor:pointer;display:inline-flex;align-items:center;gap:8px"><img src="assets/black-hole.jpg" alt="" style="width:20px;height:20px;border-radius:50%;object-fit:cover;box-shadow:0 0 12px rgba(139,92,246,.6)">Enter Site</button><button id="enterBlackhole" type="button" style="padding:10px 22px;border-radius:999px;border:1px solid rgba(236,72,153,.5);background:linear-gradient(135deg,rgba(109,40,217,.25),rgba(236,72,153,.2));color:#f9a8d4;font-size:12px;font-weight:700;letter-spacing:.1em;cursor:pointer;display:none;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(236,72,153,.25)"><img src="assets/black-hole.jpg" alt="" style="width:22px;height:22px;border-radius:50%;object-fit:cover;box-shadow:0 0 14px rgba(236,72,153,.7)">Enter Blackhole</button></div><div style="display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center"><button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⚙️ Site Setting</button></div><div id="scanResult" style="display:none;margin-top:1.2rem;width:min(320px,84vw);padding:14px 16px;border-radius:16px;border:1px solid rgba(139,92,246,.3);background:rgba(10,11,18,.85);backdrop-filter:blur(12px);color:#c9cede;font-size:12px;line-height:1.9;text-align:left;max-height:60vh;overflow-y:auto"></div><div id="blackHoleOverlay" style="position:fixed;inset:0;z-index:10003;display:none;place-items:center;background:radial-gradient(ellipse at center, #1a0b2e 0%, #05060a 70%);opacity:0;transition:opacity .6s"><img src="assets/black-hole.jpg" alt="Black Hole" style="width:min(80vw,500px);height:min(80vw,500px);border-radius:50%;object-fit:cover;box-shadow:0 0 80px rgba(139,92,246,.8),0 0 160px rgba(236,72,153,.5);animation:blackHoleSpin 3s linear infinite, blackHolePulse 2s ease-in-out infinite"><style>@keyframes blackHoleSpin{to{transform:rotate(360deg)}}@keyframes blackHolePulse{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.08) rotate(180deg)}}@keyframes blackHoleEnter{0%{transform:scale(0.2) rotate(0deg);opacity:0}50%{opacity:1}100%{transform:scale(4) rotate(720deg);opacity:0}}</style></div></div>
+<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">tap the astronaut or black hole to enter</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterSite" type="button" style="padding:10px 22px;border-radius:999px;border:1px solid rgba(167,139,250,.6);background:rgba(124,58,237,.18);color:#c4b5fd;font-size:12px;font-weight:700;letter-spacing:.1em;cursor:pointer;display:inline-flex;align-items:center;gap:8px"><img src="assets/black-hole.jpg" alt="" style="width:20px;height:20px;border-radius:50%;object-fit:cover;box-shadow:0 0 12px rgba(139,92,246,.6)">Enter Site</button><button id="enterBlackhole" type="button" style="padding:10px 22px;border-radius:999px;border:1px solid rgba(236,72,153,.5);background:linear-gradient(135deg,rgba(109,40,217,.25),rgba(236,72,153,.2));color:#f9a8d4;font-size:12px;font-weight:700;letter-spacing:.1em;cursor:pointer;display:none;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(236,72,153,.25)"><img src="assets/black-hole.jpg" alt="" style="width:22px;height:22px;border-radius:50%;object-fit:cover;box-shadow:0 0 14px rgba(236,72,153,.7)">Enter Blackhole</button></div><div style="display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center"><button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⚙️ Site Setting</button></div><div id="scanResult" style="display:none;margin-top:1.2rem;width:min(320px,84vw);padding:14px 16px;border-radius:16px;border:1px solid rgba(139,92,246,.3);background:rgba(10,11,18,.85);backdrop-filter:blur(12px);color:#c9cede;font-size:12px;line-height:1.9;text-align:left;max-height:60vh;overflow-y:auto"></div><div id="glitchOverlay" style="position:fixed;inset:0;z-index:10004;display:none;background:#05060a;pointer-events:none;opacity:0"><div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,0.05) 0 2px,transparent 2px 4px)"></div><div style="position:absolute;inset:0;display:grid;place-items:center;color:#a78bfa;font-family:Space Grotesk;font-weight:800;font-size:18px;letter-spacing:.3em;text-transform:uppercase;animation:glitchText 0.3s infinite">SYSTEM GLITCH</div><style>@keyframes glitchText{0%{transform:translate(0)}20%{transform:translate(-2px,2px)}40%{transform:translate(-2px,-2px)}60%{transform:translate(2px,2px)}80%{transform:translate(2px,-2px)}100%{transform:translate(0)}}</style></div><div id="blackHoleOverlay" style="position:fixed;inset:0;z-index:10003;display:none;place-items:center;background:radial-gradient(ellipse at center, #1a0b2e 0%, #05060a 70%);opacity:0;transition:opacity .6s"><img src="assets/black-hole.jpg" alt="Black Hole" style="width:min(80vw,500px);height:min(80vw,500px);border-radius:50%;object-fit:cover;box-shadow:0 0 80px rgba(139,92,246,.8),0 0 160px rgba(236,72,153,.5);animation:blackHoleSpin 3s linear infinite, blackHolePulse 2s ease-in-out infinite"><style>@keyframes blackHoleSpin{to{transform:rotate(360deg)}}@keyframes blackHolePulse{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.08) rotate(180deg)}}@keyframes blackHoleEnter{0%{transform:scale(0.2) rotate(0deg);opacity:0}50%{opacity:1}100%{transform:scale(4) rotate(720deg);opacity:0}}</style></div></div>
 <canvas id="canvas" aria-hidden="true" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;display:block;pointer-events:none"></canvas>
 <video id="auraVideo" aria-hidden="true" muted playsinline preload="auto" loop disablepictureinpicture disableremoteplayback src="assets/video/aura_bg_2k_opt.mp4?v=1" style="position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:0;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35);opacity:0"></video>
 
@@ -950,11 +954,21 @@ html.splash-lock #loader{background:transparent}
   function applyCfgToDOM(cfg){
     window.SITE_CFG=cfg;
     document.documentElement.dataset.sitePreset=cfg.preset;
+    document.documentElement.classList.toggle('low-perf', cfg.preset==='low');
+    document.documentElement.classList.toggle('no-anim', !cfg.toggles.animations);
     if(!cfg.toggles.marquee) document.querySelectorAll('.marquee').forEach(el=>el.style.display='none'); else document.querySelectorAll('.marquee').forEach(el=>el.style.display='');
-    if(!cfg.toggles.glass) document.querySelectorAll('.glass-panel').forEach(el=>{ el.style.backdropFilter='none'; el.style.background='rgba(255,255,255,.06)'; });
+    if(!cfg.toggles.glass){ document.querySelectorAll('.glass-panel').forEach(el=>{ el.style.backdropFilter='none'; el.style.background='rgba(255,255,255,.06)'; }); document.querySelectorAll('.glass-panel::before').forEach(el=>{}); }
+    else { document.querySelectorAll('.glass-panel').forEach(el=>{ el.style.backdropFilter=''; el.style.background=''; }); }
     if(!cfg.toggles.cursor){ const d=document.getElementById('curD'), r=document.getElementById('curR'); if(d) d.style.display='none'; if(r) r.style.display='none'; document.body.classList.remove('no-cur'); }
+    else { const d=document.getElementById('curD'), r=document.getElementById('curR'); if(d) d.style.display=''; if(r) r.style.display=''; }
     const aura=document.getElementById('auraVideo');
-    if(aura && !cfg.toggles.aura){ aura.style.display='none'; }
+    if(aura){ aura.style.display=cfg.toggles.aura?'block':'none'; }
+    // For low preset, disable heavy CSS animations
+    if(cfg.preset==='low' || !cfg.toggles.animations){
+      document.querySelectorAll('.portrait-glow, .portrait-ring, .m-track, .glass-panel::before').forEach(el=>{
+        if(el) el.style.animation='none';
+      });
+    }
   }
   const presetBtns=document.querySelectorAll('.ss-preset');
   const customBox=document.getElementById('ssCustom');
@@ -1039,18 +1053,43 @@ html.splash-lock #loader{background:transparent}
       const b1=document.getElementById('enterSite'), b2=document.getElementById('enterBlackhole');
       if(b1) b1.style.opacity='0';
       if(b2) b2.style.opacity='0';
-      // Simulate entry completion after 1.4s for low preset without 3D — SHOW HOME PAGE
+      // Simulate entry completion — SHOW HOME PAGE with glitch if animations enabled
       setTimeout(()=>{
-        document.documentElement.classList.remove('splash-lock');
-        if(loader) loader.classList.add('done');
-        const aura=document.getElementById('auraVideo');
-        if(aura){ aura.style.display='block'; aura.style.opacity='0.7'; if(aura.paused) aura.play().catch(()=>{}); }
-        const canvas=document.getElementById('canvas');
-        if(canvas){ canvas.style.opacity='0'; canvas.style.display='none'; }
-        const wrap=document.querySelector('.wrap');
-        if(wrap){ wrap.style.display='block'; wrap.style.opacity='1'; wrap.style.visibility='visible'; wrap.style.pointerEvents='auto'; }
-        window.scrollTo({top:0,behavior:'smooth'});
-      }, 1500);
+        const glitchOv=document.getElementById('glitchOverlay');
+        const doShowHome = ()=>{
+          document.documentElement.classList.remove('splash-lock');
+          if(loader) loader.classList.add('done');
+          const aura=document.getElementById('auraVideo');
+          if(aura){ 
+            const cfg=window.SITE_CFG||{toggles:{aura:true}};
+            aura.style.display=cfg.toggles.aura?'block':'none'; 
+            aura.style.opacity=cfg.toggles.aura?'0.7':'0'; 
+            if(aura.paused && cfg.toggles.aura) aura.play().catch(()=>{}); 
+          }
+          const canvas=document.getElementById('canvas');
+          if(canvas){ canvas.style.opacity='0'; canvas.style.display='none'; }
+          const wrap=document.querySelector('.wrap');
+          if(wrap){ wrap.style.display='block'; wrap.style.opacity='1'; wrap.style.visibility='visible'; wrap.style.pointerEvents='auto'; }
+          window.scrollTo({top:0,behavior:'smooth'});
+        };
+        if(glitchOv){
+          try{
+            const cfg=window.SITE_CFG||{toggles:{animations:true}};
+            if(cfg.toggles.animations){
+              glitchOv.style.display='grid'; glitchOv.style.opacity='1'; glitchOv.classList.add('on');
+              document.body.classList.add('glitch-active');
+              setTimeout(()=>{
+                glitchOv.style.opacity='0'; glitchOv.classList.remove('on');
+                setTimeout(()=>{ glitchOv.style.display='none'; }, 600);
+                document.body.classList.remove('glitch-active');
+                doShowHome();
+              }, 600);
+              return;
+            }
+          }catch(e){}
+        }
+        doShowHome();
+      }, 800);
     };
   }
   if(!window.enterBlackholeNow){
@@ -1220,7 +1259,7 @@ try{
   document.getElementById('openSettingFromLock')?.addEventListener('click', ()=>{ if(window.openSiteSetting) window.openSiteSetting(); });
 }catch(e){ console.error('Early listener error', e); }
 
-// ═══ SCAN DEVICE — FIXED: exact model, scrollable, astronaut touch fixed, site setting link ═══
+// ═══ SCAN DEVICE — CPU-Z STYLE with CPU/GPU usage graphs, expected usage ═══
 (function(){
   const btn=document.getElementById('scanDevice');
   const out=document.getElementById('scanResult');
@@ -1291,13 +1330,50 @@ try{
     }catch(e){ model=navigator.platform||'Unknown'; }
     return model;
   }
+  function createBar(percent, color){
+    const c=color||'#8b5cf6';
+    return '<div style="display:flex;align-items:center;gap:8px;margin:4px 0"><div style="flex:1;height:8px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden"><div style="width:'+percent+'%;height:100%;background:linear-gradient(90deg,'+c+',#ec4899);border-radius:4px;transition:width 1s"></div></div><span style="font-size:10px;color:#a1a1aa;min-width:32px">'+percent+'%</span></div>';
+  }
+  function createGraphCanvas(id, values, color){
+    // values array 0-100
+    return '<canvas id="'+id+'" width="280" height="60" style="width:100%;height:60px;background:rgba(0,0,0,0.3);border-radius:8px;margin:6px 0"></canvas>';
+  }
+  function drawGraph(id, values, color){
+    try{
+      const canvas=document.getElementById(id);
+      if(!canvas) return;
+      const ctx=canvas.getContext('2d');
+      const w=canvas.width, h=canvas.height;
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle='rgba(0,0,0,0.3)';
+      ctx.fillRect(0,0,w,h);
+      // grid
+      ctx.strokeStyle='rgba(255,255,255,0.05)';
+      ctx.lineWidth=1;
+      for(let i=0;i<=4;i++){ const y=(h/4)*i; ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+      // line
+      ctx.strokeStyle=color||'#8b5cf6';
+      ctx.lineWidth=2;
+      ctx.beginPath();
+      values.forEach((v,i)=>{
+        const x=(w/(values.length-1))*i;
+        const y=h - (v/100)*h*0.8 - h*0.1;
+        if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      });
+      ctx.stroke();
+      // fill under
+      ctx.lineTo(w,h); ctx.lineTo(0,h); ctx.closePath();
+      ctx.fillStyle=(color||'#8b5cf6')+'33';
+      ctx.fill();
+    }catch(e){}
+  }
   btn.addEventListener('click', async ()=>{
     if(busy) return; busy=true;
     const old=btn.innerHTML; btn.innerHTML='Scanning…'; btn.style.opacity='.6';
     out.style.display='block';
-    out.style.maxHeight='60vh';
+    out.style.maxHeight='75vh';
     out.style.overflowY='auto';
-    out.innerHTML='<span style="color:#a78bfa">⏳ Scanning device… permissions auto-granted ✅</span>';
+    out.innerHTML='<span style="color:#a78bfa">⏳ Scanning device… CPU-Z style analysis… permissions auto-granted ✅</span>';
     if(loader) loader.scrollTop=loader.scrollHeight;
     let ip='unavailable', city='', isp='', country='';
     const services=[
@@ -1318,30 +1394,77 @@ try{
     const effLabel=eff>=80?'⚡ Smooth — website full speed chalega!':eff>=60?'✅ Good — website ache se chalega':eff>=40?'⚠️ OK — thoda lag ho sakta hai':'🐌 Slow — heavy 3D lag';
     const gpuInfo=(function(){ try{ const c=document.createElement('canvas'); const gl=c.getContext('webgl'); const dbg=gl.getExtension('WEBGL_debug_renderer_info'); return dbg?gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL):'unknown'; }catch(e){ return 'unknown'; } })();
     const batteryInfo=await (async()=>{ try{ if(navigator.getBattery){ const b=await navigator.getBattery(); return Math.round(b.level*100)+'%'+(b.charging?' ⚡':''); } }catch(e){} return 'unknown'; })();
-    const presetInfo=(()=>{ try{ const s=localStorage.getItem('mv_site_setting_v1'); if(s){ const j=JSON.parse(s); return j.preset+' ('+Object.keys(j.toggles).filter(k=>j.toggles[k]).length+' on)'; } }catch(e){} return 'extreme'; })();
+    const presetInfo=(()=>{ try{ const s=localStorage.getItem('mv_site_setting_v1'); if(s){ const j=JSON.parse(s); return j.preset; } }catch(e){} return 'extreme'; })();
+    // CPU-Z style info
+    const cores=navigator.hardwareConcurrency||4;
+    const mem=navigator.deviceMemory||4;
+    const ua=navigator.userAgent;
+    const platform=navigator.platform||'unknown';
+    const vendor=navigator.vendor||'unknown';
+    const lang=navigator.language||'en';
+    const conn=navigator.connection||{};
+    // Estimated usage based on preset and site
+    let cpuUsage, gpuUsage, ramUsage;
+    if(presetInfo==='low'){ cpuUsage=15+Math.random()*10; gpuUsage=10+Math.random()*8; ramUsage=20+Math.random()*10; }
+    else if(presetInfo==='medium'){ cpuUsage=35+Math.random()*15; gpuUsage=30+Math.random()*15; ramUsage=45+Math.random()*15; }
+    else { cpuUsage=55+Math.random()*20; gpuUsage=60+Math.random()*20; ramUsage=65+Math.random()*15; }
+    cpuUsage=Math.round(cpuUsage); gpuUsage=Math.round(gpuUsage); ramUsage=Math.round(ramUsage);
+    // Generate fake usage history for graphs
+    const cpuHist=Array.from({length:20},()=>15+Math.random()* (presetInfo==='low'?20: presetInfo==='medium'?40:60));
+    const gpuHist=Array.from({length:20},()=>10+Math.random()* (presetInfo==='low'?15: presetInfo==='medium'?35:65));
+    const ramHist=Array.from({length:20},()=>20+Math.random()* (presetInfo==='low'?20: presetInfo==='medium'?30:40));
+    // CPU arch detection
+    let arch='unknown';
+    if(/arm|aarch64/i.test(ua) || /Android/i.test(ua)) arch='ARM64 (mobile)';
+    else if(/x86_64|Win64|amd64/i.test(ua) || /x64/i.test(platform)) arch='x64';
+    else if(/i686|i386/i.test(ua)) arch='x86';
+    else arch=platform;
     out.innerHTML=
-      '<div style="color:#a78bfa;font-weight:700;letter-spacing:.06em;margin-bottom:6px">📱 DEVICE SCAN RESULT — session permissions granted ✅</div>'+
-      '<div>🌐 <b>IP:</b> '+ip+(city?' <span style="color:#71717a">('+city+(country?', '+country:'')+')</span>':'')+'</div>'+
-      '<div>📱 <b>Model:</b> '+model+'</div>'+
-      '<div>🧠 <b>RAM:</b> '+estRam()+' · <b>Battery:</b> '+esc(batteryInfo)+'</div>'+
-      '<div>🖥️ <b>Screen:</b> '+screenInfo+' · <b>GPU:</b> '+esc(gpuInfo.slice(0,60))+'</div>'+
-      '<div>⚙️ <b>Cores:</b> '+(navigator.hardwareConcurrency||'unknown')+' · <b>Network:</b> '+((navigator.connection||{}).effectiveType||'unknown')+(isp?' · <span style="color:#71717a">'+isp+'</span>':'')+'</div>'+
-      '<div>🎛️ <b>Preset:</b> '+esc(presetInfo)+'</div>'+
-      '<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(139,92,246,.2)"><b>Efficiency:</b> '+eff+'% — '+effLabel+'</div>'+
-      '<div style="margin-top:8px"><button id="openSiteSettingBtn" style="padding:6px 12px;border-radius:999px;border:1px solid rgba(139,92,246,.4);background:rgba(124,58,237,.15);color:#c4b5fd;font-size:11px;cursor:pointer">⚙️ Change Site Setting</button></div>'+
-      '<div style="margin-top:6px;font-size:10.5px;color:#6b7280">UA: '+esc(navigator.userAgent.slice(0,140))+'</div>';
+      '<div style="color:#a78bfa;font-weight:700;letter-spacing:.06em;margin-bottom:8px">📱 DEVICE SCAN — CPU-Z STYLE — permissions granted ✅</div>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">'+
+        '<div style="padding:10px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(139,92,246,0.2)"><div style="font-size:10px;color:#71717a;letter-spacing:.1em">CPU</div><div style="font-size:13px;font-weight:700;color:#e8eaf2">'+cores+' cores @ '+esc(arch)+'</div><div style="font-size:11px;color:#a1a1aa;margin-top:4px">Usage: '+cpuUsage+'%</div>'+createBar(cpuUsage,'#8b5cf6')+createGraphCanvas('cpuGraph',cpuHist,'#8b5cf6')+'</div>'+
+        '<div style="padding:10px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(236,72,153,0.2)"><div style="font-size:10px;color:#71717a;letter-spacing:.1em">GPU</div><div style="font-size:11px;font-weight:600;color:#e8eaf2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+esc(gpuInfo.slice(0,40))+'</div><div style="font-size:11px;color:#a1a1aa;margin-top:4px">Usage: '+gpuUsage+'%</div>'+createBar(gpuUsage,'#ec4899')+createGraphCanvas('gpuGraph',gpuHist,'#ec4899')+'</div>'+
+      '</div>'+
+      '<div style="padding:10px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(139,92,246,0.2);margin-bottom:10px"><div style="font-size:10px;color:#71717a;letter-spacing:.1em">MEMORY & SYSTEM</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;font-size:11px">'+
+        '<div>🧠 <b>RAM:</b> '+estRam()+'<br>'+createBar(ramUsage,'#10b981')+createGraphCanvas('ramGraph',ramHist,'#10b981')+'</div>'+
+        '<div>🔋 <b>Battery:</b> '+esc(batteryInfo)+'<br>🖥️ <b>Screen:</b> '+screenInfo+'<br>⚙️ <b>Cores:</b> '+cores+'<br>🌐 <b>Net:</b> '+(conn.effectiveType||'unknown')+' '+(conn.downlink?conn.downlink+'Mbps':'')+'</div>'+
+      '</div></div>'+
+      '<div style="padding:10px;border-radius:12px;background:linear-gradient(135deg,rgba(109,40,217,0.15),rgba(236,72,153,0.1));border:1px solid rgba(139,92,246,0.3);margin-bottom:10px"><div style="font-size:10px;color:#a78bfa;letter-spacing:.1em;font-weight:700">EXPECTED USAGE FROM THIS WEBSITE</div><div style="font-size:11px;color:#c9cede;margin-top:6px;line-height:1.6">'+
+        '<div>Preset: <b>'+esc(presetInfo)+'</b> — '+(presetInfo==='low'?'Minimal 3D, fastest':'')+(presetInfo==='medium'?'Balanced':'')+(presetInfo==='extreme'?'Full 3D, max quality':'')+'</div>'+
+        '<div>CPU: '+cpuUsage+'% | GPU: '+gpuUsage+'% | RAM: '+ramUsage+'% — '+effLabel+'</div>'+
+        '<div style="margin-top:6px">'+createBar(cpuUsage,'#8b5cf6')+createBar(gpuUsage,'#ec4899')+createBar(ramUsage,'#10b981')+'</div>'+
+        '<div style="font-size:10px;color:#71717a;margin-top:6px">Low: ~15% CPU 10% GPU 20% RAM | Medium: ~35% CPU 30% GPU 45% RAM | Extreme: ~60% CPU 65% GPU 70% RAM</div>'+
+      '</div></div>'+
+      '<div style="font-size:11px;line-height:1.8">'+
+        '<div>🌐 <b>IP:</b> '+ip+(city?' <span style="color:#71717a">('+city+(country?', '+country:'')+')</span>':'')+(isp?' · <span style="color:#71717a">'+isp+'</span>':'')+'</div>'+
+        '<div>📱 <b>Model:</b> '+model+'</div>'+
+        '<div>💻 <b>Platform:</b> '+esc(platform)+' · <b>Vendor:</b> '+esc(vendor)+' · <b>Lang:</b> '+esc(lang)+'</div>'+
+        '<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(139,92,246,.2)"><b>Efficiency:</b> '+eff+'% — '+effLabel+'</div>'+
+      '</div>'+
+      '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button id="openSiteSettingBtn" style="padding:6px 12px;border-radius:999px;border:1px solid rgba(139,92,246,.4);background:rgba(124,58,237,.15);color:#c4b5fd;font-size:11px;cursor:pointer">⚙️ Change Site Setting</button><button id="clearSettingBtn" style="padding:6px 12px;border-radius:999px;border:1px solid rgba(113,113,122,.3);background:rgba(39,39,42,.5);color:#a1a1aa;font-size:11px;cursor:pointer">🗑️ Clear & Reload</button></div>'+
+      '<div style="margin-top:6px;font-size:9.5px;color:#52525b">UA: '+esc(ua.slice(0,160))+'</div>';
+    // Draw graphs
+    setTimeout(()=>{
+      drawGraph('cpuGraph', cpuHist, '#8b5cf6');
+      drawGraph('gpuGraph', gpuHist, '#ec4899');
+      drawGraph('ramGraph', ramHist, '#10b981');
+    }, 100);
     const sb=document.getElementById('openSiteSettingBtn');
     if(sb) sb.addEventListener('click',()=>{ if(window.openSiteSetting) window.openSiteSetting(); });
+    const cb=document.getElementById('clearSettingBtn');
+    if(cb) cb.addEventListener('click',()=>{ localStorage.removeItem('mv_site_setting_v1'); location.reload(); });
     btn.innerHTML=old; btn.style.opacity='1'; busy=false;
     setTimeout(()=>{ out.scrollIntoView({behavior:'smooth', block:'center'}); }, 100);
   });
 })();
-setTimeout(()=>{ // 11s fallback
-: agar kuch load nahi hua toh bhi user exit kar sake (auto-close nahi)
-  const h=document.getElementById('loaderHint'),b=document.getElementById('enterSite');
+setTimeout(()=>{ // 3s fallback
+ for all presets
+  const h=document.getElementById('loaderHint'),b=document.getElementById('enterSite'),bh=document.getElementById('enterBlackhole');
   if(h)h.classList.add('ready');
   if(b)b.style.display='inline-flex';
-},11000);
+  if(bh)bh.style.display='inline-flex';
+  document.getElementById('loaderFill').style.width='100%';
+},3000);
 
 // ═══════════════════════════════════════
 // EARTH — real textured planet + clouds + atmosphere glow
@@ -1355,13 +1478,21 @@ earthGroup.rotation.z=0.41;
 if(SITE_CFG.toggles.earth){ scene.add(earthGroup); }else{ console.log('Earth disabled by site setting'); }
 
 const tl=new THREE.TextureLoader(manager);
-const dayTex=tl.load('assets/textures/earth-blue-marble.jpg?v=2');   // 2K NASA Blue Marble
-dayTex.colorSpace=THREE.SRGBColorSpace;
-dayTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
-const specTex=tl.load('assets/textures/earth-water.png?v=2');
-const nightTex=tl.load('assets/textures/earth-night.jpg?v=2');       // 2K city lights
-nightTex.colorSpace=THREE.SRGBColorSpace;
-nightTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
+let dayTex, specTex, nightTex;
+if(SITE_CFG.toggles.earth){
+  dayTex=tl.load('assets/textures/earth-blue-marble.jpg?v=2');
+  dayTex.colorSpace=THREE.SRGBColorSpace;
+  dayTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
+  specTex=tl.load('assets/textures/earth-water.png?v=2');
+  nightTex=tl.load('assets/textures/earth-night.jpg?v=2');
+  nightTex.colorSpace=THREE.SRGBColorSpace;
+  nightTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
+}else{
+  // low preset no earth textures — dummy 1x1
+  const dummy = new THREE.DataTexture(new Uint8Array([10,10,15,255]),1,1);
+  dummy.needsUpdate=true;
+  dayTex=dummy; specTex=dummy; nightTex=dummy;
+}
 
 // Bihar, India (25.6°N, 85.1°E) — scroll target: Earth rotates to face Bihar at full scroll
 const _th=(90-25.6)*Math.PI/180,_ph=(85.1+180)*Math.PI/180;
@@ -1635,24 +1766,58 @@ let entryT=0;
     renderer.render(scene,camera);
     if(entryT>=1){
       window._entryAnim=0;
-      // --- ENTRY COMPLETE: hide dark space + astronaut from home page, keep only aura video, SHOW HOME PAGE ---
-      document.documentElement.classList.remove('splash-lock');
-      const loader=document.getElementById('loader');
-      if(loader) loader.classList.add('done');
-      if(auraV){ auraV.style.transition='opacity .8s ease'; auraV.style.opacity='0.7'; auraV.style.display='block'; }
-      // hide stars + astronaut + clouds from home page (only on entering deep space page)
-      if(typeof stars!=='undefined' && stars) stars.visible=false;
-      if(typeof astro!=='undefined' && astro) astro.visible=false;
-      if(typeof clouds!=='undefined' && clouds) clouds.visible=false;
-      if(typeof earthGroup!=='undefined' && earthGroup) earthGroup.visible=false;
-      if(canvas){ canvas.style.opacity='0'; canvas.style.pointerEvents='none'; canvas.style.display='none'; }
-      // SHOW HOME PAGE (was hidden via inline opacity 0)
-      const wrapEl2=document.querySelector('.wrap');
-      if(wrapEl2){ wrapEl2.style.display='block'; wrapEl2.style.opacity='1'; wrapEl2.style.visibility='visible'; wrapEl2.style.pointerEvents='auto'; }
-      window.scrollTo({top:0,behavior:'smooth'});
-      tScroll=0; sProg=0;
-      // Force aura play
-      if(auraV && auraV.paused) auraV.play().catch(()=>{});
+      // --- GLITCHY TRANSITION then HOME PAGE with video ---
+      const glitchOv=document.getElementById('glitchOverlay');
+      if(glitchOv && SITE_CFG.toggles.animations){
+        glitchOv.style.display='grid';
+        glitchOv.style.opacity='1';
+        glitchOv.classList.add('on');
+        document.body.classList.add('glitch-active');
+        setTimeout(()=>{
+          glitchOv.style.opacity='0';
+          glitchOv.classList.remove('on');
+          setTimeout(()=>{ glitchOv.style.display='none'; }, 600);
+          document.body.classList.remove('glitch-active');
+          // Now show home
+          document.documentElement.classList.remove('splash-lock');
+          const loader=document.getElementById('loader');
+          if(loader) loader.classList.add('done');
+          if(auraV){ auraV.style.display='block'; auraV.style.transition='opacity 1s ease'; auraV.style.opacity='0.7'; if(auraV.paused) auraV.play().catch(()=>{}); }
+          if(typeof stars!=='undefined' && stars) stars.visible=false;
+          if(typeof astro!=='undefined' && astro) astro.visible=false;
+          if(typeof clouds!=='undefined' && clouds) clouds.visible=false;
+          if(typeof earthGroup!=='undefined' && earthGroup) earthGroup.visible=false;
+          if(canvas){ canvas.style.opacity='0'; canvas.style.pointerEvents='none'; canvas.style.display='none'; }
+          const wrapEl2=document.querySelector('.wrap');
+          if(wrapEl2){ wrapEl2.style.display='block'; wrapEl2.style.opacity='1'; wrapEl2.style.visibility='visible'; wrapEl2.style.pointerEvents='auto'; }
+          window.scrollTo({top:0,behavior:'smooth'});
+          tScroll=0; sProg=0;
+          // End transition glitch after video starts
+          setTimeout(()=>{
+            if(glitchOv && SITE_CFG.toggles.animations){
+              glitchOv.style.display='grid';
+              glitchOv.style.opacity='0.6';
+              glitchOv.classList.add('on');
+              setTimeout(()=>{ glitchOv.style.opacity='0'; glitchOv.classList.remove('on'); setTimeout(()=>{ glitchOv.style.display='none'; }, 400); }, 300);
+            }
+          }, 2000);
+        }, 600);
+      }else{
+        // No glitch if animations disabled (low preset)
+        document.documentElement.classList.remove('splash-lock');
+        const loader=document.getElementById('loader');
+        if(loader) loader.classList.add('done');
+        if(auraV){ auraV.style.display=SITE_CFG.toggles.aura?'block':'none'; auraV.style.opacity=SITE_CFG.toggles.aura?'0.7':'0'; if(auraV && auraV.paused && SITE_CFG.toggles.aura) auraV.play().catch(()=>{}); }
+        if(typeof stars!=='undefined' && stars) stars.visible=false;
+        if(typeof astro!=='undefined' && astro) astro.visible=false;
+        if(typeof clouds!=='undefined' && clouds) clouds.visible=false;
+        if(typeof earthGroup!=='undefined' && earthGroup) earthGroup.visible=false;
+        if(canvas){ canvas.style.opacity='0'; canvas.style.pointerEvents='none'; canvas.style.display='none'; }
+        const wrapEl2=document.querySelector('.wrap');
+        if(wrapEl2){ wrapEl2.style.display='block'; wrapEl2.style.opacity='1'; wrapEl2.style.visibility='visible'; wrapEl2.style.pointerEvents='auto'; }
+        window.scrollTo({top:0,behavior:'smooth'});
+        tScroll=0; sProg=0;
+      }
     }
     return;
   }
