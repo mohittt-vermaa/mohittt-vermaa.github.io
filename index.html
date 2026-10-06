@@ -1023,6 +1023,69 @@ html.splash-lock #loader{background:transparent}
     if(av) av.style.display='none';
   }
   document.getElementById('openSettingFromLock')?.addEventListener('click',()=>{ if(window.openSiteSetting) window.openSiteSetting(); });
+  // Fallback global enter functions for lock page if module fails
+  if(!window.enterSiteNow){
+    window.enterSiteNow = function(){
+      const loader=document.getElementById('loader');
+      if(loader && loader.classList.contains('done')) return;
+      const fill=document.getElementById('loaderFill');
+      if(fill) fill.style.width='100%';
+      window._entryAnim = 1;
+      window._entryStart = performance.now();
+      const brand=loader.querySelector('.loader-brand');
+      if(brand){ brand.style.transition='transform .8s cubic-bezier(.34,1.56,.64,1), opacity .6s'; brand.style.transform='scale(1.25)'; brand.style.opacity='0'; }
+      const hint=document.getElementById('loaderHint');
+      if(hint) hint.style.opacity='0';
+      const b1=document.getElementById('enterSite'), b2=document.getElementById('enterBlackhole');
+      if(b1) b1.style.opacity='0';
+      if(b2) b2.style.opacity='0';
+      // Simulate entry completion after 1.4s for low preset without 3D
+      setTimeout(()=>{
+        document.documentElement.classList.remove('splash-lock');
+        if(loader) loader.classList.add('done');
+        const aura=document.getElementById('auraVideo');
+        if(aura){ aura.style.display='block'; aura.style.opacity='0.7'; }
+        const canvas=document.getElementById('canvas');
+        if(canvas) canvas.style.opacity='0';
+        window.scrollTo({top:0,behavior:'smooth'});
+      }, 1500);
+    };
+  }
+  if(!window.enterBlackholeNow){
+    window.enterBlackholeNow = function(){
+      const overlay=document.getElementById('blackHoleOverlay');
+      if(overlay){
+        overlay.style.display='grid';
+        overlay.style.opacity='1';
+        const img=overlay.querySelector('img');
+        if(img) img.style.animation='blackHoleEnter 1.8s cubic-bezier(.6,0,.4,1) forwards';
+        setTimeout(()=>{
+          overlay.style.opacity='0';
+          setTimeout(()=>{ overlay.style.display='none'; }, 600);
+          if(window.enterSiteNow) window.enterSiteNow();
+        }, 1400);
+      }else if(window.enterSiteNow) window.enterSiteNow();
+    };
+  }
+  // Ensure buttons have listeners even if module failed
+  try{
+    document.getElementById('enterSite')?.addEventListener('click', ()=>{ if(window.enterSiteNow) window.enterSiteNow(); });
+    document.getElementById('enterBlackhole')?.addEventListener('click', ()=>{ if(window.enterBlackholeNow) window.enterBlackholeNow(); });
+    document.getElementById('scanDevice')?.addEventListener('click', async ()=>{
+      const out=document.getElementById('scanResult');
+      const btn=document.getElementById('scanDevice');
+      if(!out||!btn) return;
+      out.style.display='block';
+      out.innerHTML='⏳ Scanning...';
+      try{
+        const model = navigator.userAgentData && navigator.userAgentData.getHighEntropyValues ? (await navigator.userAgentData.getHighEntropyValues(['model']).then(h=>h.model).catch(()=>null)) : null;
+        const ua=navigator.userAgent;
+        let m=ua.match(/Android[^;]*;\s*([^;]+)\s+Build/i);
+        let device = m?m[1]: (model||navigator.platform||'Unknown');
+        out.innerHTML='<div>📱 <b>Model:</b> '+device+'</div><div>🌐 <b>UA:</b> '+ua.slice(0,120)+'</div><div>🖥️ <b>Screen:</b> '+window.innerWidth+'x'+window.innerHeight+'</div><div>⚙️ <b>Cores:</b> '+(navigator.hardwareConcurrency||'?')+'</div>';
+      }catch(e){ out.innerHTML='Scan failed: '+e.message; }
+    });
+  }catch(e){}
   window.openSiteSetting=()=>{
     const cv=document.getElementById('canvas'), av=document.getElementById('auraVideo');
     if(cv) cv.style.display='none';
@@ -1117,7 +1180,7 @@ if(auraV){
   if(!SITE_CFG.toggles.aura){ auraV.style.display='none'; }
   else { auraV.style.opacity='0'; }
 }
-function enterSiteNow(){
+window.enterSiteNow = function enterSiteNow(){
   const loader=document.getElementById('loader');
   if(loader.classList.contains('done')||window._entryAnim) return;
   const fill=document.getElementById('loaderFill');
@@ -1131,7 +1194,7 @@ function enterSiteNow(){
   if(btn) btn.style.opacity='0';
   if(bhBtn) bhBtn.style.opacity='0';
 }
-function enterBlackholeNow(){
+window.enterBlackholeNow = function enterBlackholeNow(){
   const overlay=document.getElementById('blackHoleOverlay');
   const loader=document.getElementById('loader');
   if(!overlay) { enterSiteNow(); return; }
@@ -1150,8 +1213,8 @@ function enterBlackholeNow(){
 }
 // Early listeners so buttons work even if 3D fails
 try{
-  document.getElementById('enterSite')?.addEventListener('click', enterSiteNow);
-  document.getElementById('enterBlackhole')?.addEventListener('click', enterBlackholeNow);
+  document.getElementById('enterSite')?.addEventListener('click', ()=>{ if(window.enterSiteNow) window.enterSiteNow(); });
+  document.getElementById('enterBlackhole')?.addEventListener('click', ()=>{ if(window.enterBlackholeNow) window.enterBlackholeNow(); });
   document.getElementById('openSettingFromLock')?.addEventListener('click', ()=>{ if(window.openSiteSetting) window.openSiteSetting(); });
 }catch(e){ console.error('Early listener error', e); }
 
@@ -1519,7 +1582,9 @@ addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updat
 let time=0;const clock=new THREE.Clock();
 let entryT=0;
 (function loop(){
-  requestAnimationFrame(loop);const dt=clock.getDelta();time+=dt;
+  requestAnimationFrame(loop);
+  try{
+  const dt=clock.getDelta();time+=dt;
   sProg+=(tScroll-sProg)*.05;mX+=(tMX-mX)*.04;mY+=(tMY-mY)*.04;
 
   // ENTRY ANIMATION: cinematic flight from splash (Earth -15, cam 22) to home top (Earth -21, cam 14)
@@ -1632,8 +1697,9 @@ let entryT=0;
     // keep aura at 0.7 on home, not 0.9 (was glitch covering content)
     if(parseFloat(auraV.style.opacity||'0')<0.6) auraV.style.opacity='0.7';
   }
-  // keep 3D hidden on home for clean look — but still render empty scene for future if needed
-  renderer.render(scene,camera);
+  // keep 3D hidden on home for clean look
+  try{ renderer.render(scene,camera); }catch(e){}
+  }catch(e){ console.error('Animate error', e); try{ renderer.render(scene,camera); }catch(e2){} }
 })();
 </script>
 <script>
