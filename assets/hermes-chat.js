@@ -152,7 +152,7 @@
   for(let i=0;i<4;i++){
     const astroDiv = document.createElement('div');
     astroDiv.className = 'hc-astronaut-float';
-    astroDiv.innerHTML = '<img src="assets/astronaut-small.png?v=3" alt="astronaut" style="width:36px;height:36px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(139,92,246,0.7))">';
+    astroDiv.innerHTML = '<img src="assets/astronaut-small.png?v=4" alt="astronaut" style="width:36px;height:36px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(139,92,246,0.7))">';
     astroDiv.style.left = (10 + i*22 + Math.random()*8)+'%';
     astroDiv.style.top = (15 + Math.random()*70)+'%';
     astroDiv.style.animationDuration = (18 + Math.random()*12)+'s';
