@@ -443,7 +443,7 @@ body.dark .form-input,body.dark .form-textarea{background:#1a1a22;border-color:v
   .m-track{animation:none}
 }
 /* ══ PAGE 0 — SITE SETTING (lightweight, no 3D, for low-end devices) ══ */
-.site-setting{position:fixed;inset:0;z-index:20000;background:#05060a;color:#e5e7eb;display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto;transition:opacity .6s ease,visibility .6s}
+.site-setting{position:fixed;inset:0;z-index:20000;background:rgba(5,6,10,0.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#e5e7eb;display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto;transition:opacity .6s ease,visibility .6s}
 .site-setting.done{opacity:0;visibility:hidden;pointer-events:none}
 .ss-inner{width:min(640px,100%);background:rgba(19,19,26,.9);border:1px solid rgba(139,92,246,.25);border-radius:24px;padding:28px;box-shadow:0 24px 80px rgba(0,0,0,.5);backdrop-filter:blur(16px)}
 .ss-head{display:flex;gap:16px;align-items:center;margin-bottom:22px}
@@ -559,7 +559,7 @@ html.splash-lock #cssAstronaut{opacity:0.9 !important}
 #loader .loader-fill{height:100%;background:linear-gradient(90deg,#6d28d9,#ec4899);width:0%;transition:width 0.4s;border-radius:1px}
 #loader .loader-status{margin-top:1rem;font-size:0.6rem;font-weight:600;letter-spacing:0.4em;text-transform:uppercase;color:rgba(255,255,255,0.25)}
 </style>
-<link rel="stylesheet" href="assets/hermes-chat.css?v=17">
+<link rel="stylesheet" href="assets/hermes-chat.css?v=18">
 </head>
 <body class="dark">
 
@@ -601,8 +601,8 @@ html.splash-lock #cssAstronaut{opacity:0.9 !important}
 <!-- DEEP SPACE LAYER -->
 <div id="cssStars" style="position:fixed;inset:0;z-index:10001;background:#05060a;pointer-events:none;display:block"></div>
 <div id="cssEarth" style="position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:10000;width:min(60vw,400px);height:min(60vw,400px);border-radius:50%;background:url('assets/textures/earth-blue-marble.jpg') center/cover;box-shadow:0 0 60px rgba(59,130,246,0.5), inset -20px -20px 40px rgba(0,0,0,0.8);pointer-events:none;display:block;opacity:0.9"></div>
-<div id="cssAstronaut" style="position:fixed;right:8%;top:50%;transform:translateY(-50%);z-index:10002;pointer-events:none;display:block;opacity:0.9"><img src="assets/astronaut-small.png?v=6" alt="astronaut" style="width:140px;height:140px;object-fit:contain;filter:drop-shadow(0 0 24px rgba(139,92,246,0.9))"></div>
-<div class="loader" id="loader"><div id="debugInfo" style="position:fixed;top:10px;left:10px;z-index:10010;background:rgba(0,0,0,0.8);color:#0f0;font-size:10px;font-family:monospace;padding:8px 10px;border-radius:8px;border:1px solid #0f0;max-width:90vw;white-space:pre-wrap;pointer-events:none"></div><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">tap the astronaut or black hole to enter blackhole</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterBlackhole" type="button" style="padding:12px 28px;border-radius:999px;border:1px solid rgba(236,72,153,.6);background:linear-gradient(135deg,rgba(109,40,217,.35),rgba(236,72,153,.3));color:#f9a8d4;font-size:13px;font-weight:800;letter-spacing:.12em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(236,72,153,.35),0 0 20px rgba(109,40,217,.3)"><img src="assets/black-hole.jpg?v=8" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:cover;box-shadow:0 0 16px rgba(236,72,153,.8)">Enter Blackhole</button></div><div style="display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center"><button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⚙️ Site Setting</button></div><div id="scanResult" style="display:none;margin-top:1.2rem;width:min(320px,84vw);padding:14px 16px;border-radius:16px;border:1px solid rgba(139,92,246,.3);background:rgba(10,11,18,.85);backdrop-filter:blur(12px);color:#c9cede;font-size:12px;line-height:1.9;text-align:left;max-height:60vh;overflow-y:auto"></div><div id="blackHoleOverlay" style="position:fixed;inset:0;z-index:10003;display:none;place-items:center;background:radial-gradient(ellipse at center, #1a0b2e 0%, #05060a 70%);opacity:0;transition:opacity .6s"><img src="assets/black-hole.jpg?v=8" alt="Black Hole" style="width:min(80vw,500px);height:min(80vw,500px);border-radius:50%;object-fit:cover;box-shadow:0 0 80px rgba(139,92,246,.8),0 0 160px rgba(236,72,153,.5);animation:blackHoleSpin 3s linear infinite, blackHolePulse 2s ease-in-out infinite"><style>@keyframes blackHoleSpin{to{transform:rotate(360deg)}}@keyframes blackHolePulse{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.08) rotate(180deg)}}@keyframes blackHoleEnter{0%{transform:scale(0.2) rotate(0deg);opacity:0}50%{opacity:1}100%{transform:scale(4) rotate(720deg);opacity:0}}</style></div></div>
+<div id="cssAstronaut" style="position:fixed;right:8%;top:50%;transform:translateY(-50%);z-index:10002;pointer-events:none;display:block;opacity:0.9"><img src="assets/astronaut-small.png?v=7" alt="astronaut" style="width:140px;height:140px;object-fit:contain;filter:drop-shadow(0 0 24px rgba(139,92,246,0.9))"></div>
+<div class="loader" id="loader"><div id="debugInfo" style="position:fixed;top:10px;left:10px;z-index:10010;background:rgba(0,0,0,0.8);color:#0f0;font-size:10px;font-family:monospace;padding:8px 10px;border-radius:8px;border:1px solid #0f0;max-width:90vw;white-space:pre-wrap;pointer-events:none"></div><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">tap the astronaut or black hole to enter blackhole</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterBlackhole" type="button" style="padding:12px 28px;border-radius:999px;border:1px solid rgba(236,72,153,.6);background:linear-gradient(135deg,rgba(109,40,217,.35),rgba(236,72,153,.3));color:#f9a8d4;font-size:13px;font-weight:800;letter-spacing:.12em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(236,72,153,.35),0 0 20px rgba(109,40,217,.3)"><img src="assets/black-hole.jpg?v=9" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:cover;box-shadow:0 0 16px rgba(236,72,153,.8)">Enter Blackhole</button></div><div style="display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center"><button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⚙️ Site Setting</button></div><div id="scanResult" style="display:none;margin-top:1.2rem;width:min(320px,84vw);padding:14px 16px;border-radius:16px;border:1px solid rgba(139,92,246,.3);background:rgba(10,11,18,.85);backdrop-filter:blur(12px);color:#c9cede;font-size:12px;line-height:1.9;text-align:left;max-height:60vh;overflow-y:auto"></div><div id="blackHoleOverlay" style="position:fixed;inset:0;z-index:10003;display:none;place-items:center;background:radial-gradient(ellipse at center, #1a0b2e 0%, #05060a 70%);opacity:0;transition:opacity .6s"><img src="assets/black-hole.jpg?v=9" alt="Black Hole" style="width:min(80vw,500px);height:min(80vw,500px);border-radius:50%;object-fit:cover;box-shadow:0 0 80px rgba(139,92,246,.8),0 0 160px rgba(236,72,153,.5);animation:blackHoleSpin 3s linear infinite, blackHolePulse 2s ease-in-out infinite"><style>@keyframes blackHoleSpin{to{transform:rotate(360deg)}}@keyframes blackHolePulse{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.08) rotate(180deg)}}@keyframes blackHoleEnter{0%{transform:scale(0.2) rotate(0deg);opacity:0}50%{opacity:1}100%{transform:scale(4) rotate(720deg);opacity:0}}</style></div></div>
 <canvas id="canvas" aria-hidden="true" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;display:block;pointer-events:none"></canvas>
 <video id="auraVideo" aria-hidden="true" muted playsinline preload="auto" loop disablepictureinpicture disableremoteplayback src="assets/video/aura_bg_2k_opt.mp4?v=1" style="position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:0;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35);opacity:0"></video>
 
@@ -1083,8 +1083,9 @@ html.splash-lock #cssAstronaut{opacity:0.9 !important}
     const cs=document.getElementById('cssStars'), ca=document.getElementById('cssAstronaut');
     if(cv){ cv.style.display='block'; cv.style.opacity='1'; }
     if(av){ av.style.display=cfg.toggles.aura?'block':'none'; av.style.opacity='0'; }
-    if(cs){ cs.style.display=cfg.toggles.stars?'block':'none'; }
-    if(ca){ ca.style.display=cfg.toggles.astronaut?'block':'none'; }
+    if(cs){ cs.style.display=(cfg.preset==='extreme' || cfg.toggles.stars)?'block':'none'; }
+    if(ca){ ca.style.display=(cfg.preset==='extreme' || cfg.toggles.astronaut)?'block':'none'; }
+    const ce2=document.getElementById('cssEarth'); if(ce2){ ce2.style.display=(cfg.preset==='extreme' || cfg.toggles.earth)?'block':'none'; }
     setTimeout(()=>{ window.dispatchEvent(new Event('site-setting-saved')); }, 200);
   });
   const existing=loadCfg();
@@ -1105,6 +1106,10 @@ html.splash-lock #cssAstronaut{opacity:0.9 !important}
       if(ca){ ca.style.display='block'; }
       if(ce){ ce.style.display='block'; }
       if(cv){ cv.style.display='block'; }
+    }else if(existing.preset==='low'){
+      if(cs){ cs.style.display='none'; }
+      if(ca){ ca.style.display='none'; }
+      if(ce){ ce.style.display='none'; }
     }else{
       if(cs){ cs.style.display=existing.toggles.stars?'block':'none'; }
       if(ca){ ca.style.display=existing.toggles.astronaut?'block':'none'; }
@@ -2074,6 +2079,6 @@ let entryT=0;
 })();
 
 </script>
-<script src="assets/hermes-chat.js?v=17" defer></script>
+<script src="assets/hermes-chat.js?v=18" defer></script>
 </body>
 </html>
