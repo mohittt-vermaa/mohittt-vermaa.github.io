@@ -478,16 +478,17 @@ html.splash-lock .wrap{opacity:0!important;pointer-events:none!important;visibil
 html.splash-lock #auraVideo{opacity:0!important;pointer-events:none!important}
 html.splash-lock #canvas{z-index:10000!important;opacity:1!important;pointer-events:auto!important}
 html.splash-lock #loader{background:transparent}
+html.low-perf .portrait-glow, html.low-perf .portrait-ring, html.low-perf .m-track, html.low-perf .glass-panel::before, html.low-perf .badge .pulse:after{animation:none !important}
+html.no-anim *, html.no-anim *:before, html.no-anim *:after{animation:none !important;transition:none !important}
+html.low-perf #canvas{display:none !important}
+html.low-perf #auraVideo{display:none !important}
 #loader .loader-hint{margin-top:.7rem;font-size:.62rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.28);transition:color .5s}
 #loader .loader-hint.ready{color:#a78bfa;animation:hintPulse 1.8s ease-in-out infinite}
 @keyframes hintPulse{0%,100%{opacity:.55}50%{opacity:1}}
 #enterSite{margin-top:1.2rem;padding:10px 26px;border-radius:999px;border:1px solid rgba(167,139,250,.6);background:rgba(124,58,237,.18);color:#c4b5fd;font-size:12px;font-weight:700;letter-spacing:.12em;cursor:pointer;display:none;align-items:center;gap:7px}
 #enterBlackhole{padding:10px 22px;border-radius:999px;border:1px solid rgba(236,72,153,.5);background:linear-gradient(135deg,rgba(109,40,217,.25),rgba(236,72,153,.2));color:#f9a8d4;font-size:12px;font-weight:700;letter-spacing:.1em;cursor:pointer;display:none;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(236,72,153,.25)}
 #loader.done{opacity:0;visibility:hidden;pointer-events:none}
-/* Glitch transition for home page entry */
-.glitch-active{animation:glitchMain 0.5s ease}
-@keyframes glitchMain{0%{filter:hue-rotate(0deg) contrast(1)}20%{filter:hue-rotate(90deg) contrast(1.5) blur(1px);transform:translateX(-2px)}40%{filter:hue-rotate(180deg) contrast(2) blur(0px);transform:translateX(2px)}60%{filter:hue-rotate(270deg) contrast(1.5) blur(1px);transform:translateX(-1px)}80%{filter:hue-rotate(360deg) contrast(1);transform:translateX(1px)}100%{filter:hue-rotate(0deg) contrast(1);transform:translateX(0)}}
-#glitchOverlay.on{display:grid !important;opacity:1 !important;animation:glitchFlash 0.6s ease}
+
 #loader .loader-brand{font-size:2rem;font-weight:900;letter-spacing:0.3em;background:linear-gradient(135deg,#6d28d9,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:2rem}
 #loader .loader-track{width:180px;height:2px;background:rgba(255,255,255,0.06);overflow:hidden;border-radius:1px}
 #loader .loader-fill{height:100%;background:linear-gradient(90deg,#6d28d9,#ec4899);width:0%;transition:width 0.4s;border-radius:1px}
@@ -533,7 +534,7 @@ html.splash-lock #loader{background:transparent}
   </div>
 </div>
 <!-- DEEP SPACE LAYER -->
-<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">tap the astronaut or black hole to enter</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterSite" type="button" style="padding:10px 22px;border-radius:999px;border:1px solid rgba(167,139,250,.6);background:rgba(124,58,237,.18);color:#c4b5fd;font-size:12px;font-weight:700;letter-spacing:.1em;cursor:pointer;display:inline-flex;align-items:center;gap:8px"><img src="assets/black-hole.jpg" alt="" style="width:20px;height:20px;border-radius:50%;object-fit:cover;box-shadow:0 0 12px rgba(139,92,246,.6)">Enter Site</button><button id="enterBlackhole" type="button" style="padding:10px 22px;border-radius:999px;border:1px solid rgba(236,72,153,.5);background:linear-gradient(135deg,rgba(109,40,217,.25),rgba(236,72,153,.2));color:#f9a8d4;font-size:12px;font-weight:700;letter-spacing:.1em;cursor:pointer;display:none;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(236,72,153,.25)"><img src="assets/black-hole.jpg" alt="" style="width:22px;height:22px;border-radius:50%;object-fit:cover;box-shadow:0 0 14px rgba(236,72,153,.7)">Enter Blackhole</button></div><div style="display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center"><button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⚙️ Site Setting</button></div><div id="scanResult" style="display:none;margin-top:1.2rem;width:min(320px,84vw);padding:14px 16px;border-radius:16px;border:1px solid rgba(139,92,246,.3);background:rgba(10,11,18,.85);backdrop-filter:blur(12px);color:#c9cede;font-size:12px;line-height:1.9;text-align:left;max-height:60vh;overflow-y:auto"></div><div id="glitchOverlay" style="position:fixed;inset:0;z-index:10004;display:none;background:#05060a;pointer-events:none;opacity:0"><div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,0.05) 0 2px,transparent 2px 4px)"></div><div style="position:absolute;inset:0;display:grid;place-items:center;color:#a78bfa;font-family:Space Grotesk;font-weight:800;font-size:18px;letter-spacing:.3em;text-transform:uppercase;animation:glitchText 0.3s infinite">SYSTEM GLITCH</div><style>@keyframes glitchText{0%{transform:translate(0)}20%{transform:translate(-2px,2px)}40%{transform:translate(-2px,-2px)}60%{transform:translate(2px,2px)}80%{transform:translate(2px,-2px)}100%{transform:translate(0)}}</style></div><div id="blackHoleOverlay" style="position:fixed;inset:0;z-index:10003;display:none;place-items:center;background:radial-gradient(ellipse at center, #1a0b2e 0%, #05060a 70%);opacity:0;transition:opacity .6s"><img src="assets/black-hole.jpg" alt="Black Hole" style="width:min(80vw,500px);height:min(80vw,500px);border-radius:50%;object-fit:cover;box-shadow:0 0 80px rgba(139,92,246,.8),0 0 160px rgba(236,72,153,.5);animation:blackHoleSpin 3s linear infinite, blackHolePulse 2s ease-in-out infinite"><style>@keyframes blackHoleSpin{to{transform:rotate(360deg)}}@keyframes blackHolePulse{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.08) rotate(180deg)}}@keyframes blackHoleEnter{0%{transform:scale(0.2) rotate(0deg);opacity:0}50%{opacity:1}100%{transform:scale(4) rotate(720deg);opacity:0}}</style></div></div>
+<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">tap the astronaut or black hole to enter</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterSite" type="button" style="padding:10px 22px;border-radius:999px;border:1px solid rgba(167,139,250,.6);background:rgba(124,58,237,.18);color:#c4b5fd;font-size:12px;font-weight:700;letter-spacing:.1em;cursor:pointer;display:inline-flex;align-items:center;gap:8px"><img src="assets/black-hole.jpg" alt="" style="width:20px;height:20px;border-radius:50%;object-fit:cover;box-shadow:0 0 12px rgba(139,92,246,.6)">Enter Site</button><button id="enterBlackhole" type="button" style="padding:10px 22px;border-radius:999px;border:1px solid rgba(236,72,153,.5);background:linear-gradient(135deg,rgba(109,40,217,.25),rgba(236,72,153,.2));color:#f9a8d4;font-size:12px;font-weight:700;letter-spacing:.1em;cursor:pointer;display:none;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(236,72,153,.25)"><img src="assets/black-hole.jpg" alt="" style="width:22px;height:22px;border-radius:50%;object-fit:cover;box-shadow:0 0 14px rgba(236,72,153,.7)">Enter Blackhole</button></div><div style="display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center"><button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⚙️ Site Setting</button></div><div id="scanResult" style="display:none;margin-top:1.2rem;width:min(320px,84vw);padding:14px 16px;border-radius:16px;border:1px solid rgba(139,92,246,.3);background:rgba(10,11,18,.85);backdrop-filter:blur(12px);color:#c9cede;font-size:12px;line-height:1.9;text-align:left;max-height:60vh;overflow-y:auto"></div><div id="blackHoleOverlay" style="position:fixed;inset:0;z-index:10003;display:none;place-items:center;background:radial-gradient(ellipse at center, #1a0b2e 0%, #05060a 70%);opacity:0;transition:opacity .6s"><img src="assets/black-hole.jpg" alt="Black Hole" style="width:min(80vw,500px);height:min(80vw,500px);border-radius:50%;object-fit:cover;box-shadow:0 0 80px rgba(139,92,246,.8),0 0 160px rgba(236,72,153,.5);animation:blackHoleSpin 3s linear infinite, blackHolePulse 2s ease-in-out infinite"><style>@keyframes blackHoleSpin{to{transform:rotate(360deg)}}@keyframes blackHolePulse{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.08) rotate(180deg)}}@keyframes blackHoleEnter{0%{transform:scale(0.2) rotate(0deg);opacity:0}50%{opacity:1}100%{transform:scale(4) rotate(720deg);opacity:0}}</style></div></div>
 <canvas id="canvas" aria-hidden="true" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;display:block;pointer-events:none"></canvas>
 <video id="auraVideo" aria-hidden="true" muted playsinline preload="auto" loop disablepictureinpicture disableremoteplayback src="assets/video/aura_bg_2k_opt.mp4?v=1" style="position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:0;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35);opacity:0"></video>
 
@@ -1053,42 +1054,22 @@ html.splash-lock #loader{background:transparent}
       const b1=document.getElementById('enterSite'), b2=document.getElementById('enterBlackhole');
       if(b1) b1.style.opacity='0';
       if(b2) b2.style.opacity='0';
-      // Simulate entry completion — SHOW HOME PAGE with glitch if animations enabled
+      // Simulate entry completion — SHOW HOME PAGE
       setTimeout(()=>{
-        const glitchOv=document.getElementById('glitchOverlay');
-        const doShowHome = ()=>{
-          document.documentElement.classList.remove('splash-lock');
-          if(loader) loader.classList.add('done');
-          const aura=document.getElementById('auraVideo');
-          if(aura){ 
-            const cfg=window.SITE_CFG||{toggles:{aura:true}};
-            aura.style.display=cfg.toggles.aura?'block':'none'; 
-            aura.style.opacity=cfg.toggles.aura?'0.7':'0'; 
-            if(aura.paused && cfg.toggles.aura) aura.play().catch(()=>{}); 
-          }
-          const canvas=document.getElementById('canvas');
-          if(canvas){ canvas.style.opacity='0'; canvas.style.display='none'; }
-          const wrap=document.querySelector('.wrap');
-          if(wrap){ wrap.style.display='block'; wrap.style.opacity='1'; wrap.style.visibility='visible'; wrap.style.pointerEvents='auto'; }
-          window.scrollTo({top:0,behavior:'smooth'});
-        };
-        if(glitchOv){
-          try{
-            const cfg=window.SITE_CFG||{toggles:{animations:true}};
-            if(cfg.toggles.animations){
-              glitchOv.style.display='grid'; glitchOv.style.opacity='1'; glitchOv.classList.add('on');
-              document.body.classList.add('glitch-active');
-              setTimeout(()=>{
-                glitchOv.style.opacity='0'; glitchOv.classList.remove('on');
-                setTimeout(()=>{ glitchOv.style.display='none'; }, 600);
-                document.body.classList.remove('glitch-active');
-                doShowHome();
-              }, 600);
-              return;
-            }
-          }catch(e){}
+        document.documentElement.classList.remove('splash-lock');
+        if(loader) loader.classList.add('done');
+        const aura=document.getElementById('auraVideo');
+        if(aura){ 
+          const cfg=window.SITE_CFG||{toggles:{aura:true}};
+          aura.style.display=cfg.toggles.aura?'block':'none'; 
+          aura.style.opacity=cfg.toggles.aura?'0.7':'0'; 
+          if(aura.paused && cfg.toggles.aura) aura.play().catch(()=>{}); 
         }
-        doShowHome();
+        const canvas=document.getElementById('canvas');
+        if(canvas){ canvas.style.opacity='0'; canvas.style.display='none'; }
+        const wrap=document.querySelector('.wrap');
+        if(wrap){ wrap.style.display='block'; wrap.style.opacity='1'; wrap.style.visibility='visible'; wrap.style.pointerEvents='auto'; }
+        window.scrollTo({top:0,behavior:'smooth'});
       }, 800);
     };
   }
@@ -1464,7 +1445,7 @@ setTimeout(()=>{ // 3s fallback
   if(b)b.style.display='inline-flex';
   if(bh)bh.style.display='inline-flex';
   document.getElementById('loaderFill').style.width='100%';
-},3000);
+},1000);
 
 // ═══════════════════════════════════════
 // EARTH — real textured planet + clouds + atmosphere glow
