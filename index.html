@@ -538,12 +538,23 @@ html.low-perf #auraVideo{display:none !important}
   background-repeat:repeat;
   background-size:300px 300px;
 }
-html.splash-lock #cssStars{display:block !important}
-html.splash-lock #cssAstronaut{display:block !important}
-html.splash-lock #cssEarth{display:block !important}
-html.splash-lock #cssStars{opacity:1 !important}
-html.splash-lock #cssEarth{opacity:0.9 !important}
-html.splash-lock #cssAstronaut{opacity:0.9 !important}
+/* Flat CSS space layers = FALLBACK ONLY (jab WebGL na chale). Real 3D Earth + 50K stars canvas hi default background hai. */
+html.no-webgl.splash-lock #cssStars,html.no-webgl.splash-lock #cssEarth,html.no-webgl.splash-lock #cssAstronaut{display:block !important}
+html.no-webgl.splash-lock #cssStars{opacity:1 !important}
+html.no-webgl.splash-lock #cssEarth{opacity:0.9 !important}
+html.no-webgl.splash-lock #cssAstronaut{opacity:0.9 !important}
+/* ══ PAGE 1 (HOME) — deep space background: Earth + 50K stars portfolio ke peeche hamesha rehte hain ══ */
+html.space-bg,html.space-bg body{background:#04050a}
+html.space-bg #canvas{z-index:0;opacity:1;display:block}
+html.space-bg #auraVideo{opacity:0 !important}
+html.space-bg #cssEarth,html.space-bg #cssAstronaut{display:none !important}
+html.no-webgl.space-bg #cssStars{display:block !important;opacity:.85 !important}
+#spaceScrim{position:fixed;inset:0;z-index:1;pointer-events:none;display:none;
+  background:radial-gradient(130% 100% at 50% 32%,rgba(4,5,10,0) 32%,rgba(4,5,10,.5) 74%,rgba(4,5,10,.82) 100%),
+             linear-gradient(180deg,rgba(4,5,10,.4) 0%,rgba(4,5,10,.04) 22%,rgba(4,5,10,.1) 60%,rgba(4,5,10,.55) 100%)}
+html.space-bg #spaceScrim{display:block}
+html.space-bg .hero h1,html.space-bg .hero-desc,html.space-bg .sec-head h2,html.space-bg .trust-t{text-shadow:0 2px 22px rgba(4,5,10,.9),0 1px 3px rgba(4,5,10,.8)}
+html.space-bg .section,html.space-bg .hero{position:relative}
 #cssEarth{animation:rotateEarth 60s linear infinite}
 @keyframes rotateEarth{0%{transform:translate(-50%,-50%) rotate(0deg)}100%{transform:translate(-50%,-50%) rotate(360deg)}}
 #cssAstronaut{animation:floatY 6s ease-in-out infinite}
@@ -580,8 +591,8 @@ html.splash-lock #cssAstronaut{opacity:0.9 !important}
     </div>
     <div class="ss-presets">
       <button class="ss-preset" data-preset="low"><span class="ss-p-icon">🐢</span><span class="ss-p-name">Low</span><span class="ss-p-desc">No 3D, no astronaut, minimal animations, fastest load</span></button>
-      <button class="ss-preset" data-preset="medium"><span class="ss-p-icon">⚡</span><span class="ss-p-name">Medium</span><span class="ss-p-desc">Earth + 10K stars, some effects, balanced</span></button>
-      <button class="ss-preset active" data-preset="extreme"><span class="ss-p-icon">🚀</span><span class="ss-p-name">Extreme</span><span class="ss-p-desc">All models: 50K stars, Earth 2K, astronaut, clouds, aura, full anim</span></button>
+      <button class="ss-preset" data-preset="medium"><span class="ss-p-icon">⚡</span><span class="ss-p-name">Medium</span><span class="ss-p-desc">Earth + 10K stars background (splash + home page), balanced</span></button>
+      <button class="ss-preset active" data-preset="extreme"><span class="ss-p-icon">🚀</span><span class="ss-p-name">Extreme</span><span class="ss-p-desc">Earth + 50K stars background on splash AND home page, astronaut, clouds, full anim</span></button>
       <button class="ss-preset" data-preset="custom"><span class="ss-p-icon">🛠️</span><span class="ss-p-name">Custom</span><span class="ss-p-desc">Toggle each element on/off</span></button>
     </div>
     <div class="ss-custom" id="ssCustom" style="display:none">
@@ -604,11 +615,12 @@ html.splash-lock #cssAstronaut{opacity:0.9 !important}
   </div>
 </div>
 <!-- DEEP SPACE LAYER -->
-<div id="cssStars" style="position:fixed;inset:0;z-index:10001;background:#05060a;pointer-events:none;display:block"></div>
-<div id="cssEarth" style="position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:10003;width:min(70vw,450px);height:min(70vw,450px);border-radius:50%;background:url('assets/textures/earth-blue-marble.jpg') center/cover;box-shadow:0 0 80px rgba(59,130,246,0.7), 0 0 120px rgba(139,92,246,0.3), inset -30px -30px 60px rgba(0,0,0,0.9);pointer-events:none;display:block !important;opacity:1 !important;border:2px solid rgba(59,130,246,0.3)"></div>
-<div id="cssAstronaut" style="position:fixed;right:8%;top:50%;transform:translateY(-50%);z-index:10002;pointer-events:none;display:block;opacity:0.9"><img src="assets/astronaut-small.png?v=11" alt="astronaut" style="width:140px;height:140px;object-fit:contain;filter:drop-shadow(0 0 24px rgba(139,92,246,0.9))"></div>
-<div id="debugInfo" style="position:fixed;top:10px;left:10px;z-index:30000;background:rgba(0,0,0,0.9);color:#0f0;font-size:11px;font-family:monospace;padding:10px 12px;border-radius:8px;border:1px solid #0f0;max-width:92vw;white-space:pre-wrap;pointer-events:none;display:block"></div><div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">tap the astronaut or black hole to enter blackhole</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterBlackhole" type="button" style="padding:12px 28px;border-radius:999px;border:1px solid rgba(236,72,153,.6);background:linear-gradient(135deg,rgba(109,40,217,.35),rgba(236,72,153,.3));color:#f9a8d4;font-size:13px;font-weight:800;letter-spacing:.12em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(236,72,153,.35),0 0 20px rgba(109,40,217,.3)"><img src="assets/black-hole.jpg?v=13" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:cover;box-shadow:0 0 16px rgba(236,72,153,.8)">Enter Blackhole</button></div><div style="display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center"><button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⚙️ Site Setting</button></div><div id="scanResult" style="display:none;margin-top:1.2rem;width:min(320px,84vw);padding:14px 16px;border-radius:16px;border:1px solid rgba(139,92,246,.3);background:rgba(10,11,18,.85);backdrop-filter:blur(12px);color:#c9cede;font-size:12px;line-height:1.9;text-align:left;max-height:60vh;overflow-y:auto"></div><div id="blackHoleOverlay" style="position:fixed;inset:0;z-index:10003;display:none;place-items:center;background:radial-gradient(ellipse at center, #1a0b2e 0%, #05060a 70%);opacity:0;transition:opacity .6s"><img src="assets/black-hole.jpg?v=13" alt="Black Hole" style="width:min(80vw,500px);height:min(80vw,500px);border-radius:50%;object-fit:cover;box-shadow:0 0 80px rgba(139,92,246,.8),0 0 160px rgba(236,72,153,.5);animation:blackHoleSpin 3s linear infinite, blackHolePulse 2s ease-in-out infinite"><style>@keyframes blackHoleSpin{to{transform:rotate(360deg)}}@keyframes blackHolePulse{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.08) rotate(180deg)}}@keyframes blackHoleEnter{0%{transform:scale(0.2) rotate(0deg);opacity:0}50%{opacity:1}100%{transform:scale(4) rotate(720deg);opacity:0}}</style></div></div>
-<canvas id="canvas" aria-hidden="true" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;display:block;pointer-events:none"></canvas>
+<div id="cssStars" style="position:fixed;inset:0;z-index:10001;background:#05060a;pointer-events:none;display:none"></div>
+<div id="cssEarth" style="position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:10003;width:min(70vw,450px);height:min(70vw,450px);border-radius:50%;background:url('assets/textures/earth-blue-marble.jpg') center/cover;box-shadow:0 0 80px rgba(59,130,246,0.7), 0 0 120px rgba(139,92,246,0.3), inset -30px -30px 60px rgba(0,0,0,0.9);pointer-events:none;display:none;opacity:0;border:2px solid rgba(59,130,246,0.3)"></div>
+<div id="cssAstronaut" style="position:fixed;right:8%;top:50%;transform:translateY(-50%);z-index:10002;pointer-events:none;display:none;opacity:0"><img src="assets/astronaut-small.png?v=11" alt="astronaut" style="width:140px;height:140px;object-fit:contain;filter:drop-shadow(0 0 24px rgba(139,92,246,0.9))"></div>
+<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">tap the astronaut or black hole to enter blackhole</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterBlackhole" type="button" style="padding:12px 28px;border-radius:999px;border:1px solid rgba(236,72,153,.6);background:linear-gradient(135deg,rgba(109,40,217,.35),rgba(236,72,153,.3));color:#f9a8d4;font-size:13px;font-weight:800;letter-spacing:.12em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(236,72,153,.35),0 0 20px rgba(109,40,217,.3)"><img src="assets/black-hole.jpg?v=13" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:cover;box-shadow:0 0 16px rgba(236,72,153,.8)">Enter Blackhole</button></div><div style="display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center"><button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⚙️ Site Setting</button></div><div id="scanResult" style="display:none;margin-top:1.2rem;width:min(320px,84vw);padding:14px 16px;border-radius:16px;border:1px solid rgba(139,92,246,.3);background:rgba(10,11,18,.85);backdrop-filter:blur(12px);color:#c9cede;font-size:12px;line-height:1.9;text-align:left;max-height:60vh;overflow-y:auto"></div><div id="blackHoleOverlay" style="position:fixed;inset:0;z-index:10003;display:none;place-items:center;background:radial-gradient(ellipse at center, #1a0b2e 0%, #05060a 70%);opacity:0;transition:opacity .6s"><img src="assets/black-hole.jpg?v=13" alt="Black Hole" style="width:min(80vw,500px);height:min(80vw,500px);border-radius:50%;object-fit:cover;box-shadow:0 0 80px rgba(139,92,246,.8),0 0 160px rgba(236,72,153,.5);animation:blackHoleSpin 3s linear infinite, blackHolePulse 2s ease-in-out infinite"><style>@keyframes blackHoleSpin{to{transform:rotate(360deg)}}@keyframes blackHolePulse{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.08) rotate(180deg)}}@keyframes blackHoleEnter{0%{transform:scale(0.2) rotate(0deg);opacity:0}50%{opacity:1}100%{transform:scale(4) rotate(720deg);opacity:0}}</style></div></div>
+<div id="spaceScrim" aria-hidden="true"></div>
+<canvas id="canvas" aria-hidden="true" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;display:block;pointer-events:none"></canvas>
 <video id="auraVideo" aria-hidden="true" muted playsinline preload="auto" loop disablepictureinpicture disableremoteplayback src="assets/video/aura_bg_2k_opt.mp4?v=1" style="position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:0;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35);opacity:0"></video>
 
 <!-- =========== FULL 3D BACKGROUND CANVAS =========== -->
@@ -1007,6 +1019,36 @@ html.splash-lock #cssAstronaut{opacity:0.9 !important}
 <script>
 (function(){
   const LS_KEY='mv_site_setting_v2';
+  // WebGL check — flat CSS space layers sirf fallback hain ( warna real 3D Earth + 50K stars chalta hai )
+  function hasWebGL(){
+    try{
+      const c=document.createElement('canvas');
+      return !!(window.WebGLRenderingContext && (c.getContext('webgl2')||c.getContext('webgl')||c.getContext('experimental-webgl')));
+    }catch(e){ return false; }
+  }
+  let noWebGL=!hasWebGL();
+  window.MV_NO_WEBGL=noWebGL;
+  function enableFallbackSpace(){
+    noWebGL=true; window.MV_NO_WEBGL=true;
+    document.documentElement.classList.add('no-webgl');
+    let cfg=null; try{ cfg=JSON.parse(localStorage.getItem(LS_KEY)||'null'); }catch(e){}
+    const t=(cfg&&cfg.toggles)||{stars:true,earth:true,astronaut:true};
+    const cs=document.getElementById('cssStars'), ca=document.getElementById('cssAstronaut'), ce=document.getElementById('cssEarth');
+    const inSplash=document.documentElement.classList.contains('splash-lock');
+    if(inSplash){
+      if(cs) cs.style.display=t.stars?'block':'none';
+      if(ca) ca.style.display=t.astronaut?'block':'none';
+      if(ce) ce.style.display=t.earth?'block':'none';
+    }else{
+      document.documentElement.classList.add('space-bg');
+      if(cs) cs.style.display=t.stars?'block':'none';
+      if(ca) ca.style.display='none';
+      if(ce) ce.style.display='none';
+    }
+  }
+  // 3D module (CDN se three.js) 7s tak na chala -> flat CSS space fallback chalu kar do
+  setTimeout(()=>{ if(!document.documentElement.classList.contains('webgl-ok')) enableFallbackSpace(); }, 7000);
+  const showFallbackStars=()=>noWebGL;
   const ssEl=document.getElementById('siteSetting');
   const loaderEl=document.getElementById('loader');
   const wrapEl=document.querySelector('.wrap');
@@ -1088,9 +1130,9 @@ html.splash-lock #cssAstronaut{opacity:0.9 !important}
     const cs=document.getElementById('cssStars'), ca=document.getElementById('cssAstronaut');
     if(cv){ cv.style.display='block'; cv.style.opacity='1'; }
     if(av){ av.style.display=cfg.toggles.aura?'block':'none'; av.style.opacity='0'; }
-    if(cs){ cs.style.display=(cfg.preset==='extreme' || cfg.toggles.stars)?'block':'none'; }
-    if(ca){ ca.style.display=(cfg.preset==='extreme' || cfg.toggles.astronaut)?'block':'none'; }
-    const ce2=document.getElementById('cssEarth'); if(ce2){ ce2.style.display=(cfg.preset==='extreme' || cfg.toggles.earth)?'block':'none'; }
+    if(cs){ cs.style.display=(showFallbackStars() && (cfg.preset==='extreme' || cfg.toggles.stars))?'block':'none'; }
+    if(ca){ ca.style.display=(noWebGL && (cfg.preset==='extreme' || cfg.toggles.astronaut))?'block':'none'; }
+    const ce2=document.getElementById('cssEarth'); if(ce2){ ce2.style.display=(noWebGL && (cfg.preset==='extreme' || cfg.toggles.earth))?'block':'none'; }
     setTimeout(()=>{ window.dispatchEvent(new Event('site-setting-saved')); }, 200);
   });
   const urlParamsCheck=new URLSearchParams(location.search);
@@ -1107,20 +1149,20 @@ html.splash-lock #cssAstronaut{opacity:0.9 !important}
     if(av){ av.style.display=existing.toggles.aura?'block':'none'; av.style.opacity='0'; }
     if(le){ le.style.display='flex'; le.classList.remove('done'); }
     if(we){ we.style.display='block'; we.style.opacity='0'; }
-    // Force show for extreme preset even if toggles missing
-    if(existing.preset==='extreme'){
-      if(cs){ cs.style.display='block'; }
-      if(ca){ ca.style.display='block'; }
-      if(ce){ ce.style.display='block'; }
-      if(cv){ cv.style.display='block'; }
-    }else if(existing.preset==='low'){
+    // Flat CSS layers = fallback only. WebGL chalu hai to real 3D canvas hi Earth + 50K stars dikhata hai.
+    if(cv){ cv.style.display='block'; cv.style.opacity='1'; }
+    if(existing.preset==='low'){
       if(cs){ cs.style.display='none'; }
       if(ca){ ca.style.display='none'; }
       if(ce){ ce.style.display='none'; }
-    }else{
+    }else if(noWebGL){
       if(cs){ cs.style.display=existing.toggles.stars?'block':'none'; }
       if(ca){ ca.style.display=existing.toggles.astronaut?'block':'none'; }
       if(ce){ ce.style.display=existing.toggles.earth?'block':'none'; }
+    }else{
+      if(cs){ cs.style.display='none'; }
+      if(ca){ ca.style.display='none'; }
+      if(ce){ ce.style.display='none'; }
     }
     // Fallback: ensure Enter buttons show after 1.5s even if Three.js fails
     setTimeout(()=>{
@@ -1163,17 +1205,23 @@ html.splash-lock #cssAstronaut{opacity:0.9 !important}
       setTimeout(()=>{
         document.documentElement.classList.remove('splash-lock');
         if(loader) loader.classList.add('done');
+        const cfg=window.SITE_CFG||{toggles:{aura:true,stars:true,earth:true}};
+        const spaceBg=!!(cfg.toggles&&(cfg.toggles.stars||cfg.toggles.earth));
+        if(spaceBg) document.documentElement.classList.add('space-bg');
         const aura=document.getElementById('auraVideo');
-        if(aura){ 
-          const cfg=window.SITE_CFG||{toggles:{aura:true}};
-          aura.style.display=cfg.toggles.aura?'block':'none'; 
-          aura.style.opacity=cfg.toggles.aura?'0.7':'0'; 
-          if(aura.paused && cfg.toggles.aura) aura.play().catch(()=>{}); 
+        if(aura){
+          // PAGE 1 ka background = deep space (Earth + 50K stars), isliye aura video off
+          aura.style.display=(spaceBg||!cfg.toggles.aura)?'none':'block';
+          aura.style.opacity=(spaceBg||!cfg.toggles.aura)?'0':'0.7';
+          if(aura.paused && !spaceBg && cfg.toggles.aura) aura.play().catch(()=>{});
         }
         const canvas=document.getElementById('canvas');
-        if(canvas){ canvas.style.opacity='0'; canvas.style.display='none'; }
+        if(canvas){
+          if(spaceBg && !noWebGL){ canvas.style.display='block'; canvas.style.opacity='1'; canvas.style.pointerEvents='none'; }
+          else { canvas.style.opacity='0'; canvas.style.display='none'; }
+        }
         const cssS=document.getElementById('cssStars'), cssA=document.getElementById('cssAstronaut'), cssE=document.getElementById('cssEarth');
-        if(cssS) cssS.style.display='none';
+        if(cssS) cssS.style.display=(spaceBg&&noWebGL)?'block':'none';
         if(cssA) cssA.style.display='none';
         if(cssE) cssE.style.display='none';
         const wrap=document.querySelector('.wrap');
@@ -1278,6 +1326,9 @@ function getSiteCfg(){
       if(cfg.preset==='medium' && (!cfg.toggles.starCount || cfg.toggles.starCount<1000)){
         cfg.toggles.starCount=10000;
       }
+      // toggles kabhi undefined na ho (warna SPACE_BG/loop crash ho jaata tha)
+      const dflt={stars:true,earth:true,astronaut:true,clouds:true,aura:true,animations:true,glass:true,marquee:true,cursor:true,starCount:50000};
+      cfg.toggles=Object.assign({}, dflt, cfg.toggles||{});
       return cfg;
     }
   }catch(e){}
@@ -1285,40 +1336,19 @@ function getSiteCfg(){
 }
 let SITE_CFG=getSiteCfg();
 window.SITE_CFG=SITE_CFG;
-function updateDebug(){
-  try{
-    const dbg=document.getElementById('debugInfo');
-    if(!dbg) return;
-    const cv=document.getElementById('canvas');
-    const cs=document.getElementById('cssStars');
-    const ce=document.getElementById('cssEarth');
-    const ca=document.getElementById('cssAstronaut');
-    const info=[
-      'Preset: '+(SITE_CFG.preset||'none'),
-      'starCount: '+(SITE_CFG.toggles?.starCount||0),
-      'stars: '+!!SITE_CFG.toggles?.stars,
-      'earth: '+!!SITE_CFG.toggles?.earth,
-      'astronaut: '+!!SITE_CFG.toggles?.astronaut,
-      'canvas: '+(cv? (cv.style.display+' '+cv.style.opacity+' '+(cv.offsetWidth||0)+'x'+(cv.offsetHeight||0)):'no'),
-      'cssStars: '+(cs? (cs.style.display+' '+(getComputedStyle(cs).display)):'no'),
-      'cssEarth: '+(ce? (ce.style.display+' '+(getComputedStyle(ce).display)):'no'),
-      'cssAstronaut: '+(ca? (ca.style.display+' '+(getComputedStyle(ca).display)):'no'),
-      'Three: '+(typeof THREE!=='undefined'?'yes':'no'),
-      'LS: '+(localStorage.getItem('mv_site_setting_v2')?'yes':'no'),
-      'URL: '+location.search
-    ].join('\n');
-    dbg.textContent=info;
-  }catch(e){ console.error('debug err',e); }
-}
-setInterval(updateDebug, 500);
-setTimeout(updateDebug, 100);
+// debug overlay + updateDebug hata diya (page pe green box dikh raha tha)
 
 window.addEventListener('site-setting-saved',()=>{ SITE_CFG=getSiteCfg(); window.SITE_CFG=SITE_CFG; location.reload(); });
 const isLow = SITE_CFG.preset==='low' || (!SITE_CFG.toggles.stars && !SITE_CFG.toggles.earth && !SITE_CFG.toggles.astronaut);
 const starCount = SITE_CFG.toggles.stars ? (SITE_CFG.toggles.starCount|| (SITE_CFG.preset==='medium'?10000:50000)) : 0;
 
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference: isLow?'low-power':'high-performance'});
+document.documentElement.classList.add('webgl-ok');
 renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio, isLow?1:2));
+window.MV_PIXEL_RATIO=Math.min(devicePixelRatio, isLow?1:2);
+// PAGE 1 (home) ka background = deep space (Earth + 50K stars). Aura video sirf tab jab space off ho.
+const SPACE_BG=!!(SITE_CFG&&SITE_CFG.toggles&&(SITE_CFG.toggles.stars||SITE_CFG.toggles.earth));
+window.MV_SPACE_BG=SPACE_BG;
 renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.2;renderer.outputColorSpace=THREE.SRGBColorSpace;
 
 const scene=new THREE.Scene();scene.background=null;
@@ -1339,7 +1369,6 @@ if(isLow){
   setTimeout(()=>{
     const h=document.getElementById('loaderHint'),bh=document.getElementById('enterBlackhole');
     if(h)h.classList.add('ready');
-    if(b)b.style.display='inline-flex';
     if(bh)bh.style.display='inline-flex';
     document.getElementById('loaderFill').style.width='100%';
   }, 500);
@@ -1586,8 +1615,7 @@ try{
     setTimeout(()=>{ out.scrollIntoView({behavior:'smooth', block:'center'}); }, 100);
   });
 })();
-setTimeout(()=>{ // 3s fallback
- for all presets
+setTimeout(()=>{ // 1s fallback — enter button sab presets ke liye dikhe
   const h=document.getElementById('loaderHint'),bh=document.getElementById('enterBlackhole');
   if(h)h.classList.add('ready');
   if(bh)bh.style.display='inline-flex';
@@ -1733,7 +1761,7 @@ if(!SITE_CFG.toggles.astronaut){
         document.getElementById('loaderFill').style.width=Math.max(parseFloat(document.getElementById('loaderFill').style.width)||0,pct)+'%';
       }
     },
-    err=>{console.error('Astronaut load failed:',err);const h=document.getElementById('loaderHint');if(h)h.classList.add('ready');if(b)b.style.display='inline-flex';}
+    err=>{console.error('Astronaut load failed:',err);const h=document.getElementById('loaderHint');if(h)h.classList.add('ready');const bh2=document.getElementById('enterBlackhole');if(bh2)bh2.style.display='inline-flex';}
   );
 }
 }
@@ -1798,21 +1826,50 @@ starGeo.setAttribute('position',new THREE.BufferAttribute(sPos,3));
 starGeo.setAttribute('aSize',new THREE.BufferAttribute(sSize,1));
 starGeo.setAttribute('aColor',new THREE.BufferAttribute(sCol,3));
 starGeo.setAttribute('aPhase',new THREE.BufferAttribute(sPh,1));
-const starMat=new THREE.PointsMaterial({
-  size:1.2,
-  sizeAttenuation:true,
+const starMat=new THREE.ShaderMaterial({
+  uniforms:{
+    uTime:{value:0},
+    uPR:{value:Math.min(devicePixelRatio, isLow?1:2)},
+    uOpacity:{value:1}
+  },
+  vertexShader:`
+attribute float aSize;
+attribute vec3 aColor;
+attribute float aPhase;
+uniform float uTime;
+uniform float uPR;
+varying vec3 vColor;
+varying float vTw;
+void main(){
+  vColor=aColor;
+  float tw=0.62+0.38*sin(uTime*1.6+aPhase*6.2831853);
+  vTw=tw;
+  vec4 mv=modelViewMatrix*vec4(position,1.0);
+  float dist=max(-mv.z,1.0);
+  gl_Position=projectionMatrix*mv;
+  gl_PointSize=clamp(aSize*uPR*(78.0/dist)*tw,0.7,5.0*uPR);
+}`,
+  fragmentShader:`
+uniform float uOpacity;
+varying vec3 vColor;
+varying float vTw;
+void main(){
+  vec2 d=gl_PointCoord-vec2(0.5);
+  float r=dot(d,d);
+  if(r>0.25) discard;
+  float core=1.0-smoothstep(0.0,0.25,r);
+  float glow=pow(core,3.2);
+  float a=(core*0.45+glow*0.95)*uOpacity;
+  gl_FragColor=vec4(vColor*(0.7+0.6*vTw),a);
+}`,
   transparent:true,
-  opacity:1,
-  vertexColors:true,
-  blending:THREE.AdditiveBlending,
-  depthWrite:false
+  depthWrite:false,
+  depthTest:true,
+  blending:THREE.AdditiveBlending
 });
-// Keep aSize for compatibility but use PointsMaterial
-starMat.onBeforeCompile = (shader)=>{
-  shader.uniforms.uTime={value:0};
-  starMat.userData.shader=shader;
-};
-const stars=new THREE.Points(starGeo,starMat);scene.add(stars);
+const stars=new THREE.Points(starGeo,starMat);
+stars.frustumCulled=false;
+scene.add(stars);
 
 // Clean space — only Earth + stars (dust & orbiting elements removed)
 
@@ -1827,7 +1884,7 @@ addEventListener('scroll',()=>{if(navEl)navEl.classList.toggle('scrolled',scroll
 const setAstroX=()=>{astroBase.x=(innerWidth/innerHeight<0.85)?2.6:6.5;};setAstroX();
 addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);setAstroX()});
 
-// ANIMATE — splash has dark space 50K stars + astronaut + Earth, home has only aura video (stars+astronaut only on entering page)
+// ANIMATE — splash + PAGE 1 (home) dono pe deep space background: Earth + 50K stars (astronaut sirf splash pe)
 let time=0;const clock=new THREE.Clock();
 let entryT=0;
 (function loop(){
@@ -1873,10 +1930,10 @@ let entryT=0;
     if(starMat && starMat.uniforms && starMat.uniforms.uTime) starMat.uniforms.uTime.value=time;
     else if(starMat && starMat.userData && starMat.userData.shader && starMat.userData.shader.uniforms && starMat.userData.shader.uniforms.uTime) starMat.userData.shader.uniforms.uTime.value=time;
     stars.rotation.y+=dt*0.0035;
-    // stars fade out at end of entry
-    if(starMat){ starMat.opacity = ease>0.7 ? 1-(ease-0.7)/0.3 : 1; starMat.transparent=true; }
-    // aura video: 0 -> 0.7 (blank page -> home aura)
-    if(auraV){
+    // stars PAGE 1 (home) pe bhi rahenge — entry ke baad fade NAHI honge
+    if(starMat.uniforms.uOpacity) starMat.uniforms.uOpacity.value=1;
+    // aura video sirf tab jab space background off ho (warna space hi background hai)
+    if(auraV && !SPACE_BG){
       auraV.style.opacity=String(ease*0.7);
       if(auraV.readyState>=2 && auraV.paused) auraV.play().catch(()=>{});
     }
@@ -1888,12 +1945,25 @@ let entryT=0;
         document.documentElement.classList.remove('splash-lock');
         const loader=document.getElementById('loader');
         if(loader) loader.classList.add('done');
-        if(auraV){ auraV.style.display=SITE_CFG.toggles.aura?'block':'none'; auraV.style.transition='opacity 1s ease'; auraV.style.opacity=SITE_CFG.toggles.aura?'0.7':'0'; if(auraV && auraV.paused && SITE_CFG.toggles.aura) auraV.play().catch(()=>{}); }
-        if(typeof stars!=='undefined' && stars) stars.visible=false;
+        if(SPACE_BG) document.documentElement.classList.add('space-bg');
+        // ══ PAGE 1 (HOME) BACKGROUND ══
+        // Space ON  -> Earth + 50K stars canvas portfolio ke peeche chalte rehte hain, aura video off
+        // Space OFF -> purana aura video background
+        if(auraV){
+          auraV.style.transition='opacity 1s ease';
+          auraV.style.display=(SPACE_BG||!SITE_CFG.toggles.aura)?'none':'block';
+          auraV.style.opacity=(SPACE_BG||!SITE_CFG.toggles.aura)?'0':'0.7';
+          if(auraV.paused && !SPACE_BG && SITE_CFG.toggles.aura) auraV.play().catch(()=>{});
+          if(!auraV.paused && SPACE_BG) auraV.pause();
+        }
+        if(typeof stars!=='undefined' && stars) stars.visible=SPACE_BG?!!SITE_CFG.toggles.stars:false;
         if(typeof astro!=='undefined' && astro) astro.visible=false;
-        if(typeof clouds!=='undefined' && clouds) clouds.visible=false;
-        if(typeof earthGroup!=='undefined' && earthGroup) earthGroup.visible=false;
-        if(canvas){ canvas.style.opacity='0'; canvas.style.pointerEvents='none'; canvas.style.display='none'; }
+        if(typeof clouds!=='undefined' && clouds) clouds.visible=SPACE_BG?!!SITE_CFG.toggles.clouds:false;
+        if(typeof earthGroup!=='undefined' && earthGroup) earthGroup.visible=SPACE_BG?!!SITE_CFG.toggles.earth:false;
+        if(canvas){
+          if(SPACE_BG){ canvas.style.display='block'; canvas.style.opacity='1'; canvas.style.pointerEvents='none'; }
+          else { canvas.style.opacity='0'; canvas.style.pointerEvents='none'; canvas.style.display='none'; }
+        }
         const cssS=document.getElementById('cssStars'), cssA=document.getElementById('cssAstronaut'), cssE=document.getElementById('cssEarth');
         if(cssS) cssS.style.display='none';
         if(cssA) cssA.style.display='none';
@@ -1928,9 +1998,12 @@ let entryT=0;
   const inSplash=loaderEl && !loaderEl.classList.contains('done');
 
   if(inSplash){
+    // PAGE 0 (Site Setting) khula ho to splash render mat karo — GPU bachao
+    const ssEl1=document.getElementById('siteSetting');
+    if(ssEl1 && !ssEl1.classList.contains('done')){ return; }
     // Splash: Earth at -15, camera 22-ish, stars + astronaut visible — BLANK PAGE (no home content, no aura)
     if(typeof earthGroup!=='undefined' && earthGroup) earthGroup.visible=!!SITE_CFG.toggles.earth;
-    if(stars){ stars.visible=!!SITE_CFG.toggles.stars; if(starMat) starMat.opacity=1; }
+    if(stars){ stars.visible=!!SITE_CFG.toggles.stars; if(starMat.uniforms.uOpacity) starMat.uniforms.uOpacity.value=1; }
     if(astro && astro.visible===false){
       // restore astronaut opacity if it was faded
       astro.visible=true;
@@ -1958,15 +2031,60 @@ let entryT=0;
     return;
   }
 
-  // HOME PAGE: only aura video background, no dark space stars, no astronaut (as per user request)
-  // Earth hidden, stars hidden, astronaut hidden — clean portfolio with aura video
+  // ═══ PAGE 1 (HOME) — deep space background: Earth + 50K stars portfolio ke peeche hamesha chalte hain ═══
+  if(SPACE_BG){
+    const ssEl2=document.getElementById('siteSetting');
+    const settingsOpen=ssEl2 && !ssEl2.classList.contains('done');
+    if(settingsOpen){
+      // PAGE 0 (Site Setting) khula hai — space background pause, canvas hidden
+      document.documentElement.classList.remove('space-bg');
+      if(canvas) canvas.style.display='none';
+      if(auraV && !auraV.paused) auraV.pause();
+      return;
+    }
+    if(!document.documentElement.classList.contains('space-bg')) document.documentElement.classList.add('space-bg');
+    if(canvas && canvas.style.display==='none'){ canvas.style.display='block'; canvas.style.opacity='1'; }
+    // scroll + mouse parallax camera
+    const cY=1.5-sProg*9;
+    const cZ=14-sProg*3.5;
+    camera.position.x=mX*1.6;
+    camera.position.y=cY-mY*0.7;
+    camera.position.z=cZ;
+    camera.lookAt(mX*0.4,cY*0.35,-6);
+    // Earth: hero ke peeche se scroll ke saath dheere-dheere upar-right drift + door
+    if(earthGroup){
+      earthGroup.visible=!!SITE_CFG.toggles.earth;
+      earthGroup.position.set(sProg*2.6, 0.5+sProg*2.6, -21-sProg*8);
+      spinY+=dt*0.03;
+      if(earth) earth.rotation.y=spinY;
+      if(clouds){ clouds.visible=!!SITE_CFG.toggles.clouds; clouds.rotation.y+=dt*0.045; }
+      if(cloudMat&&cloudMat.uniforms&&cloudMat.uniforms.uTime) cloudMat.uniforms.uTime.value=time;
+      if(sunDirU) sunDirU.value.copy(sun.position).sub(earthGroup.position).normalize();
+    }
+    // 50K stars: twinkle + slow rotation + scroll parallax
+    if(stars){
+      stars.visible=!!SITE_CFG.toggles.stars;
+      stars.rotation.y+=dt*0.0035;
+      stars.rotation.x=sProg*0.07;
+      if(starMat.uniforms.uTime) starMat.uniforms.uTime.value=time;
+      if(starMat.uniforms.uOpacity) starMat.uniforms.uOpacity.value=1;
+    }
+    if(astro) astro.visible=false;
+    // aura video off — space hi background hai
+    if(auraV){
+      if(parseFloat(auraV.style.opacity||'0')>0) auraV.style.opacity='0';
+      if(!auraV.paused) auraV.pause();
+    }
+    try{ renderer.render(scene,camera); }catch(e){}
+    return;
+  }
+
+  // Space OFF (low preset) — purana aura video background
   if(auraV&&auraV.readyState>=2){
     if(auraV.paused) auraV.play().catch(()=>{});
     if(auraV.loop===false) auraV.loop=true;
-    // keep aura at 0.7 on home, not 0.9 (was glitch covering content)
     if(parseFloat(auraV.style.opacity||'0')<0.6) auraV.style.opacity='0.7';
   }
-  // keep 3D hidden on home for clean look
   try{ renderer.render(scene,camera); }catch(e){}
   }catch(e){ console.error('Animate error', e); try{ renderer.render(scene,camera); }catch(e2){} }
 })();
