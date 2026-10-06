@@ -1039,14 +1039,16 @@ html.splash-lock #loader{background:transparent}
       const b1=document.getElementById('enterSite'), b2=document.getElementById('enterBlackhole');
       if(b1) b1.style.opacity='0';
       if(b2) b2.style.opacity='0';
-      // Simulate entry completion after 1.4s for low preset without 3D
+      // Simulate entry completion after 1.4s for low preset without 3D — SHOW HOME PAGE
       setTimeout(()=>{
         document.documentElement.classList.remove('splash-lock');
         if(loader) loader.classList.add('done');
         const aura=document.getElementById('auraVideo');
-        if(aura){ aura.style.display='block'; aura.style.opacity='0.7'; }
+        if(aura){ aura.style.display='block'; aura.style.opacity='0.7'; if(aura.paused) aura.play().catch(()=>{}); }
         const canvas=document.getElementById('canvas');
-        if(canvas) canvas.style.opacity='0';
+        if(canvas){ canvas.style.opacity='0'; canvas.style.display='none'; }
+        const wrap=document.querySelector('.wrap');
+        if(wrap){ wrap.style.display='block'; wrap.style.opacity='1'; wrap.style.visibility='visible'; wrap.style.pointerEvents='auto'; }
         window.scrollTo({top:0,behavior:'smooth'});
       }, 1500);
     };
@@ -1633,23 +1635,24 @@ let entryT=0;
     renderer.render(scene,camera);
     if(entryT>=1){
       window._entryAnim=0;
-      // --- ENTRY COMPLETE: hide dark space + astronaut from home page, keep only aura video ---
+      // --- ENTRY COMPLETE: hide dark space + astronaut from home page, keep only aura video, SHOW HOME PAGE ---
       document.documentElement.classList.remove('splash-lock');
       const loader=document.getElementById('loader');
       if(loader) loader.classList.add('done');
-      if(auraV){ auraV.style.transition='opacity .8s ease'; auraV.style.opacity='0.7'; }
+      if(auraV){ auraV.style.transition='opacity .8s ease'; auraV.style.opacity='0.7'; auraV.style.display='block'; }
       // hide stars + astronaut + clouds from home page (only on entering deep space page)
-      if(stars) stars.visible=false;
-      if(astro) astro.visible=false;
-      if(clouds) clouds.visible=false;
-      // keep Earth for scroll? user said dark space + astronaut should only be on entering page, so hide Earth too for clean home
-      // If you want Earth scroll on home, comment next line
-      earthGroup.visible=false;
-      // hide canvas completely for performance on home
-      if(canvas){ canvas.style.opacity='0'; canvas.style.pointerEvents='none'; }
+      if(typeof stars!=='undefined' && stars) stars.visible=false;
+      if(typeof astro!=='undefined' && astro) astro.visible=false;
+      if(typeof clouds!=='undefined' && clouds) clouds.visible=false;
+      if(typeof earthGroup!=='undefined' && earthGroup) earthGroup.visible=false;
+      if(canvas){ canvas.style.opacity='0'; canvas.style.pointerEvents='none'; canvas.style.display='none'; }
+      // SHOW HOME PAGE (was hidden via inline opacity 0)
+      const wrapEl2=document.querySelector('.wrap');
+      if(wrapEl2){ wrapEl2.style.display='block'; wrapEl2.style.opacity='1'; wrapEl2.style.visibility='visible'; wrapEl2.style.pointerEvents='auto'; }
       window.scrollTo({top:0,behavior:'smooth'});
-      // reset scroll progress to top
       tScroll=0; sProg=0;
+      // Force aura play
+      if(auraV && auraV.paused) auraV.play().catch(()=>{});
     }
     return;
   }
