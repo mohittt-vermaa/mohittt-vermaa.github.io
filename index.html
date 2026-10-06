@@ -442,6 +442,31 @@ body.dark .form-input,body.dark .form-textarea{background:#1a1a22;border-color:v
   *,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;animation-iteration-count:1!important}
   .m-track{animation:none}
 }
+/* ══ PAGE 0 — SITE SETTING (lightweight, no 3D, for low-end devices) ══ */
+.site-setting{position:fixed;inset:0;z-index:20000;background:#05060a;color:#e5e7eb;display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto;transition:opacity .6s ease,visibility .6s}
+.site-setting.done{opacity:0;visibility:hidden;pointer-events:none}
+.ss-inner{width:min(640px,100%);background:rgba(19,19,26,.9);border:1px solid rgba(139,92,246,.25);border-radius:24px;padding:28px;box-shadow:0 24px 80px rgba(0,0,0,.5);backdrop-filter:blur(16px)}
+.ss-head{display:flex;gap:16px;align-items:center;margin-bottom:22px}
+.ss-logo{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-family:'Space Grotesk';font-weight:800;font-size:20px;color:#fff;background:linear-gradient(135deg,#6d28d9,#ec4899);flex-shrink:0}
+.ss-title{font-family:'Space Grotesk';font-size:22px;font-weight:700;letter-spacing:-.5px;color:#fafafa}
+.ss-sub{font-size:13px;color:#a1a1aa;margin-top:4px;line-height:1.5}
+.ss-presets{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.ss-preset{position:relative;text-align:left;padding:14px 14px;border-radius:14px;border:1px solid rgba(39,39,42,.8);background:#13131a;color:#e4e4e7;cursor:pointer;transition:.2s;display:flex;flex-direction:column;gap:4px}
+.ss-preset:hover{border-color:#8b5cf6;transform:translateY(-1px)}
+.ss-preset.active{border-color:#8b5cf6;background:linear-gradient(135deg,rgba(109,40,217,.18),rgba(236,72,153,.12));box-shadow:0 8px 24px rgba(109,40,217,.2)}
+.ss-p-icon{font-size:18px}
+.ss-p-name{font-weight:700;font-size:13px;letter-spacing:.04em;color:#fafafa}
+.ss-p-desc{font-size:11.5px;color:#a1a1aa;line-height:1.4}
+.ss-custom{margin-bottom:18px;padding:14px;border-radius:14px;background:rgba(0,0,0,.25);border:1px dashed rgba(139,92,246,.25)}
+.ss-c-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ss-toggle{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;background:#1a1a22;border:1px solid #27272a;font-size:12.5px;color:#d4d4d8;cursor:pointer;user-select:none}
+.ss-toggle input{accent-color:#8b5cf6;width:14px;height:14px}
+.ss-actions{display:flex;flex-direction:column;gap:10px}
+.ss-save{padding:13px 20px;border-radius:999px;background:linear-gradient(135deg,#6d28d9,#ec4899);color:#fff;font-weight:700;font-size:13px;letter-spacing:.06em;border:none;cursor:pointer;box-shadow:0 12px 32px rgba(109,40,217,.35);transition:.2s}
+.ss-save:hover{transform:translateY(-1px);box-shadow:0 16px 40px rgba(109,40,217,.45)}
+.ss-note{font-size:11px;color:#71717a;line-height:1.5;min-height:16px}
+@media(max-width:500px){.ss-presets{grid-template-columns:1fr}.ss-c-grid{grid-template-columns:1fr}.ss-inner{padding:20px}}
+/* ══ DEEP-SPACE LAYER
 /* ══ DEEP-SPACE LAYER — Entering Deep Space = full blank page like Hermes chat page ══ */
 #canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;display:block;pointer-events:none;transition:opacity .6s ease}
 #auraVideo{position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:0;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35);transition:opacity .6s ease}
@@ -467,8 +492,43 @@ html.splash-lock #loader{background:transparent}
 </head>
 <body class="dark">
 
+<!-- PAGE 0 — SITE SETTING (device settings for low-end) -->
+<div id="siteSetting" class="site-setting" aria-hidden="false">
+  <div class="ss-inner">
+    <div class="ss-head">
+      <div class="ss-logo">MV</div>
+      <div>
+        <h1 class="ss-title">Site Setting</h1>
+        <p class="ss-sub">Choose performance mode so low-end devices can enter smoothly. Saved in your browser.</p>
+      </div>
+    </div>
+    <div class="ss-presets">
+      <button class="ss-preset" data-preset="low"><span class="ss-p-icon">🐢</span><span class="ss-p-name">Low</span><span class="ss-p-desc">No 3D, no astronaut, minimal animations, fastest load</span></button>
+      <button class="ss-preset" data-preset="medium"><span class="ss-p-icon">⚡</span><span class="ss-p-name">Medium</span><span class="ss-p-desc">Earth + 10K stars, some effects, balanced</span></button>
+      <button class="ss-preset active" data-preset="extreme"><span class="ss-p-icon">🚀</span><span class="ss-p-name">Extreme</span><span class="ss-p-desc">All models: 50K stars, Earth 2K, astronaut, clouds, aura, full anim</span></button>
+      <button class="ss-preset" data-preset="custom"><span class="ss-p-icon">🛠️</span><span class="ss-p-name">Custom</span><span class="ss-p-desc">Toggle each element on/off</span></button>
+    </div>
+    <div class="ss-custom" id="ssCustom" style="display:none">
+      <div class="ss-c-grid">
+        <label class="ss-toggle"><input type="checkbox" data-key="stars" checked><span>Stars (50K)</span></label>
+        <label class="ss-toggle"><input type="checkbox" data-key="earth" checked><span>Earth 2K + Bihar</span></label>
+        <label class="ss-toggle"><input type="checkbox" data-key="astronaut" checked><span>Astronaut GLB</span></label>
+        <label class="ss-toggle"><input type="checkbox" data-key="clouds" checked><span>Clouds</span></label>
+        <label class="ss-toggle"><input type="checkbox" data-key="aura" checked><span>Aura Video</span></label>
+        <label class="ss-toggle"><input type="checkbox" data-key="animations" checked><span>Animations</span></label>
+        <label class="ss-toggle"><input type="checkbox" data-key="glass" checked><span>Glass Effects</span></label>
+        <label class="ss-toggle"><input type="checkbox" data-key="marquee" checked><span>Marquee</span></label>
+        <label class="ss-toggle"><input type="checkbox" data-key="cursor" checked><span>Custom Cursor</span></label>
+      </div>
+    </div>
+    <div class="ss-actions">
+      <button id="ssSave" class="ss-save">Save & Continue to Lock Page →</button>
+      <div class="ss-note" id="ssNote"></div>
+    </div>
+  </div>
+</div>
 <!-- DEEP SPACE LAYER -->
-<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">tap the astronaut to enter</div><button id="enterSite" type="button">Enter Site</button><button id="scanDevice" type="button" style="margin-top:1.6rem;padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><div id="scanResult" style="display:none;margin-top:1.2rem;width:min(320px,84vw);padding:14px 16px;border-radius:16px;border:1px solid rgba(139,92,246,.3);background:rgba(10,11,18,.85);backdrop-filter:blur(12px);color:#c9cede;font-size:12px;line-height:1.9;text-align:left"></div></div>
+<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">tap the astronaut to enter</div><button id="enterSite" type="button">Enter Site</button><div style="display:flex;gap:10px;margin-top:1.6rem;flex-wrap:wrap;justify-content:center"><button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⚙️ Site Setting</button></div><div id="scanResult" style="display:none;margin-top:1.2rem;width:min(320px,84vw);padding:14px 16px;border-radius:16px;border:1px solid rgba(139,92,246,.3);background:rgba(10,11,18,.85);backdrop-filter:blur(12px);color:#c9cede;font-size:12px;line-height:1.9;text-align:left;max-height:60vh;overflow-y:auto"></div></div>
 <canvas id="canvas" aria-hidden="true" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;display:block;pointer-events:none"></canvas>
 <video id="auraVideo" aria-hidden="true" muted playsinline preload="auto" loop disablepictureinpicture disableremoteplayback src="assets/video/aura_bg_2k_opt.mp4?v=1" style="position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:0;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35);opacity:0"></video>
 
@@ -486,6 +546,7 @@ html.splash-lock #loader{background:transparent}
     <li><a href="#blog">Blog</a></li>
     <li><a href="#profiles">Connect</a></li>
     <li><a href="#" data-open-hermes style="color:var(--acc);font-weight:600">🤖 Hermes</a></li>
+    <li><a href="#" onclick="window.openSiteSetting&&window.openSiteSetting();return false;" style="color:#a1a1aa" title="Site Setting">⚙️ Setting</a></li>
   </ul>
   <div class="nav-right">
     <a href="#" class="nav-cta" data-open-contact><span class="dot"></span>Get in touch</a>
@@ -499,6 +560,7 @@ html.splash-lock #loader{background:transparent}
   <a href="#blog">Blog</a>
   <a href="#profiles">Connect</a>
   <a href="#" id="openHermesChat" style="color:var(--acc);font-weight:600">🤖 I am Hermes — Chat</a>
+  <a href="#" onclick="window.openSiteSetting&&window.openSiteSetting();return false;" style="color:#a1a1aa">⚙️ Site Setting</a>
   <a href="#" class="nav-cta" data-open-contact><span class="dot"></span>Get in touch</a>
 </div>
 
@@ -861,6 +923,125 @@ html.splash-lock #loader{background:transparent}
 <div class="cur-ring" id="curR" aria-hidden="true"></div>
 
 
+
+<!-- PAGE 0 — SITE SETTING LOGIC (lightweight, no deps) -->
+<script>
+(function(){
+  const LS_KEY='mv_site_setting_v1';
+  const ssEl=document.getElementById('siteSetting');
+  const loaderEl=document.getElementById('loader');
+  const wrapEl=document.querySelector('.wrap');
+  const presets={
+    low:{stars:false,earth:false,astronaut:false,clouds:false,aura:false,animations:false,glass:false,marquee:false,cursor:false},
+    medium:{stars:true,earth:true,astronaut:false,clouds:true,aura:true,animations:true,glass:true,marquee:true,cursor:true,starCount:10000},
+    extreme:{stars:true,earth:true,astronaut:true,clouds:true,aura:true,animations:true,glass:true,marquee:true,cursor:true,starCount:50000},
+    custom:{}
+  };
+  function getDefaultToggles(){
+    const els=document.querySelectorAll('#ssCustom [data-key]');
+    const o={}; els.forEach(i=>o[i.dataset.key]=i.checked); return o;
+  }
+  function loadCfg(){
+    try{ const s=localStorage.getItem(LS_KEY); if(s) return JSON.parse(s); }catch(e){}
+    return null;
+  }
+  function saveCfg(cfg){ try{ localStorage.setItem(LS_KEY, JSON.stringify(cfg)); }catch(e){} }
+  function applyCfgToDOM(cfg){
+    window.SITE_CFG=cfg;
+    document.documentElement.dataset.sitePreset=cfg.preset;
+    if(!cfg.toggles.marquee) document.querySelectorAll('.marquee').forEach(el=>el.style.display='none'); else document.querySelectorAll('.marquee').forEach(el=>el.style.display='');
+    if(!cfg.toggles.glass) document.querySelectorAll('.glass-panel').forEach(el=>{ el.style.backdropFilter='none'; el.style.background='rgba(255,255,255,.06)'; });
+    if(!cfg.toggles.cursor){ const d=document.getElementById('curD'), r=document.getElementById('curR'); if(d) d.style.display='none'; if(r) r.style.display='none'; document.body.classList.remove('no-cur'); }
+    const aura=document.getElementById('auraVideo');
+    if(aura && !cfg.toggles.aura){ aura.style.display='none'; }
+  }
+  const presetBtns=document.querySelectorAll('.ss-preset');
+  const customBox=document.getElementById('ssCustom');
+  let selected='extreme';
+  presetBtns.forEach(b=>{
+    b.addEventListener('click',()=>{
+      presetBtns.forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      selected=b.dataset.preset;
+      if(selected==='custom'){ customBox.style.display='block'; }
+      else { customBox.style.display='none'; }
+    });
+  });
+  const note=document.getElementById('ssNote');
+  try{
+    const mem=navigator.deviceMemory||4;
+    const cores=navigator.hardwareConcurrency||4;
+    const isLow=mem<=3||cores<=3||/Android.*Chrome\/[0-6][0-9]/.test(navigator.userAgent);
+    if(isLow){
+      note.textContent='⚠️ Low-end device detected — Low preset recommended for smooth experience.';
+    }
+  }catch(e){}
+  document.getElementById('ssSave').addEventListener('click',()=>{
+    let toggles;
+    if(selected==='custom'){
+      toggles=getDefaultToggles();
+    }else{
+      toggles=Object.assign({}, presets[selected]);
+      if(presets[selected].starCount) toggles.starCount=presets[selected].starCount;
+    }
+    const allKeys=['stars','earth','astronaut','clouds','aura','animations','glass','marquee','cursor'];
+    allKeys.forEach(k=>{ if(toggles[k]===undefined) toggles[k]=true; });
+    if(!toggles.starCount) toggles.starCount = toggles.stars ? (selected==='medium'?10000:50000) : 0;
+    const cfg={preset:selected, toggles:toggles, savedAt:Date.now()};
+    saveCfg(cfg);
+    applyCfgToDOM(cfg);
+    ssEl.classList.add('done');
+    ssEl.setAttribute('aria-hidden','true');
+    document.documentElement.classList.add('splash-lock');
+    if(loaderEl){ loaderEl.classList.remove('done'); loaderEl.style.display='flex'; }
+    if(wrapEl){ wrapEl.style.display='block'; wrapEl.style.opacity='0'; }
+    const cv=document.getElementById('canvas'), av=document.getElementById('auraVideo');
+    if(cv){ cv.style.display='block'; cv.style.opacity='1'; }
+    if(av){ av.style.display=cfg.toggles.aura?'block':'none'; av.style.opacity='0'; }
+    setTimeout(()=>{ window.dispatchEvent(new Event('site-setting-saved')); }, 200);
+  });
+  const existing=loadCfg();
+  if(existing){
+    applyCfgToDOM(existing);
+    ssEl.classList.add('done');
+    ssEl.setAttribute('aria-hidden','true');
+    document.documentElement.classList.add('splash-lock');
+  }else{
+    ssEl.classList.remove('done');
+    ssEl.setAttribute('aria-hidden','false');
+    document.documentElement.classList.remove('splash-lock');
+    if(loaderEl) loaderEl.style.display='none';
+    if(wrapEl) wrapEl.style.display='none';
+    const cv=document.getElementById('canvas'), av=document.getElementById('auraVideo');
+    if(cv) cv.style.display='none';
+    if(av) av.style.display='none';
+  }
+  document.getElementById('openSettingFromLock')?.addEventListener('click',()=>{ if(window.openSiteSetting) window.openSiteSetting(); });
+  window.openSiteSetting=()=>{
+    const cv=document.getElementById('canvas'), av=document.getElementById('auraVideo');
+    if(cv) cv.style.display='none';
+    if(av) av.style.display='none';
+    if(wrapEl) wrapEl.style.display='none';
+    if(loaderEl) loaderEl.style.display='none';
+    ssEl.classList.remove('done');
+    ssEl.setAttribute('aria-hidden','false');
+    document.documentElement.classList.remove('splash-lock');
+    const cur=loadCfg();
+    if(cur){
+      presetBtns.forEach(b=>{ b.classList.toggle('active', b.dataset.preset===cur.preset); });
+      selected=cur.preset;
+      if(selected==='custom'){
+        customBox.style.display='block';
+        Object.keys(cur.toggles).forEach(k=>{
+          const inp=customBox.querySelector('[data-key="'+k+'"]');
+          if(inp) inp.checked=!!cur.toggles[k];
+        });
+      }
+    }
+  };
+})();
+</script>
+
 <script type="importmap">
 {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
 </script>
@@ -871,32 +1052,43 @@ import{DRACOLoader}from'three/addons/loaders/DRACOLoader.js';
 const canvas=document.getElementById('canvas');
 const auraV=document.getElementById('auraVideo');
 
-const renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});
-renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+function getSiteCfg(){
+  try{
+    const s=localStorage.getItem('mv_site_setting_v1');
+    if(s) return JSON.parse(s);
+  }catch(e){}
+  return {preset:'extreme', toggles:{stars:true,earth:true,astronaut:true,clouds:true,aura:true,animations:true,glass:true,marquee:true,cursor:true,starCount:50000}};
+}
+let SITE_CFG=getSiteCfg();
+window.SITE_CFG=SITE_CFG;
+window.addEventListener('site-setting-saved',()=>{ SITE_CFG=getSiteCfg(); window.SITE_CFG=SITE_CFG; location.reload(); });
+const isLow = SITE_CFG.preset==='low' || (!SITE_CFG.toggles.stars && !SITE_CFG.toggles.earth && !SITE_CFG.toggles.astronaut);
+const starCount = SITE_CFG.toggles.stars ? (SITE_CFG.toggles.starCount|| (SITE_CFG.preset==='medium'?10000:50000)) : 0;
+
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference: isLow?'low-power':'high-performance'});
+renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio, isLow?1:2));
 renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.2;renderer.outputColorSpace=THREE.SRGBColorSpace;
 
-const scene=new THREE.Scene();scene.background=null;  // transparent — aura video shows through behind the 3D scene
+const scene=new THREE.Scene();scene.background=null;
 const camera=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,0.1,500);camera.position.set(0,1.5,14);
 
-// NO BLOOM — clean render, bright enough to see the astronaut
 scene.add(new THREE.AmbientLight(0x3a4666,0.9));
 const keyL=new THREE.DirectionalLight(0xffffff,0.7);keyL.position.set(-4,6,10);scene.add(keyL);
 
-// TEXTURE
-// (dust particles removed — clean space with only Earth + stars)
-
-// LOADER — Earth texture loading se progress; entry sirf user click pe (astronaut ya Enter button)
 const manager=new THREE.LoadingManager();
 manager.onProgress=(url,loaded,total)=>{document.getElementById('loaderFill').style.width=Math.min(100,loaded/total*100)+'%'};
-manager.onLoad=()=>{ // auto-close band — splash ready mark karo, entry click se hogi
+manager.onLoad=()=>{
   const h=document.getElementById('loaderHint'),b=document.getElementById('enterSite');
   if(h)h.classList.add('ready');
   if(b)b.style.display='inline-flex';
 };
-// Splash mode: scroll lock — user device/elements ko aaram se scan kar sake
-document.documentElement.classList.add('splash-lock');
-// splash ke dauraan video dim — dark space + 50k stars ka look
-if(auraV)auraV.style.opacity='0.25';
+if(localStorage.getItem('mv_site_setting_v1')){
+  document.documentElement.classList.add('splash-lock');
+}
+if(auraV){
+  if(!SITE_CFG.toggles.aura){ auraV.style.display='none'; }
+  else { auraV.style.opacity='0'; }
+}
 function enterSiteNow(){
   const loader=document.getElementById('loader');
   if(loader.classList.contains('done')||window._entryAnim) return;
@@ -912,11 +1104,13 @@ function enterSiteNow(){
   // entry animation will handle removal + hiding stars/astronaut after 1400ms
 }
 
-// ═══ SCAN DEVICE — loader page device info (IP, model, RAM, efficiency) — FIXED & ROBUST ═══
+// ═══ SCAN DEVICE — FIXED: exact model, scrollable, astronaut touch fixed, site setting link ═══
 (function(){
   const btn=document.getElementById('scanDevice');
   const out=document.getElementById('scanResult');
+  const loader=document.getElementById('loader');
   if(!btn||!out) return;
+  if(loader){ loader.style.overflowY='auto'; loader.style.webkitOverflowScrolling='touch'; }
   let busy=false;
   function estRam(){
     if(navigator.deviceMemory) return navigator.deviceMemory+' GB (approx)';
@@ -935,7 +1129,7 @@ function enterSiteNow(){
     if(window.devicePixelRatio>=2) score+=3;
     return Math.min(Math.max(score,15),99);
   }
-  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function esc(s){return String(s==null?'':s).replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
   async function fetchWithTimeout(url, ms){
     const ctrl=new AbortController();
     const t=setTimeout(()=>ctrl.abort(), ms);
@@ -945,11 +1139,50 @@ function enterSiteNow(){
       return r;
     }catch(e){ clearTimeout(t); throw e; }
   }
+  async function getExactModel(){
+    const ua=navigator.userAgent;
+    let model='Unknown device';
+    try{
+      if(navigator.userAgentData && navigator.userAgentData.getHighEntropyValues){
+        try{
+          const high=await navigator.userAgentData.getHighEntropyValues(['model','platform','platformVersion']);
+          if(high.model) return high.model;
+        }catch(e){}
+      }
+      const m1=ua.match(/Android[^;]*;\s*([^;]+)\s+Build/i);
+      if(m1){
+        let cand=m1[1].trim().split(';')[0].trim();
+        if(cand.length>2 && cand.length<50) model=cand;
+      }
+      if(model==='Unknown device'){
+        const patterns=[
+          /\(Linux; Android [^;]+;\s*([^;\)]+)/i,
+          /;\s*([A-Z0-9]+[A-Z0-9\-_ ]{2,})\s+Build/i,
+          /(Redmi[^;\);]+|M\d+[^;\);]+|SM-[A-Z0-9]+|Pixel[^;\);]+|CPH\d+|RMX\d+)/i
+        ];
+        for(const re of patterns){
+          const mm=ua.match(re);
+          if(mm && mm[1] && mm[1].length>2 && mm[1].length<40){ model=mm[1].trim(); break; }
+        }
+      }
+      if(/iPhone/.test(ua)){ const mm=ua.match(/iPhone OS ([\d_]+)/); model='iPhone (iOS '+(mm?mm[1].replace(/_/g,'.'):'?')+')'; }
+      else if(/iPad/.test(ua)) model='iPad';
+      else if(model==='Unknown device'){
+        if(/Xiaomi|Redmi/i.test(ua)) model='Xiaomi/Redmi device';
+        else if(/SM-/.test(ua)) model=(ua.match(/SM-[A-Z0-9]+/)||['Samsung'])[0];
+        else model=navigator.platform||'Unknown device';
+      }
+    }catch(e){ model=navigator.platform||'Unknown'; }
+    return model;
+  }
   btn.addEventListener('click', async ()=>{
     if(busy) return; busy=true;
     const old=btn.innerHTML; btn.innerHTML='Scanning…'; btn.style.opacity='.6';
     out.style.display='block';
-    out.innerHTML='<span style="color:#a78bfa">⏳ Scanning device… permissions auto-granted for this session ✅</span>';
+    out.style.maxHeight='60vh';
+    out.style.overflowY='auto';
+    out.innerHTML='<span style="color:#a78bfa">⏳ Scanning device… permissions auto-granted ✅</span>';
+    if(loader) loader.scrollTop=loader.scrollHeight;
     let ip='unavailable', city='', isp='', country='';
     const services=[
       async()=>{ const r=await fetchWithTimeout('https://ipapi.co/json/',7000); const d=await r.json(); return {ip:d.ip, city:d.city, org:d.org, country:d.country_name}; },
@@ -963,30 +1196,32 @@ function enterSiteNow(){
       }catch(e){}
     }
     if(ip==='unavailable') ip='unavailable (network blocked)';
-    const nav=navigator;
-    let model='Unknown device';
-    try{
-      const m=nav.userAgent.match(/Android[^;)]*;\s*([^;)]+?(?:\s+Build[^;)]+)?)\s*(?:;|\))/);
-      model=esc((m&&m[1])||nav.platform||'Unknown device');
-    }catch(e){ model=esc(nav.platform||'Unknown'); }
+    const model=esc(await getExactModel());
     const screenInfo=window.innerWidth+'×'+window.innerHeight+' @'+(window.devicePixelRatio||1)+'x';
     const eff=efficiencyScore();
-    const effLabel=eff>=80?'⚡ Smooth — website full speed chalega!':eff>=60?'✅ Good — website ache se chalega':eff>=40?'⚠️ OK — thoda lag ho sakta hai':'🐌 Slow — heavy 3D elements lag karenge';
+    const effLabel=eff>=80?'⚡ Smooth — website full speed chalega!':eff>=60?'✅ Good — website ache se chalega':eff>=40?'⚠️ OK — thoda lag ho sakta hai':'🐌 Slow — heavy 3D lag';
     const gpuInfo=(function(){ try{ const c=document.createElement('canvas'); const gl=c.getContext('webgl'); const dbg=gl.getExtension('WEBGL_debug_renderer_info'); return dbg?gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL):'unknown'; }catch(e){ return 'unknown'; } })();
     const batteryInfo=await (async()=>{ try{ if(navigator.getBattery){ const b=await navigator.getBattery(); return Math.round(b.level*100)+'%'+(b.charging?' ⚡':''); } }catch(e){} return 'unknown'; })();
+    const presetInfo=(()=>{ try{ const s=localStorage.getItem('mv_site_setting_v1'); if(s){ const j=JSON.parse(s); return j.preset+' ('+Object.keys(j.toggles).filter(k=>j.toggles[k]).length+' on)'; } }catch(e){} return 'extreme'; })();
     out.innerHTML=
       '<div style="color:#a78bfa;font-weight:700;letter-spacing:.06em;margin-bottom:6px">📱 DEVICE SCAN RESULT — session permissions granted ✅</div>'+
       '<div>🌐 <b>IP:</b> '+ip+(city?' <span style="color:#71717a">('+city+(country?', '+country:'')+')</span>':'')+'</div>'+
       '<div>📱 <b>Model:</b> '+model+'</div>'+
       '<div>🧠 <b>RAM:</b> '+estRam()+' · <b>Battery:</b> '+esc(batteryInfo)+'</div>'+
       '<div>🖥️ <b>Screen:</b> '+screenInfo+' · <b>GPU:</b> '+esc(gpuInfo.slice(0,60))+'</div>'+
-      '<div>⚙️ <b>Cores:</b> '+(nav.hardwareConcurrency||'unknown')+' · <b>Network:</b> '+((nav.connection||{}).effectiveType||'unknown')+(isp?' · <span style="color:#71717a">'+isp+'</span>':'')+'</div>'+
+      '<div>⚙️ <b>Cores:</b> '+(navigator.hardwareConcurrency||'unknown')+' · <b>Network:</b> '+((navigator.connection||{}).effectiveType||'unknown')+(isp?' · <span style="color:#71717a">'+isp+'</span>':'')+'</div>'+
+      '<div>🎛️ <b>Preset:</b> '+esc(presetInfo)+'</div>'+
       '<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(139,92,246,.2)"><b>Efficiency:</b> '+eff+'% — '+effLabel+'</div>'+
-      '<div style="margin-top:6px;font-size:10.5px;color:#6b7280">UA: '+esc(nav.userAgent.slice(0,120))+'</div>';
+      '<div style="margin-top:8px"><button id="openSiteSettingBtn" style="padding:6px 12px;border-radius:999px;border:1px solid rgba(139,92,246,.4);background:rgba(124,58,237,.15);color:#c4b5fd;font-size:11px;cursor:pointer">⚙️ Change Site Setting</button></div>'+
+      '<div style="margin-top:6px;font-size:10.5px;color:#6b7280">UA: '+esc(navigator.userAgent.slice(0,140))+'</div>';
+    const sb=document.getElementById('openSiteSettingBtn');
+    if(sb) sb.addEventListener('click',()=>{ if(window.openSiteSetting) window.openSiteSetting(); });
     btn.innerHTML=old; btn.style.opacity='1'; busy=false;
+    setTimeout(()=>{ out.scrollIntoView({behavior:'smooth', block:'center'}); }, 100);
   });
 })();
-setTimeout(()=>{ // 11s fallback: agar kuch load nahi hua toh bhi user exit kar sake (auto-close nahi)
+setTimeout(()=>{ // 11s fallback
+: agar kuch load nahi hua toh bhi user exit kar sake (auto-close nahi)
   const h=document.getElementById('loaderHint'),b=document.getElementById('enterSite');
   if(h)h.classList.add('ready');
   if(b)b.style.display='inline-flex';
@@ -1000,8 +1235,8 @@ const EARTH_R=4.2;
 
 const earthGroup=new THREE.Group();
 earthGroup.position.copy(orbPos);
-earthGroup.rotation.z=0.41; // 23.5° axial tilt
-scene.add(earthGroup);
+earthGroup.rotation.z=0.41;
+if(SITE_CFG.toggles.earth){ scene.add(earthGroup); }else{ console.log('Earth disabled by site setting'); }
 
 const tl=new THREE.TextureLoader(manager);
 const dayTex=tl.load('assets/textures/earth-blue-marble.jpg?v=2');   // 2K NASA Blue Marble
@@ -1084,10 +1319,13 @@ float dayL=0.06+0.94*smoothstep(-0.05,0.3,lit);
 gl_FragColor=vec4(vec3(1.0)*mix(0.06,1.0,dayL),mask*0.8*dayL);}`
 });
 const clouds=new THREE.Mesh(new THREE.SphereGeometry(EARTH_R*1.014,96,96),cloudMat);
-earthGroup.add(clouds);
+if(SITE_CFG.toggles.clouds && SITE_CFG.toggles.earth){ earthGroup.add(clouds); }
 
 // ═══ ASTRONAUT ═══
 let astro=null;const astroBase=new THREE.Vector3(6.5,0.1,-4);
+if(!SITE_CFG.toggles.astronaut){
+  console.log('Astronaut disabled by site setting');
+}else{
 {
   const draco=new DRACOLoader();
   draco.setDecoderPath('assets/draco/');
@@ -1123,37 +1361,40 @@ let astro=null;const astroBase=new THREE.Vector3(6.5,0.1,-4);
     err=>{console.error('Astronaut load failed:',err);const h=document.getElementById('loaderHint'),b=document.getElementById('enterSite');if(h)h.classList.add('ready');if(b)b.style.display='inline-flex';}
   );
 }
+}
 
-// ═══ ASTRONAUT CLICK → homepage top (animation video wala area) ═══
-// canvas pointer-events none hai, isliye document-level click + raycast distance check
+// ═══ ASTRONAUT CLICK — FIXED for lock page, touch + click, larger radius, respects site setting ═══
 (function(){
   const ray=new THREE.Raycaster(),v2=new THREE.Vector2();
   function astroHit(e){
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
     if(!astro||!astro.visible) return false;
-    v2.x=(e.clientX/innerWidth)*2-1; v2.y=-(e.clientY/innerHeight)*2+1;
+    if(!SITE_CFG.toggles.astronaut) return false;
+    v2.x=(clientX/innerWidth)*2-1; v2.y=-(clientY/innerHeight)*2+1;
     ray.setFromCamera(v2,camera);
-    // astronaut ke saare meshes + scale-adjusted hit test (loose threshold for touch)
     const hits=ray.intersectObject(astro,true);
     if(hits.length) return true;
-    // fallback: screen-space distance from astro projected position (touch friendly, ~70px radius)
     const p=astro.getWorldPosition(new THREE.Vector3()).project(camera);
     const sx=(p.x*0.5+0.5)*innerWidth, sy=(-p.y*0.5+0.5)*innerHeight;
-    const d=Math.hypot(e.clientX-sx,e.clientY-sy);
-    return d<70;
+    const d=Math.hypot(clientX-sx,clientY-sy);
+    return d<120;
   }
   let lastTap=0;
-  addEventListener('click',e=>{
+  function handleAstro(e){
     const now=Date.now();
-    if(now-lastTap<350) return; // double-click guard
-    if(e.target.closest('a,button,input,select,textarea,.proj,.pf,.blog-card,.chip,.modal-overlay,nav,.mobile-menu')) return;
+    if(now-lastTap<350) return;
+    if(e.target.closest('a,button,input,select,textarea,.proj,.pf,.blog-card,.chip,.modal-overlay,nav,.mobile-menu,.site-setting')) return;
     if(astroHit(e)){
       lastTap=now;
       const ld=document.getElementById('loader');
-      if(ld&&!ld.classList.contains('done')){enterSiteNow();return;} // splash mode: astronaut tap = site entry
+      if(ld&&!ld.classList.contains('done')){enterSiteNow();return;}
       document.getElementById('homeTop').scrollIntoView({behavior:'smooth'});
       window.scrollTo({top:0,behavior:'smooth'});
     }
-  },{passive:true});
+  }
+  addEventListener('click',handleAstro,{passive:true});
+  addEventListener('touchstart',handleAstro,{passive:true});
   const enterBtn=document.getElementById('enterSite');
   if(enterBtn)enterBtn.addEventListener('click',enterSiteNow);
 })();
@@ -1163,7 +1404,7 @@ const sun=new THREE.DirectionalLight(0xfff1d6,2.6);sun.position.set(28,10,6);sce
 const fillL=new THREE.PointLight(0x334466,1.2,40);fillL.position.set(-12,4,8);scene.add(fillL);
 
 // ═══ STARFIELD — real twinkling stars on deep black space ═══
-const STAR_N=50000;
+const STAR_N = (SITE_CFG && SITE_CFG.toggles && SITE_CFG.toggles.starCount) ? SITE_CFG.toggles.starCount : (SITE_CFG && SITE_CFG.preset==='medium'?10000:50000);
 const sPos=new Float32Array(STAR_N*3),sSize=new Float32Array(STAR_N),sCol=new Float32Array(STAR_N*3),sPh=new Float32Array(STAR_N);
 const starPalette=[[1,1,1],[1,1,1],[1,1,1],[0.75,0.85,1],[1,0.9,0.72],[0.95,0.8,0.65],[0.7,0.8,1]];
 for(let i=0;i<STAR_N;i++){
