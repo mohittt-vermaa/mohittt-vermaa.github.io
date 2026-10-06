@@ -482,6 +482,35 @@ html.low-perf .portrait-glow, html.low-perf .portrait-ring, html.low-perf .m-tra
 html.no-anim *, html.no-anim *:before, html.no-anim *:after{animation:none !important;transition:none !important}
 html.low-perf #canvas{display:none !important}
 html.low-perf #auraVideo{display:none !important}
+#cssStars{
+  background:
+    radial-gradient(1px 1px at 5% 10%, #fff, transparent),
+    radial-gradient(1px 1px at 15% 30%, #fff, transparent),
+    radial-gradient(1.2px 1.2px at 25% 50%, #a78bfa, transparent),
+    radial-gradient(1px 1px at 35% 70%, #fff, transparent),
+    radial-gradient(1px 1px at 45% 20%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 55% 40%, #fff, transparent),
+    radial-gradient(1px 1px at 65% 60%, #ec4899, transparent),
+    radial-gradient(1px 1px at 75% 80%, #fff, transparent),
+    radial-gradient(1.2px 1.2px at 85% 10%, #fff, transparent),
+    radial-gradient(1px 1px at 95% 30%, #8b5cf6, transparent),
+    radial-gradient(1px 1px at 10% 80%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 20% 15%, #fff, transparent),
+    radial-gradient(1px 1px at 30% 85%, #fff, transparent),
+    radial-gradient(1px 1px at 50% 10%, #fff, transparent),
+    radial-gradient(1.2px 1.2px at 60% 90%, #fff, transparent),
+    radial-gradient(1px 1px at 70% 20%, #fff, transparent),
+    radial-gradient(1px 1px at 80% 50%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 90% 70%, #fff, transparent),
+    #05060a;
+  background-repeat:repeat;
+  background-size:400px 400px;
+}
+html.splash-lock #cssStars{display:block !important}
+html.splash-lock #cssAstronaut{display:block !important}
+html.splash-lock #cssStars{opacity:1 !important}
+#cssAstronaut{animation:floatY 6s ease-in-out infinite}
+@keyframes floatY{0%,100%{transform:translateY(-50%)}50%{transform:translateY(-55%)}}
 .glitch-active{animation:glitchMain 0.5s ease}
 @keyframes glitchMain{0%{filter:hue-rotate(0deg) contrast(1)}20%{filter:hue-rotate(90deg) contrast(1.5) blur(1px);transform:translateX(-2px)}40%{filter:hue-rotate(180deg) contrast(2) blur(0px);transform:translateX(2px)}60%{filter:hue-rotate(270deg) contrast(1.5) blur(1px);transform:translateX(-1px)}80%{filter:hue-rotate(360deg) contrast(1);transform:translateX(1px)}100%{filter:hue-rotate(0deg) contrast(1);transform:translateX(0)}}
 #loader .loader-hint{margin-top:.7rem;font-size:.62rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.28);transition:color .5s}
@@ -535,6 +564,8 @@ html.low-perf #auraVideo{display:none !important}
   </div>
 </div>
 <!-- DEEP SPACE LAYER -->
+<div id="cssStars" style="position:fixed;inset:0;z-index:9999;background:#05060a;pointer-events:none;display:none"></div>
+<div id="cssAstronaut" style="position:fixed;right:8%;top:50%;transform:translateY(-50%);z-index:10000;pointer-events:none;display:none;opacity:0.9"><img src="assets/astronaut-small.png?v=1" alt="astronaut" style="width:120px;height:120px;object-fit:contain;filter:drop-shadow(0 0 20px rgba(139,92,246,0.8))"></div>
 <div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">tap the astronaut or black hole to enter blackhole</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterBlackhole" type="button" style="padding:12px 28px;border-radius:999px;border:1px solid rgba(236,72,153,.6);background:linear-gradient(135deg,rgba(109,40,217,.35),rgba(236,72,153,.3));color:#f9a8d4;font-size:13px;font-weight:800;letter-spacing:.12em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(236,72,153,.35),0 0 20px rgba(109,40,217,.3)"><img src="assets/black-hole.jpg?v=3" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:cover;box-shadow:0 0 16px rgba(236,72,153,.8)">Enter Blackhole</button></div><div style="display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center"><button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⚙️ Site Setting</button></div><div id="scanResult" style="display:none;margin-top:1.2rem;width:min(320px,84vw);padding:14px 16px;border-radius:16px;border:1px solid rgba(139,92,246,.3);background:rgba(10,11,18,.85);backdrop-filter:blur(12px);color:#c9cede;font-size:12px;line-height:1.9;text-align:left;max-height:60vh;overflow-y:auto"></div><div id="blackHoleOverlay" style="position:fixed;inset:0;z-index:10003;display:none;place-items:center;background:radial-gradient(ellipse at center, #1a0b2e 0%, #05060a 70%);opacity:0;transition:opacity .6s"><img src="assets/black-hole.jpg?v=3" alt="Black Hole" style="width:min(80vw,500px);height:min(80vw,500px);border-radius:50%;object-fit:cover;box-shadow:0 0 80px rgba(139,92,246,.8),0 0 160px rgba(236,72,153,.5);animation:blackHoleSpin 3s linear infinite, blackHolePulse 2s ease-in-out infinite"><style>@keyframes blackHoleSpin{to{transform:rotate(360deg)}}@keyframes blackHolePulse{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.08) rotate(180deg)}}@keyframes blackHoleEnter{0%{transform:scale(0.2) rotate(0deg);opacity:0}50%{opacity:1}100%{transform:scale(4) rotate(720deg);opacity:0}}</style></div></div>
 <canvas id="canvas" aria-hidden="true" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;display:block;pointer-events:none"></canvas>
 <video id="auraVideo" aria-hidden="true" muted playsinline preload="auto" loop disablepictureinpicture disableremoteplayback src="assets/video/aura_bg_2k_opt.mp4?v=1" style="position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:0;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35);opacity:0"></video>
@@ -1013,8 +1044,11 @@ html.low-perf #auraVideo{display:none !important}
     if(loaderEl){ loaderEl.classList.remove('done'); loaderEl.style.display='flex'; }
     if(wrapEl){ wrapEl.style.display='block'; wrapEl.style.opacity='0'; }
     const cv=document.getElementById('canvas'), av=document.getElementById('auraVideo');
+    const cs=document.getElementById('cssStars'), ca=document.getElementById('cssAstronaut');
     if(cv){ cv.style.display='block'; cv.style.opacity='1'; }
     if(av){ av.style.display=cfg.toggles.aura?'block':'none'; av.style.opacity='0'; }
+    if(cs){ cs.style.display=cfg.toggles.stars?'block':'none'; }
+    if(ca){ ca.style.display=cfg.toggles.astronaut?'block':'none'; }
     setTimeout(()=>{ window.dispatchEvent(new Event('site-setting-saved')); }, 200);
   });
   const existing=loadCfg();
@@ -1024,10 +1058,13 @@ html.low-perf #auraVideo{display:none !important}
     ssEl.setAttribute('aria-hidden','true');
     document.documentElement.classList.add('splash-lock');
     const cv=document.getElementById('canvas'), av=document.getElementById('auraVideo'), le=document.getElementById('loader'), we=document.querySelector('.wrap');
+    const cs=document.getElementById('cssStars'), ca=document.getElementById('cssAstronaut');
     if(cv){ cv.style.display='block'; cv.style.opacity='1'; }
     if(av){ av.style.display=existing.toggles.aura?'block':'none'; av.style.opacity='0'; }
     if(le){ le.style.display='flex'; le.classList.remove('done'); }
     if(we){ we.style.display='block'; we.style.opacity='0'; }
+    if(cs){ cs.style.display=existing.toggles.stars?'block':'none'; }
+    if(ca){ ca.style.display=existing.toggles.astronaut?'block':'none'; }
     // Fallback: ensure Enter buttons show after 1.5s even if Three.js fails
     setTimeout(()=>{
       const b2=document.getElementById('enterBlackhole'), h=document.getElementById('loaderHint');
@@ -1042,8 +1079,11 @@ html.low-perf #auraVideo{display:none !important}
     if(loaderEl) loaderEl.style.display='none';
     if(wrapEl) wrapEl.style.display='none';
     const cv=document.getElementById('canvas'), av=document.getElementById('auraVideo');
+    const cs=document.getElementById('cssStars'), ca=document.getElementById('cssAstronaut');
     if(cv) cv.style.display='none';
     if(av) av.style.display='none';
+    if(cs) cs.style.display='none';
+    if(ca) ca.style.display='none';
   }
   document.getElementById('openSettingFromLock')?.addEventListener('click',()=>{ if(window.openSiteSetting) window.openSiteSetting(); });
   // Fallback global enter functions for lock page if module fails
@@ -1075,6 +1115,9 @@ html.low-perf #auraVideo{display:none !important}
         }
         const canvas=document.getElementById('canvas');
         if(canvas){ canvas.style.opacity='0'; canvas.style.display='none'; }
+        const cssS=document.getElementById('cssStars'), cssA=document.getElementById('cssAstronaut');
+        if(cssS) cssS.style.display='none';
+        if(cssA) cssA.style.display='none';
         const wrap=document.querySelector('.wrap');
         if(wrap){ wrap.style.display='block'; wrap.style.opacity='1'; wrap.style.visibility='visible'; wrap.style.pointerEvents='auto'; }
         window.scrollTo({top:0,behavior:'smooth'});
@@ -1118,8 +1161,11 @@ html.low-perf #auraVideo{display:none !important}
   }catch(e){}
   window.openSiteSetting=()=>{
     const cv=document.getElementById('canvas'), av=document.getElementById('auraVideo');
+    const cs=document.getElementById('cssStars'), ca=document.getElementById('cssAstronaut');
     if(cv) cv.style.display='none';
     if(av) av.style.display='none';
+    if(cs) cs.style.display='none';
+    if(ca) ca.style.display='none';
     if(wrapEl) wrapEl.style.display='none';
     if(loaderEl) loaderEl.style.display='none';
     ssEl.classList.remove('done');
@@ -1750,59 +1796,42 @@ let entryT=0;
       if(auraV.readyState>=2 && auraV.paused) auraV.play().catch(()=>{});
     }
     renderer.render(scene,camera);
-    if(entryT>=1){
+        if(entryT>=1){
       window._entryAnim=0;
-      // --- GLITCHY TRANSITION then HOME PAGE with video ---
-      const glitchOv=document.getElementById('glitchOverlay');
-      if(glitchOv && SITE_CFG.toggles.animations){
-        glitchOv.style.display='grid';
-        glitchOv.style.opacity='1';
-        glitchOv.classList.add('on');
-        document.body.classList.add('glitch-active');
-        setTimeout(()=>{
-          glitchOv.style.opacity='0';
-          glitchOv.classList.remove('on');
-          setTimeout(()=>{ glitchOv.style.display='none'; }, 600);
-          document.body.classList.remove('glitch-active');
-          // Now show home
-          document.documentElement.classList.remove('splash-lock');
-          const loader=document.getElementById('loader');
-          if(loader) loader.classList.add('done');
-          if(auraV){ auraV.style.display='block'; auraV.style.transition='opacity 1s ease'; auraV.style.opacity='0.7'; if(auraV.paused) auraV.play().catch(()=>{}); }
-          if(typeof stars!=='undefined' && stars) stars.visible=false;
-          if(typeof astro!=='undefined' && astro) astro.visible=false;
-          if(typeof clouds!=='undefined' && clouds) clouds.visible=false;
-          if(typeof earthGroup!=='undefined' && earthGroup) earthGroup.visible=false;
-          if(canvas){ canvas.style.opacity='0'; canvas.style.pointerEvents='none'; canvas.style.display='none'; }
-          const wrapEl2=document.querySelector('.wrap');
-          if(wrapEl2){ wrapEl2.style.display='block'; wrapEl2.style.opacity='1'; wrapEl2.style.visibility='visible'; wrapEl2.style.pointerEvents='auto'; }
-          window.scrollTo({top:0,behavior:'smooth'});
-          tScroll=0; sProg=0;
-          // End transition glitch after video starts
-          setTimeout(()=>{
-            if(glitchOv && SITE_CFG.toggles.animations){
-              glitchOv.style.display='grid';
-              glitchOv.style.opacity='0.6';
-              glitchOv.classList.add('on');
-              setTimeout(()=>{ glitchOv.style.opacity='0'; glitchOv.classList.remove('on'); setTimeout(()=>{ glitchOv.style.display='none'; }, 400); }, 300);
-            }
-          }, 2000);
-        }, 600);
-      }else{
-        // No glitch if animations disabled (low preset)
+      // --- ENTRY COMPLETE: subtle glitch transition then HOME PAGE with video ---
+      const doShowHome = ()=>{
         document.documentElement.classList.remove('splash-lock');
         const loader=document.getElementById('loader');
         if(loader) loader.classList.add('done');
-        if(auraV){ auraV.style.display=SITE_CFG.toggles.aura?'block':'none'; auraV.style.opacity=SITE_CFG.toggles.aura?'0.7':'0'; if(auraV && auraV.paused && SITE_CFG.toggles.aura) auraV.play().catch(()=>{}); }
+        if(auraV){ auraV.style.display=SITE_CFG.toggles.aura?'block':'none'; auraV.style.transition='opacity 1s ease'; auraV.style.opacity=SITE_CFG.toggles.aura?'0.7':'0'; if(auraV && auraV.paused && SITE_CFG.toggles.aura) auraV.play().catch(()=>{}); }
         if(typeof stars!=='undefined' && stars) stars.visible=false;
         if(typeof astro!=='undefined' && astro) astro.visible=false;
         if(typeof clouds!=='undefined' && clouds) clouds.visible=false;
         if(typeof earthGroup!=='undefined' && earthGroup) earthGroup.visible=false;
         if(canvas){ canvas.style.opacity='0'; canvas.style.pointerEvents='none'; canvas.style.display='none'; }
+        const cssS=document.getElementById('cssStars'), cssA=document.getElementById('cssAstronaut');
+        if(cssS) cssS.style.display='none';
+        if(cssA) cssA.style.display='none';
         const wrapEl2=document.querySelector('.wrap');
         if(wrapEl2){ wrapEl2.style.display='block'; wrapEl2.style.opacity='1'; wrapEl2.style.visibility='visible'; wrapEl2.style.pointerEvents='auto'; }
         window.scrollTo({top:0,behavior:'smooth'});
         tScroll=0; sProg=0;
+        // End transition glitch after video starts
+        if(SITE_CFG.toggles.animations){
+          setTimeout(()=>{
+            document.body.classList.add('glitch-active');
+            setTimeout(()=>{ document.body.classList.remove('glitch-active'); }, 400);
+          }, 1800);
+        }
+      };
+      if(SITE_CFG.toggles.animations){
+        document.body.classList.add('glitch-active');
+        setTimeout(()=>{
+          document.body.classList.remove('glitch-active');
+          doShowHome();
+        }, 500);
+      }else{
+        doShowHome();
       }
     }
     return;
