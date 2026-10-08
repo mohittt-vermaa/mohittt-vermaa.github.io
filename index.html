@@ -541,15 +541,8 @@ html.low-perf #auraVideo{display:none !important}
   background-size:300px 300px;
 }
 html.splash-lock #cssStars{display:block !important}
-html.splash-lock #cssAstronaut{display:block !important}
-html.splash-lock #cssEarth{display:block !important}
 html.splash-lock #cssStars{opacity:1 !important}
-html.splash-lock #cssEarth{opacity:0.9 !important}
-html.splash-lock #cssAstronaut{opacity:0.9 !important}
-html.splash-lock.webgl-ready #cssStars,html.splash-lock.webgl-ready #cssEarth,html.splash-lock.webgl-ready #cssAstronaut{display:none !important}
-#cssEarth{display:none !important; /* fallback only, Three.js Earth is primary */}
-#cssAstronaut{animation:floatY 6s ease-in-out infinite}
-@keyframes floatY{0%,100%{transform:translateY(-50%)}50%{transform:translateY(-55%)}}
+html.splash-lock.webgl-ready #cssStars{display:none !important}
 #cssStars{animation:twinkleStars 3s ease-in-out infinite}
 @keyframes twinkleStars{0%,100%{opacity:1}50%{opacity:0.7}}
 #stars2d{animation:twinkleStars 3s ease-in-out infinite}
@@ -671,6 +664,26 @@ html.splash-lock #spaceControls{display:flex}
   .scan-usage-item .scan-meter{display:none!important}.scan-baseline{display:none}
 }
 @media(prefers-reduced-motion:reduce){.space-controls button{transition:none}}
+
+
+html.splash-lock #loader{align-items:flex-start;justify-content:flex-start;padding:clamp(20px,4vh,46px) clamp(18px,4vw,54px);pointer-events:none}
+html.splash-lock #loader .loader-brand{font-size:1.35rem;letter-spacing:.28em;margin:0 0 .7rem}
+html.splash-lock #loader .loader-track{width:136px}
+html.splash-lock #loader .loader-status{margin-top:.6rem;font-size:10px;letter-spacing:.18em}
+html.splash-lock #loader .loader-hint{max-width:250px;font-size:9px;line-height:1.5;letter-spacing:.12em;text-transform:none}
+html.splash-lock #loader>div[style*="display:flex"]{justify-content:flex-start!important;margin-top:.85rem!important;pointer-events:auto}
+html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!important}
+@media(max-width:560px){html.splash-lock #loader{padding-top:max(18px,env(safe-area-inset-top));padding-left:16px}html.splash-lock #loader .loader-hint{max-width:195px;font-size:8px}}
+
+.planet-info{position:fixed;left:max(20px,env(safe-area-inset-left));top:50%;z-index:25;width:min(280px,calc(100vw - 36px));padding:20px 20px 18px;border:1px solid rgba(190,205,255,.18);border-radius:18px;background:linear-gradient(145deg,rgba(12,17,31,.82),rgba(8,10,18,.72));backdrop-filter:blur(18px);box-shadow:0 22px 70px rgba(0,0,0,.45),inset 0 1px rgba(255,255,255,.07);color:#f8fafc;opacity:0;visibility:hidden;transform:translate(-12px,-50%);transition:opacity .25s,transform .25s,visibility .25s;pointer-events:none}
+.planet-info.open{opacity:1;visibility:visible;transform:translate(0,-50%);pointer-events:auto}
+.planet-info-kicker{display:block;color:#9aa9c5;font-size:9px;font-weight:800;letter-spacing:.2em;margin-bottom:8px}
+.planet-info strong{display:block;font:700 28px/1.1 'Space Grotesk',sans-serif;letter-spacing:-.04em}
+.planet-info p{font-size:12px;line-height:1.6;color:#bbc5d8;margin:9px 0 15px}
+#planetFocus{border:0;border-radius:999px;padding:9px 13px;background:rgba(255,255,255,.1);color:#fff;font-size:9px;font-weight:800;letter-spacing:.12em;cursor:pointer}
+#planetFocus span{color:#a5b4fc;margin-left:8px}
+#planetInfoClose{position:absolute;right:10px;top:8px;width:28px;height:28px;border:0;border-radius:50%;background:rgba(255,255,255,.08);color:#fff;font-size:19px;cursor:pointer}
+@media(max-width:650px){.planet-info{left:50%;top:auto;bottom:86px;transform:translate(-50%,12px);width:min(310px,calc(100vw - 28px));padding:14px 16px}.planet-info.open{transform:translate(-50%,0)}.planet-info strong{font-size:22px}.planet-info p{margin:6px 0 10px;font-size:11px}}
 </style>
 <link rel="stylesheet" href="assets/hermes-chat.css?v=34">
 </head>
@@ -688,14 +701,14 @@ html.splash-lock #spaceControls{display:flex}
     </div>
     <div class="ss-presets">
       <button class="ss-preset" data-preset="low"><span class="ss-p-icon">🐢</span><span class="ss-p-name">Low</span><span class="ss-p-desc">No 3D, no astronaut, minimal animations, fastest load</span></button>
-      <button class="ss-preset" data-preset="medium"><span class="ss-p-icon">⚡</span><span class="ss-p-name">Medium</span><span class="ss-p-desc">Earth + 10K stars, some effects, balanced</span></button>
-      <button class="ss-preset active" data-preset="extreme"><span class="ss-p-icon">🚀</span><span class="ss-p-name">Extreme</span><span class="ss-p-desc">All models: 50K stars, Earth 2K, astronaut, clouds, aura, full anim</span></button>
+      <button class="ss-preset" data-preset="medium"><span class="ss-p-icon">⚡</span><span class="ss-p-name">Medium</span><span class="ss-p-desc">Solar system + 10K stars, astronaut, balanced</span></button>
+      <button class="ss-preset active" data-preset="extreme"><span class="ss-p-icon">🚀</span><span class="ss-p-name">Extreme</span><span class="ss-p-desc">Realistic solar system, large astronaut, 50K stars, full effects</span></button>
       <button class="ss-preset" data-preset="custom"><span class="ss-p-icon">🛠️</span><span class="ss-p-name">Custom</span><span class="ss-p-desc">Toggle each element on/off</span></button>
     </div>
     <div class="ss-custom" id="ssCustom" style="display:none">
       <div class="ss-c-grid">
         <label class="ss-toggle"><input type="checkbox" data-key="stars" checked><span>Stars (50K)</span></label>
-        <label class="ss-toggle"><input type="checkbox" data-key="earth" checked><span>Earth 2K + Bihar</span></label>
+        <label class="ss-toggle"><input type="checkbox" data-key="earth" checked><span>Solar system + planets</span></label>
         <label class="ss-toggle"><input type="checkbox" data-key="astronaut" checked><span>Astronaut GLB</span></label>
         <label class="ss-toggle"><input type="checkbox" data-key="clouds" checked><span>Clouds</span></label>
         <label class="ss-toggle"><input type="checkbox" data-key="aura" checked><span>Aura Video</span></label>
@@ -713,10 +726,8 @@ html.splash-lock #spaceControls{display:flex}
 </div>
 <!-- DEEP SPACE LAYER -->
 <div id="cssStars" style="position:fixed;inset:0;z-index:10001;background:#05060a;pointer-events:none;display:none"></div>
-<div id="cssEarth" style="position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:10003;width:min(60vw,400px);height:min(60vw,400px);border-radius:50%;background:url('assets/textures/earth-blue-marble.jpg') center/cover;box-shadow:0 0 80px rgba(59,130,246,0.7), 0 0 120px rgba(139,92,246,0.3), inset -30px -30px 60px rgba(0,0,0,0.9);pointer-events:none;opacity:0.9;border:2px solid rgba(59,130,246,0.3);display:none"></div>
-<div id="cssAstronaut" style="position:fixed;right:8%;top:50%;transform:translateY(-50%);z-index:10002;pointer-events:none;opacity:0.9;display:none"><img src="assets/astronaut-small.png?v=20" alt="astronaut" style="width:140px;height:140px;object-fit:contain;filter:drop-shadow(0 0 24px rgba(139,92,246,0.9))"></div>
-<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">drag anywhere to rotate space 360° · − / + zoom · ↺ reset</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterBlackhole" type="button" style="padding:12px 28px;border-radius:999px;border:1px solid rgba(236,72,153,.6);background:linear-gradient(135deg,rgba(109,40,217,.35),rgba(236,72,153,.3));color:#f9a8d4;font-size:13px;font-weight:800;letter-spacing:.12em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(236,72,153,.35),0 0 20px rgba(109,40,217,.3)"><img src="assets/black-hole.jpg?v=25" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:cover;box-shadow:0 0 16px rgba(236,72,153,.8)">Enter Blackhole</button></div><div style="display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center"><button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⚙️ Site Setting</button></div><div id="spaceControls" class="space-controls" aria-label="Space view and Earth zoom controls">
-  <span class="space-label">EARTH</span>
+<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">drag to explore · tap a planet for details · pinch or − / + to zoom</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterBlackhole" type="button" style="padding:12px 28px;border-radius:999px;border:1px solid rgba(236,72,153,.6);background:linear-gradient(135deg,rgba(109,40,217,.35),rgba(236,72,153,.3));color:#f9a8d4;font-size:13px;font-weight:800;letter-spacing:.12em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(236,72,153,.35),0 0 20px rgba(109,40,217,.3)"><img src="assets/black-hole.jpg?v=25" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:cover;box-shadow:0 0 16px rgba(236,72,153,.8)">Enter Blackhole</button></div><div style="display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center"><button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⚙️ Site Setting</button></div><div id="spaceControls" class="space-controls" aria-label="Solar system view and zoom controls">
+  <span class="space-label">SPACE</span>
   <button id="earthZoomOut" type="button" aria-label="Zoom out" title="Zoom out">−</button>
   <output id="earthZoomLevel" aria-live="polite">1.0×</output>
   <button id="earthZoomIn" type="button" aria-label="Zoom in" title="Zoom in">+</button>
@@ -725,6 +736,7 @@ html.splash-lock #spaceControls{display:flex}
   <span class="space-star-count" aria-label="50,000 stars">✦ <b id="spaceStarCount">50K</b> stars</span>
   <button id="earthZoomReset" class="space-reset" type="button" aria-label="Reset zoom" title="Reset zoom">↺</button>
 </div>
+<aside id="planetInfo" class="planet-info" aria-live="polite" aria-hidden="true"><button id="planetInfoClose" type="button" aria-label="Close planet details">×</button><span class="planet-info-kicker">PLANET EXPLORER</span><strong id="planetInfoName">Earth</strong><p id="planetInfoText">Tap any planet to explore its world.</p><button id="planetFocus" type="button">FOCUS PLANET <span>↗</span></button></aside>
 <button id="closeScanResult" class="scan-close" type="button" aria-label="Close device scan and return to space">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m18 6-12 12M6 6l12 12"/></svg><span>Back to space</span>
 </button>
@@ -1137,7 +1149,7 @@ html.splash-lock #spaceControls{display:flex}
   const wrapEl=document.querySelector('.wrap');
   const presets={
     low:{stars:false,earth:false,astronaut:false,clouds:false,aura:false,animations:false,glass:false,marquee:false,cursor:false,starCount:0},
-    medium:{stars:true,earth:true,astronaut:false,clouds:true,aura:true,animations:true,glass:true,marquee:true,cursor:true,starCount:10000},
+    medium:{stars:true,earth:true,astronaut:true,clouds:true,aura:true,animations:true,glass:true,marquee:true,cursor:true,starCount:10000},
     extreme:{stars:true,earth:true,astronaut:true,clouds:true,aura:true,animations:true,glass:true,marquee:true,cursor:true,starCount:50000},
     custom:{}
   };
@@ -1210,24 +1222,22 @@ html.splash-lock #spaceControls{display:flex}
     if(loaderEl){ loaderEl.classList.remove('done'); loaderEl.style.display='flex'; }
     if(wrapEl){ wrapEl.style.display='block'; wrapEl.style.opacity='0'; }
     const cv=document.getElementById('canvas'), av=document.getElementById('auraVideo');
-    const cs=document.getElementById('cssStars'), ca=document.getElementById('cssAstronaut');
+    const cs=document.getElementById('cssStars');
     if(cv){ cv.style.display='block'; cv.style.opacity='1'; }
     if(av){ av.style.display=cfg.toggles.aura?'block':'none'; av.style.opacity='0'; }
     if(cs){ cs.style.display=(cfg.preset==='extreme' || cfg.toggles.stars)?'block':'none'; }
-    if(ca){ ca.style.display=(cfg.preset==='extreme' || cfg.toggles.astronaut)?'block':'none'; }
-    const ce2=document.getElementById('cssEarth'); if(ce2){ ce2.style.display=(cfg.preset==='extreme' || cfg.toggles.earth)?'block':'none'; }
     setTimeout(()=>{ window.dispatchEvent(new Event('site-setting-saved')); }, 200);
   });
   const urlParamsCheck=new URLSearchParams(location.search);
   const hasForcePreset=urlParamsCheck.get('preset')||urlParamsCheck.get('force');
-  const existing=loadCfg();
+  const existing=loadCfg() || (hasForcePreset && presets[hasForcePreset] ? {preset:hasForcePreset,toggles:Object.assign({},presets[hasForcePreset])} : null);
   if(existing || hasForcePreset){
     applyCfgToDOM(existing);
     ssEl.classList.add('done');
     ssEl.setAttribute('aria-hidden','true');
     document.documentElement.classList.add('splash-lock');
     const cv=document.getElementById('canvas'), av=document.getElementById('auraVideo'), le=document.getElementById('loader'), we=document.querySelector('.wrap');
-    const cs=document.getElementById('cssStars'), ca=document.getElementById('cssAstronaut'), ce=document.getElementById('cssEarth');
+    const cs=document.getElementById('cssStars');
     if(cv){ cv.style.display='block'; cv.style.opacity='1'; }
     if(av){ av.style.display=existing.toggles.aura?'block':'none'; av.style.opacity='0'; }
     if(le){ le.style.display='flex'; le.classList.remove('done'); }
@@ -1235,17 +1245,11 @@ html.splash-lock #spaceControls{display:flex}
     // Force show for extreme preset even if toggles missing
     if(existing.preset==='extreme'){
       if(cs){ cs.style.display='block'; }
-      if(ca){ ca.style.display='block'; }
-      if(ce){ ce.style.display='block'; }
       if(cv){ cv.style.display='block'; }
     }else if(existing.preset==='low'){
       if(cs){ cs.style.display='none'; }
-      if(ca){ ca.style.display='none'; }
-      if(ce){ ce.style.display='none'; }
     }else{
       if(cs){ cs.style.display=existing.toggles.stars?'block':'none'; }
-      if(ca){ ca.style.display=existing.toggles.astronaut?'block':'none'; }
-      if(ce){ ce.style.display=existing.toggles.earth?'block':'none'; }
     }
     // Fallback: ensure Enter buttons show after 1.5s even if Three.js fails
     setTimeout(()=>{
@@ -1261,7 +1265,7 @@ html.splash-lock #spaceControls{display:flex}
     if(loaderEl) loaderEl.style.display='none';
     if(wrapEl) wrapEl.style.display='none';
     const cv=document.getElementById('canvas'), av=document.getElementById('auraVideo');
-    const cs=document.getElementById('cssStars'), ca=document.getElementById('cssAstronaut');
+    const cs=document.getElementById('cssStars');
     if(cv) cv.style.display='none';
     if(av) av.style.display='none';
     if(cs) cs.style.display='none';
@@ -1297,7 +1301,7 @@ html.splash-lock #spaceControls{display:flex}
         }
         const canvas=document.getElementById('canvas');
         if(canvas){ canvas.style.opacity='0'; canvas.style.display='none'; }
-        const cssS=document.getElementById('cssStars'), cssA=document.getElementById('cssAstronaut'), cssE=document.getElementById('cssEarth');
+        const cssS=document.getElementById('cssStars');
         if(cssS) cssS.style.display='none';
         if(cssA) cssA.style.display='none';
         if(cssE) cssE.style.display='none';
@@ -1356,12 +1360,10 @@ html.splash-lock #spaceControls{display:flex}
   });
   // Controls work even when the optional Three.js module cannot load.
   (function(){
-    const cssEarth=document.getElementById('cssEarth');
     const zoomLabel=document.getElementById('earthZoomLevel');
     let fallbackZoom=1;
     function showFallbackZoom(){
       if(zoomLabel) zoomLabel.value=fallbackZoom.toFixed(1)+'×';
-      if(cssEarth) cssEarth.style.transform='translate(-50%,-50%) scale('+fallbackZoom.toFixed(2)+')';
     }
     function adjust(direction){
       if(typeof window.adjustSpaceZoom==='function'){ window.adjustSpaceZoom(direction); return; }
@@ -1429,7 +1431,7 @@ html.splash-lock #spaceControls{display:flex}
   window.openSiteSetting=()=>{
     if(window.closeScanResults) window.closeScanResults(false);
     const cv=document.getElementById('canvas'), av=document.getElementById('auraVideo');
-    const cs=document.getElementById('cssStars'), ca=document.getElementById('cssAstronaut');
+    const cs=document.getElementById('cssStars');
     if(cv) cv.style.display='none';
     if(av) av.style.display='none';
     if(cs) cs.style.display='none';
@@ -1473,7 +1475,7 @@ function getSiteCfg(){
     if(forcePreset && ['low','medium','extreme','custom'].includes(forcePreset)){
       const p=forcePreset;
       const sc=p==='low'?0:(p==='medium'?10000:50000);
-      return {preset:p, toggles:{stars:p!=='low',earth:p!=='low',astronaut:p==='extreme',clouds:p!=='low',aura:p!=='low',animations:p!=='low',glass:true,marquee:true,cursor:true,starCount:sc}};
+      return {preset:p, toggles:{stars:p!=='low',earth:p!=='low',astronaut:p!=='low',clouds:p!=='low',aura:p!=='low',animations:p!=='low',glass:true,marquee:true,cursor:true,starCount:sc}};
     }
   }catch(e){}
   try{
@@ -1488,6 +1490,7 @@ function getSiteCfg(){
       if(cfg.preset==='medium' && (!cfg.toggles.starCount || cfg.toggles.starCount<1000)){
         cfg.toggles.starCount=10000;
       }
+      if(cfg.preset==='medium') cfg.toggles.astronaut=true;
       return cfg;
     }
   }catch(e){}
@@ -1507,18 +1510,20 @@ renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.
 const scene=new THREE.Scene();scene.background=null;
 const camera=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,0.1,500);camera.position.set(0,1.5,14);
 let spaceZoomTarget=0,spaceZoomCurrent=0;
+const focusSolarTarget=new THREE.Vector3(0,0,-14),focusSolarCurrent=new THREE.Vector3(0,0,-14);
 function updateSpaceZoomLabel(){
   const readout=document.getElementById('earthZoomLevel');
-  if(readout) readout.textContent=(22/(22+spaceZoomTarget)).toFixed(1)+'×';
+  if(readout) readout.textContent=(32/(32+spaceZoomTarget)).toFixed(1)+'×';
 }
 window.adjustSpaceZoom=function(direction){
   if(!Number.isFinite(direction)) return;
-  spaceZoomTarget=THREE.MathUtils.clamp(spaceZoomTarget+Math.sign(direction)*3,-10,25);
+  spaceZoomTarget=THREE.MathUtils.clamp(spaceZoomTarget+Math.sign(direction)*3,-29,32);
   updateSpaceZoomLabel();
 };
 let spaceOrbitYaw=0,spaceOrbitPitch=0.18,spaceOrbitYawT=0,spaceOrbitPitchT=0.18;
 window.spaceOrbitYawT=0; window.spaceOrbitPitchT=0.18;
 let spaceDragging=false,spaceDragX=0,spaceDragY=0,spaceDragPid=null;
+const spacePointers=new Map();let spacePinchDistance=0;
 function spaceOrbitFromClient(x,y){
   const dx=x-spaceDragX, dy=y-spaceDragY;
   spaceDragX=x; spaceDragY=y;
@@ -1533,20 +1538,27 @@ function spaceOnPointerDown(e){
   if(!document.documentElement.classList.contains('splash-lock')) return;
   if(document.getElementById('loader')?.classList.contains('scan-open')) return;
   if(spaceInteractiveTarget(e.target)) return;
-  const pt=e.touches?e.touches[0]:e;
-  spaceDragging=true; spaceDragPid=e.pointerId; spaceDragX=pt.clientX; spaceDragY=pt.clientY;
+  if(e.pointerType==='touch'){
+    spacePointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(spacePointers.size>=2){const pts=[...spacePointers.values()];spacePinchDistance=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y);spaceDragging=false;return;}
+  }
+  spaceDragging=true; spaceDragPid=e.pointerId; spaceDragX=e.clientX; spaceDragY=e.clientY;
   document.documentElement.classList.add('space-dragging');
-  try{ e.currentTarget&&e.pointerId!=null&&e.currentTarget.setPointerCapture&&e.currentTarget.setPointerCapture(e.pointerId); }catch(_){}
 }
 function spaceOnPointerMove(e){
+  if(e.pointerType==='touch'&&spacePointers.has(e.pointerId)){
+    spacePointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(spacePointers.size>=2){const pts=[...spacePointers.values()];const distance=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y);if(spacePinchDistance){const delta=distance-spacePinchDistance;if(Math.abs(delta)>1){spaceZoomTarget=THREE.MathUtils.clamp(spaceZoomTarget-delta*.12,-29,32);updateSpaceZoomLabel();}}spacePinchDistance=distance;if(e.cancelable)e.preventDefault();return;}
+  }
   if(!spaceDragging) return;
   if(e.pointerId!=null && spaceDragPid!=null && e.pointerId!==spaceDragPid) return;
-  const pt=e.touches?e.touches[0]:e;
-  spaceOrbitFromClient(pt.clientX,pt.clientY);
+  spaceOrbitFromClient(e.clientX,e.clientY);
   if(e.cancelable) e.preventDefault();
 }
 function spaceOnPointerUp(e){
-  if(e.pointerId!=null && spaceDragPid!=null && e.pointerId!==spaceDragPid) return;
+  if(e.pointerType==='touch')spacePointers.delete(e.pointerId);
+  if(spacePointers.size<2)spacePinchDistance=0;
+  if(e.pointerId!=null && spaceDragPid!=null && e.pointerId!==spaceDragPid && spacePointers.size) return;
   spaceDragging=false; spaceDragPid=null;
   document.documentElement.classList.remove('space-dragging');
 }
@@ -1554,18 +1566,16 @@ window.addEventListener('pointerdown',spaceOnPointerDown,{passive:true});
 window.addEventListener('pointermove',spaceOnPointerMove,{passive:false});
 window.addEventListener('pointerup',spaceOnPointerUp,{passive:true});
 window.addEventListener('pointercancel',spaceOnPointerUp,{passive:true});
-window.addEventListener('touchstart',spaceOnPointerDown,{passive:true});
-window.addEventListener('touchmove',spaceOnPointerMove,{passive:false});
-window.addEventListener('touchend',spaceOnPointerUp,{passive:true});
 window.resetSpaceZoom=function(){
   spaceZoomTarget=0;
+  focusSolarTarget.set(0,0,-14);
   spaceOrbitYawT=0; spaceOrbitPitchT=0.18;
   window.spaceOrbitYawT=0; window.spaceOrbitPitchT=0.18;
   updateSpaceZoomLabel();
 };
 
-scene.add(new THREE.AmbientLight(0x3a4666,0.9));
-const keyL=new THREE.DirectionalLight(0xffffff,0.7);keyL.position.set(-4,6,10);scene.add(keyL);
+scene.add(new THREE.AmbientLight(0x3a4666,0.38));
+const keyL=new THREE.DirectionalLight(0xffffff,0.35);keyL.position.set(-4,6,10);scene.add(keyL);
 
 const manager=new THREE.LoadingManager();
 manager.onProgress=(url,loaded,total)=>{document.getElementById('loaderFill').style.width=Math.min(100,loaded/total*100)+'%'};
@@ -1814,125 +1824,17 @@ window._fullDeviceScanReady=true;
     btn.innerHTML=old; btn.style.opacity='1'; busy=false;
   });
 })();
-setTimeout(()=>{ // 1s fallback for all presets + CSS Earth fallback if Three.js fails
+setTimeout(()=>{
   const h=document.getElementById('loaderHint'),bh=document.getElementById('enterBlackhole');
   if(h)h.classList.add('ready');
   if(bh)bh.style.display='inline-flex';
-  document.getElementById('loaderFill').style.width='100%';
-  setTimeout(()=>{
-    const ce=document.getElementById('cssEarth');
-    const cv=document.getElementById('canvas');
-    if(ce && (!cv || cv.style.display==='none' || cv.offsetWidth===0)){
-      ce.style.display='block';
-      ce.style.opacity='0.9';
-    }
-  }, 2000);
+  const fill=document.getElementById('loaderFill');if(fill)fill.style.width='100%';
 },1000);
 
-// ═══════════════════════════════════════
-// EARTH — real textured planet + clouds + atmosphere glow
-// ═══════════════════════════════════════
-const orbPos=new THREE.Vector3(0,0.5,-14); // Closer for visibility like before
-const EARTH_R=5.5; // Larger for visibility
 
-const earthGroup=new THREE.Group();
-earthGroup.position.copy(orbPos);
-earthGroup.rotation.z=0.41;
-if(SITE_CFG.toggles.earth){ scene.add(earthGroup); }else{ console.log('Earth disabled by site setting'); }
-
-const tl=new THREE.TextureLoader(manager);
-let dayTex, specTex, nightTex;
-if(SITE_CFG.toggles.earth){
-  dayTex=tl.load('assets/textures/earth-blue-marble.jpg?v=2');
-  dayTex.colorSpace=THREE.SRGBColorSpace;
-  dayTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
-  specTex=tl.load('assets/textures/earth-water.png?v=2');
-  nightTex=tl.load('assets/textures/earth-night.jpg?v=2');
-  nightTex.colorSpace=THREE.SRGBColorSpace;
-  nightTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
-}else{
-  // low preset no earth textures — dummy 1x1
-  const dummy = new THREE.DataTexture(new Uint8Array([10,10,15,255]),1,1);
-  dummy.needsUpdate=true;
-  dayTex=dummy; specTex=dummy; nightTex=dummy;
-}
-
-// Bihar, India (25.6°N, 85.1°E) — scroll target: Earth rotates to face Bihar at full scroll
-const _th=(90-25.6)*Math.PI/180,_ph=(85.1+180)*Math.PI/180;
-const _bx=-Math.cos(_ph)*Math.sin(_th),_bz=Math.sin(_ph)*Math.sin(_th);
-const biharY=Math.atan2(-_bx,_bz);
-let spinY=0;
-
-// Custom high-quality Earth shader: realistic day/night terminator, city lights
-// only on the dark side, sunset band, ocean sparkle, subtle atmosphere limb
-const sunDirU={value:new THREE.Vector3(1,0.3,0.6).normalize()};
-const earthMat=new THREE.ShaderMaterial({
-  uniforms:{uDay:{value:dayTex},uNight:{value:nightTex},uSpec:{value:specTex},uSunDir:sunDirU},
-  vertexShader:`
-varying vec2 vUv;varying vec3 vN;varying vec3 vWP;
-void main(){
-  vUv=uv;
-  vN=normalize(mat3(modelMatrix)*normal);
-  vec4 wp=modelMatrix*vec4(position,1.0);
-  vWP=wp.xyz;
-  gl_Position=projectionMatrix*viewMatrix*wp;
-}`,
-  fragmentShader:`
-uniform sampler2D uDay,uNight,uSpec;uniform vec3 uSunDir;
-varying vec2 vUv;varying vec3 vN;varying vec3 vWP;
-void main(){
-  vec3 N=normalize(vN);
-  vec3 V=normalize(cameraPosition-vWP);
-  vec3 S=normalize(uSunDir);
-  float sunDot=dot(N,S);
-  vec3 day=texture2D(uDay,vUv).rgb;
-  vec3 night=texture2D(uNight,vUv).rgb;
-  float spec=texture2D(uSpec,vUv).r;
-  float dayL=smoothstep(-0.08,0.38,sunDot);
-  vec3 col=day*(0.05+1.3*dayL);
-  float dusk=smoothstep(-0.14,0.06,sunDot)*(1.0-smoothstep(0.06,0.4,sunDot));
-  col+=vec3(0.9,0.42,0.12)*dusk*day*0.4;
-  float nightSide=1.0-smoothstep(-0.2,0.02,sunDot);
-  col+=night*vec3(1.0,0.84,0.58)*1.25*nightSide;
-  vec3 H=normalize(S+V);
-  float specW=smoothstep(0.5,0.9,spec); // soft water mask — no patchy highlights
-  col+=vec3(0.85,0.92,1.0)*pow(max(dot(N,H),0.0),20.0)*specW*dayL*0.25;
-  float fr=pow(1.0-max(dot(N,V),0.0),2.8);
-  col+=vec3(0.2,0.44,0.95)*fr*(0.1+0.5*dayL);
-  gl_FragColor=vec4(col,1.0);
-  #include <tonemapping_fragment>
-  #include <colorspace_fragment>
-}`
-});
-const earth=new THREE.Mesh(new THREE.SphereGeometry(EARTH_R,128,128),earthMat);
-earthGroup.add(earth);
-
-// Procedural drifting cloud layer (fbm shader, sunlit — fades on night side)
-const cloudMat=new THREE.ShaderMaterial({
-  transparent:true,depthWrite:false,
-  uniforms:{uTime:{value:0},uSunDir:sunDirU},
-  vertexShader:`varying vec3 vP;varying vec3 vN;void main(){vP=normalize(position);vN=normalize(mat3(modelMatrix)*normal);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
-  fragmentShader:`
-uniform float uTime;uniform vec3 uSunDir;varying vec3 vP;varying vec3 vN;
-float h(vec3 p){return fract(sin(dot(p,vec3(127.1,311.7,74.7)))*43758.5453);}
-float n3(vec3 p){vec3 i=floor(p),f=fract(p);f=f*f*(3.0-2.0*f);
-float a=h(i),b=h(i+vec3(1,0,0)),c=h(i+vec3(0,1,0)),d=h(i+vec3(1,1,0));
-float e=h(i+vec3(0,0,1)),g=h(i+vec3(1,0,1)),k=h(i+vec3(0,1,1)),l=h(i+vec3(1,1,1));
-return mix(mix(mix(a,b,f.x),mix(c,d,f.x),f.y),mix(mix(e,g,f.x),mix(k,l,f.x),f.y),f.z);}
-float fbm(vec3 p){float v=0.0,a=0.5;for(int i=0;i<6;i++){v+=a*n3(p);p*=2.15;a*=0.5;}return v;}
-void main(){
-vec3 p=vP*3.6+vec3(uTime*0.008,0.0,uTime*0.005);
-float cl=fbm(p+fbm(p+vec3(5.2)));
-float mask=smoothstep(0.52,0.74,cl);
-float lit=clamp(dot(normalize(vN),normalize(uSunDir)),0.0,1.0);
-float dayL=0.06+0.94*smoothstep(-0.05,0.3,lit);
-gl_FragColor=vec4(vec3(1.0)*mix(0.06,1.0,dayL),mask*0.8*dayL);}`
-});
-const clouds=new THREE.Mesh(new THREE.SphereGeometry(EARTH_R*1.014,96,96),cloudMat);
-if(SITE_CFG.toggles.clouds && SITE_CFG.toggles.earth){ earthGroup.add(clouds); }
-
+// The old oversized hero-Earth has been removed. Earth now appears at its place among the planets.
 // ═══ ASTRONAUT ═══
-let astro=null;const astroBase=new THREE.Vector3(6.5,0.1,-4);
+let astro=null;const astroBase=new THREE.Vector3(13,-1.5,-9);
 if(!SITE_CFG.toggles.astronaut){
   console.log('Astronaut disabled by site setting');
 }else{
@@ -1941,7 +1843,7 @@ if(!SITE_CFG.toggles.astronaut){
   draco.setDecoderPath('assets/draco/');
   draco.preload();
   const gl=new GLTFLoader();gl.setDRACOLoader(draco);
-  gl.load('assets/models/stylized_astronaut__game-ready.glb?v=1',
+  gl.load('assets/models/mercenary_astronaut.glb?v=1',
     gltf=>{
       astro=gltf.scene;
       astro.visible=false;
@@ -1952,11 +1854,14 @@ if(!SITE_CFG.toggles.astronaut){
         const h=box.getSize(new THREE.Vector3()).y;
         tries++;
         if((h<0.5||h>500)&&tries<40){setTimeout(fit,700);return;}
-        const s=Math.min(Math.max(2.2/Math.max(h,1e-4),0.001),30);
+        const s=Math.min(Math.max(8.5/Math.max(h,1e-4),0.001),30);
+        astro.userData.baseScale=s;
         astro.scale.setScalar(s);
         const c=new THREE.Box3().setFromObject(astro).getCenter(new THREE.Vector3());
+        astro.userData.centerOffset=c.clone();
         astro.position.set(astroBase.x-c.x,astroBase.y-c.y,astroBase.z-c.z);
-        astro.rotation.y=-0.5;
+        astro.rotation.y=-0.72;
+        astro.traverse(o=>{if(o.isMesh){o.frustumCulled=false;}});
         astro.visible=true;
         // splash click-gated — yahan auto-close nahi (entry sirf user click se)
       };
@@ -2071,102 +1976,66 @@ const starMat=new THREE.ShaderMaterial({
 Object.defineProperty(starMat,'opacity',{get(){return starMat.uniforms.uOpacity.value;},set(v){starMat.uniforms.uOpacity.value=v;}});
 const stars=new THREE.Points(starGeo,starMat);scene.add(stars);
 
-// ═══ SOLAR SYSTEM — compact, animated Sun + eight planets behind the hero Earth ═══
+// ═══ REALISTIC SOLAR SYSTEM — textured worlds, orbiting bodies, tap-to-focus ═══
 const solarSystemGroup=new THREE.Group();
-solarSystemGroup.position.set(-10,5.8,-50);
-solarSystemGroup.rotation.set(-0.24,0.08,-0.08);
-solarSystemGroup.scale.setScalar(1.55);
-solarSystemGroup.visible=!!SITE_CFG.toggles.earth;
+solarSystemGroup.position.set(0,0,-14);
+solarSystemGroup.rotation.set(-0.10,0.06,-0.035);
+solarSystemGroup.scale.setScalar(1.18);
+solarSystemGroup.visible=SITE_CFG.preset!=='low';
 scene.add(solarSystemGroup);
 const solarPlanets=[];
 const solarMoons=[];
+const clickablePlanets=[];
 
-function makeSunGlowTexture(){
-  const c=document.createElement('canvas');c.width=c.height=128;
-  const ctx=c.getContext('2d');
-  if(!ctx) return null;
-  const g=ctx.createRadialGradient(64,64,3,64,64,64);
-  g.addColorStop(0,'rgba(255,244,190,1)');
-  g.addColorStop(.16,'rgba(255,190,80,.72)');
-  g.addColorStop(.42,'rgba(255,110,36,.22)');
-  g.addColorStop(1,'rgba(255,80,30,0)');
-  ctx.fillStyle=g;ctx.fillRect(0,0,128,128);
-  const texture=new THREE.CanvasTexture(c);
+function makePlanetMap(data){
+  const path=data.name==='Earth'?'assets/textures/earth-blue-marble.jpg':'assets/planet-textures/'+data.name.toLowerCase()+'.jpg';
+  const texture=new THREE.TextureLoader(manager).load(path);
   texture.colorSpace=THREE.SRGBColorSpace;
+  texture.anisotropy=renderer.capabilities.getMaxAnisotropy();
   return texture;
 }
-const sunCore=new THREE.Mesh(new THREE.SphereGeometry(1.05,32,24),new THREE.MeshBasicMaterial({color:0xffd876}));
-solarSystemGroup.add(sunCore);
-const solarSunLight=new THREE.PointLight(0xffc66e,2.8,72,1.7);
-solarSystemGroup.add(solarSunLight);
-const sunGlowTexture=makeSunGlowTexture();
-if(sunGlowTexture){
-  const sunGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:sunGlowTexture,color:0xffc36a,transparent:true,opacity:.8,depthWrite:false,blending:THREE.AdditiveBlending}));
-  sunGlow.scale.set(7.8,7.8,1);
-  solarSystemGroup.add(sunGlow);
+function makeSunGlowTexture(){
+  const c=document.createElement('canvas');c.width=c.height=256;const ctx=c.getContext('2d');
+  const g=ctx.createRadialGradient(128,128,4,128,128,128);g.addColorStop(0,'rgba(255,253,220,1)');g.addColorStop(.12,'rgba(255,209,100,.95)');g.addColorStop(.35,'rgba(255,127,35,.35)');g.addColorStop(1,'rgba(255,80,20,0)');ctx.fillStyle=g;ctx.fillRect(0,0,256,256);const tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;return tex;
 }
-
+const sunTexture=new THREE.TextureLoader(manager).load('assets/planet-textures/sun.jpg');sunTexture.colorSpace=THREE.SRGBColorSpace;
+const sunCore=new THREE.Mesh(new THREE.SphereGeometry(1.18,64,48),new THREE.MeshBasicMaterial({map:sunTexture,color:0xffedb2}));solarSystemGroup.add(sunCore);sunCore.name='Sun';sunCore.userData.planetData={name:'Sun',fact:'Our star anchors the solar system. Its gravity holds eight planets in orbit, and its light takes about eight minutes to reach Earth.'};clickablePlanets.push(sunCore);
+const sunGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),transparent:true,opacity:.8,depthWrite:false,blending:THREE.AdditiveBlending}));sunGlow.scale.set(10,10,1);solarSystemGroup.add(sunGlow);
+const solarSunLight=new THREE.PointLight(0xffd18b,4.5,70,1.2);solarSystemGroup.add(solarSunLight);
 const solarPlanetData=[
-  {name:'Mercury',orbit:2.1,radius:.15,color:0x9c958b,speed:.34,phase:.35},
-  {name:'Venus',orbit:3.0,radius:.22,color:0xe2bd86,speed:.25,phase:2.35},
-  {name:'Earth',orbit:4.1,radius:.25,color:0x398de2,speed:.2,phase:4.15},
-  {name:'Mars',orbit:5.3,radius:.19,color:0xc9684a,speed:.16,phase:1.55},
-  {name:'Jupiter',orbit:7.5,radius:.62,color:0xd4ad7d,speed:.105,phase:3.3},
-  {name:'Saturn',orbit:9.8,radius:.51,color:0xd8c28f,speed:.08,phase:5.15,ring:true},
-  {name:'Uranus',orbit:12.3,radius:.36,color:0x79cbd0,speed:.06,phase:2.75},
-  {name:'Neptune',orbit:14.8,radius:.35,color:0x557ee1,speed:.047,phase:.9}
+ {name:'Mercury',orbit:2.45,radius:.23,base:'#8f887d',speed:.24,phase:.35,fact:'The smallest planet and the closest to the Sun. Its ancient surface is densely scarred by impact craters.'},
+ {name:'Venus',orbit:3.55,radius:.32,base:'#c5a76e',speed:.17,phase:2.35,fact:'A brilliant, cloud-wrapped world with a crushing carbon-dioxide atmosphere and the hottest surface in the solar system.'},
+ {name:'Earth',orbit:4.9,radius:.36,color:0x9bc7ef,speed:.14,phase:4.15,fact:'Our ocean-rich home is the only world known to support life, with a protective atmosphere and a single large Moon.'},
+ {name:'Mars',orbit:6.35,radius:.29,base:'#a64f35',speed:.11,phase:1.55,fact:'The red planet has giant volcanoes, ancient river valleys, polar ice, and two tiny moons.'},
+ {name:'Jupiter',orbit:8.6,radius:.94,speed:.075,phase:3.3,bands:['#b69072','#e5c9a0','#856956','#d2ad85','#a77d68'],fact:'The largest planet is a gas giant with powerful storms, dozens of moons, and the long-lived Great Red Spot.'},
+ {name:'Saturn',orbit:11.2,radius:.78,speed:.057,phase:5.15,bands:['#d0bb91','#f0ddb5','#a89776','#e5d1a9'],ring:true,fact:'Saturn is a gas giant surrounded by spectacular icy rings, with Titan among its many fascinating moons.'},
+ {name:'Uranus',orbit:13.6,radius:.57,speed:.044,phase:2.75,bands:['#78b9bb','#add9d5','#579da7','#a7d6d3'],ring:true,fact:'An ice giant with a blue-green atmosphere; Uranus rotates almost on its side and has a faint ring system.'},
+ {name:'Neptune',orbit:15.7,radius:.55,speed:.036,phase:.9,bands:['#345cae','#5f89d2','#23488e','#78a4e2'],fact:'A distant, windy ice giant with deep-blue clouds and fast-moving storms.'}
 ];
-const solarOrbitMaterial=new THREE.LineBasicMaterial({color:0x8796c8,transparent:true,opacity:.2,depthWrite:false});
+const solarOrbitMaterial=new THREE.LineBasicMaterial({color:0xa8b8d7,transparent:true,opacity:.23,depthWrite:false});
 solarPlanetData.forEach(data=>{
-  const orbitPoints=[];
-  for(let i=0;i<160;i++){
-    const a=(i/160)*Math.PI*2;
-    orbitPoints.push(new THREE.Vector3(Math.cos(a)*data.orbit,Math.sin(a)*data.orbit*.58,0));
-  }
-  const orbit=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(orbitPoints),solarOrbitMaterial);
-  solarSystemGroup.add(orbit);
-  const planetMaterial=new THREE.MeshStandardMaterial({color:data.color,roughness:.76,metalness:.02,emissive:data.color,emissiveIntensity:.1});
-  const planet=new THREE.Mesh(new THREE.SphereGeometry(data.radius,24,16),planetMaterial);
-  planet.name=data.name;
-  solarSystemGroup.add(planet);
-  if(data.ring){
-    const ring=new THREE.Mesh(new THREE.RingGeometry(data.radius*1.35,data.radius*1.95,56),new THREE.MeshBasicMaterial({color:0xdac89c,side:THREE.DoubleSide,transparent:true,opacity:.72,depthWrite:false}));
-    ring.rotation.x=.34;ring.rotation.y=.12;
-    planet.add(ring);
-  }
-  if(data.name==='Earth'){
-    const moonOrbit=new THREE.Group();
-    const moon=new THREE.Mesh(new THREE.SphereGeometry(.055,12,10),new THREE.MeshStandardMaterial({color:0xc6cbd3,roughness:.95,emissive:0x222733,emissiveIntensity:.08}));
-    moon.position.set(data.radius*1.9,0,0);
-    moonOrbit.add(moon);planet.add(moonOrbit);
-    solarMoons.push({orbit:moonOrbit,speed:.72});
-  }
-  solarPlanets.push({mesh:planet,radius:data.orbit,speed:data.speed,phase:data.phase});
+ const orbitPoints=[];for(let i=0;i<240;i++){const a=i/240*Math.PI*2;orbitPoints.push(new THREE.Vector3(Math.cos(a)*data.orbit,Math.sin(a)*data.orbit*.34,0));}
+ const orbit=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(orbitPoints),solarOrbitMaterial);solarSystemGroup.add(orbit);
+ const mat=new THREE.MeshStandardMaterial({map:makePlanetMap(data),color:0xffffff,roughness:data.name==='Venus'?.95:.82,metalness:0});
+ const planet=new THREE.Mesh(new THREE.SphereGeometry(data.radius,64,48),mat);planet.name=data.name;planet.userData.planetData=data;planet.userData.isPlanet=true;solarSystemGroup.add(planet);clickablePlanets.push(planet);
+ if(data.ring){const ringTextureCanvas=document.createElement('canvas');ringTextureCanvas.width=256;ringTextureCanvas.height=16;const rctx=ringTextureCanvas.getContext('2d');const rg=rctx.createLinearGradient(0,0,256,0);rg.addColorStop(0,'rgba(188,164,119,0)');rg.addColorStop(.16,'rgba(201,185,151,.42)');rg.addColorStop(.28,'rgba(228,214,184,.9)');rg.addColorStop(.39,'rgba(115,103,88,.26)');rg.addColorStop(.52,'rgba(220,205,176,.86)');rg.addColorStop(.78,'rgba(177,155,120,.7)');rg.addColorStop(1,'rgba(190,170,136,0)');rctx.fillStyle=rg;rctx.fillRect(0,0,256,16);const rt=new THREE.CanvasTexture(ringTextureCanvas);rt.colorSpace=THREE.SRGBColorSpace;const ring=new THREE.Mesh(new THREE.RingGeometry(data.radius*1.25,data.radius*2.15,128),new THREE.MeshStandardMaterial({map:rt,side:THREE.DoubleSide,transparent:true,opacity:.9,roughness:1,depthWrite:false}));ring.rotation.x=data.name==='Uranus'?1.24:.32;ring.rotation.y=.12;planet.add(ring);}
+ if(data.name==='Earth'){const moon=new THREE.Mesh(new THREE.SphereGeometry(.095,32,24),new THREE.MeshStandardMaterial({color:0xc6c9cd,roughness:1}));moon.position.set(data.radius*1.9,0,0);const moonOrbit=new THREE.Group();moonOrbit.add(moon);planet.add(moonOrbit);solarMoons.push({orbit:moonOrbit,speed:.35});}
+ solarPlanets.push({mesh:planet,radius:data.orbit,speed:data.speed,phase:data.phase});
 });
-// A restrained asteroid belt between Mars and Jupiter adds depth without a heavy particle cost.
-const asteroidPositions=new Float32Array(320*3);
-for(let i=0;i<320;i++){
-  const a=Math.random()*Math.PI*2,r=6.25+Math.random()*.65;
-  asteroidPositions[i*3]=Math.cos(a)*r;
-  asteroidPositions[i*3+1]=Math.sin(a)*r*.58;
-  asteroidPositions[i*3+2]=(Math.random()-.5)*.12;
-}
-const asteroidGeometry=new THREE.BufferGeometry();
-asteroidGeometry.setAttribute('position',new THREE.BufferAttribute(asteroidPositions,3));
-const asteroidBelt=new THREE.Points(asteroidGeometry,new THREE.PointsMaterial({color:0xb6a383,size:.085,sizeAttenuation:true,transparent:true,opacity:.55,depthWrite:false}));
-solarSystemGroup.add(asteroidBelt);
-function updateSolarSystem(dt,time){
-  if(!solarSystemGroup.visible) return;
-  for(const planet of solarPlanets){
-    const angle=planet.phase+time*planet.speed;
-    planet.mesh.position.set(Math.cos(angle)*planet.radius,Math.sin(angle)*planet.radius*.58,Math.sin(angle)*planet.radius*.045);
-    planet.mesh.rotation.y+=dt*.22;
-  }
-  for(const moon of solarMoons) moon.orbit.rotation.z+=dt*moon.speed;
-  asteroidBelt.rotation.z+=dt*.003;
-}
+// Asteroid belt, rendered as fine, individually varied rocks between Mars and Jupiter.
+const asteroidPositions=new Float32Array(1200*3);for(let i=0;i<1200;i++){const a=Math.random()*Math.PI*2,r=7.15+Math.random()*.55;asteroidPositions[i*3]=Math.cos(a)*r;asteroidPositions[i*3+1]=Math.sin(a)*r*.34;asteroidPositions[i*3+2]=(Math.random()-.5)*.12;}
+const asteroidGeometry=new THREE.BufferGeometry();asteroidGeometry.setAttribute('position',new THREE.BufferAttribute(asteroidPositions,3));const asteroidBelt=new THREE.Points(asteroidGeometry,new THREE.PointsMaterial({color:0xc8b9a1,size:.045,sizeAttenuation:true,transparent:true,opacity:.65,depthWrite:false}));solarSystemGroup.add(asteroidBelt);
+function updateSolarSystem(dt,time){if(!solarSystemGroup.visible)return;for(const p of solarPlanets){const angle=p.phase+time*p.speed;p.mesh.position.set(Math.cos(angle)*p.radius,Math.sin(angle)*p.radius*.34,Math.sin(angle)*p.radius*.025);p.mesh.rotation.y+=dt*.12;}for(const m of solarMoons)m.orbit.rotation.z+=dt*.35;asteroidBelt.rotation.z+=dt*.0015;}
+let selectedPlanet=null;
+const planetInfo=document.getElementById('planetInfo');
+function focusPlanetObject(obj){if(!obj)return;focusSolarTarget.copy(obj.getWorldPosition(new THREE.Vector3()));const radius=(obj.geometry?.parameters?.radius||.5)*obj.getWorldScale(new THREE.Vector3()).x;spaceZoomTarget=THREE.MathUtils.clamp(Math.max(3,radius*5.5)-32,-29,32);updateSpaceZoomLabel();}
+function showPlanetInfo(data){if(!data)return;selectedPlanet=data;document.getElementById('planetInfoName').textContent=data.name;document.getElementById('planetInfoText').textContent=data.fact;planetInfo.classList.add('open');planetInfo.setAttribute('aria-hidden','false');}
+document.getElementById('planetInfoClose')?.addEventListener('click',()=>{planetInfo.classList.remove('open');planetInfo.setAttribute('aria-hidden','true');selectedPlanet=null;});
+document.getElementById('planetFocus')?.addEventListener('click',()=>{if(selectedPlanet){const obj=clickablePlanets.find(o=>o.userData.planetData===selectedPlanet);focusPlanetObject(obj);}});
+const planetRaycaster=new THREE.Raycaster(),planetPointer=new THREE.Vector2();
+canvas.addEventListener('click',e=>{if(!document.documentElement.classList.contains('splash-lock')||document.getElementById('loader')?.classList.contains('scan-open'))return;planetPointer.set((e.clientX/innerWidth)*2-1,-(e.clientY/innerHeight)*2+1);planetRaycaster.setFromCamera(planetPointer,camera);const hit=planetRaycaster.intersectObjects(clickablePlanets,false)[0];if(hit){showPlanetInfo(hit.object.userData.planetData);focusPlanetObject(hit.object);}});
 
-// Clean deep space — hero Earth, animated solar system and 50K stars in Extreme mode
+// Deep space presentation — realistic solar system and starfield
 const starCountLabel=document.getElementById('spaceStarCount');
 if(starCountLabel){
   starCountLabel.textContent=starCount>=1000?((starCount%1000===0)?(starCount/1000)+'K':(starCount/1000).toFixed(1)+'K'):String(starCount);
@@ -2183,158 +2052,42 @@ addEventListener('mousemove',e=>{tMX=(e.clientX/innerWidth-.5)*2;tMY=(e.clientY/
 const navEl=document.querySelector('nav');
 addEventListener('scroll',()=>{if(navEl)navEl.classList.toggle('scrolled',scrollY>100)});
 // Astronaut side position depends on screen shape (portrait phones get closer to center)
-const setAstroX=()=>{astroBase.x=(innerWidth/innerHeight<0.85)?2.6:6.5;};setAstroX();
+const setAstroX=()=>{astroBase.x=(innerWidth/innerHeight<0.85)?8.5:13;};setAstroX();
 addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);setAstroX(); if(starMat&&starMat.uniforms&&starMat.uniforms.uPixelRatio) starMat.uniforms.uPixelRatio.value=Math.min(devicePixelRatio,2);});
 
-// ANIMATE — splash has dark space 50K stars + astronaut + Earth, home has only aura video (stars+astronaut only on entering page)
-let time=0;const clock=new THREE.Clock();
-let entryT=0;
+// ANIMATE — immersive solar-system lock page, then portfolio entry
+let time=0;const clock=new THREE.Clock();let entryT=0;
 (function loop(){
-  requestAnimationFrame(loop);
-  try{
-  if(document.getElementById('loader')?.classList.contains('scan-open')){ clock.getDelta(); return; }
-  const dt=clock.getDelta();time+=dt;
-  spaceZoomCurrent+=(spaceZoomTarget-spaceZoomCurrent)*Math.min(1,dt*9);
-  if(typeof window.spaceOrbitYawT==='number') spaceOrbitYawT=window.spaceOrbitYawT;
-  if(typeof window.spaceOrbitPitchT==='number') spaceOrbitPitchT=window.spaceOrbitPitchT;
-  spaceOrbitYaw+=(spaceOrbitYawT-spaceOrbitYaw)*Math.min(1,dt*8);
-  spaceOrbitPitch+=(spaceOrbitPitchT-spaceOrbitPitch)*Math.min(1,dt*8);
-  sProg+=(tScroll-sProg)*.05;mX+=(tMX-mX)*.04;mY+=(tMY-mY)*.04;
-
-  // ENTRY ANIMATION: cinematic flight from splash (Earth -15, cam 22) to home top (Earth -21, cam 14)
-  if(window._entryAnim){
-    const elapsed=(performance.now()-(window._entryStart||0))/1400;
-    entryT=Math.min(elapsed,1);
-    const ease=1-Math.pow(1-entryT,3); // easeOutCubic
-    // Earth: -15 (splash) -> -21 (far at top)
-    const ez=-15 - ease*6;
-    earthGroup.position.z=ez;
-    const cY=1.5;
-    const cZ=22 - ease*8; // 22 -> 14
-    camera.position.x=mX*2;
-    camera.position.y=cY - mY*0.8;
-    camera.position.z=cZ+spaceZoomCurrent;
-    camera.lookAt(mX*0.3, cY*0.2, -5 - ease*5);
-    if(astro){
-      // astronaut flies slightly forward and scales up during entry
-      astro.position.x=astroBase.x + Math.sin(time*.23)*.15 - ease*0.5;
-      astro.position.y=astroBase.y + Math.sin(time*.5)*.3;
-      astro.position.z=astroBase.z - ease*1;
-      astro.rotation.y=-0.5 + Math.sin(time*.2)*.12 + mX*.15 + ease*0.4;
-      astro.rotation.x=Math.sin(time*.3)*.02;
-      const sc=0.9 + ease*0.5;
-      astro.scale.setScalar(sc);
-      // fade out astronaut at very end
-      if(ease>0.85 && astro.traverse){
-        const op=1-(ease-0.85)/0.15;
-        astro.traverse(o=>{ if(o.isMesh&&o.material){ o.material.transparent=true; o.material.opacity=Math.max(op,0); } });
-      }
-    }
-    spinY+=dt*0.035;
-    earth.rotation.y=spinY;
-    clouds.rotation.y+=dt*0.05;
-    cloudMat.uniforms.uTime.value=time;
-    sunDirU.value.copy(sun.position).sub(earthGroup.position).normalize();
-    if(starMat && starMat.uniforms && starMat.uniforms.uTime) starMat.uniforms.uTime.value=time;
-    else if(starMat && starMat.userData && starMat.userData.shader && starMat.userData.shader.uniforms && starMat.userData.shader.uniforms.uTime) starMat.userData.shader.uniforms.uTime.value=time;
-    stars.rotation.y+=dt*0.0035;
+ requestAnimationFrame(loop);
+ try{
+  if(document.getElementById('loader')?.classList.contains('scan-open')){clock.getDelta();return;}
+  const dt=clock.getDelta();time+=dt;spaceZoomCurrent+=(spaceZoomTarget-spaceZoomCurrent)*Math.min(1,dt*7);
+  if(typeof window.spaceOrbitYawT==='number')spaceOrbitYawT=window.spaceOrbitYawT;if(typeof window.spaceOrbitPitchT==='number')spaceOrbitPitchT=window.spaceOrbitPitchT;
+  spaceOrbitYaw+=(spaceOrbitYawT-spaceOrbitYaw)*Math.min(1,dt*8);spaceOrbitPitch+=(spaceOrbitPitchT-spaceOrbitPitch)*Math.min(1,dt*8);
+  focusSolarCurrent.lerp(focusSolarTarget,Math.min(1,dt*3.5));
+  const loaderEl=document.getElementById('loader');const inSplash=document.documentElement.classList.contains('splash-lock')&&loaderEl&&!loaderEl.classList.contains('done');
+  const isEntering=!!window._entryAnim;
+  if(inSplash||isEntering){
+    const breath=Math.sin(time*.23)*.18;
+    const entryElapsed=isEntering?Math.min(1,(performance.now()-(window._entryStart||0))/1400):0;
+    const ease=1-Math.pow(1-entryElapsed,3);
+    const focus=focusSolarCurrent.clone();
+    const baseDist=(32+spaceZoomCurrent+breath)-(isEntering?ease*7:0);
+    const cp=Math.cos(spaceOrbitPitch),sp=Math.sin(spaceOrbitPitch),cy=Math.cos(spaceOrbitYaw),sy=Math.sin(spaceOrbitYaw);
+    camera.position.set(focus.x+sy*cp*baseDist,focus.y+sp*baseDist*.72,focus.z+cy*cp*baseDist);camera.up.set(0,1,0);camera.lookAt(focus);
+    if(stars){stars.visible=!!SITE_CFG.toggles.stars;stars.rotation.y=spaceOrbitYaw*.08+time*.0015;if(starMat)starMat.opacity=isEntering&&ease>.72?Math.max(0,1-(ease-.72)/.28):1;if(starMat?.uniforms?.uTime)starMat.uniforms.uTime.value=time;}
     updateSolarSystem(dt,time);
-    // stars fade out at end of entry
-    if(starMat){ starMat.opacity = ease>0.7 ? 1-(ease-0.7)/0.3 : 1; starMat.transparent=true; }
-    // aura video: 0 -> 0.7 (blank page -> home aura)
-    if(auraV){
-      auraV.style.opacity=String(ease*0.7);
-      if(auraV.readyState>=2 && auraV.paused) auraV.play().catch(()=>{});
-    }
+    if(selectedPlanet){const selectedObject=clickablePlanets.find(o=>o.userData.planetData===selectedPlanet);if(selectedObject)focusSolarTarget.copy(selectedObject.getWorldPosition(new THREE.Vector3()));}
+    if(astro){astro.visible=!!SITE_CFG.toggles.astronaut;if(astro.visible){const center=astro.userData.centerOffset||new THREE.Vector3();astro.position.set(astroBase.x-center.x+Math.sin(time*.24)*.2,astroBase.y-center.y+Math.sin(time*.45)*.32,astroBase.z-center.z);astro.rotation.y=-.72+Math.sin(time*.18)*.1+spaceOrbitYaw*.12;astro.rotation.x=Math.sin(time*.3)*.025;if(isEntering){astro.position.x-=ease*1.2;astro.position.z+=ease*3;astro.scale.setScalar((astro.userData.baseScale||1)*(1+ease*.13));}}}
+    if(auraV){auraV.style.opacity=isEntering?String(ease*.65):'0';if(isEntering&&auraV.readyState>=2&&auraV.paused)auraV.play().catch(()=>{});else if(!isEntering&&auraV.readyState>=2&&!auraV.paused)auraV.pause();}
     renderer.render(scene,camera);
-        if(entryT>=1){
-      window._entryAnim=0;
-      // --- ENTRY COMPLETE: subtle glitch transition then HOME PAGE with video ---
-      const doShowHome = ()=>{
-        document.documentElement.classList.remove('splash-lock');
-        const loader=document.getElementById('loader');
-        if(loader) loader.classList.add('done');
-        if(auraV){ auraV.style.display=SITE_CFG.toggles.aura?'block':'none'; auraV.style.transition='opacity 1s ease'; auraV.style.opacity=SITE_CFG.toggles.aura?'0.7':'0'; if(auraV && auraV.paused && SITE_CFG.toggles.aura) auraV.play().catch(()=>{}); }
-        if(typeof stars!=='undefined' && stars) stars.visible=false;
-        if(typeof astro!=='undefined' && astro) astro.visible=false;
-        if(typeof clouds!=='undefined' && clouds) clouds.visible=false;
-        if(typeof earthGroup!=='undefined' && earthGroup) earthGroup.visible=false;
-        if(typeof solarSystemGroup!=='undefined' && solarSystemGroup) solarSystemGroup.visible=false;
-        if(canvas){ canvas.style.opacity='0'; canvas.style.pointerEvents='none'; canvas.style.display='none'; }
-        const cssS=document.getElementById('cssStars'), cssA=document.getElementById('cssAstronaut'), cssE=document.getElementById('cssEarth');
-        if(cssS) cssS.style.display='none';
-        if(cssA) cssA.style.display='none';
-        if(cssE) cssE.style.display='none';
-        const wrapEl2=document.querySelector('.wrap');
-        if(wrapEl2){ wrapEl2.style.display='block'; wrapEl2.style.opacity='1'; wrapEl2.style.visibility='visible'; wrapEl2.style.pointerEvents='auto'; }
-        window.scrollTo({top:0,behavior:'smooth'});
-        tScroll=0; sProg=0;
-        // Aura video already playing, no glitch
-      };
-      doShowHome();
-    }
+    if(isEntering&&entryElapsed>=1){window._entryAnim=0;document.documentElement.classList.remove('splash-lock');loaderEl.classList.add('done');if(auraV){auraV.style.display=SITE_CFG.toggles.aura?'block':'none';auraV.style.opacity=SITE_CFG.toggles.aura?'0.7':'0';if(SITE_CFG.toggles.aura&&auraV.paused)auraV.play().catch(()=>{});}if(stars)stars.visible=false;if(astro)astro.visible=false;if(solarSystemGroup)solarSystemGroup.visible=false;if(canvas){canvas.style.opacity='0';canvas.style.pointerEvents='none';canvas.style.display='none';}const cssS=document.getElementById('cssStars');if(cssS)cssS.style.display='none';const wrap=document.querySelector('.wrap');if(wrap){wrap.style.display='block';wrap.style.opacity='1';wrap.style.visibility='visible';wrap.style.pointerEvents='auto';}window.scrollTo({top:0,behavior:'smooth'});}
     return;
   }
-
-  // If still in splash (loader not done) — show dark space 50K stars + astronaut + Earth
-  const loaderEl=document.getElementById('loader');
-  const inSplash=document.documentElement.classList.contains('splash-lock') && loaderEl && !loaderEl.classList.contains('done');
-
-  if(inSplash){
-    // Splash: Earth at -15, camera 22-ish, stars + astronaut visible — BLANK PAGE (no home content, no aura)
-    if(typeof earthGroup!=='undefined' && earthGroup) earthGroup.visible=!!SITE_CFG.toggles.earth;
-    if(typeof solarSystemGroup!=='undefined' && solarSystemGroup) solarSystemGroup.visible=!!SITE_CFG.toggles.earth;
-    if(stars){ stars.visible=!!SITE_CFG.toggles.stars; if(starMat) starMat.opacity=1; }
-    if(astro && astro.visible===false){
-      // restore astronaut opacity if it was faded
-      astro.visible=true;
-      astro.traverse&&astro.traverse(o=>{ if(o.isMesh&&o.material){ o.material.opacity=1; } });
-    }
-    if(clouds) clouds.visible=true;
-    if(canvas) canvas.style.opacity='1';
-    // Earth close/near like before: parallax + time breathing + 360° orbit
-    const breath=Math.sin(time*0.3)*0.5;
-    earthGroup.position.z=-18 + breath;
-    earthGroup.position.x=0;
-    earthGroup.position.y=0.5;
-    const dist=22 + breath*0.5 + spaceZoomCurrent;
-    const cp=Math.cos(spaceOrbitPitch), sp=Math.sin(spaceOrbitPitch);
-    const cy=Math.cos(spaceOrbitYaw), sy=Math.sin(spaceOrbitYaw);
-    camera.position.set(sy*cp*dist, 1.5 + sp*dist*0.85, cy*cp*dist);
-    camera.up.set(0,1,0);
-    camera.lookAt(0,0.5,-2);
-    if(stars) stars.rotation.y=spaceOrbitYaw*0.15;
-    if(typeof solarSystemGroup!=='undefined' && solarSystemGroup){
-      solarSystemGroup.rotation.y=spaceOrbitYaw*0.08;
-      solarSystemGroup.rotation.x=spaceOrbitPitch*0.12;
-    }
-    spinY+=dt*0.035;
-    earth.rotation.y=spinY;
-    clouds.rotation.y+=dt*0.05;
-    cloudMat.uniforms.uTime.value=time;
-    sunDirU.value.copy(sun.position).sub(earthGroup.position).normalize();
-    if(starMat && starMat.uniforms && starMat.uniforms.uTime) starMat.uniforms.uTime.value=time;
-    stars.rotation.y+=dt*0.0035;
-    updateSolarSystem(dt,time);
-    if(auraV){
-      auraV.style.opacity='0';
-      if(auraV.readyState>=2 && !auraV.paused) auraV.pause();
-    }
-    renderer.render(scene,camera);
-    return;
-  }
-
-  // HOME PAGE: only aura video background, no dark space stars, no astronaut (as per user request)
-  // Earth hidden, stars hidden, astronaut hidden — clean portfolio with aura video
-  if(auraV&&auraV.readyState>=2){
-    if(auraV.paused) auraV.play().catch(()=>{});
-    if(auraV.loop===false) auraV.loop=true;
-    // keep aura at 0.7 on home, not 0.9 (was glitch covering content)
-    if(parseFloat(auraV.style.opacity||'0')<0.6) auraV.style.opacity='0.7';
-  }
-  // Do not render the 3D scene on the portfolio page; space animation is lock-page only.
-  }catch(e){ console.error('Animate error', e); if(document.documentElement.classList.contains('splash-lock')){ try{ renderer.render(scene,camera); }catch(e2){} } }
+  if(auraV&&auraV.readyState>=2){if(auraV.paused&&SITE_CFG.toggles.aura)auraV.play().catch(()=>{});if(auraV.loop===false)auraV.loop=true;if(parseFloat(auraV.style.opacity||'0')<.6&&SITE_CFG.toggles.aura)auraV.style.opacity='.7';}
+ }catch(e){console.error('Animate error',e);}
 })();
+
 </script>
 <script>
 (function(){
