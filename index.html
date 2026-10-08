@@ -7,7 +7,7 @@
 <meta name="author" content="Mohit Verma">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="google-site-verification" content="Rz8-di0MGkBmQT6YZdqLyDSrZ6EChOyVqh1XoZNoh7o">
-<meta name="theme-color" content="#0a0a0f">
+<meta name="theme-color" content="#fafafa">
 <meta property="og:title" content="Mohit Verma — Student, Teen Coder &amp; Software AI Enthusiast">
 <meta property="og:description" content="Mohit Verma is a student and teen coder exploring Python, AI, machine learning, software development and open source.">
 <meta property="og:type" content="profile">
@@ -40,7 +40,8 @@
       "https://hashnode.com/@mohit-",
       "https://mohittt-vermaa.blogspot.com/",
       "https://www.instagram.com/mohittt_vermaa/",
-      "https://news.ycombinator.com/user?id=mohittt_vermaa"],
+      "https://news.ycombinator.com/user?id=mohittt_vermaa"
+    ],
     "knowsAbout": [
       "Python",
       "Artificial Intelligence",
@@ -83,33 +84,6 @@ img{display:block;max-width:100%}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
 ::selection{background:rgba(109,40,217,.2);color:var(--acc)}
 :focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:6px}
-
-/* ========= LIQUID GLASS (showcase + upgrade) ========= */
-.glass-panel{
-  position:relative;border-radius:24px;padding:14px;
-  background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.05));
-  -webkit-backdrop-filter:blur(24px) saturate(200%);backdrop-filter:blur(24px) saturate(200%);
-  border:1px solid rgba(255,255,255,.25);
-  box-shadow:0 8px 40px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.35);
-  overflow:hidden;transition:transform .4s var(--fast),box-shadow .4s
-}
-.glass-panel:hover{transform:translateY(-4px);box-shadow:0 16px 60px rgba(109,40,217,.3),inset 0 1px 0 rgba(255,255,255,.4)}
-/* liquid shine sweep */
-.glass-panel::before{
-  content:'';position:absolute;top:0;left:-80%;width:60%;height:100%;z-index:1;pointer-events:none;
-  background:linear-gradient(105deg,transparent,rgba(255,255,255,.18),transparent);
-  animation:liquid-sweep 6s ease-in-out infinite
-}
-@keyframes liquid-sweep{0%,60%{left:-80%}90%,100%{left:120%}}
-.glass-panel>*{position:relative;z-index:2}
-.video-frame{border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.2);box-shadow:0 4px 24px rgba(0,0,0,.35);aspect-ratio:16/9;max-width:720px;margin:0 auto}
-.video-frame iframe{width:100%;height:100%;display:block}
-.glass-caption{padding:14px 8px 4px;font-size:14px;color:var(--muted);text-align:center;max-width:720px;margin:0 auto}
-.glass-caption a{color:var(--acc);text-decoration:none;font-weight:600}
-.glass-caption a:hover{text-decoration:underline}
-.showcase-grid{display:grid;grid-template-columns:1fr;gap:20px}
-@media (prefers-reduced-motion: reduce){.glass-panel::before{animation:none}}
-body.dark .glass-panel{background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.03));border-color:rgba(255,255,255,.16);box-shadow:0 8px 40px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.18)}
 
 /* ========= 3D BACKGROUND CANVAS (FULL VIEWPORT, IMMERSIVE) ========= */
 #c3d{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
@@ -177,11 +151,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 28px;display:fl
 .nav-links{display:flex;gap:6px;align-items:center;list-style:none}
 .nav-links a{display:block;padding:8px 16px;border-radius:var(--radius-pill);font-size:14px;font-weight:500;color:var(--muted);transition:.2s var(--fast)}
 .nav-links a:hover{color:var(--ink);background:rgba(109,40,217,.06)}
-.nav-cta{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:var(--radius-pill);background:linear-gradient(135deg,#0a0a0a,#1a0b2e);color:var(--acc2,#8b5cf6);font-size:14px;font-weight:600;transition:.25s var(--fast);border:1px solid var(--acc,#6d28d9)}
-.nav-cta:hover{background:var(--acc);color:#fff;border-color:var(--acc);box-shadow:0 10px 28px var(--acc-glow);transform:translateY(-1px)}
+.nav-cta{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:var(--radius-pill);background:var(--ink);color:#fff;font-size:14px;font-weight:600;transition:.25s var(--fast);border:1px solid var(--ink)}
+.nav-cta:hover{background:var(--acc);border-color:var(--acc);box-shadow:0 10px 28px var(--acc-glow);transform:translateY(-1px)}
 .nav-cta .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
-.mobile-menu .nav-cta{background:linear-gradient(135deg,#0a0a0a,#1a0b2e);color:var(--acc2,#8b5cf6);border:1px solid var(--acc,#6d28d9)}
-.mobile-menu .nav-cta:hover{background:var(--acc);color:#fff}
 .burger{display:none;width:40px;height:40px;border-radius:10px;place-items:center;border:1px solid var(--line);background:#fff}
 .burger span{display:block;width:18px;height:2px;background:var(--ink);border-radius:2px;position:relative;transition:.3s}
 .burger span:before,.burger span:after{content:'';position:absolute;left:0;width:18px;height:2px;background:var(--ink);border-radius:2px;transition:.3s}
@@ -442,174 +414,17 @@ body.dark .form-input,body.dark .form-textarea{background:#1a1a22;border-color:v
   *,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;animation-iteration-count:1!important}
   .m-track{animation:none}
 }
-/* ══ PAGE 0 — SITE SETTING (lightweight, no 3D, for low-end devices) ══ */
-.site-setting{position:fixed;inset:0;z-index:20000;background:rgba(5,6,10,0.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#e5e7eb;display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto;transition:opacity .6s ease,visibility .6s}
-.site-setting.done{opacity:0;visibility:hidden;pointer-events:none}
-.ss-inner{width:min(640px,100%);background:rgba(19,19,26,.9);border:1px solid rgba(139,92,246,.25);border-radius:24px;padding:28px;box-shadow:0 24px 80px rgba(0,0,0,.5);backdrop-filter:blur(16px)}
-.ss-head{display:flex;gap:16px;align-items:center;margin-bottom:22px}
-.ss-logo{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-family:'Space Grotesk';font-weight:800;font-size:20px;color:#fff;background:linear-gradient(135deg,#6d28d9,#ec4899);flex-shrink:0}
-.ss-title{font-family:'Space Grotesk';font-size:22px;font-weight:700;letter-spacing:-.5px;color:#fafafa}
-.ss-sub{font-size:13px;color:#a1a1aa;margin-top:4px;line-height:1.5}
-.ss-presets{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
-.ss-preset{position:relative;text-align:left;padding:14px 14px;border-radius:14px;border:1px solid rgba(39,39,42,.8);background:#13131a;color:#e4e4e7;cursor:pointer;transition:.2s;display:flex;flex-direction:column;gap:4px}
-.ss-preset:hover{border-color:#8b5cf6;transform:translateY(-1px)}
-.ss-preset.active{border-color:#8b5cf6;background:linear-gradient(135deg,rgba(109,40,217,.18),rgba(236,72,153,.12));box-shadow:0 8px 24px rgba(109,40,217,.2)}
-.ss-p-icon{font-size:18px}
-.ss-p-name{font-weight:700;font-size:13px;letter-spacing:.04em;color:#fafafa}
-.ss-p-desc{font-size:11.5px;color:#a1a1aa;line-height:1.4}
-.ss-custom{margin-bottom:18px;padding:14px;border-radius:14px;background:rgba(0,0,0,.25);border:1px dashed rgba(139,92,246,.25)}
-.ss-c-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.ss-toggle{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;background:#1a1a22;border:1px solid #27272a;font-size:12.5px;color:#d4d4d8;cursor:pointer;user-select:none}
-.ss-toggle input{accent-color:#8b5cf6;width:14px;height:14px}
-.ss-actions{display:flex;flex-direction:column;gap:10px}
-.ss-save{padding:13px 20px;border-radius:999px;background:linear-gradient(135deg,#6d28d9,#ec4899);color:#fff;font-weight:700;font-size:13px;letter-spacing:.06em;border:none;cursor:pointer;box-shadow:0 12px 32px rgba(109,40,217,.35);transition:.2s}
-.ss-save:hover{transform:translateY(-1px);box-shadow:0 16px 40px rgba(109,40,217,.45)}
-.ss-note{font-size:11px;color:#71717a;line-height:1.5;min-height:16px}
-@media(max-width:500px){.ss-presets{grid-template-columns:1fr}.ss-c-grid{grid-template-columns:1fr}.ss-inner{padding:20px}}
-/* ══ DEEP-SPACE LAYER
-/* ══ DEEP-SPACE LAYER — Entering Deep Space = full blank page like Hermes chat page ══ */
-#canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;display:block;pointer-events:none;transition:opacity .6s ease}
-#auraVideo{position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:0;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35);transition:opacity .6s ease}
-section,footer,.marquee{position:relative;z-index:2}
-#loader{position:fixed;inset:0;background:transparent;z-index:10002;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all 1.2s cubic-bezier(0.16,1,0.3,1)}
-html.splash-lock,html.splash-lock body{overflow:hidden!important;height:100%;background:#05060a!important}
-/* Splash = full blank page: hide home portfolio, hide aura video, show only dark space canvas + astronaut */
-html.splash-lock .wrap{opacity:0!important;pointer-events:none!important;visibility:hidden!important}
-html.splash-lock #auraVideo{opacity:0!important;pointer-events:none!important}
-html.splash-lock #canvas{z-index:1!important;opacity:1!important;pointer-events:auto!important}
-html.splash-lock #loader{background:transparent;z-index:10003 !important}
-html.low-perf .portrait-glow, html.low-perf .portrait-ring, html.low-perf .m-track, html.low-perf .glass-panel::before, html.low-perf .badge .pulse:after{animation:none !important}
-html.no-anim *, html.no-anim *:before, html.no-anim *:after{animation:none !important;transition:none !important}
-html.low-perf #canvas{display:none !important}
-html.low-perf #auraVideo{display:none !important}
-#cssStars{
-  position:fixed;inset:0;z-index:10001;background:#05060a;pointer-events:none;display:none;
-  background-image:
-    radial-gradient(2px 2px at 5% 10%, #fff 100%, transparent 100%),
-    radial-gradient(2px 2px at 15% 30%, #fff 100%, transparent 100%),
-    radial-gradient(1.2px 1.2px at 25% 50%, #a78bfa 100%, transparent 100%),
-    radial-gradient(2px 2px at 35% 70%, #fff 100%, transparent 100%),
-    radial-gradient(2px 2px at 45% 20%, #fff 100%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 55% 40%, #fff 100%, transparent 100%),
-    radial-gradient(2px 2px at 65% 60%, #ec4899 100%, transparent 100%),
-    radial-gradient(2px 2px at 75% 80%, #fff 100%, transparent 100%),
-    radial-gradient(1.2px 1.2px at 85% 10%, #fff 100%, transparent 100%),
-    radial-gradient(2px 2px at 95% 30%, #8b5cf6 100%, transparent 100%),
-    radial-gradient(2px 2px at 10% 80%, #fff 100%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 20% 15%, #fff 100%, transparent 100%),
-    radial-gradient(2px 2px at 30% 85%, #fff 100%, transparent 100%),
-    radial-gradient(2px 2px at 50% 10%, #fff 100%, transparent 100%),
-    radial-gradient(1.2px 1.2px at 60% 90%, #fff 100%, transparent 100%),
-    radial-gradient(2px 2px at 70% 20%, #fff 100%, transparent 100%),
-    radial-gradient(2px 2px at 80% 50%, #fff 100%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 90% 70%, #fff 100%, transparent 100%),
-    radial-gradient(2px 2px at 12% 45%, #fff 100%, transparent 100%),
-    radial-gradient(0.8px 0.8px at 28% 65%, #fff 100%, transparent 100%),
-    radial-gradient(1.2px 1.2px at 45% 30%, #c4b5fd 100%, transparent 100%),
-    radial-gradient(0.9px 0.9px at 62% 55%, #fff 100%, transparent 100%),
-    radial-gradient(2px 2px at 78% 20%, #fff 100%, transparent 100%),
-    radial-gradient(0.7px 0.7px at 88% 60%, #e9d5ff 100%, transparent 100%),
-    radial-gradient(1.1px 1.1px at 18% 90%, #fff 100%, transparent 100%),
-    radial-gradient(0.8px 0.8px at 33% 10%, #fff 100%, transparent 100%),
-    radial-gradient(1.3px 1.3px at 48% 75%, #ddd6fe 100%, transparent 100%),
-    radial-gradient(0.9px 0.9px at 67% 85%, #fff 100%, transparent 100%),
-    radial-gradient(2px 2px at 82% 40%, #fbcfe8 100%, transparent 100%),
-    radial-gradient(0.8px 0.8px at 93% 75%, #fff 100%, transparent 100%),
-    radial-gradient(1.2px 1.2px at 7% 30%, #fff 100%, transparent 100%),
-    radial-gradient(0.9px 0.9px at 22% 50%, #c4b5fd 100%, transparent 100%),
-    radial-gradient(2px 2px at 38% 90%, #fff 100%, transparent 100%),
-    radial-gradient(0.7px 0.7px at 53% 25%, #fff 100%, transparent 100%),
-    radial-gradient(1.1px 1.1px at 71% 65%, #fff 100%, transparent 100%),
-    radial-gradient(0.8px 0.8px at 86% 10%, #e0e7ff 100%, transparent 100%),
-    radial-gradient(1.3px 1.3px at 14% 60%, #fff 100%, transparent 100%),
-    radial-gradient(0.9px 0.9px at 31% 40%, #fff 100%, transparent 100%),
-    radial-gradient(2px 2px at 49% 55%, #ddd6fe 100%, transparent 100%),
-    radial-gradient(0.8px 0.8px at 66% 15%, #fff 100%, transparent 100%),
-    radial-gradient(1.2px 1.2px at 79% 80%, #fff 100%, transparent 100%),
-    radial-gradient(0.9px 0.9px at 94% 50%, #c4b5fd 100%, transparent 100%),
-    radial-gradient(2px 2px at 9% 80%, #fff 100%, transparent 100%),
-    radial-gradient(0.7px 0.7px at 26% 20%, #fff 100%, transparent 100%),
-    radial-gradient(1.1px 1.1px at 42% 60%, #fff 100%, transparent 100%),
-    radial-gradient(0.8px 0.8px at 58% 90%, #e9d5ff 100%, transparent 100%),
-    radial-gradient(1.3px 1.3px at 73% 35%, #fff 100%, transparent 100%),
-    radial-gradient(0.9px 0.9px at 89% 25%, #fff 100%, transparent 100%),
-    radial-gradient(2px 2px at 16% 15%, #ddd6fe 100%, transparent 100%),
-    radial-gradient(0.8px 0.8px at 32% 70%, #fff 100%, transparent 100%);
-  background-repeat:repeat;
-  background-size:300px 300px;
-}
-html.splash-lock #cssStars{display:block !important}
-html.splash-lock #cssAstronaut{display:block !important}
-html.splash-lock #cssEarth{display:block !important}
-html.splash-lock #cssStars{opacity:1 !important}
-html.splash-lock #cssEarth{opacity:0.9 !important}
-html.splash-lock #cssAstronaut{opacity:0.9 !important}
-#cssEarth{display:none !important; /* fallback only, Three.js Earth is primary */}
-#cssAstronaut{animation:floatY 6s ease-in-out infinite}
-@keyframes floatY{0%,100%{transform:translateY(-50%)}50%{transform:translateY(-55%)}}
-#cssStars{animation:twinkleStars 3s ease-in-out infinite}
-@keyframes twinkleStars{0%,100%{opacity:1}50%{opacity:0.7}}
-#stars2d{animation:twinkleStars 3s ease-in-out infinite}
-/* glitch effect removed as per user request */
-#loader .loader-hint{margin-top:.7rem;font-size:.62rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.28);transition:color .5s}
-#loader .loader-hint.ready{color:#a78bfa;animation:hintPulse 1.8s ease-in-out infinite}
-@keyframes hintPulse{0%,100%{opacity:.55}50%{opacity:1}}
-#enterBlackhole{padding:12px 28px;border-radius:999px;border:1px solid rgba(236,72,153,.6);background:linear-gradient(135deg,rgba(109,40,217,.35),rgba(236,72,153,.3));color:#f9a8d4;font-size:13px;font-weight:800;letter-spacing:.12em;cursor:pointer;display:none;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(236,72,153,.35)}
-#loader.done{opacity:0;visibility:hidden;pointer-events:none}
-
-#loader .loader-brand{font-size:2rem;font-weight:900;letter-spacing:0.3em;background:linear-gradient(135deg,#6d28d9,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:2rem}
-#loader .loader-track{width:180px;height:2px;background:rgba(255,255,255,0.06);overflow:hidden;border-radius:1px}
-#loader .loader-fill{height:100%;background:linear-gradient(90deg,#6d28d9,#ec4899);width:0%;transition:width 0.4s;border-radius:1px}
-#loader .loader-status{margin-top:1rem;font-size:0.6rem;font-weight:600;letter-spacing:0.4em;text-transform:uppercase;color:rgba(255,255,255,0.25)}
-</style>
-<link rel="stylesheet" href="assets/hermes-chat.css?v=30">
+\n/* ══ DEEP-SPACE LAYER (kept from space redesign) ══ */\n#canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;display:block;pointer-events:none}\nsection,footer,.marquee{position:relative;z-index:2}\n#loader{position:fixed;inset:0;background:#050508;z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all 1.2s cubic-bezier(0.16,1,0.3,1)}\n#loader.done{opacity:0;visibility:hidden;pointer-events:none}\n#loader .loader-brand{font-size:2rem;font-weight:900;letter-spacing:0.3em;background:linear-gradient(135deg,#6d28d9,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:2rem}\n#loader .loader-track{width:180px;height:2px;background:rgba(255,255,255,0.06);overflow:hidden;border-radius:1px}\n#loader .loader-fill{height:100%;;background:linear-gradient(90deg,#6d28d9,#ec4899);width:0%;transition:width 0.4s;border-radius:1px}\n#loader .loader-status{margin-top:1rem;font-size:0.6rem;font-weight:600;letter-spacing:0.4em;text-transform:uppercase;color:rgba(255,255,255,0.25)}\n</style>
 </head>
-<body class="dark">
+<body>
 
-<!-- PAGE 0 — SITE SETTING (device settings for low-end) -->
-<div id="siteSetting" class="site-setting" aria-hidden="false">
-  <div class="ss-inner">
-    <div class="ss-head">
-      <div class="ss-logo">MV</div>
-      <div>
-        <h1 class="ss-title">Site Setting</h1>
-        <p class="ss-sub">Choose performance mode so low-end devices can enter smoothly. Saved in your browser.</p>
-      </div>
-    </div>
-    <div class="ss-presets">
-      <button class="ss-preset" data-preset="low"><span class="ss-p-icon">🐢</span><span class="ss-p-name">Low</span><span class="ss-p-desc">No 3D, no astronaut, minimal animations, fastest load</span></button>
-      <button class="ss-preset" data-preset="medium"><span class="ss-p-icon">⚡</span><span class="ss-p-name">Medium</span><span class="ss-p-desc">Earth + 10K stars, some effects, balanced</span></button>
-      <button class="ss-preset active" data-preset="extreme"><span class="ss-p-icon">🚀</span><span class="ss-p-name">Extreme</span><span class="ss-p-desc">All models: 50K stars, Earth 2K, astronaut, clouds, aura, full anim</span></button>
-      <button class="ss-preset" data-preset="custom"><span class="ss-p-icon">🛠️</span><span class="ss-p-name">Custom</span><span class="ss-p-desc">Toggle each element on/off</span></button>
-    </div>
-    <div class="ss-custom" id="ssCustom" style="display:none">
-      <div class="ss-c-grid">
-        <label class="ss-toggle"><input type="checkbox" data-key="stars" checked><span>Stars (50K)</span></label>
-        <label class="ss-toggle"><input type="checkbox" data-key="earth" checked><span>Earth 2K + Bihar</span></label>
-        <label class="ss-toggle"><input type="checkbox" data-key="astronaut" checked><span>Astronaut GLB</span></label>
-        <label class="ss-toggle"><input type="checkbox" data-key="clouds" checked><span>Clouds</span></label>
-        <label class="ss-toggle"><input type="checkbox" data-key="aura" checked><span>Aura Video</span></label>
-        <label class="ss-toggle"><input type="checkbox" data-key="animations" checked><span>Animations</span></label>
-        <label class="ss-toggle"><input type="checkbox" data-key="glass" checked><span>Glass Effects</span></label>
-        <label class="ss-toggle"><input type="checkbox" data-key="marquee" checked><span>Marquee</span></label>
-        <label class="ss-toggle"><input type="checkbox" data-key="cursor" checked><span>Custom Cursor</span></label>
-      </div>
-    </div>
-    <div class="ss-actions">
-      <button id="ssSave" class="ss-save">Save & Continue to Lock Page →</button>
-      <div class="ss-note" id="ssNote"></div>
-    </div>
-  </div>
-</div>
 <!-- DEEP SPACE LAYER -->
-<div id="cssStars" style="display:none" style="position:fixed;inset:0;z-index:10001;background:#05060a;pointer-events:none;display:block"></div>
-<div id="cssEarth" style="display:none" style="position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:10003;width:min(60vw,400px);height:min(60vw,400px);border-radius:50%;background:url('assets/textures/earth-blue-marble.jpg') center/cover;box-shadow:0 0 80px rgba(59,130,246,0.7), 0 0 120px rgba(139,92,246,0.3), inset -30px -30px 60px rgba(0,0,0,0.9);pointer-events:none;display:none;opacity:0.9;border:2px solid rgba(59,130,246,0.3)"></div>
-<div id="cssAstronaut" style="display:none" style="position:fixed;right:8%;top:50%;transform:translateY(-50%);z-index:10002;pointer-events:none;display:block;opacity:0.9"><img src="assets/astronaut-small.png?v=19" alt="astronaut" style="width:140px;height:140px;object-fit:contain;filter:drop-shadow(0 0 24px rgba(139,92,246,0.9))"></div>
-<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">tap the astronaut or black hole to enter blackhole</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterBlackhole" type="button" style="padding:12px 28px;border-radius:999px;border:1px solid rgba(236,72,153,.6);background:linear-gradient(135deg,rgba(109,40,217,.35),rgba(236,72,153,.3));color:#f9a8d4;font-size:13px;font-weight:800;letter-spacing:.12em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(236,72,153,.35),0 0 20px rgba(109,40,217,.3)"><img src="assets/black-hole.jpg?v=21" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:cover;box-shadow:0 0 16px rgba(236,72,153,.8)">Enter Blackhole</button></div><div style="display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center"><button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⚙️ Site Setting</button></div><div id="scanResult" style="display:none;margin-top:1.2rem;width:min(360px,92vw);max-width:100%;padding:14px 16px;border-radius:16px;border:1px solid rgba(139,92,246,.3);background:rgba(10,11,18,.92);backdrop-filter:blur(12px);color:#c9cede;font-size:12px;line-height:1.8;text-align:left;max-height:65vh;overflow-y:auto;overflow-x:hidden;word-wrap:break-word;box-sizing:border-box"></div><div id="blackHoleOverlay" style="position:fixed;inset:0;z-index:10003;display:none;place-items:center;background:radial-gradient(ellipse at center, #1a0b2e 0%, #05060a 70%);opacity:0;transition:opacity .6s"><img src="assets/black-hole.jpg?v=21" alt="Black Hole" style="width:min(80vw,500px);height:min(80vw,500px);border-radius:50%;object-fit:cover;box-shadow:0 0 80px rgba(139,92,246,.8),0 0 160px rgba(236,72,153,.5);animation:blackHoleSpin 3s linear infinite, blackHolePulse 2s ease-in-out infinite"><style>@keyframes blackHoleSpin{to{transform:rotate(360deg)}}@keyframes blackHolePulse{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.08) rotate(180deg)}}@keyframes blackHoleEnter{0%{transform:scale(0.2) rotate(0deg);opacity:0}50%{opacity:1}100%{transform:scale(4) rotate(720deg);opacity:0}}</style></div></div>
-<canvas id="canvas" aria-hidden="true" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;display:block;pointer-events:none"></canvas>
-<video id="auraVideo" aria-hidden="true" muted playsinline preload="auto" loop disablepictureinpicture disableremoteplayback src="assets/video/aura_bg_2k_opt.mp4?v=1" style="position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:0;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35);opacity:0"></video>
+<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div></div>
+<canvas id="canvas" aria-hidden="true"></canvas>
 
 <!-- =========== FULL 3D BACKGROUND CANVAS =========== -->
+<div class="c3d-fog" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
 
 <div class="wrap">
 
@@ -622,10 +437,11 @@ html.splash-lock #cssAstronaut{opacity:0.9 !important}
     <li><a href="#skills">Skills</a></li>
     <li><a href="#blog">Blog</a></li>
     <li><a href="#profiles">Connect</a></li>
-    <li><a href="#" data-open-hermes style="color:var(--acc);font-weight:600">🤖 Hermes</a></li>
-    <li><a href="#" onclick="window.openSiteSetting&&window.openSiteSetting();return false;" style="color:#a1a1aa" title="Site Setting">⚙️ Setting</a></li>
   </ul>
   <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+    </button>
     <a href="#" class="nav-cta" data-open-contact><span class="dot"></span>Get in touch</a>
   </div>
   <button class="burger" aria-label="Menu" aria-expanded="false"><span></span></button>
@@ -636,13 +452,11 @@ html.splash-lock #cssAstronaut{opacity:0.9 !important}
   <a href="#skills">Skills</a>
   <a href="#blog">Blog</a>
   <a href="#profiles">Connect</a>
-  <a href="#" id="openHermesChat" style="color:var(--acc);font-weight:600">🤖 I am Hermes — Chat</a>
-  <a href="#" onclick="window.openSiteSetting&&window.openSiteSetting();return false;" style="color:#a1a1aa">⚙️ Site Setting</a>
   <a href="#" class="nav-cta" data-open-contact><span class="dot"></span>Get in touch</a>
 </div>
 
 <!-- HERO -->
-<section class="hero" id="homeTop">
+<section class="hero">
   <div class="hero-text">
     <div class="badges">
       <span class="badge"><span class="pulse"></span>Available for new projects</span>
@@ -920,7 +734,6 @@ html.splash-lock #cssAstronaut{opacity:0.9 !important}
         <div class="pf-ico">HN</div>
         <div class="pf-meta"><span class="pf-name">Hacker News</span><span class="pf-handle">@mohittt_vermaa</span></div>
       </a>
-      
   </div>
 </section>
 
@@ -948,6 +761,7 @@ html.splash-lock #cssAstronaut{opacity:0.9 !important}
       <a href="https://mohittt-vermaa.blogspot.com/2026/09/about-me-my-journey-into-coding-ai.html" target="_blank" rel="noopener noreferrer">Blogger</a>
     </div>
   </div>
+  <p style="margin-top:14px;font-size:11px;color:var(--muted2);letter-spacing:.04em">3D astronaut “Mercenary Astronaut” by Peter_D — CC-BY-4.0 via Sketchfab</p>
 </footer>
 
 </div><!-- /.wrap -->
@@ -1005,252 +819,6 @@ html.splash-lock #cssAstronaut{opacity:0.9 !important}
 <div class="cur-ring" id="curR" aria-hidden="true"></div>
 
 
-
-<!-- PAGE 0 — SITE SETTING LOGIC (lightweight, no deps) -->
-<script>
-(function(){
-  const LS_KEY='mv_site_setting_v3';
-  const ssEl=document.getElementById('siteSetting');
-  const loaderEl=document.getElementById('loader');
-  const wrapEl=document.querySelector('.wrap');
-  const presets={
-    low:{stars:false,earth:false,astronaut:false,clouds:false,aura:false,animations:false,glass:false,marquee:false,cursor:false,starCount:0},
-    medium:{stars:true,earth:true,astronaut:false,clouds:true,aura:true,animations:true,glass:true,marquee:true,cursor:true,starCount:10000},
-    extreme:{stars:true,earth:true,astronaut:true,clouds:true,aura:true,animations:true,glass:true,marquee:true,cursor:true,starCount:50000},
-    custom:{}
-  };
-  function getDefaultToggles(){
-    const els=document.querySelectorAll('#ssCustom [data-key]');
-    const o={}; els.forEach(i=>o[i.dataset.key]=i.checked); return o;
-  }
-  function loadCfg(){
-    try{ const s=localStorage.getItem(LS_KEY); if(s) return JSON.parse(s); }catch(e){}
-    return null;
-  }
-  function saveCfg(cfg){ try{ localStorage.setItem(LS_KEY, JSON.stringify(cfg)); }catch(e){} }
-  function applyCfgToDOM(cfg){
-    window.SITE_CFG=cfg;
-    document.documentElement.dataset.sitePreset=cfg.preset;
-    document.documentElement.classList.toggle('low-perf', cfg.preset==='low');
-    document.documentElement.classList.toggle('no-anim', !cfg.toggles.animations);
-    if(!cfg.toggles.marquee) document.querySelectorAll('.marquee').forEach(el=>el.style.display='none'); else document.querySelectorAll('.marquee').forEach(el=>el.style.display='');
-    if(!cfg.toggles.glass){ document.querySelectorAll('.glass-panel').forEach(el=>{ el.style.backdropFilter='none'; el.style.background='rgba(255,255,255,.06)'; }); document.querySelectorAll('.glass-panel::before').forEach(el=>{}); }
-    else { document.querySelectorAll('.glass-panel').forEach(el=>{ el.style.backdropFilter=''; el.style.background=''; }); }
-    if(!cfg.toggles.cursor){ const d=document.getElementById('curD'), r=document.getElementById('curR'); if(d) d.style.display='none'; if(r) r.style.display='none'; document.body.classList.remove('no-cur'); }
-    else { const d=document.getElementById('curD'), r=document.getElementById('curR'); if(d) d.style.display=''; if(r) r.style.display=''; }
-    const aura=document.getElementById('auraVideo');
-    if(aura){ aura.style.display=cfg.toggles.aura?'block':'none'; }
-    // For low preset, disable heavy CSS animations
-    if(cfg.preset==='low' || !cfg.toggles.animations){
-      document.querySelectorAll('.portrait-glow, .portrait-ring, .m-track, .glass-panel::before').forEach(el=>{
-        if(el) el.style.animation='none';
-      });
-    }
-  }
-  const presetBtns=document.querySelectorAll('.ss-preset');
-  const customBox=document.getElementById('ssCustom');
-  let selected='extreme';
-  presetBtns.forEach(b=>{
-    b.addEventListener('click',()=>{
-      presetBtns.forEach(x=>x.classList.remove('active'));
-      b.classList.add('active');
-      selected=b.dataset.preset;
-      if(selected==='custom'){ customBox.style.display='block'; }
-      else { customBox.style.display='none'; }
-    });
-  });
-  const note=document.getElementById('ssNote');
-  try{
-    const mem=navigator.deviceMemory||4;
-    const cores=navigator.hardwareConcurrency||4;
-    const isLow=mem<=3||cores<=3||/Android.*Chrome\/[0-6][0-9]/.test(navigator.userAgent);
-    if(isLow){
-      note.textContent='⚠️ Low-end device detected — Low preset recommended for smooth experience.';
-    }
-  }catch(e){}
-  document.getElementById('ssSave').addEventListener('click',()=>{
-    let toggles;
-    if(selected==='custom'){
-      toggles=getDefaultToggles();
-    }else{
-      toggles=Object.assign({}, presets[selected]);
-      if(presets[selected].starCount) toggles.starCount=presets[selected].starCount;
-    }
-    const allKeys=['stars','earth','astronaut','clouds','aura','animations','glass','marquee','cursor'];
-    allKeys.forEach(k=>{ if(toggles[k]===undefined) toggles[k]=true; });
-    if(!toggles.starCount) toggles.starCount = toggles.stars ? (selected==='medium'?10000:50000) : 0;
-    const cfg={preset:selected, toggles:toggles, savedAt:Date.now()};
-    saveCfg(cfg);
-    applyCfgToDOM(cfg);
-    ssEl.classList.add('done');
-    ssEl.setAttribute('aria-hidden','true');
-    document.documentElement.classList.add('splash-lock');
-    if(loaderEl){ loaderEl.classList.remove('done'); loaderEl.style.display='flex'; }
-    if(wrapEl){ wrapEl.style.display='block'; wrapEl.style.opacity='0'; }
-    const cv=document.getElementById('canvas'), av=document.getElementById('auraVideo');
-    const cs=document.getElementById('cssStars'), ca=document.getElementById('cssAstronaut');
-    if(cv){ cv.style.display='block'; cv.style.opacity='1'; }
-    if(av){ av.style.display=cfg.toggles.aura?'block':'none'; av.style.opacity='0'; }
-    if(cs){ cs.style.display=(cfg.preset==='extreme' || cfg.toggles.stars)?'block':'none'; }
-    if(ca){ ca.style.display=(cfg.preset==='extreme' || cfg.toggles.astronaut)?'block':'none'; }
-    const ce2=document.getElementById('cssEarth'); if(ce2){ ce2.style.display=(cfg.preset==='extreme' || cfg.toggles.earth)?'block':'none'; }
-    setTimeout(()=>{ window.dispatchEvent(new Event('site-setting-saved')); }, 200);
-  });
-  const urlParamsCheck=new URLSearchParams(location.search);
-  const hasForcePreset=urlParamsCheck.get('preset')||urlParamsCheck.get('force');
-  const existing=loadCfg();
-  if(existing || hasForcePreset){
-    applyCfgToDOM(existing);
-    ssEl.classList.add('done');
-    ssEl.setAttribute('aria-hidden','true');
-    document.documentElement.classList.add('splash-lock');
-    const cv=document.getElementById('canvas'), av=document.getElementById('auraVideo'), le=document.getElementById('loader'), we=document.querySelector('.wrap');
-    const cs=document.getElementById('cssStars'), ca=document.getElementById('cssAstronaut'), ce=document.getElementById('cssEarth');
-    if(cv){ cv.style.display='block'; cv.style.opacity='1'; }
-    if(av){ av.style.display=existing.toggles.aura?'block':'none'; av.style.opacity='0'; }
-    if(le){ le.style.display='flex'; le.classList.remove('done'); }
-    if(we){ we.style.display='block'; we.style.opacity='0'; }
-    // Force show for extreme preset even if toggles missing
-    if(existing.preset==='extreme'){
-      if(cs){ cs.style.display='block'; }
-      if(ca){ ca.style.display='block'; }
-      if(ce){ ce.style.display='block'; }
-      if(cv){ cv.style.display='block'; }
-    }else if(existing.preset==='low'){
-      if(cs){ cs.style.display='none'; }
-      if(ca){ ca.style.display='none'; }
-      if(ce){ ce.style.display='none'; }
-    }else{
-      if(cs){ cs.style.display=existing.toggles.stars?'block':'none'; }
-      if(ca){ ca.style.display=existing.toggles.astronaut?'block':'none'; }
-      if(ce){ ce.style.display=existing.toggles.earth?'block':'none'; }
-    }
-    // Fallback: ensure Enter buttons show after 1.5s even if Three.js fails
-    setTimeout(()=>{
-      const b2=document.getElementById('enterBlackhole'), h=document.getElementById('loaderHint');
-      if(b2) b2.style.display='inline-flex';
-      if(h) h.classList.add('ready');
-      document.getElementById('loaderFill').style.width='100%';
-    }, 1500);
-  }else{
-    ssEl.classList.remove('done');
-    ssEl.setAttribute('aria-hidden','false');
-    document.documentElement.classList.remove('splash-lock');
-    if(loaderEl) loaderEl.style.display='none';
-    if(wrapEl) wrapEl.style.display='none';
-    const cv=document.getElementById('canvas'), av=document.getElementById('auraVideo');
-    const cs=document.getElementById('cssStars'), ca=document.getElementById('cssAstronaut');
-    if(cv) cv.style.display='none';
-    if(av) av.style.display='none';
-    if(cs) cs.style.display='none';
-    if(ca) ca.style.display='none';
-  }
-  document.getElementById('openSettingFromLock')?.addEventListener('click',()=>{ if(window.openSiteSetting) window.openSiteSetting(); });
-  // Fallback global enter functions for lock page if module fails
-  if(!window.enterSiteNow){
-    window.enterSiteNow = function(){
-      const loader=document.getElementById('loader');
-      if(loader && loader.classList.contains('done')) return;
-      const fill=document.getElementById('loaderFill');
-      if(fill) fill.style.width='100%';
-      window._entryAnim = 1;
-      window._entryStart = performance.now();
-      const brand=loader.querySelector('.loader-brand');
-      if(brand){ brand.style.transition='transform .8s cubic-bezier(.34,1.56,.64,1), opacity .6s'; brand.style.transform='scale(1.25)'; brand.style.opacity='0'; }
-      const hint=document.getElementById('loaderHint');
-      if(hint) hint.style.opacity='0';
-      const b1=document.getElementById('enterSite'), b2=document.getElementById('enterBlackhole');
-      if(b1) b1.style.opacity='0';
-      if(b2) b2.style.opacity='0';
-      // Simulate entry completion — SHOW HOME PAGE
-      setTimeout(()=>{
-        document.documentElement.classList.remove('splash-lock');
-        if(loader) loader.classList.add('done');
-        const aura=document.getElementById('auraVideo');
-        if(aura){ 
-          const cfg=window.SITE_CFG||{toggles:{aura:true}};
-          aura.style.display=cfg.toggles.aura?'block':'none'; 
-          aura.style.opacity=cfg.toggles.aura?'0.7':'0'; 
-          if(aura.paused && cfg.toggles.aura) aura.play().catch(()=>{}); 
-        }
-        const canvas=document.getElementById('canvas');
-        if(canvas){ canvas.style.opacity='0'; canvas.style.display='none'; }
-        const cssS=document.getElementById('cssStars'), cssA=document.getElementById('cssAstronaut'), cssE=document.getElementById('cssEarth');
-        if(cssS) cssS.style.display='none';
-        if(cssA) cssA.style.display='none';
-        if(cssE) cssE.style.display='none';
-        const wrap=document.querySelector('.wrap');
-        if(wrap){ wrap.style.display='block'; wrap.style.opacity='1'; wrap.style.visibility='visible'; wrap.style.pointerEvents='auto'; }
-        window.scrollTo({top:0,behavior:'smooth'});
-      }, 800);
-    };
-  }
-  if(!window.enterBlackholeNow){
-    window.enterBlackholeNow = function(){
-      const overlay=document.getElementById('blackHoleOverlay');
-      if(overlay){
-        overlay.style.display='grid';
-        overlay.style.opacity='1';
-        const img=overlay.querySelector('img');
-        if(img) img.style.animation='blackHoleEnter 1.8s cubic-bezier(.6,0,.4,1) forwards';
-        setTimeout(()=>{
-          overlay.style.opacity='0';
-          setTimeout(()=>{ overlay.style.display='none'; }, 600);
-          if(window.enterSiteNow) window.enterSiteNow();
-        }, 1400);
-      }else if(window.enterSiteNow) window.enterSiteNow();
-    };
-  }
-  // Ensure buttons have listeners even if module failed
-  try{
-    document.getElementById('enterSite')?.addEventListener('click', ()=>{ if(window.enterSiteNow) window.enterSiteNow(); });
-    document.getElementById('enterBlackhole')?.addEventListener('click', ()=>{ if(window.enterBlackholeNow) window.enterBlackholeNow(); });
-    document.getElementById('scanDevice')?.addEventListener('click', async ()=>{
-      const out=document.getElementById('scanResult');
-      if(!out) return;
-      out.style.display='block';
-      out.innerHTML='<div style="text-align:center;padding:12px">Scanning device...</div>';
-      try{
-        const ua=navigator.userAgent;
-        const cores=navigator.hardwareConcurrency||'Unknown';
-        const mem=navigator.deviceMemory ? navigator.deviceMemory+' GB' : 'Unknown';
-        const gpu=(function(){ try{ const c=document.createElement('canvas'); const gl=c.getContext('webgl'); const d=gl.getExtension('WEBGL_debug_renderer_info'); return d?gl.getParameter(d.UNMASKED_RENDERER_WEBGL):'Unknown'; }catch(e){ return 'Unknown'; } })();
-        const screenInfo=innerWidth+' x '+innerHeight+' ('+devicePixelRatio+'x)';
-        const lang=navigator.language||'Unknown';
-        let device='Unknown';
-        try{ const m=ua.match(/Android[^;]*;\s*([^;]+)\s+Build/i); if(m) device=m[1]; }catch(e){}
-        out.innerHTML='<div style="font-weight:700;font-size:14px;margin-bottom:12px;color:#a78bfa">Device Information</div><div style="display:grid;gap:8px"><div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);padding:6px 0"><span style="color:#9ca3af">Model</span><span style="color:#e5e7eb;font-weight:600">'+device+'</span></div><div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);padding:6px 0"><span style="color:#9ca3af">CPU Cores</span><span style="color:#e5e7eb">'+cores+'</span></div><div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);padding:6px 0"><span style="color:#9ca3af">Memory</span><span style="color:#e5e7eb">'+mem+'</span></div><div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);padding:6px 0"><span style="color:#9ca3af">GPU</span><span style="color:#e5e7eb;font-size:11px;max-width:180px;text-align:right;overflow:hidden;text-overflow:ellipsis">'+gpu+'</span></div><div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);padding:6px 0"><span style="color:#9ca3af">Screen</span><span style="color:#e5e7eb">'+screenInfo+'</span></div><div style="display:flex;justify-content:space-between;padding:6px 0"><span style="color:#9ca3af">Language</span><span style="color:#e5e7eb">'+lang+'</span></div></div><div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"><button onclick="localStorage.clear();location.reload()" style="padding:8px 14px;border-radius:999px;border:1px solid rgba(139,92,246,.4);background:rgba(139,92,246,.15);color:#a78bfa;font-size:11px;cursor:pointer">Clear & Reload</button><button onclick="document.getElementById(\'siteSetting\').classList.remove(\'done\')" style="padding:8px 14px;border-radius:999px;border:1px solid rgba(113,113,122,.3);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:11px;cursor:pointer">Site Setting</button></div>';
-      }catch(e){ out.innerHTML='<div style="color:#f87171">Scan failed: '+e.message+'</div>'; }
-    });
-  }catch(e){}
-  window.openSiteSetting=()=>{
-    const cv=document.getElementById('canvas'), av=document.getElementById('auraVideo');
-    const cs=document.getElementById('cssStars'), ca=document.getElementById('cssAstronaut');
-    if(cv) cv.style.display='none';
-    if(av) av.style.display='none';
-    if(cs) cs.style.display='none';
-    if(ca) ca.style.display='none';
-    if(wrapEl) wrapEl.style.display='none';
-    if(loaderEl) loaderEl.style.display='none';
-    ssEl.classList.remove('done');
-    ssEl.setAttribute('aria-hidden','false');
-    document.documentElement.classList.remove('splash-lock');
-    const cur=loadCfg();
-    if(cur){
-      presetBtns.forEach(b=>{ b.classList.toggle('active', b.dataset.preset===cur.preset); });
-      selected=cur.preset;
-      if(selected==='custom'){
-        customBox.style.display='block';
-        Object.keys(cur.toggles).forEach(k=>{
-          const inp=customBox.querySelector('[data-key="'+k+'"]');
-          if(inp) inp.checked=!!cur.toggles[k];
-        });
-      }
-    }
-  };
-})();
-</script>
-
 <script type="importmap">
 {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
 </script>
@@ -1258,355 +826,47 @@ html.splash-lock #cssAstronaut{opacity:0.9 !important}
 import*as THREE from'three';
 import{GLTFLoader}from'three/addons/loaders/GLTFLoader.js';
 import{DRACOLoader}from'three/addons/loaders/DRACOLoader.js';
+
 const canvas=document.getElementById('canvas');
-const auraV=document.getElementById('auraVideo');
-
-function getSiteCfg(){
-  // URL param ?preset=extreme forces preset (for testing)
-  try{
-    const urlParams=new URLSearchParams(location.search);
-    const forcePreset=urlParams.get('preset')||urlParams.get('force');
-    if(forcePreset && ['low','medium','extreme','custom'].includes(forcePreset)){
-      const p=forcePreset;
-      const sc=p==='low'?0:(p==='medium'?10000:50000);
-      return {preset:p, toggles:{stars:p!=='low',earth:p!=='low',astronaut:p==='extreme',clouds:p!=='low',aura:p!=='low',animations:p!=='low',glass:true,marquee:true,cursor:true,starCount:sc}};
-    }
-  }catch(e){}
-  try{
-    const s=localStorage.getItem('mv_site_setting_v3');
-    if(s){
-      const cfg=JSON.parse(s);
-      // Fix missing starCount for extreme
-      if(cfg.preset==='extreme' && (!cfg.toggles.starCount || cfg.toggles.starCount<1000)){
-        cfg.toggles.starCount=50000;
-        cfg.toggles.stars=true; cfg.toggles.earth=true; cfg.toggles.astronaut=true; cfg.toggles.clouds=true; cfg.toggles.aura=true;
-      }
-      if(cfg.preset==='medium' && (!cfg.toggles.starCount || cfg.toggles.starCount<1000)){
-        cfg.toggles.starCount=10000;
-      }
-      return cfg;
-    }
-  }catch(e){}
-  return {preset:'extreme', toggles:{stars:true,earth:true,astronaut:true,clouds:true,aura:true,animations:true,glass:true,marquee:true,cursor:true,starCount:50000}};
-}
-let SITE_CFG=getSiteCfg();
-window.SITE_CFG=SITE_CFG;
-
-window.addEventListener('site-setting-saved',()=>{ SITE_CFG=getSiteCfg(); window.SITE_CFG=SITE_CFG; location.reload(); });
-const isLow = SITE_CFG.preset==='low' || (!SITE_CFG.toggles.stars && !SITE_CFG.toggles.earth && !SITE_CFG.toggles.astronaut);
-const starCount = SITE_CFG.toggles.stars ? (SITE_CFG.toggles.starCount|| (SITE_CFG.preset==='medium'?10000:50000)) : 0;
-
-const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference: isLow?'low-power':'high-performance'});
-renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio, isLow?1:2));
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});
+renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.2;renderer.outputColorSpace=THREE.SRGBColorSpace;
 
-const scene=new THREE.Scene();scene.background=null;
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x010104);
 const camera=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,0.1,500);camera.position.set(0,1.5,14);
 
+// NO BLOOM — clean render, bright enough to see the astronaut
 scene.add(new THREE.AmbientLight(0x3a4666,0.9));
 const keyL=new THREE.DirectionalLight(0xffffff,0.7);keyL.position.set(-4,6,10);scene.add(keyL);
 
+// TEXTURE
+// (dust particles removed — clean space with only Earth + stars)
+
+// LOADER — driven by Earth texture loading (astronaut removed for now)
 const manager=new THREE.LoadingManager();
 manager.onProgress=(url,loaded,total)=>{document.getElementById('loaderFill').style.width=Math.min(100,loaded/total*100)+'%'};
-manager.onLoad=()=>{
-  const h=document.getElementById('loaderHint'),bh=document.getElementById('enterBlackhole');
-  if(h)h.classList.add('ready');
-  if(bh)bh.style.display='inline-flex';
-};
-// For low preset, show buttons immediately without waiting for textures
-if(isLow){
-  setTimeout(()=>{
-    const h=document.getElementById('loaderHint'),bh=document.getElementById('enterBlackhole');
-    if(h)h.classList.add('ready');
-    if(b)b.style.display='inline-flex';
-    if(bh)bh.style.display='inline-flex';
-    document.getElementById('loaderFill').style.width='100%';
-  }, 500);
-}
-if(localStorage.getItem('mv_site_setting_v3')){
-  document.documentElement.classList.add('splash-lock');
-}
-if(auraV){
-  if(!SITE_CFG.toggles.aura){ auraV.style.display='none'; }
-  else { auraV.style.opacity='0'; }
-}
-window.enterSiteNow = function enterSiteNow(){
-  const loader=document.getElementById('loader');
-  if(loader.classList.contains('done')||window._entryAnim) return;
-  const fill=document.getElementById('loaderFill');
-  if(fill) fill.style.width='100%';
-  window._entryAnim = 1;
-  window._entryStart = performance.now();
-  const brand=loader.querySelector('.loader-brand');
-  if(brand){ brand.style.transition='transform .8s cubic-bezier(.34,1.56,.64,1), opacity .6s'; brand.style.transform='scale(1.25)'; brand.style.opacity='0'; }
-  const hint=document.getElementById('loaderHint'), bhBtn=document.getElementById('enterBlackhole');
-  if(hint) hint.style.opacity='0';
-  if(bhBtn) bhBtn.style.opacity='0';
-}
-window.enterBlackholeNow = function enterBlackholeNow(){
-  const overlay=document.getElementById('blackHoleOverlay');
-  const loader=document.getElementById('loader');
-  if(!overlay) { enterSiteNow(); return; }
-  if(loader.classList.contains('done')||window._entryAnim) return;
-  overlay.style.display='grid';
-  overlay.style.opacity='1';
-  const img=overlay.querySelector('img');
-  if(img){ img.style.animation='blackHoleEnter 1.8s cubic-bezier(.6,0,.4,1) forwards'; }
-  const fill=document.getElementById('loaderFill');
-  if(fill) fill.style.width='100%';
-  setTimeout(()=>{
-    overlay.style.opacity='0';
-    setTimeout(()=>{ overlay.style.display='none'; }, 600);
-    enterSiteNow();
-  }, 1400);
-}
-// Early listeners so buttons work even if 3D fails
-try{
-  document.getElementById('enterSite')?.addEventListener('click', ()=>{ if(window.enterSiteNow) window.enterSiteNow(); });
-  document.getElementById('enterBlackhole')?.addEventListener('click', ()=>{ if(window.enterBlackholeNow) window.enterBlackholeNow(); });
-  document.getElementById('openSettingFromLock')?.addEventListener('click', ()=>{ if(window.openSiteSetting) window.openSiteSetting(); });
-}catch(e){ console.error('Early listener error', e); }
-
-// ═══ SCAN DEVICE — CPU-Z STYLE with CPU/GPU usage graphs, expected usage ═══
-(function(){
-  const btn=document.getElementById('scanDevice');
-  const out=document.getElementById('scanResult');
-  const loader=document.getElementById('loader');
-  if(!btn||!out) return;
-  if(loader){ loader.style.overflowY='auto'; loader.style.webkitOverflowScrolling='touch'; }
-  let busy=false;
-  function estRam(){
-    if(navigator.deviceMemory) return navigator.deviceMemory+' GB (approx)';
-    const ua=navigator.userAgent;
-    if(/Redmi 12 5G|Redmi Note 1[0-9]/.test(ua)) return '4-8 GB (Redmi class)';
-    if(/SM-[A-Z0-9]+/.test(ua)) return '4-8 GB (Samsung class)';
-    return 'unknown (browser hides it)';
-  }
-  function efficiencyScore(){
-    let score=60;
-    const cores=navigator.hardwareConcurrency||4;
-    score+=Math.min(cores*4,20);
-    if(navigator.deviceMemory>=6) score+=10; else if(navigator.deviceMemory>=4) score+=5;
-    const conn=navigator.connection||{};
-    if(conn.effectiveType==='4g') score+=10; else if(conn.effectiveType==='3g') score-=10;
-    if(window.devicePixelRatio>=2) score+=3;
-    return Math.min(Math.max(score,15),99);
-  }
-  function esc(s){return String(s==null?'':s).replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-  async function fetchWithTimeout(url, ms){
-    const ctrl=new AbortController();
-    const t=setTimeout(()=>ctrl.abort(), ms);
-    try{
-      const r=await fetch(url,{signal:ctrl.signal});
-      clearTimeout(t);
-      return r;
-    }catch(e){ clearTimeout(t); throw e; }
-  }
-  async function getExactModel(){
-    const ua=navigator.userAgent;
-    let model='Unknown device';
-    try{
-      if(navigator.userAgentData && navigator.userAgentData.getHighEntropyValues){
-        try{
-          const high=await navigator.userAgentData.getHighEntropyValues(['model','platform','platformVersion']);
-          if(high.model) return high.model;
-        }catch(e){}
-      }
-      const m1=ua.match(/Android[^;]*;\s*([^;]+)\s+Build/i);
-      if(m1){
-        let cand=m1[1].trim().split(';')[0].trim();
-        if(cand.length>2 && cand.length<50) model=cand;
-      }
-      if(model==='Unknown device'){
-        const patterns=[
-          /\(Linux; Android [^;]+;\s*([^;\)]+)/i,
-          /;\s*([A-Z0-9]+[A-Z0-9\-_ ]{2,})\s+Build/i,
-          /(Redmi[^;\);]+|M\d+[^;\);]+|SM-[A-Z0-9]+|Pixel[^;\);]+|CPH\d+|RMX\d+)/i
-        ];
-        for(const re of patterns){
-          const mm=ua.match(re);
-          if(mm && mm[1] && mm[1].length>2 && mm[1].length<40){ model=mm[1].trim(); break; }
-        }
-      }
-      if(/iPhone/.test(ua)){ const mm=ua.match(/iPhone OS ([\d_]+)/); model='iPhone (iOS '+(mm?mm[1].replace(/_/g,'.'):'?')+')'; }
-      else if(/iPad/.test(ua)) model='iPad';
-      else if(model==='Unknown device'){
-        if(/Xiaomi|Redmi/i.test(ua)) model='Xiaomi/Redmi device';
-        else if(/SM-/.test(ua)) model=(ua.match(/SM-[A-Z0-9]+/)||['Samsung'])[0];
-        else model=navigator.platform||'Unknown device';
-      }
-    }catch(e){ model=navigator.platform||'Unknown'; }
-    return model;
-  }
-  function createBar(percent, color){
-    const c=color||'#8b5cf6';
-    return '<div style="display:flex;align-items:center;gap:8px;margin:4px 0"><div style="flex:1;height:8px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden"><div style="width:'+percent+'%;height:100%;background:linear-gradient(90deg,'+c+',#ec4899);border-radius:4px;transition:width 1s"></div></div><span style="font-size:10px;color:#a1a1aa;min-width:32px">'+percent+'%</span></div>';
-  }
-  function createGraphCanvas(id, values, color){
-    // values array 0-100
-    return '<canvas id="'+id+'" width="280" height="60" style="width:100%;height:60px;background:rgba(0,0,0,0.3);border-radius:8px;margin:6px 0"></canvas>';
-  }
-  function drawGraph(id, values, color){
-    try{
-      const canvas=document.getElementById(id);
-      if(!canvas) return;
-      const ctx=canvas.getContext('2d');
-      const w=canvas.width, h=canvas.height;
-      ctx.clearRect(0,0,w,h);
-      ctx.fillStyle='rgba(0,0,0,0.3)';
-      ctx.fillRect(0,0,w,h);
-      // grid
-      ctx.strokeStyle='rgba(255,255,255,0.05)';
-      ctx.lineWidth=1;
-      for(let i=0;i<=4;i++){ const y=(h/4)*i; ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
-      // line
-      ctx.strokeStyle=color||'#8b5cf6';
-      ctx.lineWidth=2;
-      ctx.beginPath();
-      values.forEach((v,i)=>{
-        const x=(w/(values.length-1))*i;
-        const y=h - (v/100)*h*0.8 - h*0.1;
-        if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-      });
-      ctx.stroke();
-      // fill under
-      ctx.lineTo(w,h); ctx.lineTo(0,h); ctx.closePath();
-      ctx.fillStyle=(color||'#8b5cf6')+'33';
-      ctx.fill();
-    }catch(e){}
-  }
-  btn.addEventListener('click', async ()=>{
-    if(busy) return; busy=true;
-    const old=btn.innerHTML; btn.innerHTML='Scanning…'; btn.style.opacity='.6';
-    out.style.display='block';
-    out.style.maxHeight='75vh';
-    out.style.overflowY='auto';
-    out.innerHTML='<span style="color:#a78bfa">⏳ Scanning device… CPU-Z style analysis… permissions auto-granted ✅</span>';
-    if(loader) loader.scrollTop=loader.scrollHeight;
-    let ip='unavailable', city='', isp='', country='';
-    const services=[
-      async()=>{ const r=await fetchWithTimeout('https://ipapi.co/json/',7000); const d=await r.json(); return {ip:d.ip, city:d.city, org:d.org, country:d.country_name}; },
-      async()=>{ const r=await fetchWithTimeout('https://ipwho.is/',7000); const d=await r.json(); return {ip:d.ip, city:d.city, org:d.connection&&d.connection.isp, country:d.country}; },
-      async()=>{ const r=await fetchWithTimeout('https://api.ipify.org?format=json',5000); const d=await r.json(); return {ip:d.ip}; }
-    ];
-    for(const fn of services){
-      try{
-        const res=await fn();
-        if(res && res.ip){ ip=esc(res.ip); city=esc(res.city||''); isp=esc(res.org||''); country=esc(res.country||''); break; }
-      }catch(e){}
-    }
-    if(ip==='unavailable') ip='unavailable (network blocked)';
-    const model=esc(await getExactModel());
-    const screenInfo=window.innerWidth+'×'+window.innerHeight+' @'+(window.devicePixelRatio||1)+'x';
-    const eff=efficiencyScore();
-    const effLabel=eff>=80?'⚡ Smooth — website full speed chalega!':eff>=60?'✅ Good — website ache se chalega':eff>=40?'⚠️ OK — thoda lag ho sakta hai':'🐌 Slow — heavy 3D lag';
-    const gpuInfo=(function(){ try{ const c=document.createElement('canvas'); const gl=c.getContext('webgl'); const dbg=gl.getExtension('WEBGL_debug_renderer_info'); return dbg?gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL):'unknown'; }catch(e){ return 'unknown'; } })();
-    const batteryInfo=await (async()=>{ try{ if(navigator.getBattery){ const b=await navigator.getBattery(); return Math.round(b.level*100)+'%'+(b.charging?' ⚡':''); } }catch(e){} return 'unknown'; })();
-    const presetInfo=(()=>{ try{ const s=localStorage.getItem('mv_site_setting_v3'); if(s){ const j=JSON.parse(s); return j.preset; } }catch(e){} return 'extreme'; })();
-    // CPU-Z style info
-    const cores=navigator.hardwareConcurrency||4;
-    const mem=navigator.deviceMemory||4;
-    const ua=navigator.userAgent;
-    const platform=navigator.platform||'unknown';
-    const vendor=navigator.vendor||'unknown';
-    const lang=navigator.language||'en';
-    const conn=navigator.connection||{};
-    // Estimated usage based on preset and site
-    let cpuUsage, gpuUsage, ramUsage;
-    if(presetInfo==='low'){ cpuUsage=15+Math.random()*10; gpuUsage=10+Math.random()*8; ramUsage=20+Math.random()*10; }
-    else if(presetInfo==='medium'){ cpuUsage=35+Math.random()*15; gpuUsage=30+Math.random()*15; ramUsage=45+Math.random()*15; }
-    else { cpuUsage=55+Math.random()*20; gpuUsage=60+Math.random()*20; ramUsage=65+Math.random()*15; }
-    cpuUsage=Math.round(cpuUsage); gpuUsage=Math.round(gpuUsage); ramUsage=Math.round(ramUsage);
-    // Generate fake usage history for graphs
-    const cpuHist=Array.from({length:20},()=>15+Math.random()* (presetInfo==='low'?20: presetInfo==='medium'?40:60));
-    const gpuHist=Array.from({length:20},()=>10+Math.random()* (presetInfo==='low'?15: presetInfo==='medium'?35:65));
-    const ramHist=Array.from({length:20},()=>20+Math.random()* (presetInfo==='low'?20: presetInfo==='medium'?30:40));
-    // CPU arch detection
-    let arch='unknown';
-    if(/arm|aarch64/i.test(ua) || /Android/i.test(ua)) arch='ARM64 (mobile)';
-    else if(/x86_64|Win64|amd64/i.test(ua) || /x64/i.test(platform)) arch='x64';
-    else if(/i686|i386/i.test(ua)) arch='x86';
-    else arch=platform;
-    out.innerHTML=
-      '<div style="color:#a78bfa;font-weight:700;letter-spacing:.06em;margin-bottom:8px">📱 DEVICE SCAN — CPU-Z STYLE — permissions granted ✅</div>'+
-      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">'+
-        '<div style="padding:10px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(139,92,246,0.2)"><div style="font-size:10px;color:#71717a;letter-spacing:.1em">CPU</div><div style="font-size:13px;font-weight:700;color:#e8eaf2">'+cores+' cores @ '+esc(arch)+'</div><div style="font-size:11px;color:#a1a1aa;margin-top:4px">Usage: '+cpuUsage+'%</div>'+createBar(cpuUsage,'#8b5cf6')+createGraphCanvas('cpuGraph',cpuHist,'#8b5cf6')+'</div>'+
-        '<div style="padding:10px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(236,72,153,0.2)"><div style="font-size:10px;color:#71717a;letter-spacing:.1em">GPU</div><div style="font-size:11px;font-weight:600;color:#e8eaf2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+esc(gpuInfo.slice(0,40))+'</div><div style="font-size:11px;color:#a1a1aa;margin-top:4px">Usage: '+gpuUsage+'%</div>'+createBar(gpuUsage,'#ec4899')+createGraphCanvas('gpuGraph',gpuHist,'#ec4899')+'</div>'+
-      '</div>'+
-      '<div style="padding:10px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(139,92,246,0.2);margin-bottom:10px"><div style="font-size:10px;color:#71717a;letter-spacing:.1em">MEMORY & SYSTEM</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;font-size:11px">'+
-        '<div>🧠 <b>RAM:</b> '+estRam()+'<br>'+createBar(ramUsage,'#10b981')+createGraphCanvas('ramGraph',ramHist,'#10b981')+'</div>'+
-        '<div>🔋 <b>Battery:</b> '+esc(batteryInfo)+'<br>🖥️ <b>Screen:</b> '+screenInfo+'<br>⚙️ <b>Cores:</b> '+cores+'<br>🌐 <b>Net:</b> '+(conn.effectiveType||'unknown')+' '+(conn.downlink?conn.downlink+'Mbps':'')+'</div>'+
-      '</div></div>'+
-      '<div style="padding:10px;border-radius:12px;background:linear-gradient(135deg,rgba(109,40,217,0.15),rgba(236,72,153,0.1));border:1px solid rgba(139,92,246,0.3);margin-bottom:10px"><div style="font-size:10px;color:#a78bfa;letter-spacing:.1em;font-weight:700">EXPECTED USAGE FROM THIS WEBSITE</div><div style="font-size:11px;color:#c9cede;margin-top:6px;line-height:1.6">'+
-        '<div>Preset: <b>'+esc(presetInfo)+'</b> — '+(presetInfo==='low'?'Minimal 3D, fastest':'')+(presetInfo==='medium'?'Balanced':'')+(presetInfo==='extreme'?'Full 3D, max quality':'')+'</div>'+
-        '<div>CPU: '+cpuUsage+'% | GPU: '+gpuUsage+'% | RAM: '+ramUsage+'% — '+effLabel+'</div>'+
-        '<div style="margin-top:6px">'+createBar(cpuUsage,'#8b5cf6')+createBar(gpuUsage,'#ec4899')+createBar(ramUsage,'#10b981')+'</div>'+
-        '<div style="font-size:10px;color:#71717a;margin-top:6px">Low: ~15% CPU 10% GPU 20% RAM | Medium: ~35% CPU 30% GPU 45% RAM | Extreme: ~60% CPU 65% GPU 70% RAM</div>'+
-      '</div></div>'+
-      '<div style="font-size:11px;line-height:1.8">'+
-        '<div>🌐 <b>IP:</b> '+ip+(city?' <span style="color:#71717a">('+city+(country?', '+country:'')+')</span>':'')+(isp?' · <span style="color:#71717a">'+isp+'</span>':'')+'</div>'+
-        '<div>📱 <b>Model:</b> '+model+'</div>'+
-        '<div>💻 <b>Platform:</b> '+esc(platform)+' · <b>Vendor:</b> '+esc(vendor)+' · <b>Lang:</b> '+esc(lang)+'</div>'+
-        '<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(139,92,246,.2)"><b>Efficiency:</b> '+eff+'% — '+effLabel+'</div>'+
-      '</div>'+
-      '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button id="openSiteSettingBtn" style="padding:6px 12px;border-radius:999px;border:1px solid rgba(139,92,246,.4);background:rgba(124,58,237,.15);color:#c4b5fd;font-size:11px;cursor:pointer">⚙️ Change Site Setting</button><button id="clearSettingBtn" style="padding:6px 12px;border-radius:999px;border:1px solid rgba(113,113,122,.3);background:rgba(39,39,42,.5);color:#a1a1aa;font-size:11px;cursor:pointer">🗑️ Clear & Reload</button></div>'+
-      '<div style="margin-top:6px;font-size:9.5px;color:#52525b">UA: '+esc(ua.slice(0,160))+'</div>';
-    // Draw graphs
-    setTimeout(()=>{
-      drawGraph('cpuGraph', cpuHist, '#8b5cf6');
-      drawGraph('gpuGraph', gpuHist, '#ec4899');
-      drawGraph('ramGraph', ramHist, '#10b981');
-    }, 100);
-    const sb=document.getElementById('openSiteSettingBtn');
-    if(sb) sb.addEventListener('click',()=>{ if(window.openSiteSetting) window.openSiteSetting(); });
-    const cb=document.getElementById('clearSettingBtn');
-    if(cb) cb.addEventListener('click',()=>{ localStorage.removeItem('mv_site_setting_v3'); location.reload(); });
-    btn.innerHTML=old; btn.style.opacity='1'; busy=false;
-    setTimeout(()=>{ out.scrollIntoView({behavior:'smooth', block:'center'}); }, 100);
-  });
-})();
-setTimeout(()=>{ // 1s fallback for all presets + CSS Earth fallback if Three.js fails
-  const h=document.getElementById('loaderHint'),bh=document.getElementById('enterBlackhole');
-  if(h)h.classList.add('ready');
-  if(bh)bh.style.display='inline-flex';
-  document.getElementById('loaderFill').style.width='100%';
-  setTimeout(()=>{
-    const ce=document.getElementById('cssEarth');
-    const cv=document.getElementById('canvas');
-    if(ce && (!cv || cv.style.display==='none' || cv.offsetWidth===0)){
-      ce.style.display='block';
-      ce.style.opacity='0.9';
-    }
-  }, 2000);
-},1000);
+manager.onLoad=()=>setTimeout(()=>document.getElementById('loader').classList.add('done'),500);
+setTimeout(()=>document.getElementById('loader').classList.add('done'),7000); // safety fallback
 
 // ═══════════════════════════════════════
 // EARTH — real textured planet + clouds + atmosphere glow
 // ═══════════════════════════════════════
-const orbPos=new THREE.Vector3(0,0.5,-14); // Closer for visibility like before
-const EARTH_R=5.5; // Larger for visibility
+const orbPos=new THREE.Vector3(0,0.5,-15);
+const EARTH_R=4.2;
 
 const earthGroup=new THREE.Group();
 earthGroup.position.copy(orbPos);
-earthGroup.rotation.z=0.41;
-if(SITE_CFG.toggles.earth){ scene.add(earthGroup); }else{ console.log('Earth disabled by site setting'); }
+earthGroup.rotation.z=0.41; // 23.5° axial tilt
+scene.add(earthGroup);
 
 const tl=new THREE.TextureLoader(manager);
-let dayTex, specTex, nightTex;
-if(SITE_CFG.toggles.earth){
-  dayTex=tl.load('assets/textures/earth-blue-marble.jpg?v=2');
-  dayTex.colorSpace=THREE.SRGBColorSpace;
-  dayTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
-  specTex=tl.load('assets/textures/earth-water.png?v=2');
-  nightTex=tl.load('assets/textures/earth-night.jpg?v=2');
-  nightTex.colorSpace=THREE.SRGBColorSpace;
-  nightTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
-}else{
-  // low preset no earth textures — dummy 1x1
-  const dummy = new THREE.DataTexture(new Uint8Array([10,10,15,255]),1,1);
-  dummy.needsUpdate=true;
-  dayTex=dummy; specTex=dummy; nightTex=dummy;
-}
+const dayTex=tl.load('assets/textures/earth-blue-marble.jpg?v=2');   // 2K NASA Blue Marble
+dayTex.colorSpace=THREE.SRGBColorSpace;
+dayTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
+const specTex=tl.load('assets/textures/earth-water.png?v=2');
+const nightTex=tl.load('assets/textures/earth-night.jpg?v=2');       // 2K city lights
+nightTex.colorSpace=THREE.SRGBColorSpace;
+nightTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
 
 // Bihar, India (25.6°N, 85.1°E) — scroll target: Earth rotates to face Bihar at full scroll
 const _th=(90-25.6)*Math.PI/180,_ph=(85.1+180)*Math.PI/180;
@@ -1680,101 +940,72 @@ float dayL=0.06+0.94*smoothstep(-0.05,0.3,lit);
 gl_FragColor=vec4(vec3(1.0)*mix(0.06,1.0,dayL),mask*0.8*dayL);}`
 });
 const clouds=new THREE.Mesh(new THREE.SphereGeometry(EARTH_R*1.014,96,96),cloudMat);
-if(SITE_CFG.toggles.clouds && SITE_CFG.toggles.earth){ earthGroup.add(clouds); }
+earthGroup.add(clouds);
 
-// ═══ ASTRONAUT ═══
+// ═══ ASTRONAUT — "Mercenary Astronaut" by Peter_D (CC-BY-4.0, via Sketchfab) ═══
 let astro=null;const astroBase=new THREE.Vector3(6.5,0.1,-4);
-if(!SITE_CFG.toggles.astronaut){
-  console.log('Astronaut disabled by site setting');
-}else{
+// Status chip: always shows what's happening with the model
+const astroChip=document.createElement('div');
+astroChip.style.cssText='position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);z-index:999;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(10px);color:rgba(255,255,255,.75);padding:.45rem 1.1rem;font-size:.68rem;border-radius:100px;letter-spacing:.05em;transition:opacity .6s';
+astroChip.textContent='🧑‍🚀 Astronaut loading…';
+document.body.appendChild(astroChip);
+const chipDone=()=>{astroChip.style.opacity='0';setTimeout(()=>astroChip.remove(),700);};
+const chipFail=msg=>{astroChip.textContent=msg;astroChip.style.background='rgba(200,40,40,.85)';astroChip.style.color='#fff';};
 {
   const draco=new DRACOLoader();
-  draco.setDecoderPath('assets/draco/');
+  draco.setDecoderPath('assets/draco/');  // bundled locally — no external CDN
   draco.preload();
   const gl=new GLTFLoader();gl.setDRACOLoader(draco);
-  gl.load('assets/models/stylized_astronaut__game-ready.glb?v=1',
+  gl.load('assets/models/mercenary_astronaut.glb?v=8',
     gltf=>{
+      astroChip.textContent='🧑‍🚀 Astronaut ready, fitting…';
       astro=gltf.scene;
       astro.visible=false;
       scene.add(astro);
+      // Draco decodes async — wait for real geometry before measuring, retry if not ready
       let tries=0;
       const fit=()=>{
         const box=new THREE.Box3().setFromObject(astro);
         const h=box.getSize(new THREE.Vector3()).y;
         tries++;
-        if((h<0.5||h>500)&&tries<40){setTimeout(fit,700);return;}
+        if((h<0.5||h>500)&&tries<40){setTimeout(fit,700);return;} // geometry not decoded yet — retry up to ~28s
         const s=Math.min(Math.max(2.2/Math.max(h,1e-4),0.001),30);
         astro.scale.setScalar(s);
         const c=new THREE.Box3().setFromObject(astro).getCenter(new THREE.Vector3());
         astro.position.set(astroBase.x-c.x,astroBase.y-c.y,astroBase.z-c.z);
-        astro.rotation.y=-0.5;
+        astro.rotation.y=-0.5; // angled toward camera/center
         astro.visible=true;
-        // splash click-gated — yahan auto-close nahi (entry sirf user click se)
+        chipDone();
+        document.getElementById('loader').classList.add('done');
       };
       setTimeout(fit,400);
     },
     xhr=>{
       if(xhr.lengthComputable){
         const pct=Math.round(xhr.loaded/xhr.total*100);
+        astroChip.textContent='🧑‍🚀 Astronaut loading… '+pct+'%';
         document.getElementById('loaderFill').style.width=Math.max(parseFloat(document.getElementById('loaderFill').style.width)||0,pct)+'%';
       }
     },
-    err=>{console.error('Astronaut load failed:',err);const h=document.getElementById('loaderHint');if(h)h.classList.add('ready');if(b)b.style.display='inline-flex';}
+    err=>{chipFail('⚠ Astronaut load fail: '+(err&&err.message?err.message.slice(0,60):'network error')+' — refresh karo');console.error('Astronaut load failed:',err);document.getElementById('loader').classList.add('done');}
   );
+  // Watchdog: still not even started after 60s -> tell the user
+  setTimeout(()=>{if(!astro)chipFail('⚠ Astronaut abhi tak load nahi hua — internet slow ya refresh karo');},60000);
 }
-}
-
-// ═══ ASTRONAUT CLICK — FIXED for lock page, touch + click, larger radius, respects site setting ═══
-(function(){
-  const ray=new THREE.Raycaster(),v2=new THREE.Vector2();
-  function astroHit(e){
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    if(!astro||!astro.visible) return false;
-    if(!SITE_CFG.toggles.astronaut) return false;
-    v2.x=(clientX/innerWidth)*2-1; v2.y=-(clientY/innerHeight)*2+1;
-    ray.setFromCamera(v2,camera);
-    const hits=ray.intersectObject(astro,true);
-    if(hits.length) return true;
-    const p=astro.getWorldPosition(new THREE.Vector3()).project(camera);
-    const sx=(p.x*0.5+0.5)*innerWidth, sy=(-p.y*0.5+0.5)*innerHeight;
-    const d=Math.hypot(clientX-sx,clientY-sy);
-    return d<120;
-  }
-  let lastTap=0;
-  function handleAstro(e){
-    const now=Date.now();
-    if(now-lastTap<350) return;
-    if(e.target.closest('a,button,input,select,textarea,.proj,.pf,.blog-card,.chip,.modal-overlay,nav,.mobile-menu,.site-setting')) return;
-    if(astroHit(e)){
-      lastTap=now;
-      const ld=document.getElementById('loader');
-      if(ld&&!ld.classList.contains('done')){if(window.enterBlackholeNow) window.enterBlackholeNow(); else if(window.enterSiteNow) window.enterSiteNow(); return;}
-      document.getElementById('homeTop').scrollIntoView({behavior:'smooth'});
-      window.scrollTo({top:0,behavior:'smooth'});
-    }
-  }
-  addEventListener('click',handleAstro,{passive:true});
-  addEventListener('touchstart',handleAstro,{passive:true});
-  const enterBtn=document.getElementById('enterSite');
-  if(enterBtn)enterBtn.addEventListener('click',enterSiteNow);
-  const bhEnterBtn=document.getElementById('enterBlackhole');
-  if(bhEnterBtn)bhEnterBtn.addEventListener('click',enterBlackholeNow);
-})();
 
 // Sun light only — clean, no glow planes / pulse lights
 const sun=new THREE.DirectionalLight(0xfff1d6,2.6);sun.position.set(28,10,6);scene.add(sun);
 const fillL=new THREE.PointLight(0x334466,1.2,40);fillL.position.set(-12,4,8);scene.add(fillL);
 
 // ═══ STARFIELD — real twinkling stars on deep black space ═══
-const STAR_N = (typeof starCount!=='undefined') ? starCount : ((SITE_CFG && SITE_CFG.toggles && typeof SITE_CFG.toggles.starCount!=='undefined') ? SITE_CFG.toggles.starCount : (SITE_CFG && SITE_CFG.preset==='medium'?10000:50000));
+const STAR_N=50000;
 const sPos=new Float32Array(STAR_N*3),sSize=new Float32Array(STAR_N),sCol=new Float32Array(STAR_N*3),sPh=new Float32Array(STAR_N);
 const starPalette=[[1,1,1],[1,1,1],[1,1,1],[0.75,0.85,1],[1,0.9,0.72],[0.95,0.8,0.65],[0.7,0.8,1]];
 for(let i=0;i<STAR_N;i++){
   const r=45+Math.random()*190,t=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1);
   sPos[i*3]=r*Math.sin(ph)*Math.cos(t);sPos[i*3+1]=r*Math.sin(ph)*Math.sin(t);sPos[i*3+2]=r*Math.cos(ph);
   const big=Math.random()<0.04; // a few bright feature stars
-  sSize[i]=big?(2.5+Math.random()*2.0):(1.0+Math.random()*1.5);
+  sSize[i]=big?(1.9+Math.random()*1.4):(0.65+Math.random()*1.05);
   const c=starPalette[(Math.random()*starPalette.length)|0];
   sCol[i*3]=c[0];sCol[i*3+1]=c[1];sCol[i*3+2]=c[2];
   sPh[i]=Math.random()*100;
@@ -1784,167 +1015,85 @@ starGeo.setAttribute('position',new THREE.BufferAttribute(sPos,3));
 starGeo.setAttribute('aSize',new THREE.BufferAttribute(sSize,1));
 starGeo.setAttribute('aColor',new THREE.BufferAttribute(sCol,3));
 starGeo.setAttribute('aPhase',new THREE.BufferAttribute(sPh,1));
-const starMat=new THREE.PointsMaterial({
-  size:1.2,
-  sizeAttenuation:true,
-  transparent:true,
-  opacity:1,
-  vertexColors:true,
-  blending:THREE.AdditiveBlending,
-  depthWrite:false
+const starMat=new THREE.ShaderMaterial({
+  transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
+  uniforms:{uTime:{value:0},uPR:{value:Math.min(devicePixelRatio,2)}},
+  vertexShader:`
+attribute float aSize;attribute float aPhase;attribute vec3 aColor;
+uniform float uTime;uniform float uPR;
+varying vec3 vColor;varying float vTw;
+void main(){
+  vec4 mv=modelViewMatrix*vec4(position,1.0);
+  float sp=0.8+fract(aPhase*0.37)*2.2;
+  float tw=0.72+0.28*sin(uTime*sp+aPhase);
+  vTw=tw;vColor=aColor;
+  gl_PointSize=min(aSize*uPR*tw*(210.0/-mv.z),10.0*uPR);
+  gl_Position=projectionMatrix*mv;
+}`,
+  fragmentShader:`
+varying vec3 vColor;varying float vTw;
+void main(){
+  vec2 c=gl_PointCoord-0.5;float d=length(c)*2.0;
+  float core=exp(-d*d*9.0);
+  float spike=max(0.0,1.0-abs(c.x)*24.0)*exp(-abs(c.y)*7.0)+max(0.0,1.0-abs(c.y)*24.0)*exp(-abs(c.x)*7.0);
+  float b=core+spike*0.35;
+  if(b<0.01)discard;
+  gl_FragColor=vec4(vColor*b*vTw,b*vTw);
+}`
 });
-// Keep aSize for compatibility but use PointsMaterial
-starMat.onBeforeCompile = (shader)=>{
-  shader.uniforms.uTime={value:0};
-  starMat.userData.shader=shader;
-};
 const stars=new THREE.Points(starGeo,starMat);scene.add(stars);
 
 // Clean space — only Earth + stars (dust & orbiting elements removed)
 
+// AUDIO
+const listener=new THREE.AudioListener();camera.add(listener);const sound=new THREE.Audio(listener);
+new THREE.AudioLoader().load('assets/audio/mixkit-movie-whoosh-impact-presentation-2903.wav',b=>{sound.setBuffer(b);sound.setLoop(true);sound.setVolume(.04)});
+const aBtn=document.getElementById('audioBtn');let aOn=false;
+aBtn.onclick=()=>{if(!aOn&&sound.buffer){sound.play();aOn=true;aBtn.textContent='🔊';aBtn.classList.remove('muted')}else if(sound.isPlaying){sound.pause();aBtn.textContent='🔇';aBtn.classList.add('muted')}else{sound.play();aBtn.textContent='🔊';aBtn.classList.remove('muted')}};
+
 // SCROLL + MOUSE
 let sProg=0,tScroll=0,mX=0,mY=0,tMX=0,tMY=0;
 const mS=()=>document.documentElement.scrollHeight-innerHeight;
-addEventListener('scroll',()=>{tScroll=scrollY/mS()});
-addEventListener('mousemove',e=>{tMX=(e.clientX/innerWidth-.5)*2;tMY=(e.clientY/innerHeight-.5)*2});
-const navEl=document.querySelector('nav');
-addEventListener('scroll',()=>{if(navEl)navEl.classList.toggle('scrolled',scrollY>100)});
+addEventListener('scroll',()=>{tScroll=scrollY/mS()});addEventListener('mousemove',e=>{tMX=(e.clientX/innerWidth-.5)*2;tMY=(e.clientY/innerHeight-.5)*2});
+addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',scrollY>100)});
+const cD=document.getElementById('cDot'),cR=document.getElementById('cRing');let cX=0,cY=0,rX=0,rY=0;
+(function u(){cX+=((tMX+1)/2*innerWidth-cX)*.12;cY+=((tMY+1)/2*innerHeight-cY)*.12;rX+=((tMX+1)/2*innerWidth-rX)*.07;rY+=((tMY+1)/2*innerHeight-rY)*.07;if(cD){cD.style.left=cX-4+'px';cD.style.top=cY-4+'px';cR.style.left=rX-22+'px';cR.style.top=rY-22+'px'}requestAnimationFrame(u)})();
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 // Astronaut side position depends on screen shape (portrait phones get closer to center)
 const setAstroX=()=>{astroBase.x=(innerWidth/innerHeight<0.85)?2.6:6.5;};setAstroX();
 addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);setAstroX()});
 
-// ANIMATE — splash has dark space 50K stars + astronaut + Earth, home has only aura video (stars+astronaut only on entering page)
+// ANIMATE
 let time=0;const clock=new THREE.Clock();
-let entryT=0;
 (function loop(){
-  requestAnimationFrame(loop);
-  try{
-  const dt=clock.getDelta();time+=dt;
+  requestAnimationFrame(loop);const dt=clock.getDelta();time+=dt;
   sProg+=(tScroll-sProg)*.05;mX+=(tMX-mX)*.04;mY+=(tMY-mY)*.04;
 
-  // ENTRY ANIMATION: cinematic flight from splash (Earth -15, cam 22) to home top (Earth -21, cam 14)
-  if(window._entryAnim){
-    const elapsed=(performance.now()-(window._entryStart||0))/1400;
-    entryT=Math.min(elapsed,1);
-    const ease=1-Math.pow(1-entryT,3); // easeOutCubic
-    // Earth: -15 (splash) -> -21 (far at top)
-    const ez=-15 - ease*6;
-    earthGroup.position.z=ez;
-    const cY=1.5;
-    const cZ=22 - ease*8; // 22 -> 14
-    camera.position.x=mX*2;
-    camera.position.y=cY - mY*0.8;
-    camera.position.z=cZ;
-    camera.lookAt(mX*0.3, cY*0.2, -5 - ease*5);
-    if(astro){
-      // astronaut flies slightly forward and scales up during entry
-      astro.position.x=astroBase.x + Math.sin(time*.23)*.15 - ease*0.5;
-      astro.position.y=astroBase.y + Math.sin(time*.5)*.3;
-      astro.position.z=astroBase.z - ease*1;
-      astro.rotation.y=-0.5 + Math.sin(time*.2)*.12 + mX*.15 + ease*0.4;
-      astro.rotation.x=Math.sin(time*.3)*.02;
-      const sc=0.9 + ease*0.5;
-      astro.scale.setScalar(sc);
-      // fade out astronaut at very end
-      if(ease>0.85 && astro.traverse){
-        const op=1-(ease-0.85)/0.15;
-        astro.traverse(o=>{ if(o.isMesh&&o.material){ o.material.transparent=true; o.material.opacity=Math.max(op,0); } });
-      }
-    }
-    spinY+=dt*0.035;
-    earth.rotation.y=spinY;
-    clouds.rotation.y+=dt*0.05;
-    cloudMat.uniforms.uTime.value=time;
-    sunDirU.value.copy(sun.position).sub(earthGroup.position).normalize();
-    if(starMat && starMat.uniforms && starMat.uniforms.uTime) starMat.uniforms.uTime.value=time;
-    else if(starMat && starMat.userData && starMat.userData.shader && starMat.userData.shader.uniforms && starMat.userData.shader.uniforms.uTime) starMat.userData.shader.uniforms.uTime.value=time;
-    stars.rotation.y+=dt*0.0035;
-    // stars fade out at end of entry
-    if(starMat){ starMat.opacity = ease>0.7 ? 1-(ease-0.7)/0.3 : 1; starMat.transparent=true; }
-    // aura video: 0 -> 0.7 (blank page -> home aura)
-    if(auraV){
-      auraV.style.opacity=String(ease*0.7);
-      if(auraV.readyState>=2 && auraV.paused) auraV.play().catch(()=>{});
-    }
-    renderer.render(scene,camera);
-        if(entryT>=1){
-      window._entryAnim=0;
-      // --- ENTRY COMPLETE: subtle glitch transition then HOME PAGE with video ---
-      const doShowHome = ()=>{
-        document.documentElement.classList.remove('splash-lock');
-        const loader=document.getElementById('loader');
-        if(loader) loader.classList.add('done');
-        if(auraV){ auraV.style.display=SITE_CFG.toggles.aura?'block':'none'; auraV.style.transition='opacity 1s ease'; auraV.style.opacity=SITE_CFG.toggles.aura?'0.7':'0'; if(auraV && auraV.paused && SITE_CFG.toggles.aura) auraV.play().catch(()=>{}); }
-        if(typeof stars!=='undefined' && stars) stars.visible=false;
-        if(typeof astro!=='undefined' && astro) astro.visible=false;
-        if(typeof clouds!=='undefined' && clouds) clouds.visible=false;
-        if(typeof earthGroup!=='undefined' && earthGroup) earthGroup.visible=false;
-        if(canvas){ canvas.style.opacity='0'; canvas.style.pointerEvents='none'; canvas.style.display='none'; }
-        const cssS=document.getElementById('cssStars'), cssA=document.getElementById('cssAstronaut'), cssE=document.getElementById('cssEarth');
-        if(cssS) cssS.style.display='none';
-        if(cssA) cssA.style.display='none';
-        if(cssE) cssE.style.display='none';
-        const wrapEl2=document.querySelector('.wrap');
-        if(wrapEl2){ wrapEl2.style.display='block'; wrapEl2.style.opacity='1'; wrapEl2.style.visibility='visible'; wrapEl2.style.pointerEvents='auto'; }
-        window.scrollTo({top:0,behavior:'smooth'});
-        tScroll=0; sProg=0;
-        // Aura video already playing, no glitch
-      };
-      doShowHome();
-    }
-    return;
-  }
+  // SCROLL FLIGHT: scroll down -> Earth comes closer; scroll up -> Earth recedes
+  const ez=-15-(1-sProg)*6;                 // Earth: far (z=-21) at top -> near (z=-15) at bottom
+  earthGroup.position.z=ez;
 
-  // If still in splash (loader not done) — show dark space 50K stars + astronaut + Earth
-  const loaderEl=document.getElementById('loader');
-  const inSplash=loaderEl && !loaderEl.classList.contains('done');
+  const cY=1.5-sProg*3.5,cZ=14-sProg*20;    // Camera flies in: z 14 -> -6
+  camera.position.x=mX*2;camera.position.y=cY-mY*0.8;camera.position.z=cZ;
+  const ly=cY*0.3*(1-sProg)+1.8*sProg; // at full scroll, aim at Bihar's height so India sits centre-screen
+  camera.lookAt(-sProg*0.7,ly,-5-sProg*10);
 
-  if(inSplash){
-    // Splash: Earth at -15, camera 22-ish, stars + astronaut visible — BLANK PAGE (no home content, no aura)
-    if(typeof earthGroup!=='undefined' && earthGroup) earthGroup.visible=!!SITE_CFG.toggles.earth;
-    if(stars){ stars.visible=!!SITE_CFG.toggles.stars; if(starMat) starMat.opacity=1; }
-    if(astro && astro.visible===false){
-      // restore astronaut opacity if it was faded
-      astro.visible=true;
-      astro.traverse&&astro.traverse(o=>{ if(o.isMesh&&o.material){ o.material.opacity=1; } });
-    }
-    if(clouds) clouds.visible=true;
-    if(canvas) canvas.style.opacity='1';
-    // Earth close/near like before: parallax + time breathing
-    const breath=Math.sin(time*0.3)*0.5;
-    earthGroup.position.z=-18 + breath + mY*0.5;
-    earthGroup.position.x=mX*0.3;
-    earthGroup.position.y=0.5 + mY*0.2;
-    camera.position.x=mX*2.5;
-    camera.position.y=1.5 - mY*1.2;
-    camera.position.z=22 + breath*0.5;
-    camera.lookAt(0,0.5,-5);
-    spinY+=dt*0.035;
-    earth.rotation.y=spinY;
-    clouds.rotation.y+=dt*0.05;
-    cloudMat.uniforms.uTime.value=time;
-    sunDirU.value.copy(sun.position).sub(earthGroup.position).normalize();
-    if(starMat && starMat.uniforms && starMat.uniforms.uTime) starMat.uniforms.uTime.value=time;
-    stars.rotation.y+=dt*0.0035;
-    if(auraV){
-      auraV.style.opacity='0';
-      if(auraV.readyState>=2 && !auraV.paused) auraV.pause();
-    }
-    renderer.render(scene,camera);
-    return;
-  }
+  // Astronaut: gentle float + slow spin on the right side, drifts aside on scroll
+  if(astro){astro.position.x=astroBase.x+Math.sin(time*.23)*.15-sProg*6;astro.position.y=astroBase.y+Math.sin(time*.5)*.3-sProg*2;astro.position.z=astroBase.z;astro.rotation.y=-0.5+Math.sin(time*.2)*.12+mX*.15;astro.rotation.x=Math.sin(time*.3)*.02}
 
-  // HOME PAGE: only aura video background, no dark space stars, no astronaut (as per user request)
-  // Earth hidden, stars hidden, astronaut hidden — clean portfolio with aura video
-  if(auraV&&auraV.readyState>=2){
-    if(auraV.paused) auraV.play().catch(()=>{});
-    if(auraV.loop===false) auraV.loop=true;
-    // keep aura at 0.7 on home, not 0.9 (was glitch covering content)
-    if(parseFloat(auraV.style.opacity||'0')<0.6) auraV.style.opacity='0.7';
-  }
-  // keep 3D hidden on home for clean look
-  try{ renderer.render(scene,camera); }catch(e){}
-  }catch(e){ console.error('Animate error', e); try{ renderer.render(scene,camera); }catch(e2){} }
+  // Earth: spins freely at top; as you scroll down it rotates to stop over Bihar, India
+  spinY+=dt*0.035*(1-Math.min(1,sProg*1.15));
+  earth.rotation.y=spinY*(1-sProg)+biharY*sProg;
+  clouds.rotation.y+=dt*0.05*(1-sProg*0.8);
+  cloudMat.uniforms.uTime.value=time;
+  sunDirU.value.copy(sun.position).sub(earthGroup.position).normalize();
+  starMat.uniforms.uTime.value=time;
+  stars.rotation.y+=dt*0.0035;
+
+
+
+  renderer.render(scene,camera);
 })();
 </script>
 <script>
@@ -2044,13 +1193,33 @@ let entryT=0;
     setTimeout(closeModal, 3500);
   });
 
-  // =========== PERMANENT DARK THEME ===========
-  document.body.classList.add('dark');
+  // =========== DARK / LIGHT MODE TOGGLE ===========
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
   const metaTheme = document.querySelector('meta[name="theme-color"]');
-  if(metaTheme) metaTheme.setAttribute('content','#0a0a0f');
+  const SUN_SVG = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>';
+  const MOON_SVG = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+  function applyTheme(dark){
+    document.body.classList.toggle('dark',dark);
+    themeIcon.innerHTML = dark ? MOON_SVG : SUN_SVG;
+    metaTheme.setAttribute('content', dark?'#0a0a0f':'#fafafa');
+    // update 3D background clear color
+    if(typeof renderer!=='undefined'){
+      renderer.setClearColor(dark?0x0a0a0f:0xfafafa,1);
+      scene.fog.color.setHex(dark?0x0a0a0f:0xfafafa);
+    }
+    try{localStorage.setItem('theme',dark?'dark':'light');}catch(e){}
+  }
+  // initial theme: saved preference or system
+  let saved = null;
+  try{saved = localStorage.getItem('theme');}catch(e){}
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches;
+  applyTheme(saved ? saved==='dark' : true);
+  themeToggle.addEventListener('click',()=>{
+    applyTheme(!document.body.classList.contains('dark'));
+  });
 })();
 
 </script>
-<script src="assets/hermes-chat.js?v=30" defer></script>
 </body>
 </html>
