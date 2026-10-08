@@ -476,7 +476,8 @@ html.splash-lock,html.splash-lock body{overflow:hidden!important;height:100%;bac
 /* Splash = full blank page: hide home portfolio, hide aura video, show only dark space canvas + astronaut */
 html.splash-lock .wrap{opacity:0!important;pointer-events:none!important;visibility:hidden!important}
 html.splash-lock #auraVideo{opacity:0!important;pointer-events:none!important}
-html.splash-lock #canvas{z-index:1!important;opacity:1!important;pointer-events:auto!important}
+html.splash-lock #canvas{z-index:1!important;opacity:1!important;pointer-events:auto!important;display:block!important}
+html:not(.splash-lock) #canvas{display:none!important;pointer-events:none!important}
 html.splash-lock #loader{background:transparent;z-index:10003 !important}
 html.low-perf .portrait-glow, html.low-perf .portrait-ring, html.low-perf .m-track, html.low-perf .glass-panel::before, html.low-perf .badge .pulse:after{animation:none !important}
 html.no-anim *, html.no-anim *:before, html.no-anim *:after{animation:none !important;transition:none !important}
@@ -544,6 +545,7 @@ html.splash-lock #cssEarth{display:block !important}
 html.splash-lock #cssStars{opacity:1 !important}
 html.splash-lock #cssEarth{opacity:0.9 !important}
 html.splash-lock #cssAstronaut{opacity:0.9 !important}
+html.splash-lock.webgl-ready #cssStars,html.splash-lock.webgl-ready #cssEarth,html.splash-lock.webgl-ready #cssAstronaut{display:none !important}
 #cssEarth{display:none !important; /* fallback only, Three.js Earth is primary */}
 #cssAstronaut{animation:floatY 6s ease-in-out infinite}
 @keyframes floatY{0%,100%{transform:translateY(-50%)}50%{transform:translateY(-55%)}}
@@ -561,6 +563,113 @@ html.splash-lock #cssAstronaut{opacity:0.9 !important}
 #loader .loader-track{width:180px;height:2px;background:rgba(255,255,255,0.06);overflow:hidden;border-radius:1px}
 #loader .loader-fill{height:100%;background:linear-gradient(90deg,#6d28d9,#ec4899);width:0%;transition:width 0.4s;border-radius:1px}
 #loader .loader-status{margin-top:1rem;font-size:0.6rem;font-weight:600;letter-spacing:0.4em;text-transform:uppercase;color:rgba(255,255,255,0.25)}
+
+/* Space exploration controls: zoom the Earth without affecting page scrolling. */
+.space-controls{position:fixed;left:50%;bottom:max(16px,env(safe-area-inset-bottom));z-index:20;display:none;align-items:center;gap:8px;padding:8px 10px;border:1px solid rgba(167,139,250,.26);border-radius:999px;background:rgba(7,9,16,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 10px 38px rgba(0,0,0,.35);color:#e5e7eb;white-space:nowrap;transform:translateX(-50%);pointer-events:auto}
+html.splash-lock #spaceControls{display:flex}
+#loader.scan-open #spaceControls{display:none!important}
+.space-label,.space-system-label{font-size:9px;font-weight:800;letter-spacing:.14em;color:#a1a1aa}
+.space-system-label{color:#c4b5fd}
+.space-controls button{width:32px;height:32px;display:grid;place-items:center;border:1px solid rgba(139,92,246,.32);border-radius:50%;background:rgba(139,92,246,.14);color:#f5f3ff;font-size:20px;line-height:1;transition:background .18s ease,transform .18s ease,border-color .18s ease}
+.space-controls button:hover{background:rgba(139,92,246,.32);border-color:rgba(196,181,253,.75);transform:scale(1.06)}
+.space-controls output{min-width:36px;text-align:center;color:#e9d5ff;font:700 11px 'Space Grotesk',sans-serif}
+.space-divider{height:22px;width:1px;background:rgba(255,255,255,.14);margin:0 2px}
+.space-star-count{font-size:10px;color:#d4d4d8}.space-star-count b{color:#f5d0fe}
+.space-controls .space-reset{width:28px;height:28px;font-size:16px;color:#c4b5fd}
+
+/* Full-screen scan dashboard: every result is arranged in one viewport, with no scroll pane. */
+.scan-result{display:none;color:#c9cede;font-size:12px;line-height:1.4;box-sizing:border-box}
+#scanResult.scan-result-open{position:fixed!important;inset:0!important;z-index:100!important;display:flex!important;width:100vw!important;height:100vh!important;height:100dvh!important;max-width:none!important;margin:0!important;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))!important;align-items:center;justify-content:center;overflow:hidden!important;border:0!important;border-radius:0!important;background:radial-gradient(ellipse at 50% 0%,rgba(40,27,72,.96),rgba(5,6,10,.985) 62%)!important;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);text-align:left!important;word-wrap:break-word}
+.scan-close{position:fixed;top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));z-index:120;display:none;align-items:center;gap:7px;padding:9px 13px;border:1px solid rgba(196,181,253,.28);border-radius:999px;background:rgba(17,16,28,.9);color:#e9d5ff;font-size:11px;font-weight:700;letter-spacing:.02em;box-shadow:0 8px 28px rgba(0,0,0,.32);cursor:pointer}
+.scan-close svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+#loader.scan-open #closeScanResult{display:flex}
+#loader.scan-open{overflow:hidden!important}
+.scan-screen{display:flex;flex-direction:column;gap:clamp(7px,1.1vh,12px);width:min(1360px,100%);height:100%;max-height:100%;min-height:0;margin:0 auto}
+.scan-head{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:42px;padding-right:110px;flex:0 0 auto}
+.scan-heading{min-width:0}
+.scan-title{font:700 clamp(17px,2vw,23px)/1.1 'Space Grotesk',sans-serif;letter-spacing:-.035em;color:#fafafa}
+.scan-subtitle{margin-top:4px;font-size:10px;color:#8b91a4;line-height:1.3}
+.scan-live{display:inline-flex;align-items:center;gap:6px;flex-shrink:0;padding:6px 9px;border:1px solid rgba(16,185,129,.22);border-radius:999px;background:rgba(16,185,129,.08);color:#86efac;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.scan-live::before{content:'';width:6px;height:6px;border-radius:50%;background:#34d399;box-shadow:0 0 10px rgba(52,211,153,.65)}
+.scan-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:10px;flex:1 1 auto;min-height:0}
+.scan-grid-fallback{grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:minmax(0,1fr)}
+.scan-grid-fallback>.scan-card{grid-column:auto!important;grid-row:auto!important}
+.scan-card{min-width:0;min-height:0;display:flex;flex-direction:column;gap:6px;padding:clamp(10px,1.4vh,16px);overflow:hidden;border:1px solid rgba(139,92,246,.19);border-radius:16px;background:linear-gradient(145deg,rgba(19,20,31,.92),rgba(11,12,20,.9));box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 10px 32px rgba(0,0,0,.16)}
+.scan-card-title{font-size:9px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:#a78bfa}
+.scan-primary{min-width:0;color:#f3f4f6;font-size:clamp(11px,1.15vw,13px);font-weight:700;overflow-wrap:anywhere}
+.scan-secondary{color:#a1a1aa;font-size:10px;line-height:1.35;overflow-wrap:anywhere}
+.scan-metric{font:600 10px 'Inter',sans-serif;color:#c9cede}
+.scan-metric strong{color:#fafafa;font-size:12px}
+.scan-meter{display:flex;align-items:center;gap:7px;margin:3px 0!important}
+.scan-meter>div:first-child{height:6px!important}
+.scan-meter>span{font-size:9px!important;min-width:30px!important}
+.scan-graph{display:block;width:100%!important;height:clamp(25px,4.7vh,42px)!important;margin:3px 0 0!important;flex:0 0 auto;border:1px solid rgba(255,255,255,.035);border-radius:8px;background:rgba(0,0,0,.3)}
+.scan-kv-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px 10px;margin-top:3px}
+.scan-kv{min-width:0;font-size:10px;line-height:1.35;color:#a1a1aa;overflow-wrap:anywhere}
+.scan-kv b{color:#e5e7eb;font-weight:600}
+.scan-cpu{grid-column:1;grid-row:1}.scan-gpu{grid-column:2;grid-row:1}.scan-memory{grid-column:3;grid-row:1}
+.scan-usage{grid-column:1/span 2;grid-row:2;background:linear-gradient(135deg,rgba(109,40,217,.18),rgba(21,17,34,.95) 56%,rgba(236,72,153,.08))}
+.scan-device{grid-column:3;grid-row:2}
+.scan-usage-top{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:10px;color:#c9cede}
+.scan-efficiency{flex:0 0 auto;color:#d8b4fe;font-size:10px;font-weight:700}
+.scan-usage-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:4px}
+.scan-usage-item{min-width:0;padding:6px 8px;border:1px solid rgba(255,255,255,.055);border-radius:10px;background:rgba(0,0,0,.16)}
+.scan-usage-item .scan-kv{display:flex;justify-content:space-between;gap:4px}
+.scan-usage-item .scan-meter{margin:4px 0 0!important}
+.scan-baseline{margin-top:auto;padding-top:5px;border-top:1px solid rgba(255,255,255,.065);color:#858b9c;font-size:9px;line-height:1.4;overflow-wrap:anywhere}
+.scan-device-grid{display:grid;grid-template-columns:1fr;gap:5px;min-height:0}
+.scan-ua{margin-top:auto;padding-top:6px;border-top:1px solid rgba(139,92,246,.16);color:#717789;font-size:8px;line-height:1.3;overflow-wrap:anywhere;word-break:break-word}
+.scan-loading,.scan-error{width:min(520px,100%);margin:auto;text-align:center;color:#d4d4d8;font-size:13px}
+.scan-loading .scan-live{margin-bottom:12px}
+.scan-note{color:#8b91a4;font-size:9px;line-height:1.35}
+.scan-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:4px}
+.scan-action-button{padding:6px 9px;border:1px solid rgba(139,92,246,.35);border-radius:999px;background:rgba(124,58,237,.15);color:#d8b4fe;font-size:9px;font-weight:700;cursor:pointer}
+.scan-action-button.secondary{border-color:rgba(113,113,122,.3);background:rgba(39,39,42,.45);color:#a1a1aa}
+
+@media(max-width:760px){
+  .space-controls{gap:6px;padding:7px 8px;max-width:calc(100vw - 16px)}
+  .space-controls button{width:30px;height:30px}.space-divider{height:18px;margin:0}
+  .space-system-label{font-size:8px;letter-spacing:.1em}
+  .scan-screen{gap:7px}
+  .scan-head{min-height:38px;padding-right:82px}
+  .scan-title{font-size:18px}.scan-subtitle{font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .scan-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:minmax(0,.9fr) minmax(0,1.06fr) minmax(0,1.12fr);gap:7px}
+  .scan-grid-fallback{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr))}
+  .scan-card{padding:9px;border-radius:13px;gap:4px}
+  .scan-cpu{grid-column:1;grid-row:1}.scan-gpu{grid-column:2;grid-row:1}
+  .scan-memory{grid-column:1;grid-row:2}.scan-usage{grid-column:2;grid-row:2}
+  .scan-device{grid-column:1/span 2;grid-row:3}
+  .scan-graph{height:clamp(22px,4vh,34px)!important}
+  .scan-usage-grid{grid-template-columns:1fr;gap:3px;margin-top:2px}
+  .scan-usage-item{padding:3px 6px;border-radius:7px}
+  .scan-usage-item .scan-meter{margin:2px 0 0!important}
+  .scan-baseline{font-size:8px;padding-top:4px}
+  .scan-device-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 8px}
+  .scan-ua{font-size:7.6px;line-height:1.25;padding-top:4px}
+  .scan-kv-grid{gap:4px 7px}
+}
+@media(max-width:380px){
+  .space-system-label{display:none}.space-star-count{font-size:9px}.space-controls{gap:5px}
+  .scan-head{padding-right:78px}.scan-live{font-size:8px;padding:5px 7px}
+  .scan-card{padding:7px}.scan-primary{font-size:10px}.scan-secondary,.scan-kv{font-size:9px}
+  .scan-device-grid{gap:3px 6px}
+}
+@media(max-height:620px){
+  #scanResult.scan-result-open{padding-top:max(6px,env(safe-area-inset-top))!important;padding-bottom:max(6px,env(safe-area-inset-bottom))!important}
+  .scan-screen{gap:5px}.scan-head{min-height:32px}.scan-title{font-size:16px}.scan-subtitle{margin-top:2px;font-size:8px}
+  .scan-grid{gap:6px}.scan-card{padding:7px;gap:3px}.scan-card-title{font-size:8px}.scan-primary{font-size:10px}.scan-secondary,.scan-kv{font-size:8.5px}
+  .scan-graph{height:22px!important}.scan-usage-item{padding:3px 5px}.scan-baseline{font-size:7.5px}
+  .scan-ua{font-size:7px;line-height:1.15;padding-top:3px}
+}
+@media(max-width:760px) and (max-height:470px){
+  .scan-grid:not(.scan-grid-fallback){grid-template-rows:minmax(0,.8fr) minmax(0,1.16fr) minmax(0,1.25fr)}
+  .scan-grid:not(.scan-grid-fallback) .scan-graph{display:none!important}
+  .scan-live{padding:4px 6px;font-size:7px}.scan-kv-grid{gap:2px 6px}
+  .scan-usage-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:2px}
+  .scan-usage-item{padding:2px 4px}.scan-usage-item .scan-kv{font-size:7px}
+  .scan-usage-item .scan-meter{display:none!important}.scan-baseline{display:none}
+}
+@media(prefers-reduced-motion:reduce){.space-controls button{transition:none}}
 </style>
 <link rel="stylesheet" href="assets/hermes-chat.css?v=34">
 </head>
@@ -605,7 +714,20 @@ html.splash-lock #cssAstronaut{opacity:0.9 !important}
 <div id="cssStars" style="position:fixed;inset:0;z-index:10001;background:#05060a;pointer-events:none;display:none"></div>
 <div id="cssEarth" style="position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:10003;width:min(60vw,400px);height:min(60vw,400px);border-radius:50%;background:url('assets/textures/earth-blue-marble.jpg') center/cover;box-shadow:0 0 80px rgba(59,130,246,0.7), 0 0 120px rgba(139,92,246,0.3), inset -30px -30px 60px rgba(0,0,0,0.9);pointer-events:none;opacity:0.9;border:2px solid rgba(59,130,246,0.3);display:none"></div>
 <div id="cssAstronaut" style="position:fixed;right:8%;top:50%;transform:translateY(-50%);z-index:10002;pointer-events:none;opacity:0.9;display:none"><img src="assets/astronaut-small.png?v=20" alt="astronaut" style="width:140px;height:140px;object-fit:contain;filter:drop-shadow(0 0 24px rgba(139,92,246,0.9))"></div>
-<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">tap the astronaut or black hole to enter blackhole</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterBlackhole" type="button" style="padding:12px 28px;border-radius:999px;border:1px solid rgba(236,72,153,.6);background:linear-gradient(135deg,rgba(109,40,217,.35),rgba(236,72,153,.3));color:#f9a8d4;font-size:13px;font-weight:800;letter-spacing:.12em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(236,72,153,.35),0 0 20px rgba(109,40,217,.3)"><img src="assets/black-hole.jpg?v=25" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:cover;box-shadow:0 0 16px rgba(236,72,153,.8)">Enter Blackhole</button></div><div style="display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center"><button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⚙️ Site Setting</button></div><div id="scanResult" style="display:none;margin-top:1.2rem;width:min(360px,92vw);max-width:100%;padding:14px 16px;border-radius:16px;border:1px solid rgba(139,92,246,.3);background:rgba(10,11,18,.92);backdrop-filter:blur(12px);color:#c9cede;font-size:12px;line-height:1.8;text-align:left;overflow-x:hidden;word-wrap:break-word;box-sizing:border-box"></div><div id="blackHoleOverlay" style="position:fixed;inset:0;z-index:10003;display:none;place-items:center;background:radial-gradient(ellipse at center, #1a0b2e 0%, #05060a 70%);opacity:0;transition:opacity .6s"><img src="assets/black-hole.jpg?v=25" alt="Black Hole" style="width:min(80vw,500px);height:min(80vw,500px);border-radius:50%;object-fit:cover;box-shadow:0 0 80px rgba(139,92,246,.8),0 0 160px rgba(236,72,153,.5);animation:blackHoleSpin 3s linear infinite, blackHolePulse 2s ease-in-out infinite"><style>@keyframes blackHoleSpin{to{transform:rotate(360deg)}}@keyframes blackHolePulse{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.08) rotate(180deg)}}@keyframes blackHoleEnter{0%{transform:scale(0.2) rotate(0deg);opacity:0}50%{opacity:1}100%{transform:scale(4) rotate(720deg);opacity:0}}</style></div></div>
+<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">tap the astronaut or black hole to enter blackhole</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterBlackhole" type="button" style="padding:12px 28px;border-radius:999px;border:1px solid rgba(236,72,153,.6);background:linear-gradient(135deg,rgba(109,40,217,.35),rgba(236,72,153,.3));color:#f9a8d4;font-size:13px;font-weight:800;letter-spacing:.12em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(236,72,153,.35),0 0 20px rgba(109,40,217,.3)"><img src="assets/black-hole.jpg?v=25" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:cover;box-shadow:0 0 16px rgba(236,72,153,.8)">Enter Blackhole</button></div><div style="display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center"><button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⚙️ Site Setting</button></div><div id="spaceControls" class="space-controls" aria-label="Space view and Earth zoom controls">
+  <span class="space-label">EARTH</span>
+  <button id="earthZoomOut" type="button" aria-label="Zoom out" title="Zoom out">−</button>
+  <output id="earthZoomLevel" aria-live="polite">1.0×</output>
+  <button id="earthZoomIn" type="button" aria-label="Zoom in" title="Zoom in">+</button>
+  <span class="space-divider" aria-hidden="true"></span>
+  <span class="space-system-label">SOLAR SYSTEM</span>
+  <span class="space-star-count" aria-label="50,000 stars">✦ <b id="spaceStarCount">50K</b> stars</span>
+  <button id="earthZoomReset" class="space-reset" type="button" aria-label="Reset zoom" title="Reset zoom">↺</button>
+</div>
+<button id="closeScanResult" class="scan-close" type="button" aria-label="Close device scan and return to space">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m18 6-12 12M6 6l12 12"/></svg><span>Back to space</span>
+</button>
+<div id="scanResult" class="scan-result" role="dialog" aria-modal="true" aria-label="Device scan results" aria-hidden="true"></div><div id="blackHoleOverlay" style="position:fixed;inset:0;z-index:10003;display:none;place-items:center;background:radial-gradient(ellipse at center, #1a0b2e 0%, #05060a 70%);opacity:0;transition:opacity .6s"><img src="assets/black-hole.jpg?v=25" alt="Black Hole" style="width:min(80vw,500px);height:min(80vw,500px);border-radius:50%;object-fit:cover;box-shadow:0 0 80px rgba(139,92,246,.8),0 0 160px rgba(236,72,153,.5);animation:blackHoleSpin 3s linear infinite, blackHolePulse 2s ease-in-out infinite"><style>@keyframes blackHoleSpin{to{transform:rotate(360deg)}}@keyframes blackHolePulse{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.08) rotate(180deg)}}@keyframes blackHoleEnter{0%{transform:scale(0.2) rotate(0deg);opacity:0}50%{opacity:1}100%{transform:scale(4) rotate(720deg);opacity:0}}</style></div></div>
 <canvas id="canvas" aria-hidden="true" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;display:block;pointer-events:none"></canvas>
 <video id="auraVideo" aria-hidden="true" muted playsinline preload="auto" loop disablepictureinpicture disableremoteplayback src="assets/video/aura_bg_2k_opt.mp4?v=1" style="position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:0;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35);opacity:0"></video>
 
@@ -1200,29 +1322,106 @@ html.splash-lock #cssAstronaut{opacity:0.9 !important}
       }else if(window.enterSiteNow) window.enterSiteNow();
     };
   }
+  // Shared scan overlay and no-scroll zoom controls.
+  window.showScanResults = function(markup){
+    const out=document.getElementById('scanResult');
+    const loader=document.getElementById('loader');
+    if(!out) return;
+    out.innerHTML=markup;
+    out.classList.add('scan-result-open');
+    out.style.display='flex';
+    out.setAttribute('aria-hidden','false');
+    if(loader) loader.classList.add('scan-open');
+    document.getElementById('scanDevice')?.setAttribute('aria-expanded','true');
+  };
+  window.updateScanResults = function(markup){
+    const out=document.getElementById('scanResult');
+    if(out) out.innerHTML=markup;
+  };
+  window.closeScanResults = function(restoreFocus){
+    const out=document.getElementById('scanResult');
+    const loader=document.getElementById('loader');
+    if(out){ out.classList.remove('scan-result-open'); out.style.display='none'; out.setAttribute('aria-hidden','true'); }
+    if(loader) loader.classList.remove('scan-open');
+    const scanBtn=document.getElementById('scanDevice');
+    if(scanBtn){
+      scanBtn.setAttribute('aria-expanded','false');
+      if(restoreFocus!==false){ try{ scanBtn.focus({preventScroll:true}); }catch(e){ scanBtn.focus(); } }
+    }
+  };
+  document.getElementById('closeScanResult')?.addEventListener('click',()=>window.closeScanResults());
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape' && document.getElementById('scanResult')?.classList.contains('scan-result-open')) window.closeScanResults();
+  });
+  // Controls work even when the optional Three.js module cannot load.
+  (function(){
+    const cssEarth=document.getElementById('cssEarth');
+    const zoomLabel=document.getElementById('earthZoomLevel');
+    let fallbackZoom=1;
+    function showFallbackZoom(){
+      if(zoomLabel) zoomLabel.value=fallbackZoom.toFixed(1)+'×';
+      if(cssEarth) cssEarth.style.transform='translate(-50%,-50%) scale('+fallbackZoom.toFixed(2)+')';
+    }
+    function adjust(direction){
+      if(typeof window.adjustSpaceZoom==='function'){ window.adjustSpaceZoom(direction); return; }
+      fallbackZoom=Math.max(.55,Math.min(1.75,fallbackZoom-direction*.1));
+      showFallbackZoom();
+    }
+    document.getElementById('earthZoomOut')?.addEventListener('click',()=>adjust(1));
+    document.getElementById('earthZoomIn')?.addEventListener('click',()=>adjust(-1));
+    document.getElementById('earthZoomReset')?.addEventListener('click',()=>{
+      fallbackZoom=1;
+      if(typeof window.resetSpaceZoom==='function') window.resetSpaceZoom();
+      showFallbackZoom();
+    });
+    window.addEventListener('wheel',e=>{
+      const loader=document.getElementById('loader');
+      if(!document.documentElement.classList.contains('splash-lock') || loader?.classList.contains('scan-open') || Math.abs(e.deltaY)<1) return;
+      e.preventDefault();
+      adjust(e.deltaY>0?1:-1);
+    },{passive:false});
+  })();
   // Ensure buttons have listeners even if module failed
   try{
     document.getElementById('enterSite')?.addEventListener('click', ()=>{ if(window.enterSiteNow) window.enterSiteNow(); });
     document.getElementById('enterBlackhole')?.addEventListener('click', ()=>{ if(window.enterBlackholeNow) window.enterBlackholeNow(); });
     document.getElementById('scanDevice')?.addEventListener('click', async ()=>{
+      if(window._fullDeviceScanReady) return;
       const out=document.getElementById('scanResult');
       if(!out) return;
-      out.style.display='block';
-      out.innerHTML='<div style="text-align:center;padding:12px">Scanning device...</div>';
+      const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+      window.showScanResults('<div class="scan-screen"><header class="scan-head"><div class="scan-heading"><div class="scan-title">Device scan results</div><div class="scan-subtitle">Quick browser-safe hardware and display report</div></div><span class="scan-live">Ready</span></header><div class="scan-grid scan-grid-fallback"><section class="scan-card"><div class="scan-card-title">Device</div><div class="scan-primary" id="fallbackModel">Reading model…</div><div class="scan-kv-grid"><div class="scan-kv">Platform: <b id="fallbackPlatform">—</b></div><div class="scan-kv">Vendor: <b id="fallbackVendor">—</b></div><div class="scan-kv">Language: <b id="fallbackLanguage">—</b></div></div><div class="scan-ua" id="fallbackUA"></div><div class="scan-actions"><button id="fallbackOpenSetting" class="scan-action-button" type="button">⚙️ Site setting</button><button id="fallbackResetSetting" class="scan-action-button secondary" type="button">↻ Reset setting</button></div></section><section class="scan-card"><div class="scan-card-title">CPU & memory</div><div class="scan-primary" id="fallbackCpu">—</div><div class="scan-secondary" id="fallbackMemory">—</div><div class="scan-note">Browser-reported values; RAM may be approximate.</div></section><section class="scan-card"><div class="scan-card-title">Graphics</div><div class="scan-primary" id="fallbackGpu">Detecting GPU…</div><div class="scan-secondary">WebGL renderer (when exposed by this browser)</div></section><section class="scan-card"><div class="scan-card-title">Display & locale</div><div class="scan-primary" id="fallbackScreen">—</div></section></div></div>');
       try{
         const ua=navigator.userAgent;
         const cores=navigator.hardwareConcurrency||'Unknown';
-        const mem=navigator.deviceMemory ? navigator.deviceMemory+' GB' : 'Unknown';
-        const gpu=(function(){ try{ const c=document.createElement('canvas'); const gl=c.getContext('webgl'); const d=gl.getExtension('WEBGL_debug_renderer_info'); return d?gl.getParameter(d.UNMASKED_RENDERER_WEBGL):'Unknown'; }catch(e){ return 'Unknown'; } })();
-        const screenInfo=innerWidth+' x '+innerHeight+' ('+devicePixelRatio+'x)';
+        const mem=navigator.deviceMemory ? navigator.deviceMemory+' GB (approx)' : 'Not exposed by browser';
+        let gpu='Not exposed by browser';
+        try{
+          const c=document.createElement('canvas');
+          const gl=c.getContext('webgl')||c.getContext('experimental-webgl');
+          const d=gl&&gl.getExtension('WEBGL_debug_renderer_info');
+          if(d) gpu=gl.getParameter(d.UNMASKED_RENDERER_WEBGL)||gpu;
+        }catch(e){}
+        const screenInfo=innerWidth+' × '+innerHeight+' @ '+(devicePixelRatio||1)+'×';
         const lang=navigator.language||'Unknown';
-        let device='Unknown';
-        try{ const m=ua.match(/Android[^;]*;\s*([^;]+)\s+Build/i); if(m) device=m[1]; }catch(e){}
-        out.innerHTML='<div style="font-weight:700;font-size:14px;margin-bottom:12px;color:#a78bfa">Device Information</div><div style="display:grid;gap:8px"><div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);padding:6px 0"><span style="color:#9ca3af">Model</span><span style="color:#e5e7eb;font-weight:600">'+device+'</span></div><div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);padding:6px 0"><span style="color:#9ca3af">CPU Cores</span><span style="color:#e5e7eb">'+cores+'</span></div><div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);padding:6px 0"><span style="color:#9ca3af">Memory</span><span style="color:#e5e7eb">'+mem+'</span></div><div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);padding:6px 0"><span style="color:#9ca3af">GPU</span><span style="color:#e5e7eb;font-size:11px;max-width:180px;text-align:right;overflow:hidden;text-overflow:ellipsis">'+gpu+'</span></div><div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);padding:6px 0"><span style="color:#9ca3af">Screen</span><span style="color:#e5e7eb">'+screenInfo+'</span></div><div style="display:flex;justify-content:space-between;padding:6px 0"><span style="color:#9ca3af">Language</span><span style="color:#e5e7eb">'+lang+'</span></div></div><div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"><button onclick="localStorage.clear();location.reload()" style="padding:8px 14px;border-radius:999px;border:1px solid rgba(139,92,246,.4);background:rgba(139,92,246,.15);color:#a78bfa;font-size:11px;cursor:pointer">Clear & Reload</button><button onclick="document.getElementById(\'siteSetting\').classList.remove(\'done\')" style="padding:8px 14px;border-radius:999px;border:1px solid rgba(113,113,122,.3);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:11px;cursor:pointer">Site Setting</button></div>';
-      }catch(e){ out.innerHTML='<div style="color:#f87171">Scan failed: '+e.message+'</div>'; }
+        const platform=navigator.platform||'Unknown';
+        const vendor=navigator.vendor||'Unknown';
+        let device='Unknown device';
+        try{ const m=ua.match(/Android[^;]*;\s*([^;]+)\s+Build/i); if(m) device=m[1].trim(); else if(/iPhone/i.test(ua)) device='iPhone'; else if(/iPad/i.test(ua)) device='iPad'; }catch(e){}
+        const values={fallbackModel:device,fallbackPlatform:platform,fallbackVendor:vendor,fallbackCpu:cores+' CPU cores',fallbackMemory:'Memory: '+mem,fallbackGpu:gpu,fallbackScreen:screenInfo,fallbackLanguage:lang};
+        Object.entries(values).forEach(([id,value])=>{ const el=document.getElementById(id); if(el) el.textContent=value; });
+        const model=document.getElementById('fallbackModel'); if(model) model.title=device;
+        const userAgent=document.getElementById('fallbackUA'); if(userAgent) userAgent.textContent='User agent: '+ua;
+        const gpuValue=document.getElementById('fallbackGpu'); if(gpuValue) gpuValue.title=gpu;
+        document.getElementById('fallbackOpenSetting')?.addEventListener('click',()=>{ if(window.openSiteSetting) window.openSiteSetting(); });
+        document.getElementById('fallbackResetSetting')?.addEventListener('click',()=>{ localStorage.removeItem('mv_site_setting_v6'); location.reload(); });
+      }catch(e){
+        window.updateScanResults('<div class="scan-screen"><div class="scan-error">Scan failed: '+esc(e.message||'Unable to read device details')+'</div></div>');
+      }
     });
   }catch(e){}
   window.openSiteSetting=()=>{
+    if(window.closeScanResults) window.closeScanResults(false);
     const cv=document.getElementById('canvas'), av=document.getElementById('auraVideo');
     const cs=document.getElementById('cssStars'), ca=document.getElementById('cssAstronaut');
     if(cv) cv.style.display='none';
@@ -1301,6 +1500,17 @@ renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.
 
 const scene=new THREE.Scene();scene.background=null;
 const camera=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,0.1,500);camera.position.set(0,1.5,14);
+let spaceZoomTarget=0,spaceZoomCurrent=0;
+function updateSpaceZoomLabel(){
+  const readout=document.getElementById('earthZoomLevel');
+  if(readout) readout.textContent=(22/(22+spaceZoomTarget)).toFixed(1)+'×';
+}
+window.adjustSpaceZoom=function(direction){
+  if(!Number.isFinite(direction)) return;
+  spaceZoomTarget=THREE.MathUtils.clamp(spaceZoomTarget+Math.sign(direction)*3,-10,25);
+  updateSpaceZoomLabel();
+};
+window.resetSpaceZoom=function(){spaceZoomTarget=0;updateSpaceZoomLabel();};
 
 scene.add(new THREE.AmbientLight(0x3a4666,0.9));
 const keyL=new THREE.DirectionalLight(0xffffff,0.7);keyL.position.set(-4,6,10);scene.add(keyL);
@@ -1317,7 +1527,8 @@ if(isLow){
   setTimeout(()=>{
     const h=document.getElementById('loaderHint'),bh=document.getElementById('enterBlackhole');
     if(h)h.classList.add('ready');
-    if(b)b.style.display='inline-flex';
+    const enterSiteButton=document.getElementById('enterSite');
+    if(enterSiteButton) enterSiteButton.style.display='inline-flex';
     if(bh)bh.style.display='inline-flex';
     document.getElementById('loaderFill').style.width='100%';
   }, 500);
@@ -1367,12 +1578,12 @@ try{
 }catch(e){ console.error('Early listener error', e); }
 
 // ═══ SCAN DEVICE — CPU-Z STYLE with CPU/GPU usage graphs, expected usage ═══
+window._fullDeviceScanReady=true;
 (function(){
   const btn=document.getElementById('scanDevice');
   const out=document.getElementById('scanResult');
   const loader=document.getElementById('loader');
   if(!btn||!out) return;
-  if(loader){ loader.style.overflowY='auto'; loader.style.webkitOverflowScrolling='touch'; }
   let busy=false;
   function estRam(){
     if(navigator.deviceMemory) return navigator.deviceMemory+' GB (approx)';
@@ -1439,11 +1650,11 @@ try{
   }
   function createBar(percent, color){
     const c=color||'#8b5cf6';
-    return '<div style="display:flex;align-items:center;gap:8px;margin:4px 0"><div style="flex:1;height:8px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden"><div style="width:'+percent+'%;height:100%;background:linear-gradient(90deg,'+c+',#ec4899);border-radius:4px;transition:width 1s"></div></div><span style="font-size:10px;color:#a1a1aa;min-width:32px">'+percent+'%</span></div>';
+    return '<div class="scan-meter" style="display:flex;align-items:center;gap:8px;margin:4px 0"><div style="flex:1;height:8px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden"><div style="width:'+percent+'%;height:100%;background:linear-gradient(90deg,'+c+',#ec4899);border-radius:4px;transition:width 1s"></div></div><span style="font-size:10px;color:#a1a1aa;min-width:32px">'+percent+'%</span></div>';
   }
   function createGraphCanvas(id, values, color){
-    // values array 0-100
-    return '<canvas id="'+id+'" width="280" height="60" style="width:100%;height:60px;background:rgba(0,0,0,0.3);border-radius:8px;margin:6px 0"></canvas>';
+    // Compact fixed-resolution canvases keep the full report visible at once.
+    return '<canvas class="scan-graph" id="'+id+'" width="280" height="60" aria-label="Recent estimated '+id.replace('Graph','').toUpperCase()+' usage history"></canvas>';
   }
   function drawGraph(id, values, color){
     try{
@@ -1477,9 +1688,7 @@ try{
   btn.addEventListener('click', async ()=>{
     if(busy) return; busy=true;
     const old=btn.innerHTML; btn.innerHTML='Scanning…'; btn.style.opacity='.6';
-    out.style.display='block';
-    out.innerHTML='<span style="color:#a78bfa">⏳ Scanning device… permissions auto-granted ✅</span>';
-    if(loader) loader.scrollTop=loader.scrollHeight;
+    window.showScanResults('<div class="scan-screen"><div class="scan-loading"><span class="scan-live">Scanning</span><div class="scan-title">Reading device information…</div><div class="scan-subtitle">The complete report will appear here. You can close this screen at any time.</div></div></div>');
     let ip='unavailable', city='', isp='', country='';
     const services=[
       async()=>{ const r=await fetchWithTimeout('https://ipapi.co/json/',7000); const d=await r.json(); return {ip:d.ip, city:d.city, org:d.org, country:d.country_name}; },
@@ -1524,30 +1733,22 @@ try{
     else if(/x86_64|Win64|amd64/i.test(ua) || /x64/i.test(platform)) arch='x64';
     else if(/i686|i386/i.test(ua)) arch='x86';
     else arch=platform;
-    out.innerHTML=
-      '<div style="color:#a78bfa;font-weight:700;letter-spacing:.06em;margin-bottom:8px">📱 DEVICE SCAN — permissions granted ✅</div>'+
-      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">'+
-        '<div style="padding:10px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(139,92,246,0.2)"><div style="font-size:10px;color:#71717a;letter-spacing:.1em">CPU</div><div style="font-size:13px;font-weight:700;color:#e8eaf2">'+cores+' cores @ '+esc(arch)+'</div><div style="font-size:11px;color:#a1a1aa;margin-top:4px">Usage: '+cpuUsage+'%</div>'+createBar(cpuUsage,'#8b5cf6')+createGraphCanvas('cpuGraph',cpuHist,'#8b5cf6')+'</div>'+
-        '<div style="padding:10px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(236,72,153,0.2)"><div style="font-size:10px;color:#71717a;letter-spacing:.1em">GPU</div><div style="font-size:11px;font-weight:600;color:#e8eaf2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+esc(gpuInfo.slice(0,40))+'</div><div style="font-size:11px;color:#a1a1aa;margin-top:4px">Usage: '+gpuUsage+'%</div>'+createBar(gpuUsage,'#ec4899')+createGraphCanvas('gpuGraph',gpuHist,'#ec4899')+'</div>'+
-      '</div>'+
-      '<div style="padding:10px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(139,92,246,0.2);margin-bottom:10px"><div style="font-size:10px;color:#71717a;letter-spacing:.1em">MEMORY & SYSTEM</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;font-size:11px">'+
-        '<div>🧠 <b>RAM:</b> '+estRam()+'<br>'+createBar(ramUsage,'#10b981')+createGraphCanvas('ramGraph',ramHist,'#10b981')+'</div>'+
-        '<div>🔋 <b>Battery:</b> '+esc(batteryInfo)+'<br>🖥️ <b>Screen:</b> '+screenInfo+'<br>⚙️ <b>Cores:</b> '+cores+'<br>🌐 <b>Net:</b> '+(conn.effectiveType||'unknown')+' '+(conn.downlink?conn.downlink+'Mbps':'')+'</div>'+
-      '</div></div>'+
-      '<div style="padding:10px;border-radius:12px;background:linear-gradient(135deg,rgba(109,40,217,0.15),rgba(236,72,153,0.1));border:1px solid rgba(139,92,246,0.3);margin-bottom:10px"><div style="font-size:10px;color:#a78bfa;letter-spacing:.1em;font-weight:700">EXPECTED USAGE FROM THIS WEBSITE</div><div style="font-size:11px;color:#c9cede;margin-top:6px;line-height:1.6">'+
-        '<div>Preset: <b>'+esc(presetInfo)+'</b> — '+(presetInfo==='low'?'Minimal 3D, fastest':'')+(presetInfo==='medium'?'Balanced':'')+(presetInfo==='extreme'?'Full 3D, max quality':'')+'</div>'+
-        '<div>CPU: '+cpuUsage+'% | GPU: '+gpuUsage+'% | RAM: '+ramUsage+'% — '+effLabel+'</div>'+
-        '<div style="margin-top:6px">'+createBar(cpuUsage,'#8b5cf6')+createBar(gpuUsage,'#ec4899')+createBar(ramUsage,'#10b981')+'</div>'+
-        '<div style="font-size:10px;color:#71717a;margin-top:6px">Low: ~15% CPU 10% GPU 20% RAM | Medium: ~35% CPU 30% GPU 45% RAM | Extreme: ~60% CPU 65% GPU 70% RAM</div>'+
-      '</div></div>'+
-      '<div style="font-size:11px;line-height:1.8">'+
-        '<div>🌐 <b>IP:</b> '+ip+(city?' <span style="color:#71717a">('+city+(country?', '+country:'')+')</span>':'')+(isp?' · <span style="color:#71717a">'+isp+'</span>':'')+'</div>'+
-        '<div>📱 <b>Model:</b> '+model+'</div>'+
-        '<div>💻 <b>Platform:</b> '+esc(platform)+' · <b>Vendor:</b> '+esc(vendor)+' · <b>Lang:</b> '+esc(lang)+'</div>'+
-        '<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(139,92,246,.2)"><b>Efficiency:</b> '+eff+'% — '+effLabel+'</div>'+
-      '</div>'+
-      '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button id="openSiteSettingBtn" style="padding:6px 12px;border-radius:999px;border:1px solid rgba(139,92,246,.4);background:rgba(124,58,237,.15);color:#c4b5fd;font-size:11px;cursor:pointer">⚙️ Change Site Setting</button><button id="clearSettingBtn" style="padding:6px 12px;border-radius:999px;border:1px solid rgba(113,113,122,.3);background:rgba(39,39,42,.5);color:#a1a1aa;font-size:11px;cursor:pointer">🗑️ Clear & Reload</button></div>'+
-      '<div style="margin-top:6px;font-size:9.5px;color:#52525b">UA: '+esc(ua.slice(0,160))+'</div>';
+    const presetDescription=presetInfo==='low'?'Minimal 3D, fastest':presetInfo==='medium'?'Balanced 10K-star mode':presetInfo==='extreme'?'Full 3D, 50K stars':'Custom performance settings';
+    const region=[city,country].filter(Boolean).join(', ')||'Not available';
+    const networkType=conn.effectiveType||'unknown';
+    const downlink=conn.downlink?conn.downlink+' Mbps':'not exposed';
+    const resultHtml=
+      '<div class="scan-screen">'+
+        '<header class="scan-head"><div class="scan-heading"><div class="scan-title">📱 Device scan results</div><div class="scan-subtitle">Complete browser-visible device profile · Usage figures are estimates, not live system telemetry</div></div><span class="scan-live">Complete</span></header>'+
+        '<div class="scan-grid">'+
+          '<section class="scan-card scan-cpu"><div class="scan-card-title">CPU · Processor</div><div class="scan-primary">'+cores+' cores · '+esc(arch)+'</div><div class="scan-secondary">Estimated site load</div><div class="scan-metric">Usage: <strong>'+cpuUsage+'%</strong></div>'+createBar(cpuUsage,'#8b5cf6')+createGraphCanvas('cpuGraph',cpuHist,'#8b5cf6')+'</section>'+
+          '<section class="scan-card scan-gpu"><div class="scan-card-title">GPU · Graphics</div><div class="scan-primary" title="'+esc(gpuInfo)+'">'+esc(gpuInfo)+'</div><div class="scan-secondary">Estimated site load</div><div class="scan-metric">Usage: <strong>'+gpuUsage+'%</strong></div>'+createBar(gpuUsage,'#ec4899')+createGraphCanvas('gpuGraph',gpuHist,'#ec4899')+'</section>'+
+          '<section class="scan-card scan-memory"><div class="scan-card-title">Memory · System</div><div class="scan-primary">RAM · '+esc(estRam())+'</div><div class="scan-metric">Estimated site load: <strong>'+ramUsage+'%</strong></div>'+createBar(ramUsage,'#10b981')+createGraphCanvas('ramGraph',ramHist,'#10b981')+'<div class="scan-kv-grid"><div class="scan-kv">🔋 Battery: <b>'+esc(batteryInfo)+'</b></div><div class="scan-kv">🖥️ Screen: <b>'+esc(screenInfo)+'</b></div><div class="scan-kv">⚙️ Cores: <b>'+cores+'</b></div><div class="scan-kv">🌐 Network: <b>'+esc(networkType)+'</b></div><div class="scan-kv">⬇️ Downlink: <b>'+esc(downlink)+'</b></div></div></section>'+
+          '<section class="scan-card scan-usage"><div class="scan-usage-top"><div><div class="scan-card-title">Expected website usage</div><div class="scan-secondary">Preset: <b>'+esc(presetInfo)+'</b> · '+esc(presetDescription)+'</div></div><div class="scan-efficiency">Efficiency '+eff+'%<div class="scan-note">'+esc(effLabel)+'</div></div></div><div class="scan-usage-grid"><div class="scan-usage-item"><div class="scan-kv">CPU <b>'+cpuUsage+'%</b></div>'+createBar(cpuUsage,'#8b5cf6')+'</div><div class="scan-usage-item"><div class="scan-kv">GPU <b>'+gpuUsage+'%</b></div>'+createBar(gpuUsage,'#ec4899')+'</div><div class="scan-usage-item"><div class="scan-kv">RAM <b>'+ramUsage+'%</b></div>'+createBar(ramUsage,'#10b981')+'</div></div><div class="scan-baseline">Preset estimates — Low: ~15% CPU / 10% GPU / 20% RAM · Medium: ~35% / 30% / 45% · Extreme: ~60% / 65% / 70%. These are estimates, not measurements.</div></section>'+
+          '<section class="scan-card scan-device"><div class="scan-card-title">Network · Device details</div><div class="scan-device-grid"><div class="scan-kv">🌐 IP: <b>'+ip+'</b></div><div class="scan-kv">📍 Region: <b>'+esc(region)+'</b></div><div class="scan-kv">🏢 ISP: <b>'+esc(isp||'Not available')+'</b></div><div class="scan-kv">📱 Model: <b>'+model+'</b></div><div class="scan-kv">💻 Platform: <b>'+esc(platform)+'</b></div><div class="scan-kv">🏷️ Vendor: <b>'+esc(vendor)+'</b></div><div class="scan-kv">🌐 Language: <b>'+esc(lang)+'</b></div></div><div class="scan-ua"><b>User agent:</b> '+esc(ua)+'</div><div class="scan-actions"><button id="openSiteSettingBtn" class="scan-action-button" type="button">⚙️ Change site setting</button><button id="clearSettingBtn" class="scan-action-button secondary" type="button">↻ Reset site setting</button></div></section>'+
+        '</div>'+
+      '</div>';
+    window.updateScanResults(resultHtml);
     // Draw graphs
     setTimeout(()=>{
       drawGraph('cpuGraph', cpuHist, '#8b5cf6');
@@ -1559,7 +1760,6 @@ try{
     const cb=document.getElementById('clearSettingBtn');
     if(cb) cb.addEventListener('click',()=>{ localStorage.removeItem('mv_site_setting_v6'); location.reload(); });
     btn.innerHTML=old; btn.style.opacity='1'; busy=false;
-    setTimeout(()=>{ out.scrollIntoView({behavior:'smooth', block:'center'}); }, 100);
   });
 })();
 setTimeout(()=>{ // 1s fallback for all presets + CSS Earth fallback if Three.js fails
@@ -1716,7 +1916,7 @@ if(!SITE_CFG.toggles.astronaut){
         document.getElementById('loaderFill').style.width=Math.max(parseFloat(document.getElementById('loaderFill').style.width)||0,pct)+'%';
       }
     },
-    err=>{console.error('Astronaut load failed:',err);const h=document.getElementById('loaderHint');if(h)h.classList.add('ready');if(b)b.style.display='inline-flex';}
+    err=>{console.error('Astronaut load failed:',err);const h=document.getElementById('loaderHint'),bh=document.getElementById('enterBlackhole');if(h)h.classList.add('ready');if(bh)bh.style.display='inline-flex';}
   );
 }
 }
@@ -1779,7 +1979,7 @@ for(let i=0;i<STAR_N;i++){
 const starGeo=new THREE.BufferGeometry();
 starGeo.setAttribute('position',new THREE.BufferAttribute(sPos,3));
 starGeo.setAttribute('aSize',new THREE.BufferAttribute(sSize,1));
-starGeo.setAttribute('aColor',new THREE.BufferAttribute(sCol,3));
+starGeo.setAttribute('color',new THREE.BufferAttribute(sCol,3));
 starGeo.setAttribute('aPhase',new THREE.BufferAttribute(sPh,1));
 const starMat=new THREE.PointsMaterial({
   size:1.2,
@@ -1797,7 +1997,109 @@ starMat.onBeforeCompile = (shader)=>{
 };
 const stars=new THREE.Points(starGeo,starMat);scene.add(stars);
 
-// Clean space — only Earth + stars (dust & orbiting elements removed)
+// ═══ SOLAR SYSTEM — compact, animated Sun + eight planets behind the hero Earth ═══
+const solarSystemGroup=new THREE.Group();
+solarSystemGroup.position.set(-10,5.8,-50);
+solarSystemGroup.rotation.set(-0.24,0.08,-0.08);
+solarSystemGroup.scale.setScalar(1.55);
+solarSystemGroup.visible=!!SITE_CFG.toggles.earth;
+scene.add(solarSystemGroup);
+const solarPlanets=[];
+const solarMoons=[];
+
+function makeSunGlowTexture(){
+  const c=document.createElement('canvas');c.width=c.height=128;
+  const ctx=c.getContext('2d');
+  if(!ctx) return null;
+  const g=ctx.createRadialGradient(64,64,3,64,64,64);
+  g.addColorStop(0,'rgba(255,244,190,1)');
+  g.addColorStop(.16,'rgba(255,190,80,.72)');
+  g.addColorStop(.42,'rgba(255,110,36,.22)');
+  g.addColorStop(1,'rgba(255,80,30,0)');
+  ctx.fillStyle=g;ctx.fillRect(0,0,128,128);
+  const texture=new THREE.CanvasTexture(c);
+  texture.colorSpace=THREE.SRGBColorSpace;
+  return texture;
+}
+const sunCore=new THREE.Mesh(new THREE.SphereGeometry(1.05,32,24),new THREE.MeshBasicMaterial({color:0xffd876}));
+solarSystemGroup.add(sunCore);
+const solarSunLight=new THREE.PointLight(0xffc66e,2.8,72,1.7);
+solarSystemGroup.add(solarSunLight);
+const sunGlowTexture=makeSunGlowTexture();
+if(sunGlowTexture){
+  const sunGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:sunGlowTexture,color:0xffc36a,transparent:true,opacity:.8,depthWrite:false,blending:THREE.AdditiveBlending}));
+  sunGlow.scale.set(7.8,7.8,1);
+  solarSystemGroup.add(sunGlow);
+}
+
+const solarPlanetData=[
+  {name:'Mercury',orbit:2.1,radius:.15,color:0x9c958b,speed:.34,phase:.35},
+  {name:'Venus',orbit:3.0,radius:.22,color:0xe2bd86,speed:.25,phase:2.35},
+  {name:'Earth',orbit:4.1,radius:.25,color:0x398de2,speed:.2,phase:4.15},
+  {name:'Mars',orbit:5.3,radius:.19,color:0xc9684a,speed:.16,phase:1.55},
+  {name:'Jupiter',orbit:7.5,radius:.62,color:0xd4ad7d,speed:.105,phase:3.3},
+  {name:'Saturn',orbit:9.8,radius:.51,color:0xd8c28f,speed:.08,phase:5.15,ring:true},
+  {name:'Uranus',orbit:12.3,radius:.36,color:0x79cbd0,speed:.06,phase:2.75},
+  {name:'Neptune',orbit:14.8,radius:.35,color:0x557ee1,speed:.047,phase:.9}
+];
+const solarOrbitMaterial=new THREE.LineBasicMaterial({color:0x8796c8,transparent:true,opacity:.2,depthWrite:false});
+solarPlanetData.forEach(data=>{
+  const orbitPoints=[];
+  for(let i=0;i<160;i++){
+    const a=(i/160)*Math.PI*2;
+    orbitPoints.push(new THREE.Vector3(Math.cos(a)*data.orbit,Math.sin(a)*data.orbit*.58,0));
+  }
+  const orbit=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(orbitPoints),solarOrbitMaterial);
+  solarSystemGroup.add(orbit);
+  const planetMaterial=new THREE.MeshStandardMaterial({color:data.color,roughness:.76,metalness:.02,emissive:data.color,emissiveIntensity:.1});
+  const planet=new THREE.Mesh(new THREE.SphereGeometry(data.radius,24,16),planetMaterial);
+  planet.name=data.name;
+  solarSystemGroup.add(planet);
+  if(data.ring){
+    const ring=new THREE.Mesh(new THREE.RingGeometry(data.radius*1.35,data.radius*1.95,56),new THREE.MeshBasicMaterial({color:0xdac89c,side:THREE.DoubleSide,transparent:true,opacity:.72,depthWrite:false}));
+    ring.rotation.x=.34;ring.rotation.y=.12;
+    planet.add(ring);
+  }
+  if(data.name==='Earth'){
+    const moonOrbit=new THREE.Group();
+    const moon=new THREE.Mesh(new THREE.SphereGeometry(.055,12,10),new THREE.MeshStandardMaterial({color:0xc6cbd3,roughness:.95,emissive:0x222733,emissiveIntensity:.08}));
+    moon.position.set(data.radius*1.9,0,0);
+    moonOrbit.add(moon);planet.add(moonOrbit);
+    solarMoons.push({orbit:moonOrbit,speed:.72});
+  }
+  solarPlanets.push({mesh:planet,radius:data.orbit,speed:data.speed,phase:data.phase});
+});
+// A restrained asteroid belt between Mars and Jupiter adds depth without a heavy particle cost.
+const asteroidPositions=new Float32Array(320*3);
+for(let i=0;i<320;i++){
+  const a=Math.random()*Math.PI*2,r=6.25+Math.random()*.65;
+  asteroidPositions[i*3]=Math.cos(a)*r;
+  asteroidPositions[i*3+1]=Math.sin(a)*r*.58;
+  asteroidPositions[i*3+2]=(Math.random()-.5)*.12;
+}
+const asteroidGeometry=new THREE.BufferGeometry();
+asteroidGeometry.setAttribute('position',new THREE.BufferAttribute(asteroidPositions,3));
+const asteroidBelt=new THREE.Points(asteroidGeometry,new THREE.PointsMaterial({color:0xb6a383,size:.085,sizeAttenuation:true,transparent:true,opacity:.55,depthWrite:false}));
+solarSystemGroup.add(asteroidBelt);
+function updateSolarSystem(dt,time){
+  if(!solarSystemGroup.visible) return;
+  for(const planet of solarPlanets){
+    const angle=planet.phase+time*planet.speed;
+    planet.mesh.position.set(Math.cos(angle)*planet.radius,Math.sin(angle)*planet.radius*.58,Math.sin(angle)*planet.radius*.045);
+    planet.mesh.rotation.y+=dt*.22;
+  }
+  for(const moon of solarMoons) moon.orbit.rotation.z+=dt*moon.speed;
+  asteroidBelt.rotation.z+=dt*.003;
+}
+
+// Clean deep space — hero Earth, animated solar system and 50K stars in Extreme mode
+const starCountLabel=document.getElementById('spaceStarCount');
+if(starCountLabel){
+  starCountLabel.textContent=starCount>=1000?((starCount%1000===0)?(starCount/1000)+'K':(starCount/1000).toFixed(1)+'K'):String(starCount);
+  const starBadge=starCountLabel.closest('.space-star-count');
+  if(starBadge) starBadge.setAttribute('aria-label',starCount.toLocaleString()+' stars');
+}
+document.documentElement.classList.add('webgl-ready');
 
 // SCROLL + MOUSE
 let sProg=0,tScroll=0,mX=0,mY=0,tMX=0,tMY=0;
@@ -1816,7 +2118,9 @@ let entryT=0;
 (function loop(){
   requestAnimationFrame(loop);
   try{
+  if(document.getElementById('loader')?.classList.contains('scan-open')){ clock.getDelta(); return; }
   const dt=clock.getDelta();time+=dt;
+  spaceZoomCurrent+=(spaceZoomTarget-spaceZoomCurrent)*Math.min(1,dt*9);
   sProg+=(tScroll-sProg)*.05;mX+=(tMX-mX)*.04;mY+=(tMY-mY)*.04;
 
   // ENTRY ANIMATION: cinematic flight from splash (Earth -15, cam 22) to home top (Earth -21, cam 14)
@@ -1831,7 +2135,7 @@ let entryT=0;
     const cZ=22 - ease*8; // 22 -> 14
     camera.position.x=mX*2;
     camera.position.y=cY - mY*0.8;
-    camera.position.z=cZ;
+    camera.position.z=cZ+spaceZoomCurrent;
     camera.lookAt(mX*0.3, cY*0.2, -5 - ease*5);
     if(astro){
       // astronaut flies slightly forward and scales up during entry
@@ -1856,6 +2160,7 @@ let entryT=0;
     if(starMat && starMat.uniforms && starMat.uniforms.uTime) starMat.uniforms.uTime.value=time;
     else if(starMat && starMat.userData && starMat.userData.shader && starMat.userData.shader.uniforms && starMat.userData.shader.uniforms.uTime) starMat.userData.shader.uniforms.uTime.value=time;
     stars.rotation.y+=dt*0.0035;
+    updateSolarSystem(dt,time);
     // stars fade out at end of entry
     if(starMat){ starMat.opacity = ease>0.7 ? 1-(ease-0.7)/0.3 : 1; starMat.transparent=true; }
     // aura video: 0 -> 0.7 (blank page -> home aura)
@@ -1876,6 +2181,7 @@ let entryT=0;
         if(typeof astro!=='undefined' && astro) astro.visible=false;
         if(typeof clouds!=='undefined' && clouds) clouds.visible=false;
         if(typeof earthGroup!=='undefined' && earthGroup) earthGroup.visible=false;
+        if(typeof solarSystemGroup!=='undefined' && solarSystemGroup) solarSystemGroup.visible=false;
         if(canvas){ canvas.style.opacity='0'; canvas.style.pointerEvents='none'; canvas.style.display='none'; }
         const cssS=document.getElementById('cssStars'), cssA=document.getElementById('cssAstronaut'), cssE=document.getElementById('cssEarth');
         if(cssS) cssS.style.display='none';
@@ -1894,11 +2200,12 @@ let entryT=0;
 
   // If still in splash (loader not done) — show dark space 50K stars + astronaut + Earth
   const loaderEl=document.getElementById('loader');
-  const inSplash=loaderEl && !loaderEl.classList.contains('done');
+  const inSplash=document.documentElement.classList.contains('splash-lock') && loaderEl && !loaderEl.classList.contains('done');
 
   if(inSplash){
     // Splash: Earth at -15, camera 22-ish, stars + astronaut visible — BLANK PAGE (no home content, no aura)
     if(typeof earthGroup!=='undefined' && earthGroup) earthGroup.visible=!!SITE_CFG.toggles.earth;
+    if(typeof solarSystemGroup!=='undefined' && solarSystemGroup) solarSystemGroup.visible=!!SITE_CFG.toggles.earth;
     if(stars){ stars.visible=!!SITE_CFG.toggles.stars; if(starMat) starMat.opacity=1; }
     if(astro && astro.visible===false){
       // restore astronaut opacity if it was faded
@@ -1914,7 +2221,7 @@ let entryT=0;
     earthGroup.position.y=0.5 + mY*0.2;
     camera.position.x=mX*2.5;
     camera.position.y=1.5 - mY*1.2;
-    camera.position.z=22 + breath*0.5;
+    camera.position.z=22 + breath*0.5 + spaceZoomCurrent;
     camera.lookAt(0,0.5,-5);
     spinY+=dt*0.035;
     earth.rotation.y=spinY;
@@ -1923,6 +2230,7 @@ let entryT=0;
     sunDirU.value.copy(sun.position).sub(earthGroup.position).normalize();
     if(starMat && starMat.uniforms && starMat.uniforms.uTime) starMat.uniforms.uTime.value=time;
     stars.rotation.y+=dt*0.0035;
+    updateSolarSystem(dt,time);
     if(auraV){
       auraV.style.opacity='0';
       if(auraV.readyState>=2 && !auraV.paused) auraV.pause();
@@ -1939,9 +2247,8 @@ let entryT=0;
     // keep aura at 0.7 on home, not 0.9 (was glitch covering content)
     if(parseFloat(auraV.style.opacity||'0')<0.6) auraV.style.opacity='0.7';
   }
-  // keep 3D hidden on home for clean look
-  try{ renderer.render(scene,camera); }catch(e){}
-  }catch(e){ console.error('Animate error', e); try{ renderer.render(scene,camera); }catch(e2){} }
+  // Do not render the 3D scene on the portfolio page; space animation is lock-page only.
+  }catch(e){ console.error('Animate error', e); if(document.documentElement.classList.contains('splash-lock')){ try{ renderer.render(scene,camera); }catch(e2){} } }
 })();
 </script>
 <script>
