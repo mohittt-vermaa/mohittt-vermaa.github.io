@@ -190,7 +190,7 @@ body.no-cur #curD,body.no-cur #curR{display:none}
 .modal-overlay.open{display:grid}
 .modal{background:var(--card);border-radius:var(--radius);padding:32px;max-width:480px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
 </style>
-<link rel="stylesheet" href="assets/hermes-chat.css?v=31">
+<link rel="stylesheet" href="assets/hermes-chat.css?v=32">
 </head>
 <body class="dark">
 
@@ -240,14 +240,14 @@ body.no-cur #curD,body.no-cur #curR{display:none}
   <div class="loader-status">Entering Deep Space</div>
   <div class="loader-hint" id="loaderHint">tap the astronaut or black hole to enter blackhole</div>
   <div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center">
-    <button id="enterBlackhole" type="button" style="padding:12px 28px;border-radius:999px;border:1px solid rgba(236,72,153,.6);background:linear-gradient(135deg,rgba(109,40,217,.35),rgba(236,72,153,.3));color:#f9a8d4;font-size:13px;font-weight:800;letter-spacing:.12em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(236,72,153,.35),0 0 20px rgba(109,40,217,.3)"><img src="assets/black-hole.jpg?v=22" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:cover;box-shadow:0 0 16px rgba(236,72,153,.8)">Enter Blackhole</button>
+    <button id="enterBlackhole" type="button" style="padding:12px 28px;border-radius:999px;border:1px solid rgba(236,72,153,.6);background:linear-gradient(135deg,rgba(109,40,217,.35),rgba(236,72,153,.3));color:#f9a8d4;font-size:13px;font-weight:800;letter-spacing:.12em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(236,72,153,.35),0 0 20px rgba(109,40,217,.3)"><img src="assets/black-hole.jpg?v=23" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:cover;box-shadow:0 0 16px rgba(236,72,153,.8)">Enter Blackhole</button>
   </div>
   <div style="display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center">
     <button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px">Scan Device</button>
     <button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer">⚙️ Site Setting</button>
   </div>
   <div id="scanResult" style="display:none;margin-top:1.4rem;width:min(420px,94vw);max-width:100%;padding:18px 20px;border-radius:18px;border:1px solid rgba(139,92,246,.35);background:rgba(16,18,30,.94);backdrop-filter:blur(16px);color:#d1d5db;font-size:13px;line-height:1.8;text-align:left;overflow:visible;word-wrap:break-word;box-sizing:border-box;box-shadow:0 8px 32px rgba(0,0,0,0.4)"></div>
-  <div id="blackHoleOverlay" style="position:fixed;inset:0;z-index:10003;display:none;place-items:center;background:radial-gradient(ellipse at center, #1a0b2e 0%, #05060a 70%);opacity:0;transition:opacity .6s"><img src="assets/black-hole.jpg?v=22" alt="Black Hole" style="width:min(80vw,500px);height:min(80vw,500px);border-radius:50%;object-fit:cover;box-shadow:0 0 80px rgba(139,92,246,.8),0 0 160px rgba(236,72,153,.5)"></div>
+  <div id="blackHoleOverlay" style="position:fixed;inset:0;z-index:10003;display:none;place-items:center;background:radial-gradient(ellipse at center, #1a0b2e 0%, #05060a 70%);opacity:0;transition:opacity .6s"><img src="assets/black-hole.jpg?v=23" alt="Black Hole" style="width:min(80vw,500px);height:min(80vw,500px);border-radius:50%;object-fit:cover;box-shadow:0 0 80px rgba(139,92,246,.8),0 0 160px rgba(236,72,153,.5)"></div>
 </div>
 
 <!-- PAGE 2 — HOME PORTFOLIO -->
@@ -330,7 +330,7 @@ body.no-cur #curD,body.no-cur #curR{display:none}
 
 <script>
 // SITE SETTING LOGIC
-const LS_KEY='mv_site_setting_v3';
+const LS_KEY='mv_site_setting_v4';
 const ssEl=document.getElementById('siteSetting');
 const loaderEl=document.getElementById('loader');
 const wrapEl=document.querySelector('.wrap');
@@ -458,7 +458,7 @@ function getSiteCfg(){
     }
   }catch(e){}
   try{
-    const s=localStorage.getItem('mv_site_setting_v3');
+    const s=localStorage.getItem('mv_site_setting_v4');
     if(s){
       const cfg=JSON.parse(s);
       if(cfg.preset==='extreme' && (!cfg.toggles.starCount || cfg.toggles.starCount<1000)){
@@ -504,7 +504,7 @@ if(isLow){
     document.getElementById('loaderFill').style.width='100%';
   }, 500);
 }
-if(localStorage.getItem('mv_site_setting_v3')){
+if(localStorage.getItem('mv_site_setting_v4')){
   document.documentElement.classList.add('splash-lock');
 }
 if(auraV){
@@ -828,6 +828,6 @@ let entryT=0;
   }
 })();
 </script>
-<script src="assets/hermes-chat.js?v=31"></script>
+<script src="assets/hermes-chat.js?v=32"></script>
 </body>
 </html>
