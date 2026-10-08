@@ -558,23 +558,19 @@ html.splash-lock.webgl-ready #cssStars{display:none !important}
 #loader .loader-fill{height:100%;background:linear-gradient(90deg,#6d28d9,#ec4899);width:0%;transition:width 0.4s;border-radius:1px}
 #loader .loader-status{margin-top:1rem;font-size:0.6rem;font-weight:600;letter-spacing:0.4em;text-transform:uppercase;color:rgba(255,255,255,0.25)}
 
-/* Space exploration controls: zoom the Earth without affecting page scrolling. */
-.space-controls{position:fixed;left:50%;bottom:max(16px,env(safe-area-inset-bottom));z-index:20;display:none;align-items:center;gap:8px;padding:8px 10px;border:1px solid rgba(167,139,250,.26);border-radius:999px;background:rgba(7,9,16,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 10px 38px rgba(0,0,0,.35);color:#e5e7eb;white-space:nowrap;transform:translateX(-50%);pointer-events:auto}
+/* Space info badge on the lock page (zoom/reset controls removed). */
+.space-controls{position:fixed;left:50%;bottom:max(16px,env(safe-area-inset-bottom));z-index:20;display:none;align-items:center;gap:8px;padding:7px 14px;border:1px solid rgba(167,139,250,.26);border-radius:999px;background:rgba(7,9,16,.5);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 10px 38px rgba(0,0,0,.35);color:#e5e7eb;white-space:nowrap;transform:translateX(-50%);pointer-events:none}
 html.splash-lock #spaceControls{display:flex}
 #loader.scan-open #spaceControls{display:none!important}
-.space-label,.space-system-label{font-size:9px;font-weight:800;letter-spacing:.14em;color:#a1a1aa}
-.space-system-label{color:#c4b5fd}
-.space-controls button{width:32px;height:32px;display:grid;place-items:center;border:1px solid rgba(139,92,246,.32);border-radius:50%;background:rgba(139,92,246,.14);color:#f5f3ff;font-size:20px;line-height:1;transition:background .18s ease,transform .18s ease,border-color .18s ease}
-.space-controls button:hover{background:rgba(139,92,246,.32);border-color:rgba(196,181,253,.75);transform:scale(1.06)}
-.space-controls output{min-width:36px;text-align:center;color:#e9d5ff;font:700 11px 'Space Grotesk',sans-serif}
-.space-divider{height:22px;width:1px;background:rgba(255,255,255,.14);margin:0 2px}
+.space-system-label{font-size:9px;font-weight:800;letter-spacing:.14em;color:#c4b5fd}
 .space-star-count{font-size:10px;color:#d4d4d8}.space-star-count b{color:#f5d0fe}
-.space-controls .space-reset{width:28px;height:28px;font-size:16px;color:#c4b5fd}
 
 /* Full-screen scan dashboard: every result is arranged in one viewport, with no scroll pane. */
-.scan-result{display:none;color:#c9cede;font-size:12px;line-height:1.4;box-sizing:border-box}
-#scanResult.scan-result-open{position:fixed!important;inset:0!important;z-index:100!important;display:flex!important;width:100vw!important;height:100vh!important;height:100dvh!important;max-width:none!important;margin:0!important;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))!important;align-items:center;justify-content:center;overflow:hidden!important;border:0!important;border-radius:0!important;background:radial-gradient(ellipse at 50% 0%,rgba(40,27,72,.96),rgba(5,6,10,.985) 62%)!important;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);text-align:left!important;word-wrap:break-word}
-.scan-close{position:fixed;top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));z-index:120;display:none;align-items:center;gap:7px;padding:9px 13px;border:1px solid rgba(196,181,253,.28);border-radius:999px;background:rgba(17,16,28,.9);color:#e9d5ff;font-size:11px;font-weight:700;letter-spacing:.02em;box-shadow:0 8px 28px rgba(0,0,0,.32);cursor:pointer}
+/* Glassmorphic scan dashboard — frosted translucent panels floating over deep space. */
+.scan-result{display:none;color:#e9ecf8;font-size:12px;line-height:1.4;box-sizing:border-box}
+#scanResult.scan-result-open{position:fixed!important;inset:0!important;z-index:100!important;display:flex!important;width:100vw!important;height:100vh!important;height:100dvh!important;max-width:none!important;margin:0!important;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))!important;align-items:center;justify-content:center;overflow:hidden!important;border:0!important;border-radius:0!important;background:linear-gradient(155deg,rgba(126,90,226,.32),rgba(12,14,28,.44) 46%,rgba(236,72,153,.17))!important;backdrop-filter:blur(28px) saturate(150%);-webkit-backdrop-filter:blur(28px) saturate(150%);text-align:left!important;word-wrap:break-word}
+.scan-close{position:fixed;top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));z-index:120;display:none;align-items:center;gap:7px;padding:9px 14px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:linear-gradient(135deg,rgba(255,255,255,.17),rgba(255,255,255,.06));backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);color:#f3e8ff;font-size:11px;font-weight:700;letter-spacing:.02em;box-shadow:0 8px 28px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.3);cursor:pointer;transition:border-color .2s ease,background .2s ease}
+.scan-close:hover{border-color:rgba(255,255,255,.5);background:linear-gradient(135deg,rgba(255,255,255,.26),rgba(255,255,255,.10))}
 .scan-close svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
 #loader.scan-open #closeScanResult{display:flex}
 #loader.scan-open{overflow:hidden!important}
@@ -583,12 +579,12 @@ html.splash-lock #spaceControls{display:flex}
 .scan-heading{min-width:0}
 .scan-title{font:700 clamp(17px,2vw,23px)/1.1 'Space Grotesk',sans-serif;letter-spacing:-.035em;color:#fafafa}
 .scan-subtitle{margin-top:4px;font-size:10px;color:#8b91a4;line-height:1.3}
-.scan-live{display:inline-flex;align-items:center;gap:6px;flex-shrink:0;padding:6px 9px;border:1px solid rgba(16,185,129,.22);border-radius:999px;background:rgba(16,185,129,.08);color:#86efac;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.scan-live{display:inline-flex;align-items:center;gap:6px;flex-shrink:0;padding:6px 10px;border:1px solid rgba(52,211,153,.38);border-radius:999px;background:linear-gradient(135deg,rgba(16,185,129,.20),rgba(16,185,129,.07));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#a7f3d0;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
 .scan-live::before{content:'';width:6px;height:6px;border-radius:50%;background:#34d399;box-shadow:0 0 10px rgba(52,211,153,.65)}
 .scan-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:10px;flex:1 1 auto;min-height:0}
 .scan-grid-fallback{grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:minmax(0,1fr)}
 .scan-grid-fallback>.scan-card{grid-column:auto!important;grid-row:auto!important}
-.scan-card{min-width:0;min-height:0;display:flex;flex-direction:column;gap:6px;padding:clamp(10px,1.4vh,16px);overflow:hidden;border:1px solid rgba(139,92,246,.19);border-radius:16px;background:linear-gradient(145deg,rgba(19,20,31,.92),rgba(11,12,20,.9));box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 10px 32px rgba(0,0,0,.16)}
+.scan-card{min-width:0;min-height:0;display:flex;flex-direction:column;gap:6px;padding:clamp(10px,1.4vh,16px);overflow:hidden;border:1px solid rgba(255,255,255,.16);border-radius:18px;background:linear-gradient(150deg,rgba(255,255,255,.13),rgba(255,255,255,.045) 55%,rgba(255,255,255,.02));backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 14px 40px rgba(0,0,0,.24)}
 .scan-card-title{font-size:9px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:#a78bfa}
 .scan-primary{min-width:0;color:#f3f4f6;font-size:clamp(11px,1.15vw,13px);font-weight:700;overflow-wrap:anywhere}
 .scan-secondary{color:#a1a1aa;font-size:10px;line-height:1.35;overflow-wrap:anywhere}
@@ -597,32 +593,33 @@ html.splash-lock #spaceControls{display:flex}
 .scan-meter{display:flex;align-items:center;gap:7px;margin:3px 0!important}
 .scan-meter>div:first-child{height:6px!important}
 .scan-meter>span{font-size:9px!important;min-width:30px!important}
-.scan-graph{display:block;width:100%!important;height:clamp(25px,4.7vh,42px)!important;margin:3px 0 0!important;flex:0 0 auto;border:1px solid rgba(255,255,255,.035);border-radius:8px;background:rgba(0,0,0,.3)}
+.scan-graph{display:block;width:100%!important;height:clamp(25px,4.7vh,42px)!important;margin:3px 0 0!important;flex:0 0 auto;border:1px solid rgba(255,255,255,.12);border-radius:10px;background:rgba(255,255,255,.05)}
 .scan-kv-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px 10px;margin-top:3px}
 .scan-kv{min-width:0;font-size:10px;line-height:1.35;color:#a1a1aa;overflow-wrap:anywhere}
 .scan-kv b{color:#e5e7eb;font-weight:600}
 .scan-cpu{grid-column:1;grid-row:1}.scan-gpu{grid-column:2;grid-row:1}.scan-memory{grid-column:3;grid-row:1}
-.scan-usage{grid-column:1/span 2;grid-row:2;background:linear-gradient(135deg,rgba(109,40,217,.18),rgba(21,17,34,.95) 56%,rgba(236,72,153,.08))}
+.scan-usage{grid-column:1/span 2;grid-row:2;background:linear-gradient(135deg,rgba(139,92,246,.28),rgba(255,255,255,.06) 52%,rgba(236,72,153,.17))}
 .scan-device{grid-column:3;grid-row:2}
 .scan-usage-top{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:10px;color:#c9cede}
 .scan-efficiency{flex:0 0 auto;color:#d8b4fe;font-size:10px;font-weight:700}
 .scan-usage-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:4px}
-.scan-usage-item{min-width:0;padding:6px 8px;border:1px solid rgba(255,255,255,.055);border-radius:10px;background:rgba(0,0,0,.16)}
+.scan-usage-item{min-width:0;padding:6px 8px;border:1px solid rgba(255,255,255,.13);border-radius:10px;background:rgba(255,255,255,.08)}
 .scan-usage-item .scan-kv{display:flex;justify-content:space-between;gap:4px}
 .scan-usage-item .scan-meter{margin:4px 0 0!important}
-.scan-baseline{margin-top:auto;padding-top:5px;border-top:1px solid rgba(255,255,255,.065);color:#858b9c;font-size:9px;line-height:1.4;overflow-wrap:anywhere}
+.scan-baseline{margin-top:auto;padding-top:5px;border-top:1px solid rgba(255,255,255,.16);color:#9aa1b5;font-size:9px;line-height:1.4;overflow-wrap:anywhere}
 .scan-device-grid{display:grid;grid-template-columns:1fr;gap:5px;min-height:0}
-.scan-ua{margin-top:auto;padding-top:6px;border-top:1px solid rgba(139,92,246,.16);color:#717789;font-size:8px;line-height:1.3;overflow-wrap:anywhere;word-break:break-word}
+.scan-ua{margin-top:auto;padding-top:6px;border-top:1px solid rgba(255,255,255,.16);color:#8f96ab;font-size:8px;line-height:1.3;overflow-wrap:anywhere;word-break:break-word}
 .scan-loading,.scan-error{width:min(520px,100%);margin:auto;text-align:center;color:#d4d4d8;font-size:13px}
 .scan-loading .scan-live{margin-bottom:12px}
 .scan-note{color:#8b91a4;font-size:9px;line-height:1.35}
 .scan-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:4px}
-.scan-action-button{padding:6px 9px;border:1px solid rgba(139,92,246,.35);border-radius:999px;background:rgba(124,58,237,.15);color:#d8b4fe;font-size:9px;font-weight:700;cursor:pointer}
-.scan-action-button.secondary{border-color:rgba(113,113,122,.3);background:rgba(39,39,42,.45);color:#a1a1aa}
+.scan-action-button{padding:6px 10px;border:1px solid rgba(255,255,255,.26);border-radius:999px;background:linear-gradient(135deg,rgba(139,92,246,.32),rgba(139,92,246,.12));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#e9d5ff;font-size:9px;font-weight:700;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.22);transition:border-color .2s ease,background .2s ease}
+.scan-action-button:hover{border-color:rgba(255,255,255,.45);background:linear-gradient(135deg,rgba(139,92,246,.44),rgba(139,92,246,.2))}
+.scan-action-button.secondary{border-color:rgba(255,255,255,.18);background:linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.05));color:#cbd5e1}
+.scan-action-button.secondary:hover{border-color:rgba(255,255,255,.38);background:linear-gradient(135deg,rgba(255,255,255,.2),rgba(255,255,255,.09))}
 
 @media(max-width:760px){
-  .space-controls{gap:6px;padding:7px 8px;max-width:calc(100vw - 16px)}
-  .space-controls button{width:30px;height:30px}.space-divider{height:18px;margin:0}
+  .space-controls{gap:6px;padding:6px 10px;max-width:calc(100vw - 16px)}
   .space-system-label{font-size:8px;letter-spacing:.1em}
   .scan-screen{gap:7px}
   .scan-head{min-height:38px;padding-right:82px}
@@ -663,7 +660,7 @@ html.splash-lock #spaceControls{display:flex}
   .scan-usage-item{padding:2px 4px}.scan-usage-item .scan-kv{font-size:7px}
   .scan-usage-item .scan-meter{display:none!important}.scan-baseline{display:none}
 }
-@media(prefers-reduced-motion:reduce){.space-controls button{transition:none}}
+
 
 
 html.splash-lock #loader{align-items:flex-start;justify-content:flex-start;padding:clamp(20px,4vh,46px) clamp(18px,4vw,54px);pointer-events:none}
@@ -726,15 +723,9 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
 </div>
 <!-- DEEP SPACE LAYER -->
 <div id="cssStars" style="position:fixed;inset:0;z-index:10001;background:#05060a;pointer-events:none;display:none"></div>
-<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">drag to explore · tap a planet for details · pinch or − / + to zoom</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterBlackhole" type="button" style="padding:12px 28px;border-radius:999px;border:1px solid rgba(236,72,153,.6);background:linear-gradient(135deg,rgba(109,40,217,.35),rgba(236,72,153,.3));color:#f9a8d4;font-size:13px;font-weight:800;letter-spacing:.12em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(236,72,153,.35),0 0 20px rgba(109,40,217,.3)"><img src="assets/black-hole.jpg?v=25" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:cover;box-shadow:0 0 16px rgba(236,72,153,.8)">Enter Blackhole</button></div><div style="display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center"><button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⚙️ Site Setting</button></div><div id="spaceControls" class="space-controls" aria-label="Solar system view and zoom controls">
-  <span class="space-label">SPACE</span>
-  <button id="earthZoomOut" type="button" aria-label="Zoom out" title="Zoom out">−</button>
-  <output id="earthZoomLevel" aria-live="polite">1.0×</output>
-  <button id="earthZoomIn" type="button" aria-label="Zoom in" title="Zoom in">+</button>
-  <span class="space-divider" aria-hidden="true"></span>
+<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">drag to explore · tap a planet for details · pinch to zoom</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterBlackhole" type="button" style="padding:12px 28px;border-radius:999px;border:1px solid rgba(236,72,153,.6);background:linear-gradient(135deg,rgba(109,40,217,.35),rgba(236,72,153,.3));color:#f9a8d4;font-size:13px;font-weight:800;letter-spacing:.12em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(236,72,153,.35),0 0 20px rgba(109,40,217,.3)"><img src="assets/black-hole.jpg?v=25" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:cover;box-shadow:0 0 16px rgba(236,72,153,.8)">Enter Blackhole</button></div><div style="display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center"><button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⚙️ Site Setting</button></div><div id="spaceControls" class="space-controls" aria-label="Solar system info">
   <span class="space-system-label">SOLAR SYSTEM</span>
   <span class="space-star-count" aria-label="50,000 stars">✦ <b id="spaceStarCount">50K</b> stars</span>
-  <button id="earthZoomReset" class="space-reset" type="button" aria-label="Reset zoom" title="Reset zoom">↺</button>
 </div>
 <aside id="planetInfo" class="planet-info" aria-live="polite" aria-hidden="true"><button id="planetInfoClose" type="button" aria-label="Close planet details">×</button><span class="planet-info-kicker">PLANET EXPLORER</span><strong id="planetInfoName">Earth</strong><p id="planetInfoText">Tap any planet to explore its world.</p><button id="planetFocus" type="button">FOCUS PLANET <span>↗</span></button></aside>
 <button id="closeScanResult" class="scan-close" type="button" aria-label="Close device scan and return to space">
@@ -1327,7 +1318,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
       }else if(window.enterSiteNow) window.enterSiteNow();
     };
   }
-  // Shared scan overlay and no-scroll zoom controls.
+  // Shared scan overlay + no-scroll wheel-zoom fallback.
   window.showScanResults = function(markup){
     const out=document.getElementById('scanResult');
     const loader=document.getElementById('loader');
@@ -1358,25 +1349,9 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
   document.addEventListener('keydown',e=>{
     if(e.key==='Escape' && document.getElementById('scanResult')?.classList.contains('scan-result-open')) window.closeScanResults();
   });
-  // Controls work even when the optional Three.js module cannot load.
+  // Wheel zoom keeps working on the lock page even when the Three.js module cannot load.
+  // (On-screen zoom/reset buttons were removed by design.)
   (function(){
-    const zoomLabel=document.getElementById('earthZoomLevel');
-    let fallbackZoom=1;
-    function showFallbackZoom(){
-      if(zoomLabel) zoomLabel.value=fallbackZoom.toFixed(1)+'×';
-    }
-    function adjust(direction){
-      if(typeof window.adjustSpaceZoom==='function'){ window.adjustSpaceZoom(direction); return; }
-      fallbackZoom=Math.max(.55,Math.min(1.75,fallbackZoom-direction*.1));
-      showFallbackZoom();
-    }
-    document.getElementById('earthZoomOut')?.addEventListener('click',()=>adjust(1));
-    document.getElementById('earthZoomIn')?.addEventListener('click',()=>adjust(-1));
-    document.getElementById('earthZoomReset')?.addEventListener('click',()=>{
-      fallbackZoom=1;
-      if(typeof window.resetSpaceZoom==='function') window.resetSpaceZoom();
-      showFallbackZoom();
-    });
     window.addEventListener('wheel',e=>{
       const loader=document.getElementById('loader');
       if(!document.documentElement.classList.contains('splash-lock') || loader?.classList.contains('scan-open')) return;
@@ -1386,7 +1361,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
         return;
       }
       if(Math.abs(e.deltaY)<1) return;
-      adjust(e.deltaY>0?1:-1);
+      if(typeof window.adjustSpaceZoom==='function') window.adjustSpaceZoom(e.deltaY>0?1:-1);
     },{passive:false});
   })();
   // Ensure buttons have listeners even if module failed
@@ -1520,8 +1495,8 @@ window.adjustSpaceZoom=function(direction){
   spaceZoomTarget=THREE.MathUtils.clamp(spaceZoomTarget+Math.sign(direction)*3,-29,32);
   updateSpaceZoomLabel();
 };
-let spaceOrbitYaw=0,spaceOrbitPitch=0.18,spaceOrbitYawT=0,spaceOrbitPitchT=0.18;
-window.spaceOrbitYawT=0; window.spaceOrbitPitchT=0.18;
+let spaceOrbitYaw=0,spaceOrbitPitch=0.38,spaceOrbitYawT=0,spaceOrbitPitchT=0.38;
+window.spaceOrbitYawT=0; window.spaceOrbitPitchT=0.38;
 let spaceDragging=false,spaceDragX=0,spaceDragY=0,spaceDragPid=null;
 const spacePointers=new Map();let spacePinchDistance=0;
 function spaceOrbitFromClient(x,y){
@@ -1569,8 +1544,8 @@ window.addEventListener('pointercancel',spaceOnPointerUp,{passive:true});
 window.resetSpaceZoom=function(){
   spaceZoomTarget=0;
   focusSolarTarget.set(0,0,-14);
-  spaceOrbitYawT=0; spaceOrbitPitchT=0.18;
-  window.spaceOrbitYawT=0; window.spaceOrbitPitchT=0.18;
+  spaceOrbitYawT=0; spaceOrbitPitchT=0.38;
+  window.spaceOrbitYawT=0; window.spaceOrbitPitchT=0.38;
   updateSpaceZoomLabel();
 };
 
@@ -1725,10 +1700,10 @@ window._fullDeviceScanReady=true;
       const ctx=canvas.getContext('2d');
       const w=canvas.width, h=canvas.height;
       ctx.clearRect(0,0,w,h);
-      ctx.fillStyle='rgba(0,0,0,0.3)';
+      ctx.fillStyle='rgba(255,255,255,0.04)';
       ctx.fillRect(0,0,w,h);
       // grid
-      ctx.strokeStyle='rgba(255,255,255,0.05)';
+      ctx.strokeStyle='rgba(255,255,255,0.09)';
       ctx.lineWidth=1;
       for(let i=0;i<=4;i++){ const y=(h/4)*i; ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
       // line
@@ -2002,30 +1977,35 @@ const sunTexture=new THREE.TextureLoader(manager).load('assets/planet-textures/s
 const sunCore=new THREE.Mesh(new THREE.SphereGeometry(1.18,64,48),new THREE.MeshBasicMaterial({map:sunTexture,color:0xffedb2}));solarSystemGroup.add(sunCore);sunCore.name='Sun';sunCore.userData.planetData={name:'Sun',fact:'Our star anchors the solar system. Its gravity holds eight planets in orbit, and its light takes about eight minutes to reach Earth.'};clickablePlanets.push(sunCore);
 const sunGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),transparent:true,opacity:.8,depthWrite:false,blending:THREE.AdditiveBlending}));sunGlow.scale.set(10,10,1);solarSystemGroup.add(sunGlow);
 const solarSunLight=new THREE.PointLight(0xffd18b,4.5,70,1.2);solarSystemGroup.add(solarSunLight);
+// Real planets: photographic texture maps + true axial tilts (radians).
 const solarPlanetData=[
- {name:'Mercury',orbit:2.45,radius:.23,base:'#8f887d',speed:.24,phase:.35,fact:'The smallest planet and the closest to the Sun. Its ancient surface is densely scarred by impact craters.'},
- {name:'Venus',orbit:3.55,radius:.32,base:'#c5a76e',speed:.17,phase:2.35,fact:'A brilliant, cloud-wrapped world with a crushing carbon-dioxide atmosphere and the hottest surface in the solar system.'},
- {name:'Earth',orbit:4.9,radius:.36,color:0x9bc7ef,speed:.14,phase:4.15,fact:'Our ocean-rich home is the only world known to support life, with a protective atmosphere and a single large Moon.'},
- {name:'Mars',orbit:6.35,radius:.29,base:'#a64f35',speed:.11,phase:1.55,fact:'The red planet has giant volcanoes, ancient river valleys, polar ice, and two tiny moons.'},
- {name:'Jupiter',orbit:8.6,radius:.94,speed:.075,phase:3.3,bands:['#b69072','#e5c9a0','#856956','#d2ad85','#a77d68'],fact:'The largest planet is a gas giant with powerful storms, dozens of moons, and the long-lived Great Red Spot.'},
- {name:'Saturn',orbit:11.2,radius:.78,speed:.057,phase:5.15,bands:['#d0bb91','#f0ddb5','#a89776','#e5d1a9'],ring:true,fact:'Saturn is a gas giant surrounded by spectacular icy rings, with Titan among its many fascinating moons.'},
- {name:'Uranus',orbit:13.6,radius:.57,speed:.044,phase:2.75,bands:['#78b9bb','#add9d5','#579da7','#a7d6d3'],ring:true,fact:'An ice giant with a blue-green atmosphere; Uranus rotates almost on its side and has a faint ring system.'},
- {name:'Neptune',orbit:15.7,radius:.55,speed:.036,phase:.9,bands:['#345cae','#5f89d2','#23488e','#78a4e2'],fact:'A distant, windy ice giant with deep-blue clouds and fast-moving storms.'}
+ {name:'Mercury',orbit:2.45,radius:.23,base:'#8f887d',speed:.24,phase:.35,tilt:.03,fact:'The smallest planet and the closest to the Sun. Its ancient surface is densely scarred by impact craters.'},
+ {name:'Venus',orbit:3.55,radius:.32,base:'#c5a76e',speed:.17,phase:2.35,tilt:3.09,fact:'A brilliant, cloud-wrapped world with a crushing carbon-dioxide atmosphere and the hottest surface in the solar system.'},
+ {name:'Earth',orbit:4.9,radius:.36,color:0x9bc7ef,speed:.14,phase:4.15,tilt:.41,fact:'Our ocean-rich home is the only world known to support life, with a protective atmosphere and a single large Moon.'},
+ {name:'Mars',orbit:6.35,radius:.29,base:'#a64f35',speed:.11,phase:1.55,tilt:.44,fact:'The red planet has giant volcanoes, ancient river valleys, polar ice, and two tiny moons.'},
+ {name:'Jupiter',orbit:8.6,radius:.94,speed:.075,phase:3.3,tilt:.05,bands:['#b69072','#e5c9a0','#856956','#d2ad85','#a77d68'],fact:'The largest planet is a gas giant with powerful storms, dozens of moons, and the long-lived Great Red Spot.'},
+ {name:'Saturn',orbit:11.2,radius:.78,speed:.057,phase:5.15,tilt:.47,bands:['#d0bb91','#f0ddb5','#a89776','#e5d1a9'],ring:true,fact:'Saturn is a gas giant surrounded by spectacular icy rings, with Titan among its many fascinating moons.'},
+ {name:'Uranus',orbit:13.6,radius:.57,speed:.044,phase:2.75,tilt:1.71,bands:['#78b9bb','#add9d5','#579da7','#a7d6d3'],ring:true,fact:'An ice giant with a blue-green atmosphere; Uranus rotates almost on its side and has a faint ring system.'},
+ {name:'Neptune',orbit:15.7,radius:.55,speed:.036,phase:.9,tilt:.49,bands:['#345cae','#5f89d2','#23488e','#78a4e2'],fact:'A distant, windy ice giant with deep-blue clouds and fast-moving storms.'}
 ];
 const solarOrbitMaterial=new THREE.LineBasicMaterial({color:0xa8b8d7,transparent:true,opacity:.23,depthWrite:false});
 solarPlanetData.forEach(data=>{
- const orbitPoints=[];for(let i=0;i<240;i++){const a=i/240*Math.PI*2;orbitPoints.push(new THREE.Vector3(Math.cos(a)*data.orbit,Math.sin(a)*data.orbit*.34,0));}
+ // Orbits lie flat in the local XZ plane (the ecliptic disk); the camera views it from above.
+ const orbitPoints=[];for(let i=0;i<240;i++){const a=i/240*Math.PI*2;orbitPoints.push(new THREE.Vector3(Math.cos(a)*data.orbit,0,Math.sin(a)*data.orbit));}
  const orbit=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(orbitPoints),solarOrbitMaterial);solarSystemGroup.add(orbit);
  const mat=new THREE.MeshStandardMaterial({map:makePlanetMap(data),color:0xffffff,roughness:data.name==='Venus'?.95:.82,metalness:0});
- const planet=new THREE.Mesh(new THREE.SphereGeometry(data.radius,64,48),mat);planet.name=data.name;planet.userData.planetData=data;planet.userData.isPlanet=true;solarSystemGroup.add(planet);clickablePlanets.push(planet);
- if(data.ring){const ringTextureCanvas=document.createElement('canvas');ringTextureCanvas.width=256;ringTextureCanvas.height=16;const rctx=ringTextureCanvas.getContext('2d');const rg=rctx.createLinearGradient(0,0,256,0);rg.addColorStop(0,'rgba(188,164,119,0)');rg.addColorStop(.16,'rgba(201,185,151,.42)');rg.addColorStop(.28,'rgba(228,214,184,.9)');rg.addColorStop(.39,'rgba(115,103,88,.26)');rg.addColorStop(.52,'rgba(220,205,176,.86)');rg.addColorStop(.78,'rgba(177,155,120,.7)');rg.addColorStop(1,'rgba(190,170,136,0)');rctx.fillStyle=rg;rctx.fillRect(0,0,256,16);const rt=new THREE.CanvasTexture(ringTextureCanvas);rt.colorSpace=THREE.SRGBColorSpace;const ring=new THREE.Mesh(new THREE.RingGeometry(data.radius*1.25,data.radius*2.15,128),new THREE.MeshStandardMaterial({map:rt,side:THREE.DoubleSide,transparent:true,opacity:.9,roughness:1,depthWrite:false}));ring.rotation.x=data.name==='Uranus'?1.24:.32;ring.rotation.y=.12;planet.add(ring);}
- if(data.name==='Earth'){const moon=new THREE.Mesh(new THREE.SphereGeometry(.095,32,24),new THREE.MeshStandardMaterial({color:0xc6c9cd,roughness:1}));moon.position.set(data.radius*1.9,0,0);const moonOrbit=new THREE.Group();moonOrbit.add(moon);planet.add(moonOrbit);solarMoons.push({orbit:moonOrbit,speed:.35});}
+ const planet=new THREE.Mesh(new THREE.SphereGeometry(data.radius,64,48),mat);planet.name=data.name;planet.userData.planetData=data;planet.userData.isPlanet=true;
+ // Real axial tilt: tilt is applied last (ZYX order), so the planet spins around its own tilted axis.
+ planet.rotation.order='ZYX';planet.rotation.z=data.tilt||0;
+ solarSystemGroup.add(planet);clickablePlanets.push(planet);
+ if(data.ring){const ringTextureCanvas=document.createElement('canvas');ringTextureCanvas.width=256;ringTextureCanvas.height=16;const rctx=ringTextureCanvas.getContext('2d');const rg=rctx.createLinearGradient(0,0,256,0);rg.addColorStop(0,'rgba(188,164,119,0)');rg.addColorStop(.16,'rgba(201,185,151,.42)');rg.addColorStop(.28,'rgba(228,214,184,.9)');rg.addColorStop(.39,'rgba(115,103,88,.26)');rg.addColorStop(.52,'rgba(220,205,176,.86)');rg.addColorStop(.78,'rgba(177,155,120,.7)');rg.addColorStop(1,'rgba(190,170,136,0)');rctx.fillStyle=rg;rctx.fillRect(0,0,256,16);const rt=new THREE.CanvasTexture(ringTextureCanvas);rt.colorSpace=THREE.SRGBColorSpace;const ring=new THREE.Mesh(new THREE.RingGeometry(data.radius*1.25,data.radius*2.15,128),new THREE.MeshStandardMaterial({map:rt,side:THREE.DoubleSide,transparent:true,opacity:.9,roughness:1,depthWrite:false}));ring.rotation.x=Math.PI/2;planet.add(ring);} // Ring lies flat in the planet's equatorial plane; the axial tilt above orients it realistically.
+ if(data.name==='Earth'){const atmo=new THREE.Mesh(new THREE.SphereGeometry(data.radius*1.07,48,32),new THREE.MeshBasicMaterial({color:0x6ab7ff,transparent:true,opacity:.13,blending:THREE.AdditiveBlending,depthWrite:false}));planet.add(atmo);const moon=new THREE.Mesh(new THREE.SphereGeometry(.095,32,24),new THREE.MeshStandardMaterial({color:0xc6c9cd,roughness:1}));moon.position.set(data.radius*1.9,0,0);const moonOrbit=new THREE.Group();moonOrbit.add(moon);planet.add(moonOrbit);solarMoons.push({orbit:moonOrbit,speed:.35});}
  solarPlanets.push({mesh:planet,radius:data.orbit,speed:data.speed,phase:data.phase});
 });
 // Asteroid belt, rendered as fine, individually varied rocks between Mars and Jupiter.
-const asteroidPositions=new Float32Array(1200*3);for(let i=0;i<1200;i++){const a=Math.random()*Math.PI*2,r=7.15+Math.random()*.55;asteroidPositions[i*3]=Math.cos(a)*r;asteroidPositions[i*3+1]=Math.sin(a)*r*.34;asteroidPositions[i*3+2]=(Math.random()-.5)*.12;}
+const asteroidPositions=new Float32Array(1200*3);for(let i=0;i<1200;i++){const a=Math.random()*Math.PI*2,r=7.15+Math.random()*.55;asteroidPositions[i*3]=Math.cos(a)*r;asteroidPositions[i*3+1]=(Math.random()-.5)*.14;asteroidPositions[i*3+2]=Math.sin(a)*r;}
 const asteroidGeometry=new THREE.BufferGeometry();asteroidGeometry.setAttribute('position',new THREE.BufferAttribute(asteroidPositions,3));const asteroidBelt=new THREE.Points(asteroidGeometry,new THREE.PointsMaterial({color:0xc8b9a1,size:.045,sizeAttenuation:true,transparent:true,opacity:.65,depthWrite:false}));solarSystemGroup.add(asteroidBelt);
-function updateSolarSystem(dt,time){if(!solarSystemGroup.visible)return;for(const p of solarPlanets){const angle=p.phase+time*p.speed;p.mesh.position.set(Math.cos(angle)*p.radius,Math.sin(angle)*p.radius*.34,Math.sin(angle)*p.radius*.025);p.mesh.rotation.y+=dt*.12;}for(const m of solarMoons)m.orbit.rotation.z+=dt*.35;asteroidBelt.rotation.z+=dt*.0015;}
+function updateSolarSystem(dt,time){if(!solarSystemGroup.visible)return;for(const p of solarPlanets){const angle=p.phase+time*p.speed;p.mesh.position.set(Math.cos(angle)*p.radius,0,Math.sin(angle)*p.radius);p.mesh.rotation.y+=dt*.12;}for(const m of solarMoons)m.orbit.rotation.y+=dt*.35;asteroidBelt.rotation.y+=dt*.0015;sunCore.rotation.y+=dt*.02;}
 let selectedPlanet=null;
 const planetInfo=document.getElementById('planetInfo');
 function focusPlanetObject(obj){if(!obj)return;focusSolarTarget.copy(obj.getWorldPosition(new THREE.Vector3()));const radius=(obj.geometry?.parameters?.radius||.5)*obj.getWorldScale(new THREE.Vector3()).x;spaceZoomTarget=THREE.MathUtils.clamp(Math.max(3,radius*5.5)-32,-29,32);updateSpaceZoomLabel();}
