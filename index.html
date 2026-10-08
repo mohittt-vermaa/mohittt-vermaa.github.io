@@ -472,7 +472,8 @@ body.dark .form-input,body.dark .form-textarea{background:#1a1a22;border-color:v
 #auraVideo{position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:0;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35);transition:opacity .6s ease}
 section,footer,.marquee{position:relative;z-index:2}
 #loader{position:fixed;inset:0;background:transparent;z-index:10002;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all 1.2s cubic-bezier(0.16,1,0.3,1)}
-html.splash-lock,html.splash-lock body{overflow:hidden!important;height:100%;background:#05060a!important}
+html.splash-lock,html.splash-lock body{overflow:hidden!important;height:100%;background:#05060a!important;cursor:grab;touch-action:none}
+html.splash-lock.space-dragging,html.splash-lock.space-dragging body{cursor:grabbing}
 /* Splash = full blank page: hide home portfolio, hide aura video, show only dark space canvas + astronaut */
 html.splash-lock .wrap{opacity:0!important;pointer-events:none!important;visibility:hidden!important}
 html.splash-lock #auraVideo{opacity:0!important;pointer-events:none!important}
@@ -714,7 +715,7 @@ html.splash-lock #spaceControls{display:flex}
 <div id="cssStars" style="position:fixed;inset:0;z-index:10001;background:#05060a;pointer-events:none;display:none"></div>
 <div id="cssEarth" style="position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:10003;width:min(60vw,400px);height:min(60vw,400px);border-radius:50%;background:url('assets/textures/earth-blue-marble.jpg') center/cover;box-shadow:0 0 80px rgba(59,130,246,0.7), 0 0 120px rgba(139,92,246,0.3), inset -30px -30px 60px rgba(0,0,0,0.9);pointer-events:none;opacity:0.9;border:2px solid rgba(59,130,246,0.3);display:none"></div>
 <div id="cssAstronaut" style="position:fixed;right:8%;top:50%;transform:translateY(-50%);z-index:10002;pointer-events:none;opacity:0.9;display:none"><img src="assets/astronaut-small.png?v=20" alt="astronaut" style="width:140px;height:140px;object-fit:contain;filter:drop-shadow(0 0 24px rgba(139,92,246,0.9))"></div>
-<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">tap the astronaut or black hole to enter blackhole</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterBlackhole" type="button" style="padding:12px 28px;border-radius:999px;border:1px solid rgba(236,72,153,.6);background:linear-gradient(135deg,rgba(109,40,217,.35),rgba(236,72,153,.3));color:#f9a8d4;font-size:13px;font-weight:800;letter-spacing:.12em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(236,72,153,.35),0 0 20px rgba(109,40,217,.3)"><img src="assets/black-hole.jpg?v=25" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:cover;box-shadow:0 0 16px rgba(236,72,153,.8)">Enter Blackhole</button></div><div style="display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center"><button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⚙️ Site Setting</button></div><div id="spaceControls" class="space-controls" aria-label="Space view and Earth zoom controls">
+<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">drag anywhere to rotate space 360° · − / + zoom · ↺ reset</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterBlackhole" type="button" style="padding:12px 28px;border-radius:999px;border:1px solid rgba(236,72,153,.6);background:linear-gradient(135deg,rgba(109,40,217,.35),rgba(236,72,153,.3));color:#f9a8d4;font-size:13px;font-weight:800;letter-spacing:.12em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(236,72,153,.35),0 0 20px rgba(109,40,217,.3)"><img src="assets/black-hole.jpg?v=25" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:cover;box-shadow:0 0 16px rgba(236,72,153,.8)">Enter Blackhole</button></div><div style="display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center"><button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⚙️ Site Setting</button></div><div id="spaceControls" class="space-controls" aria-label="Space view and Earth zoom controls">
   <span class="space-label">EARTH</span>
   <button id="earthZoomOut" type="button" aria-label="Zoom out" title="Zoom out">−</button>
   <output id="earthZoomLevel" aria-live="polite">1.0×</output>
@@ -1376,8 +1377,13 @@ html.splash-lock #spaceControls{display:flex}
     });
     window.addEventListener('wheel',e=>{
       const loader=document.getElementById('loader');
-      if(!document.documentElement.classList.contains('splash-lock') || loader?.classList.contains('scan-open') || Math.abs(e.deltaY)<1) return;
+      if(!document.documentElement.classList.contains('splash-lock') || loader?.classList.contains('scan-open')) return;
       e.preventDefault();
+      if(typeof window.spaceOrbitYawT==='number' && Math.abs(e.deltaX)>Math.abs(e.deltaY)){
+        window.spaceOrbitYawT+=e.deltaX*0.004;
+        return;
+      }
+      if(Math.abs(e.deltaY)<1) return;
       adjust(e.deltaY>0?1:-1);
     },{passive:false});
   })();
@@ -1510,7 +1516,53 @@ window.adjustSpaceZoom=function(direction){
   spaceZoomTarget=THREE.MathUtils.clamp(spaceZoomTarget+Math.sign(direction)*3,-10,25);
   updateSpaceZoomLabel();
 };
-window.resetSpaceZoom=function(){spaceZoomTarget=0;updateSpaceZoomLabel();};
+let spaceOrbitYaw=0,spaceOrbitPitch=0.18,spaceOrbitYawT=0,spaceOrbitPitchT=0.18;
+window.spaceOrbitYawT=0; window.spaceOrbitPitchT=0.18;
+let spaceDragging=false,spaceDragX=0,spaceDragY=0,spaceDragPid=null;
+function spaceOrbitFromClient(x,y){
+  const dx=x-spaceDragX, dy=y-spaceDragY;
+  spaceDragX=x; spaceDragY=y;
+  spaceOrbitYawT+=dx*0.0055;
+  spaceOrbitPitchT=THREE.MathUtils.clamp(spaceOrbitPitchT+dy*0.0042,-1.15,1.15);
+  window.spaceOrbitYawT=spaceOrbitYawT; window.spaceOrbitPitchT=spaceOrbitPitchT;
+}
+function spaceInteractiveTarget(el){
+  return !!(el&&el.closest&&el.closest('button,a,input,textarea,select,.space-controls,.site-setting,#scanResult,#scanDevice,#enterBlackhole,#openSettingFromLock'));
+}
+function spaceOnPointerDown(e){
+  if(!document.documentElement.classList.contains('splash-lock')) return;
+  if(document.getElementById('loader')?.classList.contains('scan-open')) return;
+  if(spaceInteractiveTarget(e.target)) return;
+  const pt=e.touches?e.touches[0]:e;
+  spaceDragging=true; spaceDragPid=e.pointerId; spaceDragX=pt.clientX; spaceDragY=pt.clientY;
+  document.documentElement.classList.add('space-dragging');
+  try{ e.currentTarget&&e.pointerId!=null&&e.currentTarget.setPointerCapture&&e.currentTarget.setPointerCapture(e.pointerId); }catch(_){}
+}
+function spaceOnPointerMove(e){
+  if(!spaceDragging) return;
+  if(e.pointerId!=null && spaceDragPid!=null && e.pointerId!==spaceDragPid) return;
+  const pt=e.touches?e.touches[0]:e;
+  spaceOrbitFromClient(pt.clientX,pt.clientY);
+  if(e.cancelable) e.preventDefault();
+}
+function spaceOnPointerUp(e){
+  if(e.pointerId!=null && spaceDragPid!=null && e.pointerId!==spaceDragPid) return;
+  spaceDragging=false; spaceDragPid=null;
+  document.documentElement.classList.remove('space-dragging');
+}
+window.addEventListener('pointerdown',spaceOnPointerDown,{passive:true});
+window.addEventListener('pointermove',spaceOnPointerMove,{passive:false});
+window.addEventListener('pointerup',spaceOnPointerUp,{passive:true});
+window.addEventListener('pointercancel',spaceOnPointerUp,{passive:true});
+window.addEventListener('touchstart',spaceOnPointerDown,{passive:true});
+window.addEventListener('touchmove',spaceOnPointerMove,{passive:false});
+window.addEventListener('touchend',spaceOnPointerUp,{passive:true});
+window.resetSpaceZoom=function(){
+  spaceZoomTarget=0;
+  spaceOrbitYawT=0; spaceOrbitPitchT=0.18;
+  window.spaceOrbitYawT=0; window.spaceOrbitPitchT=0.18;
+  updateSpaceZoomLabel();
+};
 
 scene.add(new THREE.AmbientLight(0x3a4666,0.9));
 const keyL=new THREE.DirectionalLight(0xffffff,0.7);keyL.position.set(-4,6,10);scene.add(keyL);
@@ -1963,17 +2015,19 @@ if(!SITE_CFG.toggles.astronaut){
 const sun=new THREE.DirectionalLight(0xfff1d6,2.6);sun.position.set(28,10,6);scene.add(sun);
 const fillL=new THREE.PointLight(0x334466,1.2,40);fillL.position.set(-12,4,8);scene.add(fillL);
 
-// ═══ STARFIELD — real twinkling stars on deep black space ═══
+// ═══ STARFIELD — 50K pin-point stars (tiny discs, not square dots) ═══
 const STAR_N = (typeof starCount!=='undefined') ? starCount : ((SITE_CFG && SITE_CFG.toggles && typeof SITE_CFG.toggles.starCount!=='undefined') ? SITE_CFG.toggles.starCount : (SITE_CFG && SITE_CFG.preset==='medium'?10000:50000));
 const sPos=new Float32Array(STAR_N*3),sSize=new Float32Array(STAR_N),sCol=new Float32Array(STAR_N*3),sPh=new Float32Array(STAR_N);
-const starPalette=[[1,1,1],[1,1,1],[1,1,1],[0.75,0.85,1],[1,0.9,0.72],[0.95,0.8,0.65],[0.7,0.8,1]];
+const starPalette=[[1,1,1],[0.92,0.95,1],[0.78,0.86,1],[1,0.93,0.82],[1,0.84,0.68],[0.86,0.9,1]];
 for(let i=0;i<STAR_N;i++){
-  const r=45+Math.random()*190,t=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1);
+  const r=80+Math.pow(Math.random(),0.55)*280,t=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1);
   sPos[i*3]=r*Math.sin(ph)*Math.cos(t);sPos[i*3+1]=r*Math.sin(ph)*Math.sin(t);sPos[i*3+2]=r*Math.cos(ph);
-  const big=Math.random()<0.04; // a few bright feature stars
-  sSize[i]=big?(2.5+Math.random()*2.0):(1.0+Math.random()*1.5);
+  const roll=Math.random();
+  // Vast majority = 1px pinpoints; a few slightly brighter; almost no blobs
+  sSize[i]= roll<0.82 ? (0.7+Math.random()*0.55) : roll<0.97 ? (1.15+Math.random()*0.7) : (1.8+Math.random()*1.1);
   const c=starPalette[(Math.random()*starPalette.length)|0];
-  sCol[i*3]=c[0];sCol[i*3+1]=c[1];sCol[i*3+2]=c[2];
+  const dim=0.35+Math.random()*0.65;
+  sCol[i*3]=c[0]*dim;sCol[i*3+1]=c[1]*dim;sCol[i*3+2]=c[2]*dim;
   sPh[i]=Math.random()*100;
 }
 const starGeo=new THREE.BufferGeometry();
@@ -1981,20 +2035,40 @@ starGeo.setAttribute('position',new THREE.BufferAttribute(sPos,3));
 starGeo.setAttribute('aSize',new THREE.BufferAttribute(sSize,1));
 starGeo.setAttribute('color',new THREE.BufferAttribute(sCol,3));
 starGeo.setAttribute('aPhase',new THREE.BufferAttribute(sPh,1));
-const starMat=new THREE.PointsMaterial({
-  size:1.2,
-  sizeAttenuation:true,
+const starMat=new THREE.ShaderMaterial({
+  uniforms:{uTime:{value:0},uPixelRatio:{value:Math.min(devicePixelRatio,2)},uOpacity:{value:1}},
+  vertexShader:`
+    attribute float aSize; attribute float aPhase; attribute vec3 color;
+    uniform float uTime; uniform float uPixelRatio;
+    varying vec3 vCol; varying float vBright;
+    void main(){
+      vCol=color;
+      float tw=0.72+0.28*sin(uTime*1.6+aPhase);
+      vBright=tw;
+      vec4 mv=modelViewMatrix*vec4(position,1.0);
+      gl_Position=projectionMatrix*mv;
+      float dist=max(8.0,-mv.z);
+      gl_PointSize=clamp(aSize*uPixelRatio*(220.0/dist),0.55,3.4);
+    }
+  `,
+  fragmentShader:`
+    uniform float uOpacity; varying vec3 vCol; varying float vBright;
+    void main(){
+      vec2 p=gl_PointCoord-0.5;
+      float d=length(p)*2.0;
+      if(d>1.0) discard;
+      float core=exp(-d*d*9.5);
+      float halo=exp(-d*d*2.8)*0.18;
+      float a=(core+halo)*vBright*uOpacity;
+      if(a<0.02) discard;
+      gl_FragColor=vec4(vCol*(0.55+core*1.2), a);
+    }
+  `,
   transparent:true,
-  opacity:1,
-  vertexColors:true,
-  blending:THREE.AdditiveBlending,
-  depthWrite:false
+  depthWrite:false,
+  blending:THREE.AdditiveBlending
 });
-// Keep aSize for compatibility but use PointsMaterial
-starMat.onBeforeCompile = (shader)=>{
-  shader.uniforms.uTime={value:0};
-  starMat.userData.shader=shader;
-};
+Object.defineProperty(starMat,'opacity',{get(){return starMat.uniforms.uOpacity.value;},set(v){starMat.uniforms.uOpacity.value=v;}});
 const stars=new THREE.Points(starGeo,starMat);scene.add(stars);
 
 // ═══ SOLAR SYSTEM — compact, animated Sun + eight planets behind the hero Earth ═══
@@ -2110,7 +2184,7 @@ const navEl=document.querySelector('nav');
 addEventListener('scroll',()=>{if(navEl)navEl.classList.toggle('scrolled',scrollY>100)});
 // Astronaut side position depends on screen shape (portrait phones get closer to center)
 const setAstroX=()=>{astroBase.x=(innerWidth/innerHeight<0.85)?2.6:6.5;};setAstroX();
-addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);setAstroX()});
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);setAstroX(); if(starMat&&starMat.uniforms&&starMat.uniforms.uPixelRatio) starMat.uniforms.uPixelRatio.value=Math.min(devicePixelRatio,2);});
 
 // ANIMATE — splash has dark space 50K stars + astronaut + Earth, home has only aura video (stars+astronaut only on entering page)
 let time=0;const clock=new THREE.Clock();
@@ -2121,6 +2195,10 @@ let entryT=0;
   if(document.getElementById('loader')?.classList.contains('scan-open')){ clock.getDelta(); return; }
   const dt=clock.getDelta();time+=dt;
   spaceZoomCurrent+=(spaceZoomTarget-spaceZoomCurrent)*Math.min(1,dt*9);
+  if(typeof window.spaceOrbitYawT==='number') spaceOrbitYawT=window.spaceOrbitYawT;
+  if(typeof window.spaceOrbitPitchT==='number') spaceOrbitPitchT=window.spaceOrbitPitchT;
+  spaceOrbitYaw+=(spaceOrbitYawT-spaceOrbitYaw)*Math.min(1,dt*8);
+  spaceOrbitPitch+=(spaceOrbitPitchT-spaceOrbitPitch)*Math.min(1,dt*8);
   sProg+=(tScroll-sProg)*.05;mX+=(tMX-mX)*.04;mY+=(tMY-mY)*.04;
 
   // ENTRY ANIMATION: cinematic flight from splash (Earth -15, cam 22) to home top (Earth -21, cam 14)
@@ -2214,15 +2292,22 @@ let entryT=0;
     }
     if(clouds) clouds.visible=true;
     if(canvas) canvas.style.opacity='1';
-    // Earth close/near like before: parallax + time breathing
+    // Earth close/near like before: parallax + time breathing + 360° orbit
     const breath=Math.sin(time*0.3)*0.5;
-    earthGroup.position.z=-18 + breath + mY*0.5;
-    earthGroup.position.x=mX*0.3;
-    earthGroup.position.y=0.5 + mY*0.2;
-    camera.position.x=mX*2.5;
-    camera.position.y=1.5 - mY*1.2;
-    camera.position.z=22 + breath*0.5 + spaceZoomCurrent;
-    camera.lookAt(0,0.5,-5);
+    earthGroup.position.z=-18 + breath;
+    earthGroup.position.x=0;
+    earthGroup.position.y=0.5;
+    const dist=22 + breath*0.5 + spaceZoomCurrent;
+    const cp=Math.cos(spaceOrbitPitch), sp=Math.sin(spaceOrbitPitch);
+    const cy=Math.cos(spaceOrbitYaw), sy=Math.sin(spaceOrbitYaw);
+    camera.position.set(sy*cp*dist, 1.5 + sp*dist*0.85, cy*cp*dist);
+    camera.up.set(0,1,0);
+    camera.lookAt(0,0.5,-2);
+    if(stars) stars.rotation.y=spaceOrbitYaw*0.15;
+    if(typeof solarSystemGroup!=='undefined' && solarSystemGroup){
+      solarSystemGroup.rotation.y=spaceOrbitYaw*0.08;
+      solarSystemGroup.rotation.x=spaceOrbitPitch*0.12;
+    }
     spinY+=dt*0.035;
     earth.rotation.y=spinY;
     clouds.rotation.y+=dt*0.05;
