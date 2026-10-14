@@ -606,13 +606,6 @@ html.splash-lock.webgl-ready #cssStars{display:none !important}
 #loader .loader-fill{height:100%;background:linear-gradient(90deg,#6d28d9,#ec4899);width:0%;transition:width 0.4s;border-radius:1px}
 #loader .loader-status{margin-top:1rem;font-size:0.6rem;font-weight:600;letter-spacing:0.4em;text-transform:uppercase;color:rgba(255,255,255,0.25)}
 
-/* Space info badge on the lock page (zoom/reset controls removed). */
-.space-controls{position:fixed;left:50%;bottom:max(16px,env(safe-area-inset-bottom));z-index:20;display:none;align-items:center;gap:8px;padding:7px 14px;border:1px solid rgba(167,139,250,.26);border-radius:999px;background:rgba(7,9,16,.5);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 10px 38px rgba(0,0,0,.35);color:#e5e7eb;white-space:nowrap;transform:translateX(-50%);pointer-events:none}
-html.splash-lock #spaceControls{display:flex}
-#loader.scan-open #spaceControls{display:none!important}
-.space-system-label{font-size:9px;font-weight:800;letter-spacing:.14em;color:#c4b5fd}
-.space-star-count{font-size:10px;color:#d4d4d8}.space-star-count b{color:#f5d0fe}
-
 /* Full-screen scan dashboard: every result is arranged in one viewport, with no scroll pane. */
 /* Glassmorphic scan dashboard — frosted translucent panels floating over deep space. */
 .scan-result{display:none;color:#e9ecf8;font-size:12px;line-height:1.4;box-sizing:border-box}
@@ -667,8 +660,6 @@ html.splash-lock #spaceControls{display:flex}
 .scan-action-button.secondary:hover{border-color:rgba(255,255,255,.38);background:linear-gradient(135deg,rgba(255,255,255,.2),rgba(255,255,255,.09))}
 
 @media(max-width:760px){
-  .space-controls{gap:6px;padding:6px 10px;max-width:calc(100vw - 16px)}
-  .space-system-label{font-size:8px;letter-spacing:.1em}
   .scan-screen{gap:7px}
   .scan-head{min-height:38px;padding-right:82px}
   .scan-title{font-size:18px}.scan-subtitle{font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -688,7 +679,6 @@ html.splash-lock #spaceControls{display:flex}
   .scan-kv-grid{gap:4px 7px}
 }
 @media(max-width:380px){
-  .space-system-label{display:none}.space-star-count{font-size:9px}.space-controls{gap:5px}
   .scan-head{padding-right:78px}.scan-live{font-size:8px;padding:5px 7px}
   .scan-card{padding:7px}.scan-primary{font-size:10px}.scan-secondary,.scan-kv{font-size:9px}
   .scan-device-grid{gap:3px 6px}
@@ -771,9 +761,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
 </div>
 <!-- DEEP SPACE LAYER -->
 <div id="cssStars" style="position:fixed;inset:0;z-index:10001;background:#05060a;pointer-events:none;display:none"></div>
-<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">drag to explore · pinch to zoom</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterBlackhole" type="button" style="padding:12px 28px;border-radius:999px;border:1px solid rgba(236,72,153,.6);background:linear-gradient(135deg,rgba(109,40,217,.35),rgba(236,72,153,.3));color:#f9a8d4;font-size:13px;font-weight:800;letter-spacing:.12em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(236,72,153,.35),0 0 20px rgba(109,40,217,.3)"><img src="assets/black-hole.jpg?v=25" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:cover;box-shadow:0 0 16px rgba(236,72,153,.8)">Enter Blackhole</button></div><div style="display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center"><button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⚙️ Site Setting</button></div><div id="spaceControls" class="space-controls" aria-label="Solar system info">
-  <span class="space-star-count" aria-label="50,000 stars">✦ <b id="spaceStarCount">50K</b> stars</span>
-</div>
+<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">drag to explore · pinch to zoom</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterBlackhole" type="button" style="padding:12px 28px;border-radius:999px;border:1px solid rgba(236,72,153,.6);background:linear-gradient(135deg,rgba(109,40,217,.35),rgba(236,72,153,.3));color:#f9a8d4;font-size:13px;font-weight:800;letter-spacing:.12em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(236,72,153,.35),0 0 20px rgba(109,40,217,.3)"><img src="assets/black-hole.jpg?v=25" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:cover;box-shadow:0 0 16px rgba(236,72,153,.8)">Enter Blackhole</button></div><div style="display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center"><button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⚙️ Site Setting</button></div>
 <aside id="planetInfo" class="planet-info" aria-live="polite" aria-hidden="true"><button id="planetInfoClose" type="button" aria-label="Close planet details">×</button><span class="planet-info-kicker">PLANET EXPLORER</span><strong id="planetInfoName">Earth</strong><p id="planetInfoText">Tap any planet to explore its world.</p><button id="planetFocus" type="button">FOCUS PLANET <span>↗</span></button></aside>
 <button id="closeScanResult" class="scan-close" type="button" aria-label="Close device scan and return to space">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m18 6-12 12M6 6l12 12"/></svg><span>Back to space</span>
@@ -1460,7 +1448,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
       if(!document.documentElement.classList.contains('splash-lock') || loader?.classList.contains('scan-open')) return;
       e.preventDefault();
       if(typeof window.spaceOrbitYawT==='number' && Math.abs(e.deltaX)>Math.abs(e.deltaY)){
-        window.spaceOrbitYawT+=e.deltaX*0.004;
+        window.spaceOrbitYawT-=e.deltaX*0.004;
         return;
       }
       if(Math.abs(e.deltaY)<1) return;
@@ -1605,12 +1593,13 @@ const spacePointers=new Map();let spacePinchDistance=0;
 function spaceOrbitFromClient(x,y){
   const dx=x-spaceDragX, dy=y-spaceDragY;
   spaceDragX=x; spaceDragY=y;
-  spaceOrbitYawT+=dx*0.0055;
+  // Move the scene with the drag, rather than in the opposite direction.
+  spaceOrbitYawT-=dx*0.0055;
   spaceOrbitPitchT=THREE.MathUtils.clamp(spaceOrbitPitchT+dy*0.0042,-1.15,1.15);
   window.spaceOrbitYawT=spaceOrbitYawT; window.spaceOrbitPitchT=spaceOrbitPitchT;
 }
 function spaceInteractiveTarget(el){
-  return !!(el&&el.closest&&el.closest('button,a,input,textarea,select,.space-controls,.site-setting,#scanResult,#scanDevice,#enterBlackhole,#openSettingFromLock'));
+  return !!(el&&el.closest&&el.closest('button,a,input,textarea,select,.site-setting,#scanResult,#scanDevice,#enterBlackhole,#openSettingFromLock'));
 }
 function spaceOnPointerDown(e){
   if(!document.documentElement.classList.contains('splash-lock')) return;
@@ -2059,7 +2048,7 @@ const solarSystemGroup=new THREE.Group();
 solarSystemGroup.position.set(0,0,-14);
 solarSystemGroup.rotation.set(-0.10,0.06,-0.035);
 solarSystemGroup.scale.setScalar(1.18);
-solarSystemGroup.visible=false; // solar system removed from lock page (stars only)
+solarSystemGroup.visible=!!SITE_CFG.toggles.earth;
 scene.add(solarSystemGroup);
 const solarPlanets=[];
 const solarMoons=[];
@@ -2119,12 +2108,6 @@ const planetRaycaster=new THREE.Raycaster(),planetPointer=new THREE.Vector2();
 canvas.addEventListener('click',e=>{if(!solarSystemGroup.visible||!document.documentElement.classList.contains('splash-lock')||document.getElementById('loader')?.classList.contains('scan-open'))return;planetPointer.set((e.clientX/innerWidth)*2-1,-(e.clientY/innerHeight)*2+1);planetRaycaster.setFromCamera(planetPointer,camera);const hit=planetRaycaster.intersectObjects(clickablePlanets,false)[0];if(hit){showPlanetInfo(hit.object.userData.planetData);focusPlanetObject(hit.object);}});
 
 // Deep space presentation — realistic solar system and starfield
-const starCountLabel=document.getElementById('spaceStarCount');
-if(starCountLabel){
-  starCountLabel.textContent=starCount>=1000?((starCount%1000===0)?(starCount/1000)+'K':(starCount/1000).toFixed(1)+'K'):String(starCount);
-  const starBadge=starCountLabel.closest('.space-star-count');
-  if(starBadge) starBadge.setAttribute('aria-label',starCount.toLocaleString()+' stars');
-}
 document.documentElement.classList.add('webgl-ready');
 
 // SCROLL + MOUSE
