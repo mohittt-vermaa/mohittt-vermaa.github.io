@@ -10,7 +10,7 @@
 <a href="https://www.linkedin.com/in/mohit-verma-a05570437"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
 <a href="https://hashnode.com/@mohit-"><img src="https://img.shields.io/badge/Hashnode-2962FF?style=for-the-badge&logo=hashnode&logoColor=white" alt="Hashnode"></a>
 <a href="https://mohittt-vermaa.blogspot.com/"><img src="https://img.shields.io/badge/Blogger-FF5722?style=for-the-badge&logo=blogger&logoColor=white" alt="Blogger"></a>
-<a href="https://www.instagram.com/mohittt_vermaa/"><img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram"></a>
+<a href="https://www.instagram.com/moverinn/"><img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram"></a>
 
 </div>
 
@@ -133,7 +133,7 @@
 &nbsp;&nbsp;
 <a href="https://mohittt-vermaa.blogspot.com/"><img width="48" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/blogger/blogger-original.svg" alt="Blogger"/></a>
 &nbsp;&nbsp;
-<a href="https://www.instagram.com/mohittt_vermaa/"><img width="48" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/instagram/instagram-original.svg" alt="Instagram"/></a>
+<a href="https://www.instagram.com/moverinn/"><img width="48" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/instagram/instagram-original.svg" alt="Instagram"/></a>
 
 </div>
 

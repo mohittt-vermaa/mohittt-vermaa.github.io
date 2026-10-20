@@ -155,7 +155,7 @@ For true 24/7 even when your phone is off, host it on a free cloud:
 
 - 🌐 Portfolio: [mohittt-vermaa.github.io](https://mohittt-vermaa.github.io/)
 - 💼 LinkedIn: [mohit-verma-a05570437](https://www.linkedin.com/in/mohit-verma-a05570437)
-- 📸 Instagram: [@mohittt_vermaa](https://www.instagram.com/mohittt_vermaa/)
+- 📸 Instagram: [@moverinn](https://www.instagram.com/moverinn/)
 - 📝 Blog: [mohittt-vermaa.blogspot.com](https://mohittt-vermaa.blogspot.com/)
 - ✍️ Hashnode: [@mohit-](https://hashnode.com/@mohit-)
 - 📧 Email: mohitkumar190031@gmail.com
