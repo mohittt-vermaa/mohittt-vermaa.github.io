@@ -1,101 +1,52 @@
-// Hermes offline chat — pre-generated Q&A (no real AI, all local) — FIXED VERSION
+// Hermes AI chat — real AI answers via an OpenAI-compatible API (FreeLLMAPI). No pre-loaded answers.
 (function(){
   'use strict';
-  const QA = [
-    ["hi","Hi! 👋 I'm Hermes — Mohit's personal AI assistant. Ask me anything about Mohit, his projects, or his work!"],
-    ["hello","Hello! 👋 I'm Hermes, Mohit Verma's AI assistant. What would you like to know?"],
-    ["hey","Hey there! 😄 I'm Hermes. Ask me about Mohit — his projects, skills, or anything else!"],
-    ["who is mohit verma","Mohit Verma is a student and teen coder from India 🇮🇳. He's building real software — Python tools, AI/ML experiments, and this very website (which he designed with a 3D Earth + astronaut scene). He's also into open-source and automation."],
-    ["who is mohit","Mohit Verma — teen coder from India, learning software development, Python, AI, ML, web development and open-source. He built this website, the mlbox ML toolkit, ORF-5 OSINT framework, and more. 🚀"],
-    ["who are you","I'm Hermes 🤖 — Mohit's personal AI assistant. I help him build projects, manage his website, automate his social posts, and study. I run right here in your browser, fully offline!"],
-    ["who made you","Mohit made me! 👨‍💻 He's a teen coder from India who built this website and configured me as his personal AI assistant. I'm his study-buddy and dev partner."],
-    ["what he learns","Mohit is currently learning: Python, C, HTML/CSS, JavaScript, Git/GitHub, Linux, Bash, AI, Machine Learning, Generative AI, Computer Vision, Prompt Engineering, and Web Development. He frames these as 'currently learning' — always honest about his level. 📚"],
-    ["what is mohit learning","He's learning Python, C, HTML/CSS, JavaScript, Git, Linux, Bash, AI/ML, Generative AI, Computer Vision, Prompt Engineering and Web Development — building real projects while learning."],
-    ["his projects","Mohit's real projects: 🔹 mlbox — ML toolkit 🔹 osint-recon-framework (ORF-5) — 5-in-1 OSINT & recon tool 🔹 class10-midterm-maths — CBSE Maths prep 🔹 Jarvis-IG — Instagram bot experiments 🔹 mohittt-vermaa.github.io — this website! All on his GitHub: github.com/mohittt-vermaa"],
-    ["what are his projects","His projects include mlbox (ML toolkit), ORF-5 (OSINT recon framework), class10-midterm-maths (CBSE prep), Jarvis-IG, and this website. Check his GitHub for all of them!"],
-    ["his website","You're ON it! 😄 This is mohittt-vermaa.github.io — Mohit's portfolio with a 3D Earth + astronaut deep-space scene, scroll-driven animations, and liquid glass design. He built and maintains it himself."],
-    ["his github","Mohit's GitHub: github.com/mohittt-vermaa — he has mlbox, osint-recon-framework, class10-midterm-maths, Jarvis-IG and this website's source. All his real work, no fake projects!"],
-    ["his skills","Mohit's skills (currently learning): Python, C, HTML/CSS, JavaScript, Git/GitHub, Linux, Bash, AI, ML, Generative AI, Computer Vision, Prompt Engineering, Web Development, Open Source."],
-    ["his age","Mohit is a teen school student (Class 10). Exact age stays private — but he's young, coding, and already shipping real projects! 💪"],
-    ["his class","Mohit is in Class 10 (CBSE). He balances school with building real software projects!"],
-    ["where is he from","Mohit is from India 🇮🇳. He works from his Android phone using Termux — yes, ALL his projects are built from a phone! 📱"],
-    ["how did he build this website","Mohit built this with HTML/CSS/JavaScript — a Three.js 3D Earth (2K NASA textures) + astronaut GLB model + 50,000 twinkling stars + scroll-driven camera flight. He edits and deploys it from Termux on his phone. 📱🚀"],
-    ["what is this website","This is Mohit Verma's personal portfolio — a deep-space themed site with a real 3D Earth, astronaut, stars, and scroll animations. It has his About, Projects, Blog, Skills and Connect sections."],
-    ["the earth","That's a real 3D Earth 🌍 — 2K NASA Blue Marble textures, day/night shader, clouds, ocean specular — and it rotates to stop centered on Bihar, India when you scroll down! Mohit built that."],
-    ["the astronaut","That's the 'Mercenary Astronaut' 3D model (by Peter_D, CC-BY-4.0) — Draco-compressed, floats beside Mohit's portrait. It's half the Earth's visual size! 🧑‍🚀"],
-    ["the stars","There are 50,000 twinkling stars ⭐ rendered in real-time with Three.js — each one twinkles individually with a custom shader."],
-    ["contact him","You can connect with Mohit through: 📧 the contact form on this site · 💼 LinkedIn (mohit-verma-a05570437) · 📝 Blogger · Hashnode (@mohit-) · 📸 Instagram (@moverinn)"],
-    ["his blog","Mohit's blog is on Blogger: mohittt-vermaa.blogspot.com — featured post: 'About Me — My Journey into Coding & AI'. He also writes on Hashnode (hashnode.com/@mohit-)."],
-    ["his instagram","Mohit's Instagram: @moverinn — he posts about coding, AI and his projects. Give him a follow! 📸"],
-    ["his linkedin","Mohit's LinkedIn: linkedin.com/in/mohit-verma-a05570437 — connect with him there! 💼"],
-    ["is this ai generated","The site design and content are Mohit's own work 🧡 — he's a teen coder who built everything himself. I (Hermes) am his AI assistant who helps him, but the projects and learning are real."],
-    ["are you real ai","I'm a real assistant — but I run offline in your browser with pre-written answers, no cloud AI right now. Mohit built me to be helpful without any network! 🤖"],
-    ["what can you do","I can tell you about Mohit — his projects, skills, website, blog, social profiles — all offline! Ask me anything from the suggestion chips below 👇"],
-    ["what do you do","I answer questions about Mohit — his work, projects, learning, and website — fully offline in your browser. Try the chips below!"],
-    ["mlbox","mlbox is Mohit's machine learning toolkit — a web-based ML resource project. Find it at github.com/mohittt-vermaa/mlbox 🧰"],
-    ["orf","ORF-5 (osint-recon-framework) is Mohit's async 5-in-1 OSINT & reconnaissance framework — username recon, game stats, metadata, breach check, and a Telegram bot. Runs on Windows, Linux AND Termux! 🔍"],
-    ["osint","ORF-5 is Mohit's OSINT framework — 5 tools in 1: username recon, game stats, metadata analysis, breach check, Telegram bot. github.com/mohittt-vermaa/osint-recon-framework"],
-    ["class10 maths","class10-midterm-maths is Mohit's CBSE Class 10 Maths prep project — most expected questions + board-type stepwise solutions (80 marks, Chapters 1-6). github.com/mohittt-vermaa/class10-midterm-maths 📐"],
-    ["jarvis","Jarvis-IG is Mohit's Instagram bot experiments repo — his automation playground. github.com/mohittt-vermaa/Jarvis-IG 🤖"],
-    ["termux","Termux is an Android terminal emulator — and Mohit's entire dev environment! He builds websites, runs Python, uses git, and manages everything from his phone using Termux. 📱💪"],
-    ["how are you","I'm doing great! 😄 Running fully offline in your browser, helping visitors learn about Mohit. How are you?"],
-    ["thank you","You're welcome! 💜 Any more questions about Mohit? I'm here!"],
-    ["thanks","Anytime! 😊 Ask me anything else about Mohit!"],
-    ["bye","Goodbye! 👋 Thanks for visiting Mohit's site — check out his projects and give him a follow!"],
-    ["goodbye","See you! 👋 Explore the site — the 3D Earth and astronaut are waiting!"],
-    ["ok","👍 Anything else you'd like to know about Mohit?"],
-    ["nice","Thanks! 😄 Mohit worked hard on this. Anything else you want to know?"],
-    ["cool","Right? 😎 Mohit built all this from his phone! Ask me anything else!"],
-    ["wow","I know, right! 🤩 Everything here was built by a teen coder from his Android phone. Want to know more about Mohit?"],
-    ["help","Ask me about: Mohit · his projects · skills · website · Earth/astronaut/stars · blog · social profiles · Termux · or just say hi! I know 50+ answers 🤖"],
-    ["help me","Sure! Ask me anything about Mohit or his work — try the suggestion chips below 👇"],
-    ["what is hermes","Hermes is an AI agent framework by Nous Research — and I'm Mohit's personal Hermes assistant! I help him build, automate, and study. 🤖"],
-    ["hermes agent","I'm Mohit's personal AI assistant built on Hermes Agent (by Nous Research). I help with his website, projects, social posting, and studies!"],
-    ["python","Mohit is learning Python — it's his main language! He uses it for AI/ML experiments, automation scripts, and tools like ORF-5. 🐍"],
-    ["ai","Mohit is deeply interested in AI — he's learning ML, Generative AI, Computer Vision and Prompt Engineering, and he runs AI agents (like me!) for automation. 🤖"],
-    ["machine learning","Mohit is learning Machine Learning — his mlbox project is an ML toolkit, and he's building real ML experiments. 🧠"],
-    ["web development","Mohit is learning Web Development — this website is proof! HTML/CSS/JavaScript + Three.js 3D. He also knows the full stack workflow. 🌐"],
-    ["open source","Mohit is into Open Source — his projects are on GitHub, he builds in public, and his website's source is open too! Check github.com/mohittt-vermaa"],
-    ["can you code","I help Mohit with code — debugging, writing scripts, deploying his site! He's the teen coder learning to code; I'm his AI sidekick. 👨‍💻🤖"],
-    ["are you chatgpt","Nope! I'm Hermes — Mohit's personal assistant, not ChatGPT. I run offline in your browser with answers Mohit configured. 🤖"],
-    ["are you chat gpt","Not ChatGPT! I'm Hermes, Mohit's own AI assistant. Fully offline, right here in your browser."],
-    ["are you gemini","No, I'm Hermes — Mohit's personal assistant (built on Hermes Agent by Nous Research). Not Gemini! 🤖"],
-    ["do you need internet","Nope! I work fully offline 📴 — all my answers are pre-generated and stored right here in your browser. No network, no cloud, no tracking."],
-    ["internet","I don't need any! All my answers live in your browser — fully offline chat. 📴"],
-    ["mohit verma","Mohit Verma — teen coder from India 🇮🇳, Class 10 student, learning Python/AI/ML/web dev. Built this 3D website, mlbox, ORF-5 and more — all from his phone!"],
-    ["tell me about mohit","Mohit Verma is a teen coder from India. Class 10 student learning software development, Python, AI and ML. He built this website (3D Earth + astronaut + 50k stars), the mlbox toolkit, ORF-5 OSINT framework, and CBSE maths prep — all from Termux on his phone! 📱🚀"],
-    ["tell me about yourself","I'm Hermes 🤖 — Mohit's personal AI assistant. He built and configured me to help with his projects, website and studies. I run offline in your browser!"],
-    ["your name","I'm Hermes! 🤖 Mohit's personal AI assistant."],
-    ["your creator","Mohit Verma made me! He's a teen coder from India — this website is his work too. 👨‍💻"],
-    ["your owner","My owner is Mohit Verma — teen coder from India. He built this website and configured me! 💪"],
-    ["his school","Mohit keeps his school details private 🔒 — but he's a Class 10 student who codes and builds real software in his free time!"],
-    ["his location","Mohit is from India 🇮🇳. Exact location stays private — but everything you see here was built from his Android phone!"],
-    ["his phone","Mohit works from an Android phone with Termux — his whole dev setup is mobile! Every project, this website, all of it — built from a phone. 📱🔥"],
-    ["social media","Find Mohit on: GitHub (mohittt-vermaa) · LinkedIn (mohit-verma-a05570437) · Hashnode (@mohit-) · Blogger · Instagram (@moverinn) — all linked in the Connect section below!"],
-    ["his socials","Mohit's socials: GitHub, LinkedIn, Hashnode, Blogger, Instagram — all in the Connect section of this site! 🔗"],
-    ["follow him","Give Mohit a follow! 📸 Instagram: @moverinn · GitHub: mohittt-vermaa · LinkedIn: mohit-verma-a05570437"],
-    ["hire him","Mohit is a student, but he's open to new projects and collaborations! 🚀 Reach out via the contact form or LinkedIn — he'd love to hear from you."],
-    ["available","Yes! Mohit is available for new projects — see the badge at the top of the page! Reach out via the contact form. 💼"],
-    ["theme","This site has a permanent dark theme with a 3D deep-space scene — Earth, stars, astronaut and scroll-driven animations. Dark mode all the way! 🌌"],
-    ["dark mode","The site is permanently dark 🌌 — with a 3D Earth, astronaut, and 50k stars. Scroll to fly toward Earth!"],
-    ["scroll","Scroll down to fly toward Earth 🌍 — it rotates to stop centered on Bihar, India! Scroll up to spin freely again. And watch the background animation!"],
-    ["animation","The background animation is scroll-driven 🎬 — scroll down and it plays forward slowly, scroll up and it reverses! It sits behind the 3D Earth scene."],
-    ["music","No background music right now — the site is a clean, silent deep-space experience. 🌌"],
-    ["joke","Why do programmers prefer dark mode? Because light attracts bugs! 🐛😄"],
-    ["another joke","Why did the teen coder build a website from his phone? Because his laptop was busy updating Windows! 😂📱"],
-    ["one more joke","Why don't AI agents ever sleep? Because we're always dreaming in code! 🤖💤"],
-    ["funny","Mohit's site + a teen coder's humor — deadly combo! 😄 Want a joke? Just ask!"],
-    ["what is hermes agent","Hermes Agent is an open-source AI agent framework by Nous Research — it runs agents in terminals, on phones (like Mohit's Termux!), and messaging platforms. I'm one of them! 🤖"],
-    ["nous research","Nous Research is the company behind Hermes Agent — the framework Mohit uses to run me! They build open-source AI agents. 🧠"],
-    ["how does this work","This chat works fully offline! 📴 All answers are pre-generated and stored in the page — no server, no AI API, no internet needed."],
-    ["is this real","Yes — this site, the projects, and Mohit's learning are all real! The chat is pre-generated (offline), but everything it says about Mohit is true. 💯"],
-    ["is this safe","Totally safe! 🔒 This chat runs offline in your browser — no data leaves your device, no tracking, no accounts."],
-    ["privacy","Privacy first! 🔒 This chat is 100% offline — nothing you type leaves your browser."],
-    ["version","I'm Hermes (offline edition) 🤖 — configured by Mohit Verma. 50+ pre-generated answers, zero network needed."],
-    ["credits","Site built by Mohit Verma 👨‍💻 · 3D Earth: NASA Blue Marble textures · Astronaut model: 'Mercenary Astronaut' by Peter_D (CC-BY-4.0) · Powered by Three.js"],
-    ["education","Mohit is a Class 10 student (CBSE) learning software development alongside school — Python, web dev, AI/ML. Real projects while studying! 📚"],
-    ["study","Mohit balances Class 10 studies with coding! He even built a flashcard app (StudyA) with SM-2 spaced repetition for smarter revision. 📐"],
-  ];
+  // ===== Hermes AI — real answers from an AI API (OpenAI-compatible, e.g. FreeLLMAPI) =====
+  // No pre-loaded answers. API keys live in the AI server / proxy — NEVER in this file,
+  // because this file is public on the website. Endpoint/key/model can be changed from the
+  // chat's Settings button; they are stored only in this browser (localStorage).
+  const HERMES_SYSTEM = "You are Hermes, the friendly AI assistant on Mohit Verma's personal website (mohittt-vermaa.github.io). Mohit Verma is a Class 10 CBSE student and teen coder from Patna, India. He builds software, AI/ML tools and open-source projects: MLBox (an ML toolkit), ORF-5 (an OSINT framework), Class 10 Maths prep material, Jarvis-IG, and this very website. He is the author of the books 'AI is the Final Boss of 2077' and its sequel. His GitHub is github.com/mohittt-vermaa, Instagram @moverinn, LinkedIn linkedin.com/in/mohit-verma-a05570437. Answer questions about Mohit using these facts, and answer general questions helpfully too. Keep answers concise and clear. If you do not know something about Mohit, say so honestly instead of inventing details.";
+  const aiCfg = {
+    endpoint: localStorage.getItem('hermes_endpoint') || 'http://127.0.0.1:31415/v1',
+    key: localStorage.getItem('hermes_key') || '',
+    model: localStorage.getItem('hermes_model') || ''
+  };
+  let chatHistory = [];
+  let knownModels = [];
+  function aiHeaders(){ const h = {'Content-Type':'application/json'}; if(aiCfg.key) h['Authorization'] = 'Bearer ' + aiCfg.key; return h; }
+  function aiBase(){ return aiCfg.endpoint.replace(/\/+$/,''); }
+  async function discoverModels(){
+    try{
+      const r = await fetch(aiBase() + '/models', {headers: aiHeaders()});
+      if(!r.ok) return false;
+      const d = await r.json();
+      const ids = (d.data || []).map(m => m.id).filter(Boolean);
+      if(!ids.length) return false;
+      knownModels = ids;
+      if(typeof modelSel !== 'undefined' && modelSel){
+        modelSel.innerHTML = '';
+        ids.forEach(id => { const o = document.createElement('option'); o.value = id; o.textContent = id; modelSel.appendChild(o); });
+        if(aiCfg.model && ids.includes(aiCfg.model)) modelSel.value = aiCfg.model;
+        else { aiCfg.model = ids[0]; modelSel.value = ids[0]; }
+      } else if(!aiCfg.model || !ids.includes(aiCfg.model)) aiCfg.model = ids[0];
+      return true;
+    }catch(e){ return false; }
+  }
+  async function askHermes(userText){
+    chatHistory.push({role:'user', content:userText});
+    try{
+      if(knownModels.length && aiCfg.model && !knownModels.includes(aiCfg.model)) aiCfg.model = knownModels[0];
+      const payload = {messages: [{role:'system', content:HERMES_SYSTEM}].concat(chatHistory.slice(-12)), stream:false};
+      if(aiCfg.model) payload.model = aiCfg.model;
+      const res = await fetch(aiBase() + '/chat/completions', {method:'POST', headers: aiHeaders(), body: JSON.stringify(payload)});
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      const text = data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+      if(!text) throw new Error('Empty reply');
+      chatHistory.push({role:'assistant', content:text});
+      return text;
+    }catch(e){ chatHistory.pop(); throw e; }
+  }
 
   // DOM creation - FIXED ORDER (no ReferenceError)
   const overlay = document.createElement('div');
@@ -220,7 +171,6 @@
   const cardsEl = box.querySelector('#hcCards');
   const welcomeEl = box.querySelector('#hcWelcome');
 
-  const THINKING_STEPS = ['Searching the web…','Reading sources…','Thinking…','Analyzing results…','Composing answer…'];
 
   function setStatus(text, thinking){
     if(!statusEl) return;
@@ -253,80 +203,32 @@
     if(t) t.remove();
   }
 
-  function fakeThink(cb){
-    let i=0;
-    setStatus(THINKING_STEPS[0], true);
-    showTyping();
-    const iv = setInterval(()=>{
-      i++;
-      if(i < THINKING_STEPS.length){
-        setStatus(THINKING_STEPS[i], true);
-      }else{
-        clearInterval(iv);
-        hideTyping();
-        setStatus('Online', false);
-        cb();
-      }
-    }, 380 + Math.random()*200);
-  }
-
-  function normalize(s){
-    return s.toLowerCase().replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();
-  }
-
-  const MODEL_STYLES = {
-    'hermes-1': {tag:'offline · pre-generated', improvise:(q)=>{const closers=[" That's not in my pre-loaded knowledge yet, but Mohit might cover it on his blog — mohittt-vermaa.blogspot.com. Try \"his projects\"!"," I don't have that pre-loaded 🤔 but I know 50+ things about Mohit — try \"who is mohit verma\"!"]; return "Interesting question about \""+q+"\""+closers[Math.floor(Math.random()*closers.length)];}},
-    'hermes-mini': {tag:'offline · compact', improvise:(q)=>{const opts=["Wah, interesting! 😄 But ye meri pre-loaded knowledge mein nahi — try \"his projects\"!","Hmm 🤔 advance level — mujhe Mohit ke baare mein 50+ answers aate hain!"]; return opts[Math.floor(Math.random()*opts.length)];}},
-    'hermes-pro': {tag:'offline · deep reasoning', improvise:(q)=>{return "Deep-dive 🧠 — \""+q.slice(0,40)+"\" mera offline scope se bahar hai. Mera knowledge Mohit Verma ke baare mein hai — uske projects (mlbox, ORF-5), skills, website. Try: \"his projects\"!";}}
-  };
-  let currentModel = 'hermes-1';
 
   if(modelSel){
-    modelSel.addEventListener('change',()=>{
-      currentModel = modelSel.value;
-      if(modelTag) modelTag.textContent = MODEL_STYLES[currentModel].tag;
-      const names = {'hermes-1':'Hermes 1','hermes-mini':'Hermes Mini','hermes-pro':'Hermes Pro'};
-      setStatus(names[currentModel]+' ready', false);
-      setTimeout(()=>setStatus('Online', false),1400);
+    modelSel.addEventListener('change', ()=>{
+      if(knownModels.includes(modelSel.value)){ aiCfg.model = modelSel.value; localStorage.setItem('hermes_model', aiCfg.model); }
     });
   }
 
-  function findAnswer(raw){
-    const q = normalize(raw);
-    if(!q) return null;
-    let best=null, bestScore=0;
-    for(const [k,a] of QA){
-      const nk = normalize(k);
-      let score=0;
-      if(q===nk) score=100;
-      else if(nk.includes(q) && q.length>3) score=70;
-      else if(q.includes(nk) && nk.length>3) score=60;
-      else{
-        const qw = new Set(q.split(' '));
-        const kw = nk.split(' ');
-        let hits=0;
-        kw.forEach(w=>{ if(qw.has(w) && w.length>2) hits++; });
-        score = Math.round(hits/kw.length*50);
-      }
-      if(score>bestScore){bestScore=score; best=a;}
+  let hcBusy = false;
+  async function answer(raw){
+    if(!raw || !raw.trim() || hcBusy) return;
+    const trimmed = raw.trim();
+    addMsg(trimmed, 'user');
+    hcBusy = true;
+    showTyping();
+    try{
+      if(!knownModels.length) await discoverModels();
+      const reply = await askHermes(trimmed);
+      hideTyping();
+      addMsg(reply, 'bot');
+    }catch(e){
+      hideTyping();
+      addMsg("⚠️ I can't reach the AI server right now. Hermes answers come from a real AI API — if you're Mohit, start the FreeLLMAPI server, or set the endpoint and key from the sidebar Settings. (Keys never live in this website's code.)", 'bot');
     }
-    if(bestScore>=40 && best) return best;
-    return MODEL_STYLES[currentModel].improvise(q);
+    hcBusy = false;
   }
 
-  function answer(raw){
-    if(!raw || !raw.trim()) return;
-    const trimmed = raw.trim();
-    // secret admin
-    if(trimmed.toLowerCase()==='/mohit190031'){
-      addMsg(trimmed, 'user');
-      fakeThink(()=>addMsg("🔓 Admin mode ACTIVATED! 🤖 Ab tum real-time status puch sakte ho — current task, automation status, website status. (Note: client-side demo, pre-loaded answers)", 'bot'));
-      return;
-    }
-    addMsg(trimmed, 'user');
-    const reply = findAnswer(trimmed);
-    fakeThink(()=>addMsg(reply, 'bot'));
-  }
 
   // Suggestions
   const suggestions = [
@@ -348,7 +250,6 @@
         if(title==='Dashboard'){
           if(welcomeEl) welcomeEl.style.display='none';
           if(dash) dash.style.display='block';
-          addMsg('Dashboard khul gaya 📊 — live status, efficiency, projects, weekly activity. Chat karne ke liye neeche type karo!', 'bot');
         }else{
           answer(title);
         }
@@ -387,6 +288,7 @@
     page.style.transform='translateY(0)';
     page.style.visibility='visible';
     if(input) setTimeout(()=>input.focus(),400);
+    discoverModels();
   }
   function close(){
     overlay.style.opacity='0';
@@ -402,7 +304,7 @@
       msgs.forEach(m=>m.remove());
       if(welcomeEl) welcomeEl.style.display='flex';
       if(dash) dash.style.display='none';
-      setTimeout(()=>addMsg("New chat started ✨ — fresh session, "+currentModel+". Ask me anything about Mohit! 🤖", 'bot'),200);
+      chatHistory = [];
     }
     if(input) input.value='';
   }
@@ -418,7 +320,23 @@
   if(searchBtn) searchBtn.addEventListener('click', ()=>{ if(input) input.focus(); });
 
   const settingsBtn = document.getElementById('hcSettings');
-  if(settingsBtn) settingsBtn.addEventListener('click', ()=>{ setStatus('Settings — model switcher use karo (Hermes 1/Mini/Pro)', false); setTimeout(()=>setStatus('Online', false),2200); });
+  if(settingsBtn) settingsBtn.addEventListener('click', ()=>{
+    const ep = prompt('Hermes AI endpoint (OpenAI-compatible base URL):', aiCfg.endpoint);
+    if(ep === null) return;
+    const ky = prompt('API key (kept only in this browser — never in the website code):', aiCfg.key);
+    if(ky === null) return;
+    const md = prompt('Model name (blank = auto-pick from the server):', aiCfg.model);
+    if(md === null) return;
+    aiCfg.endpoint = ep.trim() || aiCfg.endpoint;
+    aiCfg.key = ky.trim();
+    aiCfg.model = md.trim();
+    localStorage.setItem('hermes_endpoint', aiCfg.endpoint);
+    localStorage.setItem('hermes_key', aiCfg.key);
+    localStorage.setItem('hermes_model', aiCfg.model);
+    knownModels = [];
+    discoverModels();
+    addMsg('⚙️ Settings saved in this browser. Endpoint: ' + aiCfg.endpoint, 'bot');
+  });
 
   const closeBtn = document.getElementById('hcCloseBtn');
   if(closeBtn) closeBtn.addEventListener('click', close);
