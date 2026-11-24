@@ -190,6 +190,11 @@ body.hc-open{overflow:hidden !important}
 
 /* Slim chat scrollbar */
 .hc-body{scrollbar-width:thin;scrollbar-color:#3f3f46 transparent}
-.hc-body::-webkit-scrollbar{width:8px}
+.hc-body::-webkit-scrollbar{width:8px!important;height:8px!important}
 .hc-body::-webkit-scrollbar-track{background:transparent}
 .hc-body::-webkit-scrollbar-thumb{background:#3f3f46;border-radius:8px}
+
+.hc-sidebar{scrollbar-width:thin;scrollbar-color:#3f3f46 transparent}
+.hc-sidebar::-webkit-scrollbar{width:6px!important}
+.hc-sidebar::-webkit-scrollbar-track{background:transparent}
+.hc-sidebar::-webkit-scrollbar-thumb{background:#3f3f46;border-radius:8px}
