@@ -804,7 +804,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
 </button>
 <div id="scanResult" class="scan-result" role="dialog" aria-modal="true" aria-label="Device scan results" aria-hidden="true"></div><div id="blackHoleOverlay" style="position:fixed;inset:0;z-index:10003;display:none;place-items:center;background:radial-gradient(ellipse at center, #1a0b2e 0%, #05060a 70%);opacity:0;transition:opacity .6s"><img src="assets/black-hole.jpg?v=25" alt="Black Hole" style="width:min(80vw,500px);height:min(80vw,500px);border-radius:50%;object-fit:cover;box-shadow:0 0 80px rgba(139,92,246,.8),0 0 160px rgba(236,72,153,.5);animation:blackHoleSpin 3s linear infinite, blackHolePulse 2s ease-in-out infinite"><style>@keyframes blackHoleSpin{to{transform:rotate(360deg)}}@keyframes blackHolePulse{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.08) rotate(180deg)}}@keyframes blackHoleEnter{0%{transform:scale(0.2) rotate(0deg);opacity:0}50%{opacity:1}100%{transform:scale(4) rotate(720deg);opacity:0}}</style></div></div>
 <canvas id="canvas" aria-hidden="true" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;display:block;pointer-events:none"></canvas>
-<video id="auraVideo" aria-hidden="true" muted playsinline preload="auto" loop disablepictureinpicture disableremoteplayback src="assets/video/mohit_bg.mp4?v=1" style="position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:0;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35);opacity:0"></video>
+<canvas id="framesBg" aria-hidden="true" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block;pointer-events:none;opacity:0;transition:opacity .8s ease"></canvas>
 
 <!-- =========== FULL 3D BACKGROUND CANVAS =========== -->
 
@@ -2355,5 +2355,69 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
 
 </script>
 <script src="assets/hermes-chat.js?v=34" defer></script>
+
+<script>
+/* Scroll-driven portrait frames (Mohit's frames) — replaces the old background video.
+   Scrolling the home page advances the frames with eased (lerp) motion. */
+(function(){
+  var N=120, cv=document.getElementById('framesBg');
+  if(!cv) return;
+  var ctx=cv.getContext('2d');
+  var imgs=[], loaded=[];
+  function pad(n){ return ('00'+n).slice(-3); }
+  for(var i=0;i<N;i++){
+    (function(k){
+      var im=new Image(); im.decoding='async';
+      im.onload=function(){ loaded[k]=1; };
+      im.src='assets/frames/fr'+pad(k)+'.jpg';
+      imgs.push(im);
+    })(i);
+  }
+  var cur=0, started=false;
+  function draw(idx){
+    var j=idx;
+    if(!loaded[j]){
+      for(var d=1;d<N;d++){
+        if(j-d>=0 && loaded[j-d]){ j=j-d; break; }
+        if(j+d<N && loaded[j+d]){ j=j+d; break; }
+      }
+    }
+    var im=imgs[j];
+    if(!im || !loaded[j]) return;
+    var cw=cv.width, ch=cv.height, iw=im.naturalWidth, ih=im.naturalHeight;
+    if(!iw || !ih) return;
+    var sc=Math.max(cw/iw, ch/ih), w=iw*sc, h=ih*sc;
+    ctx.drawImage(im, (cw-w)/2, (ch-h)/2, w, h);
+  }
+  function resize(){ cv.width=innerWidth; cv.height=innerHeight; draw(Math.round(cur)); }
+  function target(){
+    var max=document.documentElement.scrollHeight - innerHeight;
+    var p = max>0 ? (window.scrollY||0)/max : 0;
+    if(p<0)p=0; if(p>1)p=1;
+    return p*(N-1);
+  }
+  function loop(){
+    var t=target();
+    cur += (t-cur)*0.085;
+    if(Math.abs(t-cur)<0.02) cur=t;
+    draw(Math.round(cur));
+    requestAnimationFrame(loop);
+  }
+  function start(){
+    if(started) return; started=true;
+    resize();
+    cv.style.opacity='0.7';
+    requestAnimationFrame(loop);
+  }
+  var mo=new MutationObserver(function(){
+    if(!document.documentElement.classList.contains('splash-lock')){
+      var l=document.getElementById('loader');
+      if(!l || l.classList.contains('done')) start();
+    }
+  });
+  mo.observe(document.documentElement, {attributes:true, attributeFilter:['class']});
+  addEventListener('resize', resize);
+})();
+</script>
 </body>
 </html>
