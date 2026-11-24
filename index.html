@@ -353,18 +353,18 @@ h2 .grad{background:linear-gradient(135deg,var(--acc),var(--acc3));-webkit-backg
 .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 .proj{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px;box-shadow:var(--card-shadow);transition:.4s var(--fast);display:flex;flex-direction:column;position:relative;overflow:hidden}
 .proj:hover{border-color:var(--line2);box-shadow:var(--card-shadow-h);transform:translateY(-6px)}
-.proj-visual{height:150px;border-radius:14px;margin-bottom:20px;position:relative;overflow:hidden;display:grid;place-items:center}
+.proj-visual{height:150px;border-radius:14px;margin-bottom:20px;position:relative;overflow:hidden;display:grid;place-items:center;border:1px solid rgba(255,255,255,.07)}
 .proj-visual svg{width:60%;height:60%;opacity:1}
 .proj-visual svg{transition:opacity .25s ease}
 .proj-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .25s ease;pointer-events:none}
 .proj-visual.playing .proj-video{opacity:1}
 .proj-visual.playing svg{opacity:0}
-.proj:nth-child(1) .proj-visual{background:linear-gradient(135deg,rgba(109,40,217,.15),rgba(236,72,153,.15))}
-.proj:nth-child(2) .proj-visual{background:linear-gradient(135deg,rgba(59,130,246,.12),rgba(14,165,233,.15))}
-.proj:nth-child(3) .proj-visual{background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(5,150,105,.15))}
-.proj:nth-child(4) .proj-visual{background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(239,68,68,.15))}
-.proj:nth-child(5) .proj-visual{background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(234,179,8,.15))}
-.proj:nth-child(6) .proj-visual{background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(109,40,217,.15))}
+.proj:nth-child(1) .proj-visual{background:radial-gradient(130% 130% at 50% 0%,rgba(109,40,217,.28),rgba(0,0,0,0) 58%),#0b0b10}
+.proj:nth-child(2) .proj-visual{background:radial-gradient(130% 130% at 50% 0%,rgba(59,130,246,.26),rgba(0,0,0,0) 58%),#0b0b10}
+.proj:nth-child(3) .proj-visual{background:radial-gradient(130% 130% at 50% 0%,rgba(16,185,129,.24),rgba(0,0,0,0) 58%),#0b0b10}
+.proj:nth-child(4) .proj-visual{background:radial-gradient(130% 130% at 50% 0%,rgba(236,72,153,.26),rgba(0,0,0,0) 58%),#0b0b10}
+.proj:nth-child(5) .proj-visual{background:radial-gradient(130% 130% at 50% 0%,rgba(245,158,11,.24),rgba(0,0,0,0) 58%),#0b0b10}
+.proj:nth-child(6) .proj-visual{background:radial-gradient(130% 130% at 50% 0%,rgba(139,92,246,.28),rgba(0,0,0,0) 58%),#0b0b10}
 .proj-tag{display:inline-flex;align-items:center;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--acc2);margin-bottom:12px}
 .proj h3{font-family:'Space Grotesk';font-size:20px;font-weight:700;margin-bottom:8px}
 .proj p{color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:18px;flex:1}
@@ -760,7 +760,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
 #planetInfoClose{position:absolute;right:10px;top:8px;width:28px;height:28px;border:0;border-radius:50%;background:rgba(255,255,255,.08);color:#fff;font-size:19px;cursor:pointer}
 @media(max-width:650px){.planet-info{left:50%;top:auto;bottom:86px;transform:translate(-50%,12px);width:min(310px,calc(100vw - 28px));padding:14px 16px}.planet-info.open{transform:translate(-50%,0)}.planet-info strong{font-size:22px}.planet-info p{margin:6px 0 10px;font-size:11px}}
 </style>
-<link rel="stylesheet" href="assets/hermes-chat.css?v=40">
+<link rel="stylesheet" href="assets/hermes-chat.css?v=41">
 </head>
 <body class="dark">
 
@@ -2413,7 +2413,7 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
 })();
 
 </script>
-<script src="assets/hermes-chat.js?v=45" defer></script>
+<script src="assets/hermes-chat.js?v=46" defer></script>
 
 <script>
 /* Scroll-driven portrait frames (Mohit's frames) — replaces the old background video.
