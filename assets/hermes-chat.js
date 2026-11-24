@@ -31,7 +31,7 @@
       const text = data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
       if(!text) throw new Error('Empty reply');
       chatHistory.push({role:'assistant', content:text});
-      return { text, usage: data.usage || null, ms: Math.round(performance.now() - t0) };
+      return { text, usage: data.usage || null, ms: Math.round(performance.now() - t0), actual: data.model || null };
     }catch(e){ chatHistory.pop(); throw e; }
   }
 
@@ -283,7 +283,7 @@
       const usedModel = aiCfg.model;
       const r = await askHermes(trimmed);
       hideTyping();
-      addMsg(r.text, 'bot', usedModel, r.usage, r.ms);
+      addMsg(r.text, 'bot', r.actual || usedModel, r.usage, r.ms);
     }catch(e){
       hideTyping();
       addMsg("⚠️ I can't reach the AI server right now. Hermes answers come from a real AI API — if you're Mohit, start the FreeLLMAPI server, or set the endpoint and key from the sidebar Settings. (Keys never live in this website's code.)", 'bot');
