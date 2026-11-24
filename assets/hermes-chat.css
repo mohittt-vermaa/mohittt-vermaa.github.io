@@ -7,7 +7,7 @@
 
 /* full-screen page */
 .hc-page{position:fixed;inset:0;z-index:9998;display:flex;flex-direction:column;
-  background:#212121;transform:translateY(100%);transition:transform .45s var(--fast);visibility:hidden}
+  background:radial-gradient(1100px 750px at 85% -10%,rgba(88,60,180,.28),transparent 60%),radial-gradient(900px 650px at 8% 108%,rgba(16,78,160,.20),transparent 60%),linear-gradient(180deg,#04060f 0%,#070b1a 55%,#04060f 100%);transform:translateY(100%);transition:transform .45s var(--fast);visibility:hidden}
 .hc-page.open{transform:translateY(0);visibility:visible}
 
 /* stars layer (over dark bg, under UI) — kept */
@@ -17,7 +17,7 @@
 
 /* TOP NAV */
 .hc-nav{position:relative;z-index:3;display:flex;align-items:center;gap:12px;padding:14px 20px;
-  background:#212121;border-bottom:1px solid rgba(255,255,255,.08)}
+  background:transparent;border-bottom:1px solid rgba(255,255,255,.08)}
 .hc-logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:#ececec;letter-spacing:.01em}
 .hc-logo .hc-ava{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;
   background:#2f2f2f;color:#ececec;font-size:14px;font-weight:700}
@@ -29,7 +29,7 @@
 
 /* LEFT SIDEBAR (collapsible) */
 .hc-sidebar{position:relative;z-index:3;width:250px;flex:0 0 250px;display:flex;flex-direction:column;gap:6px;padding:16px 12px;
-  background:#171717;border-right:1px solid rgba(255,255,255,.06);transition:margin-left .35s var(--fast),opacity .3s}
+  background:rgba(6,9,20,.78);border-right:1px solid rgba(255,255,255,.06);transition:margin-left .35s var(--fast),opacity .3s}
 .hc-page:not(.sidebar-open) .hc-sidebar{margin-left:-250px;opacity:0;pointer-events:none}
 .hc-side-btn{display:flex;align-items:center;gap:11px;padding:11px 14px;border-radius:10px;border:1px solid transparent;
   background:transparent;color:#ececec;font-size:13.5px;font-weight:500;cursor:pointer;transition:.18s;text-align:left;width:100%}
@@ -163,3 +163,17 @@ body.hc-open{overflow:hidden !important}
 }
 .hc-emoji-float{display:none !important}
 .hc-nebula{display:none !important}
+
+/* Markdown inside bot replies (ChatGPT-style) */
+.hc-msg.bot p{margin:0 0 10px}
+.hc-msg.bot p:last-child{margin-bottom:0}
+.hc-msg.bot ul,.hc-msg.bot ol{margin:4px 0 12px;padding-left:22px}
+.hc-msg.bot li{margin:3px 0}
+.hc-msg.bot .hc-pre{background:rgba(2,4,12,.62);border:1px solid rgba(255,255,255,.13);border-radius:12px;padding:12px 14px;overflow-x:auto;margin:8px 0 12px}
+.hc-msg.bot .hc-pre code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;line-height:1.55;color:#e8eaf2;background:none;padding:0}
+.hc-msg.bot .hc-code{background:rgba(255,255,255,.12);padding:1px 6px;border-radius:6px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92em}
+.hc-msg.bot a{color:#9db8ff}
+.hc-msg.bot h3{font-size:17px;margin:12px 0 6px;color:#fff}
+.hc-msg.bot h4{font-size:15.5px;margin:10px 0 5px;color:#fff}
+.hc-msg.bot h5{font-size:14.5px;margin:8px 0 4px;color:#fff}
+.hc-msg.bot strong{color:#fff}
