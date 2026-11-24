@@ -169,6 +169,7 @@
     m.style.cssText = who==='user' ? 'max-width:78%;padding:10px 16px;border-radius:24px;font-size:15px;line-height:1.65;white-space:pre-wrap;align-self:flex-end;background:rgba(70,80,180,.30);border:1px solid rgba(255,255,255,.10);color:#fff;animation:hc-in .3s ease' : 'max-width:100%;padding:4px 2px;font-size:15px;line-height:1.7;align-self:stretch;background:transparent;border:none;color:#ececec;animation:hc-in .3s ease';
     if(who === 'bot') m.innerHTML = mdToHtml(text); else m.textContent = text;
     body.appendChild(m);
+    persistMsg(who, text);
     body.scrollTop = body.scrollHeight;
   }
 
@@ -229,36 +230,80 @@
       c.style.cssText = 'padding:14px 16px;border-radius:16px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.02);color:#ececec;font-size:13.5px;cursor:pointer;text-align:left;transition:.2s';
       c.textContent = title;
       c.addEventListener('click',()=>{
-        trackRecent(title);
         answer(title);
       });
       cardsEl.appendChild(c);
     });
   }
 
-  // Recent
-  const recent = [];
-  function trackRecent(q){
-    const label = q.length>34 ? q.slice(0,34)+'…' : q;
-    if(!recent.includes(label)){
-      recent.unshift(label);
-      if(recent.length>6) recent.pop();
-      renderRecent();
+  // ===== Chat sessions — saved in this browser; sidebar Recent reopens them =====
+  let hcChats = [];
+  try{ hcChats = JSON.parse(localStorage.getItem('hermes_chats_v1') || '[]'); }catch(e){ hcChats = []; }
+  let currentChatId = null;
+  let loadingChat = false;
+  function saveChats(){ try{ localStorage.setItem('hermes_chats_v1', JSON.stringify(hcChats.slice(0, 20))); }catch(e){} }
+  function persistMsg(who, text){
+    if(loadingChat) return;
+    let chat = hcChats.find(c => c.id === currentChatId);
+    if(!chat){
+      if(who !== 'user') return;
+      chat = { id: 'c' + Date.now(), title: text.length > 34 ? text.slice(0, 34) + '…' : text, msgs: [] };
+      hcChats.unshift(chat);
+      currentChatId = chat.id;
     }
+    chat.msgs.push({ who, text });
+    if(chat.msgs.length > 100) chat.msgs = chat.msgs.slice(-100);
+    const i = hcChats.indexOf(chat);
+    if(i > 0){ hcChats.splice(i, 1); hcChats.unshift(chat); }
+    saveChats();
+    renderRecent();
   }
   function renderRecent(){
     const el = document.getElementById('hcRecent');
     if(!el) return;
-    el.innerHTML='';
-    recent.forEach(r=>{
-      const d=document.createElement('div');
-      d.className='hc-recent';
-      d.style.cssText='font-size:12.5px;color:#b4b4b4;padding:8px 14px;border-radius:10px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis';
-      d.textContent=r;
-      d.addEventListener('click',()=>{ if(input){ input.value=r; input.focus(); } });
+    el.innerHTML = '';
+    hcChats.forEach(chat => {
+      const active = chat.id === currentChatId;
+      const d = document.createElement('div');
+      d.className = 'hc-recent';
+      d.style.cssText = 'display:flex;align-items:center;gap:6px;font-size:12.5px;color:' + (active ? '#fff' : '#b4b4b4') + ';background:' + (active ? 'rgba(255,255,255,.09)' : 'transparent') + ';padding:8px 10px 8px 14px;border-radius:10px;cursor:pointer;margin-bottom:2px';
+      const t = document.createElement('span');
+      t.style.cssText = 'flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis';
+      t.textContent = chat.title;
+      t.addEventListener('click', () => loadChat(chat.id));
+      const x = document.createElement('button');
+      x.textContent = '✕';
+      x.title = 'Delete chat';
+      x.style.cssText = 'background:none;border:none;color:#8e8e8e;cursor:pointer;font-size:11px;padding:2px 4px;flex:0 0 auto';
+      x.addEventListener('click', (e) => { e.stopPropagation(); deleteChat(chat.id); });
+      d.appendChild(t);
+      d.appendChild(x);
       el.appendChild(d);
     });
   }
+  function loadChat(id){
+    const chat = hcChats.find(c => c.id === id);
+    if(!chat) return;
+    currentChatId = id;
+    chatHistory = chat.msgs.map(m => ({ role: m.who === 'user' ? 'user' : 'assistant', content: m.text }));
+    if(body){
+      body.querySelectorAll('.hc-msg, .hc-typing').forEach(m => m.remove());
+      if(welcomeEl) welcomeEl.style.display = 'none';
+      loadingChat = true;
+      chat.msgs.forEach(m => addMsg(m.text, m.who));
+      loadingChat = false;
+      body.scrollTop = body.scrollHeight;
+    }
+    page.classList.remove('sidebar-open');
+    renderRecent();
+  }
+  function deleteChat(id){
+    hcChats = hcChats.filter(c => c.id !== id);
+    saveChats();
+    if(id === currentChatId) resetChat();
+    renderRecent();
+  }
+  renderRecent();
 
   function open(){
     overlay.style.opacity='1';
@@ -281,6 +326,8 @@
       msgs.forEach(m=>m.remove());
       if(welcomeEl) welcomeEl.style.display='flex';
       chatHistory = [];
+      currentChatId = null;
+      renderRecent();
     }
     if(input) input.value='';
   }
@@ -301,8 +348,8 @@
   if(overlay) overlay.addEventListener('click', close);
 
   const sendBtn = document.getElementById('hcSend');
-  if(sendBtn) sendBtn.addEventListener('click', ()=>{ const v=input.value; trackRecent(v); answer(v); input.value=''; });
-  if(input) input.addEventListener('keydown', e=>{ if(e.key==='Enter'){ const v=input.value; trackRecent(v); answer(v); input.value=''; } });
+  if(sendBtn) sendBtn.addEventListener('click', ()=>{ const v=input.value; answer(v); input.value=''; });
+  if(input) input.addEventListener('keydown', e=>{ if(e.key==='Enter'){ const v=input.value; answer(v); input.value=''; } });
 
   // Triggers - FIXED: support both mobile and desktop
   const triggers = document.querySelectorAll('#openHermesChat, [data-open-hermes]');
