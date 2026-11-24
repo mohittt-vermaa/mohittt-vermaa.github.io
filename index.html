@@ -813,6 +813,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
 <!-- NAV -->
 <nav>
   <a href="#" class="logo" aria-label="Mohit Verma home">M</a>
+  <button id="musicWave" type="button" aria-label="Play or pause music" title="Music on/off"><span></span><span></span><span></span><span></span><span></span></button>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#projects">Projects</a></li>
@@ -2421,19 +2422,33 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
 </script>
 
 <audio id="bgMusic" src="assets/audio/amour-plastique.mp3" loop preload="auto"></audio>
-<button id="musicBtn" type="button" aria-label="Mute or unmute music" title="Music on/off" style="position:fixed;right:18px;bottom:18px;z-index:10005;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(20,16,32,.72);backdrop-filter:blur(8px);color:#fff;font-size:20px;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.45)">🔊</button>
+
+<style>
+#musicWave{display:flex;align-items:flex-end;gap:3px;height:28px;padding:5px 9px;background:rgba(20,16,32,.45);border:1px solid rgba(255,255,255,.22);border-radius:999px;cursor:pointer;flex:none}
+#musicWave span{display:block;width:3.5px;height:22%;border-radius:2px;background:linear-gradient(180deg,#ec4899,#8b5cf6);opacity:.55}
+#musicWave.playing span{opacity:1;animation:mvWave .9s ease-in-out infinite}
+#musicWave span:nth-child(1){animation-delay:0s}
+#musicWave span:nth-child(2){animation-delay:.18s}
+#musicWave span:nth-child(3){animation-delay:.36s}
+#musicWave span:nth-child(4){animation-delay:.54s}
+#musicWave span:nth-child(5){animation-delay:.72s}
+@keyframes mvWave{0%,100%{height:22%}50%{height:100%}}
+</style>
 <script>
 /* Background music (Amour Plastique, full song, looped) — starts when the visitor
-   enters the site (browser autoplay rules need that click). Mute button bottom-right. */
+   enters the site (browser autoplay rules need that click). Tap the nav wave to pause/resume. */
 (function(){
-  var au=document.getElementById('bgMusic'), btn=document.getElementById('musicBtn');
-  if(!au || !btn) return;
+  var au=document.getElementById('bgMusic'), w=document.getElementById('musicWave');
+  if(!au || !w) return;
   au.volume=0.5;
+  function setWave(){ w.classList.toggle('playing', !au.paused); }
+  au.addEventListener('play', setWave);
+  au.addEventListener('pause', setWave);
   var started=false;
   function start(){
     if(started) return; started=true;
-    btn.style.display='flex';
     au.play().catch(function(){});
+    setWave();
   }
   var mo=new MutationObserver(function(){
     if(!document.documentElement.classList.contains('splash-lock')){
@@ -2442,11 +2457,11 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
     }
   });
   mo.observe(document.documentElement, {attributes:true, attributeFilter:['class']});
-  btn.addEventListener('click', function(){
-    au.muted=!au.muted;
-    btn.textContent = au.muted ? '\uD83D\uDD07' : '\uD83D\uDD0A';
-    if(!au.muted && au.paused) au.play().catch(function(){});
+  w.addEventListener('click', function(){
+    if(au.paused){ au.play().catch(function(){}); } else { au.pause(); }
+    setWave();
   });
+  setWave();
 })();
 </script>
 </body>
