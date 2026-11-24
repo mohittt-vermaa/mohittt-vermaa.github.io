@@ -1296,11 +1296,11 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
         <div class="form-row">
           <div class="form-group">
             <label class="form-label" for="cf-name">First name</label>
-            <input class="form-input" type="text" id="cf-name" placeholder="Jane" required>
+            <input class="form-input" type="text" id="cf-name" placeholder="Tanisha" required>
           </div>
           <div class="form-group">
             <label class="form-label" for="cf-email">Your email</label>
-            <input class="form-input" type="email" id="cf-email" placeholder="jane@example.com" required>
+            <input class="form-input" type="email" id="cf-email" placeholder="tanisha@gmail.com" required>
           </div>
         </div>
         <div class="form-group">
@@ -2412,7 +2412,7 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
 })();
 
 </script>
-<script src="assets/hermes-chat.js?v=47" defer></script>
+<script src="assets/hermes-chat.js?v=48" defer></script>
 
 <script>
 /* Scroll-driven portrait frames (Mohit's frames) — replaces the old background video.
@@ -2549,34 +2549,12 @@ document.querySelectorAll('.proj-visual').forEach(function(v){
 </script>
 <style>
   html{scrollbar-width:thin;scrollbar-color:#3f3f46 transparent}
+  html::-webkit-scrollbar,body::-webkit-scrollbar{width:8px;height:8px}
+  html::-webkit-scrollbar-track,body::-webkit-scrollbar-track{background:transparent}
+  html::-webkit-scrollbar-thumb,body::-webkit-scrollbar-thumb{background:#3f3f46;border-radius:8px}
   ::-webkit-scrollbar{width:8px;height:8px}
   ::-webkit-scrollbar-track{background:transparent}
   ::-webkit-scrollbar-thumb{background:#3f3f46;border-radius:8px}
-  #scrollCar{position:fixed;right:10px;top:8px;width:30px;height:58px;z-index:9990;pointer-events:none;transition:top .15s ease-out}
-  html.splash-lock #scrollCar{display:none}
-  #scrollCarSvg{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-90deg);transition:transform .25s ease;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
 </style>
-<div id="scrollCar" aria-hidden="true"><span id="scrollCarSvg"><svg viewBox="0 0 120 48" width="58" height="28" fill="none"><rect x="4" y="2" width="7" height="22" rx="2" fill="#e10600"/><rect x="10" y="12" width="12" height="4" fill="#15151c"/><path d="M12 36 L34 36 L44 25 L74 23 L98 31 L114 36 L114 42 L12 42 Z" fill="#e10600"/><ellipse cx="64" cy="22" rx="11" ry="5" fill="#15151c"/><rect x="106" y="39" width="13" height="4" rx="2" fill="#15151c"/><circle cx="32" cy="40" r="7" fill="#15151c"/><circle cx="32" cy="40" r="3" fill="#9ca3af"/><circle cx="95" cy="40" r="7" fill="#15151c"/><circle cx="95" cy="40" r="3" fill="#9ca3af"/></svg></span></div>
-<script>
-(function(){
-  var car = document.getElementById('scrollCar');
-  var svg = document.getElementById('scrollCarSvg');
-  if(!car || !svg) return;
-  var lastY = window.scrollY || 0;
-  function upd(){
-    var h = document.documentElement;
-    var max = h.scrollHeight - window.innerHeight;
-    var y = window.scrollY || 0;
-    var p = max > 0 ? y / max : 0;
-    car.style.top = (8 + p * Math.max(0, window.innerHeight - 74)) + 'px';
-    if(y > lastY + 2) svg.style.transform = 'translate(-50%,-50%) rotate(90deg)';
-    else if(y < lastY - 2) svg.style.transform = 'translate(-50%,-50%) rotate(-90deg)';
-    lastY = y;
-  }
-  window.addEventListener('scroll', upd, {passive:true});
-  window.addEventListener('resize', upd);
-  upd();
-})();
-</script>
 </body>
 </html>
