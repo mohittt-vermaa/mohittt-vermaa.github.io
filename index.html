@@ -821,7 +821,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
     <li><a href="#books">Books</a></li>
     <li><a href="#profiles">Connect</a></li>
     <li><a href="#" data-open-hermes style="color:var(--acc);font-weight:600">🤖 Hermes</a></li>
-    <li><a href="#" onclick="window.openSiteSetting&&window.openSiteSetting();return false;" style="color:#a1a1aa" title="Site Setting">⚙️ Setting</a></li>
+    
   </ul>
   <div class="nav-right">
     <a href="#" class="nav-cta" data-open-contact><span class="dot"></span>Get in touch</a>
@@ -836,7 +836,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
   <a href="#books">Books</a>
   <a href="#profiles">Connect</a>
   <a href="#" id="openHermesChat" style="color:var(--acc);font-weight:600">🤖 I am Hermes — Chat</a>
-  <a href="#" onclick="window.openSiteSetting&&window.openSiteSetting();return false;" style="color:#a1a1aa">⚙️ Site Setting</a>
+  
   <a href="#" class="nav-cta" data-open-contact><span class="dot"></span>Get in touch</a>
 </div>
 
@@ -1406,7 +1406,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
   });
   const urlParamsCheck=new URLSearchParams(location.search);
   const hasForcePreset=urlParamsCheck.get('preset')||urlParamsCheck.get('force');
-  const existing=loadCfg() || (hasForcePreset && presets[hasForcePreset] ? {preset:hasForcePreset,toggles:Object.assign({},presets[hasForcePreset])} : null);
+  const existing={preset:'extreme', toggles:Object.assign({}, presets.extreme)}; /* preset feature removed: fixed Extreme mode */
   if(existing || hasForcePreset){
     applyCfgToDOM(existing);
     ssEl.classList.add('done');
@@ -1639,7 +1639,7 @@ function getSiteCfg(){
     }
   }catch(e){}
   try{
-    const s=localStorage.getItem('mv_site_setting_v6');
+    const s=null; /* preset feature removed */
     if(s){
       const cfg=JSON.parse(s);
       // Fix missing starCount for extreme
