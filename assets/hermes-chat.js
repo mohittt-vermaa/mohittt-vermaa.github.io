@@ -130,6 +130,7 @@
   const statusEl = box.querySelector('#hcStatus');
   const cardsEl = box.querySelector('#hcCards');
   const welcomeEl = box.querySelector('#hcWelcome');
+  let wmEl = null;
 
 
   function setStatus(text, thinking){
@@ -193,6 +194,7 @@
 
   function addMsg(text, who, model, usage, ms){
     if(welcomeEl) welcomeEl.style.display = 'none';
+    if(wmEl) wmEl.style.display = 'none';
     const m = document.createElement('div');
     m.className = 'hc-msg ' + who;
     m.style.cssText = who==='user' ? 'max-width:78%;padding:10px 16px;border-radius:24px;font-size:15px;line-height:1.65;white-space:pre-wrap;align-self:flex-end;background:#2f2f2f;border:1px solid rgba(255,255,255,.10);color:#fff;animation:hc-in .3s ease' : 'max-width:100%;padding:14px 16px;border-radius:18px;font-size:15px;line-height:1.7;align-self:stretch;background:#2a2a2a;border:1px solid rgba(255,255,255,.09);color:#ececec;animation:hc-in .3s ease';
@@ -276,27 +278,16 @@
   const clockEl = box.querySelector('#hcClock');
   if(clockEl){ const tick = () => { clockEl.textContent = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'}); }; tick(); setInterval(tick, 1000); }
 
-  // F1 car scroll indicator riding the chat body's right edge
-  const hcCar = document.createElement('div');
-  hcCar.id = 'hcScrollCar';
-  hcCar.setAttribute('aria-hidden', 'true');
-  hcCar.style.cssText = 'position:absolute;right:5px;top:8px;width:26px;height:52px;z-index:6;pointer-events:none;transition:top .15s ease-out';
-  hcCar.innerHTML = '<span id="hcCarSvg" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-90deg);transition:transform .25s ease;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))"><svg viewBox="0 0 120 48" width="52" height="25" fill="none"><rect x="4" y="2" width="7" height="22" rx="2" fill="#e10600"/><rect x="10" y="12" width="12" height="4" fill="#15151c"/><path d="M12 36 L34 36 L44 25 L74 23 L98 31 L114 36 L114 42 L12 42 Z" fill="#e10600"/><ellipse cx="64" cy="22" rx="11" ry="5" fill="#15151c"/><rect x="106" y="39" width="13" height="4" rx="2" fill="#15151c"/><circle cx="32" cy="40" r="7" fill="#15151c"/><circle cx="32" cy="40" r="3" fill="#9ca3af"/><circle cx="95" cy="40" r="7" fill="#15151c"/><circle cx="95" cy="40" r="3" fill="#9ca3af"/></svg></span>';
-  page.appendChild(hcCar);
-  const hcBodyEl = box.querySelector('#hcBody');
-  const hcCarSvg = hcCar.querySelector('#hcCarSvg');
-  if(hcBodyEl){
-    let lastTop = 0;
-    const updCar = () => {
-      const max = hcBodyEl.scrollHeight - hcBodyEl.clientHeight;
-      const p = max > 0 ? hcBodyEl.scrollTop / max : 0;
-      hcCar.style.top = (8 + p * Math.max(0, page.clientHeight - 68)) + 'px';
-      if(hcBodyEl.scrollTop > lastTop + 2) hcCarSvg.style.transform = 'translate(-50%,-50%) rotate(90deg)';
-      else if(hcBodyEl.scrollTop < lastTop - 2) hcCarSvg.style.transform = 'translate(-50%,-50%) rotate(-90deg)';
-      lastTop = hcBodyEl.scrollTop;
-    };
-    hcBodyEl.addEventListener('scroll', updCar, {passive:true});
-    updCar();
+  // Giant HERMES wordmark behind every empty (new) chat, OpenCode-style
+  const hcMain = box.querySelector('.hc-main');
+  if(hcMain){
+    wmEl = document.createElement('div');
+    wmEl.id = 'hcWatermark';
+    wmEl.setAttribute('aria-hidden', 'true');
+    wmEl.textContent = 'HERMES';
+    wmEl.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding-bottom:12vh;pointer-events:none;user-select:none;z-index:0;font-family:"Courier New",monospace;font-weight:900;letter-spacing:.04em;text-transform:uppercase;font-size:clamp(64px,13vw,168px);color:rgba(255,255,255,.05)';
+    hcMain.appendChild(wmEl);
+    if(body){ body.style.position = 'relative'; body.style.zIndex = '1'; }
   }
 
   let hcBusy = false;
@@ -433,6 +424,7 @@
       const msgs = body.querySelectorAll('.hc-msg, .hc-typing');
       msgs.forEach(m=>m.remove());
       if(welcomeEl) welcomeEl.style.display='flex';
+      if(wmEl) wmEl.style.display='flex';
       chatHistory = [];
       currentChatId = null;
       page.classList.remove('sidebar-open');
