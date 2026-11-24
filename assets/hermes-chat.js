@@ -276,6 +276,29 @@
   const clockEl = box.querySelector('#hcClock');
   if(clockEl){ const tick = () => { clockEl.textContent = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'}); }; tick(); setInterval(tick, 1000); }
 
+  // F1 car scroll indicator riding the chat body's right edge
+  const hcCar = document.createElement('div');
+  hcCar.id = 'hcScrollCar';
+  hcCar.setAttribute('aria-hidden', 'true');
+  hcCar.style.cssText = 'position:absolute;right:5px;top:8px;width:26px;height:52px;z-index:6;pointer-events:none;transition:top .15s ease-out';
+  hcCar.innerHTML = '<span id="hcCarSvg" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-90deg);transition:transform .25s ease;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))"><svg viewBox="0 0 120 48" width="52" height="25" fill="none"><rect x="4" y="2" width="7" height="22" rx="2" fill="#e10600"/><rect x="10" y="12" width="12" height="4" fill="#15151c"/><path d="M12 36 L34 36 L44 25 L74 23 L98 31 L114 36 L114 42 L12 42 Z" fill="#e10600"/><ellipse cx="64" cy="22" rx="11" ry="5" fill="#15151c"/><rect x="106" y="39" width="13" height="4" rx="2" fill="#15151c"/><circle cx="32" cy="40" r="7" fill="#15151c"/><circle cx="32" cy="40" r="3" fill="#9ca3af"/><circle cx="95" cy="40" r="7" fill="#15151c"/><circle cx="95" cy="40" r="3" fill="#9ca3af"/></svg></span>';
+  page.appendChild(hcCar);
+  const hcBodyEl = box.querySelector('#hcBody');
+  const hcCarSvg = hcCar.querySelector('#hcCarSvg');
+  if(hcBodyEl){
+    let lastTop = 0;
+    const updCar = () => {
+      const max = hcBodyEl.scrollHeight - hcBodyEl.clientHeight;
+      const p = max > 0 ? hcBodyEl.scrollTop / max : 0;
+      hcCar.style.top = (8 + p * Math.max(0, page.clientHeight - 68)) + 'px';
+      if(hcBodyEl.scrollTop > lastTop + 2) hcCarSvg.style.transform = 'translate(-50%,-50%) rotate(90deg)';
+      else if(hcBodyEl.scrollTop < lastTop - 2) hcCarSvg.style.transform = 'translate(-50%,-50%) rotate(-90deg)';
+      lastTop = hcBodyEl.scrollTop;
+    };
+    hcBodyEl.addEventListener('scroll', updCar, {passive:true});
+    updCar();
+  }
+
   let hcBusy = false;
   async function answer(raw){
     if(!raw || !raw.trim() || hcBusy) return;
