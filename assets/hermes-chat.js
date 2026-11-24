@@ -371,14 +371,21 @@
       t.textContent = chat.title;
       t.addEventListener('click', () => loadChat(chat.id));
       const x = document.createElement('button');
-      x.textContent = '✕';
       x.title = 'Delete chat';
-      x.style.cssText = 'background:none;border:none;color:#8e8e8e;cursor:pointer;font-size:11px;padding:2px 4px;flex:0 0 auto';
+      x.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"><path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>';
+      x.style.cssText = 'background:none;border:none;color:#b4b4b4;cursor:pointer;padding:6px;border-radius:8px;flex:0 0 auto;display:grid;place-items:center';
       x.addEventListener('click', (e) => { e.stopPropagation(); deleteChat(chat.id); });
       d.appendChild(t);
       d.appendChild(x);
       el.appendChild(d);
     });
+    if(hcChats.length){
+      const clr = document.createElement('button');
+      clr.textContent = 'Clear all chats';
+      clr.style.cssText = 'background:none;border:none;color:#8e8e8e;cursor:pointer;font-size:11.5px;padding:8px 14px;text-align:left;width:100%';
+      clr.addEventListener('click', () => { hcChats = []; saveChats(); resetChat(); renderRecent(); });
+      el.appendChild(clr);
+    }
   }
   function loadChat(id){
     const chat = hcChats.find(c => c.id === id);
@@ -388,6 +395,7 @@
     if(body){
       body.querySelectorAll('.hc-msg, .hc-typing').forEach(m => m.remove());
       if(welcomeEl) welcomeEl.style.display = 'none';
+      if(wmEl) wmEl.style.display = 'none';
       loadingChat = true;
       chat.msgs.forEach(m => addMsg(m.text, m.who, m.model, m.usage, m.ms));
       loadingChat = false;
