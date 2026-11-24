@@ -23,7 +23,7 @@
   background:#2f2f2f;color:#ececec;font-size:14px;font-weight:700}
 .hc-nav-right{margin-left:auto;display:flex;gap:8px;align-items:center}
 .hc-icon-btn{width:36px;height:36px;border-radius:10px;border:1px solid rgba(255,255,255,.12);
-  background:transparent;color:#b4b4b4;display:grid;place-items:center;cursor:pointer;transition:.2s}
+  background:#2f2f2f;color:#b4b4b4;display:grid;place-items:center;cursor:pointer;transition:.2s}
 .hc-icon-btn:hover{color:#fff;border-color:rgba(255,255,255,.25);background:#2f2f2f}
 .hc-icon-btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
@@ -65,7 +65,7 @@
 /* COMPOSER (bottom-centered pill, flat dark) */
 .hc-composer-wrap{position:relative;z-index:3;padding:10px 16px 18px;display:flex;justify-content:center;background:transparent}
 .hc-composer{display:flex;align-items:center;gap:8px;width:100%;max-width:768px;padding:8px 10px 8px 16px;
-  border-radius:26px;border:1px solid rgba(255,255,255,.14);background:#2f2f2f;
+  border-radius:26px;border:1px solid rgba(129,140,248,.35);background:#262145;
   transition:border-color .25s}
 .hc-composer:focus-within{border-color:rgba(255,255,255,.3)}
 .hc-composer input{flex:1;min-width:0;padding:11px 6px;border:none;background:transparent;color:#ececec;
