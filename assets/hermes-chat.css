@@ -63,7 +63,7 @@
 .hc-card strong{display:block;font-size:13.5px;color:#ececec;margin-bottom:3px}
 
 /* COMPOSER (bottom-centered pill, flat dark) */
-.hc-composer-wrap{position:relative;z-index:3;padding:10px 16px 18px;display:flex;justify-content:center;background:#212121}
+.hc-composer-wrap{position:relative;z-index:3;padding:10px 16px 18px;display:flex;justify-content:center;background:transparent}
 .hc-composer{display:flex;align-items:center;gap:8px;width:100%;max-width:768px;padding:8px 10px 8px 16px;
   border-radius:26px;border:1px solid rgba(255,255,255,.14);background:#2f2f2f;
   transition:border-color .25s}
@@ -177,3 +177,8 @@ body.hc-open{overflow:hidden !important}
 .hc-msg.bot h4{font-size:15.5px;margin:10px 0 5px;color:#fff}
 .hc-msg.bot h5{font-size:14.5px;margin:8px 0 4px;color:#fff}
 .hc-msg.bot strong{color:#fff}
+/* Reply footer: copy button + the model that answered */
+.hc-msg-foot{display:flex;align-items:center;gap:12px;margin-top:9px}
+.hc-copy-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#b4b4b4;font-size:11px;padding:4px 10px;border-radius:8px;cursor:pointer}
+.hc-copy-btn:hover{color:#fff;border-color:rgba(255,255,255,.3)}
+.hc-msg-foot span{font-size:11px;color:#8e8e8e}
