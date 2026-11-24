@@ -182,3 +182,8 @@ body.hc-open{overflow:hidden !important}
 .hc-copy-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#b4b4b4;font-size:11px;padding:4px 10px;border-radius:8px;cursor:pointer}
 .hc-copy-btn:hover{color:#fff;border-color:rgba(255,255,255,.3)}
 .hc-msg-foot span{font-size:11px;color:#8e8e8e}
+/* Markdown tables inside replies */
+.hc-table-wrap{overflow-x:auto;margin:10px 0}
+.hc-table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+.hc-table th,.hc-table td{border:1px solid rgba(255,255,255,.16);padding:7px 10px;text-align:left;vertical-align:top}
+.hc-table th{background:rgba(255,255,255,.08);font-weight:600;white-space:nowrap}
