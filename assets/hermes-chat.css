@@ -187,3 +187,9 @@ body.hc-open{overflow:hidden !important}
 .hc-table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
 .hc-table th,.hc-table td{border:1px solid rgba(255,255,255,.16);padding:7px 10px;text-align:left;vertical-align:top}
 .hc-table th{background:rgba(255,255,255,.08);font-weight:600;white-space:nowrap}
+
+/* Slim chat scrollbar */
+.hc-body{scrollbar-width:thin;scrollbar-color:#3f3f46 transparent}
+.hc-body::-webkit-scrollbar{width:8px}
+.hc-body::-webkit-scrollbar-track{background:transparent}
+.hc-body::-webkit-scrollbar-thumb{background:#3f3f46;border-radius:8px}
