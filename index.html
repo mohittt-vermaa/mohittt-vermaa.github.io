@@ -771,16 +771,16 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
       </div>
     </div>
     <div class="ss-presets">
-      <button class="ss-preset" data-preset="low"><span class="ss-p-icon">🐢</span><span class="ss-p-name">Low</span><span class="ss-p-desc">No 3D, no astronaut, minimal animations, fastest load</span></button>
-      <button class="ss-preset" data-preset="medium"><span class="ss-p-icon">⚡</span><span class="ss-p-name">Medium</span><span class="ss-p-desc">Solar system + 10K stars, astronaut, balanced</span></button>
-      <button class="ss-preset active" data-preset="extreme"><span class="ss-p-icon">🚀</span><span class="ss-p-name">Extreme</span><span class="ss-p-desc">Realistic solar system, large astronaut, 50K stars, full effects</span></button>
+      <button class="ss-preset" data-preset="low"><span class="ss-p-icon">🐢</span><span class="ss-p-name">Low</span><span class="ss-p-desc">No 3D, minimal animations, fastest load</span></button>
+      <button class="ss-preset" data-preset="medium"><span class="ss-p-icon">⚡</span><span class="ss-p-name">Medium</span><span class="ss-p-desc">Solar system + 10K stars, balanced</span></button>
+      <button class="ss-preset active" data-preset="extreme"><span class="ss-p-icon">🚀</span><span class="ss-p-name">Extreme</span><span class="ss-p-desc">Realistic solar system, 50K stars, full effects</span></button>
       <button class="ss-preset" data-preset="custom"><span class="ss-p-icon">🛠️</span><span class="ss-p-name">Custom</span><span class="ss-p-desc">Toggle each element on/off</span></button>
     </div>
     <div class="ss-custom" id="ssCustom" style="display:none">
       <div class="ss-c-grid">
         <label class="ss-toggle"><input type="checkbox" data-key="stars" checked><span>Stars (50K)</span></label>
         <label class="ss-toggle"><input type="checkbox" data-key="earth" checked><span>Solar system + planets</span></label>
-        <label class="ss-toggle"><input type="checkbox" data-key="astronaut" checked><span>Astronaut GLB</span></label>
+        
         <label class="ss-toggle"><input type="checkbox" data-key="clouds" checked><span>Clouds</span></label>
         <label class="ss-toggle"><input type="checkbox" data-key="aura" checked><span>Aura Video</span></label>
         <label class="ss-toggle"><input type="checkbox" data-key="animations" checked><span>Animations</span></label>
@@ -797,14 +797,14 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
 </div>
 <!-- DEEP SPACE LAYER -->
 <div id="cssStars" style="position:fixed;inset:0;z-index:10001;background:#05060a;pointer-events:none;display:none"></div>
-<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">drag to explore · pinch to zoom</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterBlackhole" type="button" style="padding:12px 28px;border-radius:999px;border:1px solid rgba(236,72,153,.6);background:linear-gradient(135deg,rgba(109,40,217,.35),rgba(236,72,153,.3));color:#f9a8d4;font-size:13px;font-weight:800;letter-spacing:.12em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(236,72,153,.35),0 0 20px rgba(109,40,217,.3)"><img src="assets/black-hole.jpg?v=25" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:cover;box-shadow:0 0 16px rgba(236,72,153,.8)">Enter Blackhole</button></div><div style="display:flex;gap:10px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center"><button id="scanDevice" type="button" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(139,92,246,.5);background:rgba(124,58,237,.1);color:#a78bfa;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Scan Device</button><button id="openSettingFromLock" type="button" style="padding:9px 18px;border-radius:999px;border:1px solid rgba(113,113,122,.4);background:rgba(39,39,42,.6);color:#a1a1aa;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">⚙️ Site Setting</button></div>
+<div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">drag to explore · pinch to zoom</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterSite" type="button" style="padding:13px 36px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:linear-gradient(135deg,rgba(109,40,217,.5),rgba(236,72,153,.4));color:#fff;font-size:13px;font-weight:800;letter-spacing:.14em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(109,40,217,.4),0 0 20px rgba(236,72,153,.25)">Enter Site</button></div>
 <aside id="planetInfo" class="planet-info" aria-live="polite" aria-hidden="true"><button id="planetInfoClose" type="button" aria-label="Close planet details">×</button><span class="planet-info-kicker">PLANET EXPLORER</span><strong id="planetInfoName">Earth</strong><p id="planetInfoText">Tap any planet to explore its world.</p><button id="planetFocus" type="button">FOCUS PLANET <span>↗</span></button></aside>
 <button id="closeScanResult" class="scan-close" type="button" aria-label="Close device scan and return to space">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m18 6-12 12M6 6l12 12"/></svg><span>Back to space</span>
 </button>
 <div id="scanResult" class="scan-result" role="dialog" aria-modal="true" aria-label="Device scan results" aria-hidden="true"></div><div id="blackHoleOverlay" style="position:fixed;inset:0;z-index:10003;display:none;place-items:center;background:radial-gradient(ellipse at center, #1a0b2e 0%, #05060a 70%);opacity:0;transition:opacity .6s"><img src="assets/black-hole.jpg?v=25" alt="Black Hole" style="width:min(80vw,500px);height:min(80vw,500px);border-radius:50%;object-fit:cover;box-shadow:0 0 80px rgba(139,92,246,.8),0 0 160px rgba(236,72,153,.5);animation:blackHoleSpin 3s linear infinite, blackHolePulse 2s ease-in-out infinite"><style>@keyframes blackHoleSpin{to{transform:rotate(360deg)}}@keyframes blackHolePulse{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.08) rotate(180deg)}}@keyframes blackHoleEnter{0%{transform:scale(0.2) rotate(0deg);opacity:0}50%{opacity:1}100%{transform:scale(4) rotate(720deg);opacity:0}}</style></div></div>
 <canvas id="canvas" aria-hidden="true" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;display:block;pointer-events:none"></canvas>
-<video id="auraVideo" aria-hidden="true" muted playsinline preload="auto" loop disablepictureinpicture disableremoteplayback src="assets/video/aura_bg_2k_opt.mp4?v=1" style="position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:0;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35);opacity:0"></video>
+<video id="auraVideo" aria-hidden="true" muted playsinline preload="auto" loop disablepictureinpicture disableremoteplayback src="assets/video/mohit_bg.mp4?v=1" style="position:fixed;top:50%;left:50%;width:100%;height:100%;z-index:0;display:block;pointer-events:none;object-fit:cover;transform:translate(-50%,-50%) scale(1.35);opacity:0"></video>
 
 <!-- =========== FULL 3D BACKGROUND CANVAS =========== -->
 
@@ -1325,8 +1325,8 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
   const wrapEl=document.querySelector('.wrap');
   const presets={
     low:{stars:false,earth:false,astronaut:false,clouds:false,aura:false,animations:false,glass:false,marquee:false,cursor:false,starCount:0},
-    medium:{stars:true,earth:true,astronaut:true,clouds:true,aura:true,animations:true,glass:true,marquee:true,cursor:true,starCount:10000},
-    extreme:{stars:true,earth:true,astronaut:true,clouds:true,aura:true,animations:true,glass:true,marquee:true,cursor:true,starCount:50000},
+    medium:{stars:true,earth:true,astronaut:false,clouds:true,aura:true,animations:true,glass:true,marquee:true,cursor:true,starCount:10000},
+    extreme:{stars:true,earth:true,astronaut:false,clouds:true,aura:true,animations:true,glass:true,marquee:true,cursor:true,starCount:50000},
     custom:{}
   };
   function getDefaultToggles(){
@@ -1645,18 +1645,19 @@ function getSiteCfg(){
       // Fix missing starCount for extreme
       if(cfg.preset==='extreme' && (!cfg.toggles.starCount || cfg.toggles.starCount<1000)){
         cfg.toggles.starCount=50000;
-        cfg.toggles.stars=true; cfg.toggles.earth=true; cfg.toggles.astronaut=true; cfg.toggles.clouds=true; cfg.toggles.aura=true;
+        cfg.toggles.stars=true; cfg.toggles.earth=true; cfg.toggles.astronaut=false; cfg.toggles.clouds=true; cfg.toggles.aura=true;
       }
       if(cfg.preset==='medium' && (!cfg.toggles.starCount || cfg.toggles.starCount<1000)){
         cfg.toggles.starCount=10000;
       }
-      if(cfg.preset==='medium') cfg.toggles.astronaut=true;
+      if(cfg.preset==='medium') cfg.toggles.astronaut=false;
       return cfg;
     }
   }catch(e){}
-  return {preset:'extreme', toggles:{stars:true,earth:true,astronaut:true,clouds:true,aura:true,animations:true,glass:true,marquee:true,cursor:true,starCount:50000}};
+  return {preset:'extreme', toggles:{stars:true,earth:true,astronaut:false,clouds:true,aura:true,animations:true,glass:true,marquee:true,cursor:true,starCount:50000}};
 }
 let SITE_CFG=getSiteCfg();
+if(SITE_CFG&&SITE_CFG.toggles) SITE_CFG.toggles.astronaut=false;
 window.SITE_CFG=SITE_CFG;
 
 window.addEventListener('site-setting-saved',()=>{ SITE_CFG=getSiteCfg(); window.SITE_CFG=SITE_CFG; location.reload(); });
