@@ -354,7 +354,7 @@ h2 .grad{background:linear-gradient(135deg,var(--acc),var(--acc3));-webkit-backg
 .proj{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px;box-shadow:var(--card-shadow);transition:.4s var(--fast);display:flex;flex-direction:column;position:relative;overflow:hidden}
 .proj:hover{border-color:var(--line2);box-shadow:var(--card-shadow-h);transform:translateY(-6px)}
 .proj-visual{height:150px;border-radius:14px;margin-bottom:20px;position:relative;overflow:hidden;display:grid;place-items:center}
-.proj-visual svg{width:68%;height:68%;opacity:.9}
+.proj-visual svg{width:60%;height:60%;opacity:1}
 .proj-visual svg{transition:opacity .25s ease}
 .proj-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .25s ease;pointer-events:none}
 .proj-visual.playing .proj-video{opacity:1}
@@ -377,7 +377,7 @@ h2 .grad{background:linear-gradient(135deg,var(--acc),var(--acc3));-webkit-backg
 .proj-links .demo:hover{background:var(--acc);border-color:var(--acc)}
 
 /* -------- SKILLS -------- */
-.skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 .sk-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:36px;box-shadow:var(--card-shadow);transition:.4s var(--fast)}
 .sk-card:hover{border-color:var(--line2);box-shadow:var(--card-shadow-h);transform:translateY(-4px)}
 .sk-card h3{font-family:'Space Grotesk';font-size:18px;font-weight:700;margin-bottom:6px}
@@ -760,7 +760,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
 #planetInfoClose{position:absolute;right:10px;top:8px;width:28px;height:28px;border:0;border-radius:50%;background:rgba(255,255,255,.08);color:#fff;font-size:19px;cursor:pointer}
 @media(max-width:650px){.planet-info{left:50%;top:auto;bottom:86px;transform:translate(-50%,12px);width:min(310px,calc(100vw - 28px));padding:14px 16px}.planet-info.open{transform:translate(-50%,0)}.planet-info strong{font-size:22px}.planet-info p{margin:6px 0 10px;font-size:11px}}
 </style>
-<link rel="stylesheet" href="assets/hermes-chat.css?v=39">
+<link rel="stylesheet" href="assets/hermes-chat.css?v=40">
 </head>
 <body class="dark">
 
@@ -942,7 +942,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
   </div>
   <div class="projects-grid">
     <article class="proj reveal">
-      <div class="proj-visual" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg><video class="proj-video" muted loop playsinline preload="none" data-src="assets/video/proj-mlbox.mp4" aria-hidden="true"></video></div>
+      <div class="proj-visual" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><polygon points="32,5 57,19 32,33 7,19" fill="#a78bfa"/><polygon points="7,19 32,33 32,59 7,45" fill="#6d28d9"/><polygon points="32,33 57,19 57,45 32,59" fill="#db2777"/></svg><video class="proj-video" muted loop playsinline preload="none" data-src="assets/video/proj-mlbox.mp4" aria-hidden="true"></video></div>
       <span class="proj-tag">Featured</span>
       <h3>MLBox</h3>
       <p>Four ML tools in one static page: tokenizer lens, browser playground, no-GPU recipes, and live LLM prices. No install, no API key, no GPU.</p>
@@ -955,7 +955,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
       </div>
     </article>
     <article class="proj reveal">
-      <div class="proj-visual" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg><video class="proj-video" muted loop playsinline preload="none" data-src="assets/video/proj-orf5.mp4" aria-hidden="true"></video></div>
+      <div class="proj-visual" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="28" cy="28" r="17" stroke="#3b82f6" stroke-width="9"/><line x1="41" y1="41" x2="56" y2="56" stroke="#3b82f6" stroke-width="9" stroke-linecap="round"/><circle cx="28" cy="28" r="5" fill="#0ea5e9"/></svg><video class="proj-video" muted loop playsinline preload="none" data-src="assets/video/proj-orf5.mp4" aria-hidden="true"></video></div>
       <span class="proj-tag">Security / OSINT</span>
       <h3>ORF-5</h3>
       <p>Async 5-in-1 OSINT &amp; reconnaissance framework — username recon, game stats, metadata, breach check, and Telegram bot. Runs on Windows, Linux and Termux.</p>
@@ -968,7 +968,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
       </div>
     </article>
     <article class="proj reveal">
-      <div class="proj-visual" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></svg><video class="proj-video" muted loop playsinline preload="none" data-src="assets/video/proj-maths.mp4" aria-hidden="true"></video></div>
+      <div class="proj-visual" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M32 15C24 8.5 14.5 8 7 10.5V51C14.5 48.5 24 49 32 55.5Z" fill="#10b981"/><path d="M32 15C40 8.5 49.5 8 57 10.5V51C49.5 48.5 40 49 32 55.5Z" fill="#059669"/><polyline points="14,39 25,29 33,35 47,23" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg><video class="proj-video" muted loop playsinline preload="none" data-src="assets/video/proj-maths.mp4" aria-hidden="true"></video></div>
       <span class="proj-tag">Education</span>
       <h3>Class 10 Maths</h3>
       <p>Most expected questions + CBSE board-type stepwise solutions for Class 10 Maths mid-term (80 marks, Chapters 1-6).</p>
@@ -981,7 +981,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
       </div>
     </article>
     <article class="proj reveal">
-      <div class="proj-visual" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/><circle cx="12" cy="10" r="3"/><path d="M8 10l-2 2"/><path d="M16 10l2 2"/></svg><video class="proj-video" muted loop playsinline preload="none" data-src="assets/video/proj-jarvis.mp4" aria-hidden="true"></video></div>
+      <div class="proj-visual" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><rect x="7" y="9" width="50" height="37" rx="13" fill="#ec4899"/><polygon points="19,46 19,59 35,46" fill="#ec4899"/><circle cx="21" cy="27.5" r="3.6" fill="#ffffff"/><circle cx="32" cy="27.5" r="3.6" fill="#ffffff"/><circle cx="43" cy="27.5" r="3.6" fill="#ffffff"/></svg><video class="proj-video" muted loop playsinline preload="none" data-src="assets/video/proj-jarvis.mp4" aria-hidden="true"></video></div>
       <span class="proj-tag">Automation / Bot</span>
       <h3>Jarvis-IG</h3>
       <p>Instagram DM auto-reply bot with interactive setup — no editing needed. Safe session saving, 2FA support, human-like delays. Runs on Termux (Android), PC, and cloud.</p>
@@ -995,7 +995,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
       </div>
     </article>
     <article class="proj reveal">
-      <div class="proj-visual" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><video class="proj-video" muted loop playsinline preload="none" data-src="assets/video/proj-portfolio.mp4" aria-hidden="true"></video></div>
+      <div class="proj-visual" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="32" cy="32" r="26" fill="#f59e0b"/><ellipse cx="32" cy="32" rx="12" ry="26" stroke="#ffffff" stroke-width="3.5"/><line x1="6" y1="32" x2="58" y2="32" stroke="#ffffff" stroke-width="3.5"/></svg><video class="proj-video" muted loop playsinline preload="none" data-src="assets/video/proj-portfolio.mp4" aria-hidden="true"></video></div>
       <span class="proj-tag">Portfolio</span>
       <h3>Portfolio Website</h3>
       <p>This website — a premium, animated personal portfolio with 3D background, dark mode, contact form, and visitor counter. Built with vanilla HTML/CSS/JS + Three.js.</p>
@@ -1009,7 +1009,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
       </div>
     </article>
     <article class="proj reveal">
-      <div class="proj-visual" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><video class="proj-video" muted loop playsinline preload="none" data-src="assets/video/proj-future.mp4" aria-hidden="true"></video></div>
+      <div class="proj-visual" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><ellipse cx="32" cy="32" rx="27" ry="10.5" stroke="#8b5cf6" stroke-width="4.5" transform="rotate(-20 32 32)"/><circle cx="32" cy="32" r="9.5" fill="#8b5cf6"/><circle cx="53" cy="22" r="4" fill="#c4b5fd"/></svg><video class="proj-video" muted loop playsinline preload="none" data-src="assets/video/proj-future.mp4" aria-hidden="true"></video></div>
       <span class="proj-tag">Coming Soon</span>
       <h3>Future Projects</h3>
       <p>New AI tools, web apps and experiments currently in the works. Stay tuned!</p>
@@ -1042,7 +1042,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
       </div>
     </div>
     <div class="sk-card reveal">
-      <h3>AI &amp; Interests</h3>
+      <h3>AI &amp; ML</h3>
       <p class="sk-sub">Fields I'm excited about and actively studying.</p>
       <div class="chips">
         <span class="chip">Artificial Intelligence</span>
@@ -1052,6 +1052,19 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
         <span class="chip">Prompt Engineering</span>
         <span class="chip">Web Development</span>
         <span class="chip">Open Source</span>
+      </div>
+    </div>
+    <div class="sk-card reveal">
+      <h3>Interests</h3>
+      <p class="sk-sub">Things I love exploring beyond the code.</p>
+      <div class="chips">
+        <span class="chip">AI Agents</span>
+        <span class="chip">Content Creation</span>
+        <span class="chip">Video Production</span>
+        <span class="chip">Game Development</span>
+        <span class="chip">Automation</span>
+        <span class="chip">Tech Research</span>
+        <span class="chip">Personal Branding</span>
       </div>
     </div>
   </div>
@@ -2400,7 +2413,7 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
 })();
 
 </script>
-<script src="assets/hermes-chat.js?v=44" defer></script>
+<script src="assets/hermes-chat.js?v=45" defer></script>
 
 <script>
 /* Scroll-driven portrait frames (Mohit's frames) — replaces the old background video.
