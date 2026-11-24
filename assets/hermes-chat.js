@@ -104,11 +104,11 @@
 
   const page = document.createElement('div');
   page.className = 'hc-page'; // sidebar closed by default per user request
-  page.style.cssText = 'position:fixed;inset:0;z-index:9998;display:flex;flex-direction:column;background:#05060a;transform:translateY(100%);transition:transform .45s cubic-bezier(.2,.8,.2,1);visibility:hidden';
+  page.style.cssText = 'position:fixed;inset:0;z-index:9998;display:flex;flex-direction:column;background:#212121;transform:translateY(100%);transition:transform .45s cubic-bezier(.2,.8,.2,1);visibility:hidden';
 
   const stars = document.createElement('div');
   stars.className = 'hc-stars';
-  stars.style.cssText = 'position:absolute;inset:0;z-index:1;opacity:1;pointer-events:none;background:#05060a;overflow:hidden';
+  stars.style.cssText = 'position:absolute;inset:0;z-index:1;opacity:1;pointer-events:none;background:transparent;overflow:hidden';
 
   // 5K stars canvas for Hermes chat background (only dark space stars as requested)
   const starCanvas = document.createElement('canvas');
@@ -123,7 +123,7 @@
     function resizeHCStars(){
       starCanvas.width = stars.clientWidth * dpr;
       starCanvas.height = stars.clientHeight * dpr;
-      ctx.fillStyle='#05060a';
+      ctx.fillStyle='#212121';
       ctx.fillRect(0,0,starCanvas.width,starCanvas.height);
       // 5K stars
       for(let i=0;i<5000;i++){
@@ -148,24 +148,13 @@
     window.addEventListener('resize', resizeHCStars);
   }catch(e){ console.error('HC stars canvas error', e); }
 
-  // 4 small astronaut models (as requested, not emoji)
-  for(let i=0;i<4;i++){
-    const astroDiv = document.createElement('div');
-    astroDiv.className = 'hc-astronaut-float';
-    astroDiv.innerHTML = '<img src="assets/astronaut-small.png?v=4" alt="astronaut" style="width:36px;height:36px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(139,92,246,0.7))">';
-    astroDiv.style.left = (10 + i*22 + Math.random()*8)+'%';
-    astroDiv.style.top = (15 + Math.random()*70)+'%';
-    astroDiv.style.animationDuration = (18 + Math.random()*12)+'s';
-    astroDiv.style.animationDelay = (i*2 + Math.random()*3)+'s';
-    stars.appendChild(astroDiv);
-  }
 
   // Dashboard - defined BEFORE use
   const dash = document.createElement('div');
   dash.className = 'hc-dash';
   const pct = 87;
   const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-  const bars = [34,52,41,66,58,86,47].map(h => '<i style="height:'+h+'%;flex:1;border-radius:4px 4px 2px 2px;background:linear-gradient(180deg,#8b5cf6,#4c1d95);opacity:.9;min-height:8px;display:block"></i>').join('');
+  const bars = [34,52,41,66,58,86,47].map(h => '<i style="height:'+h+'%;flex:1;border-radius:4px 4px 2px 2px;background:linear-gradient(180deg,#ececec,#5f5f5f);opacity:.9;min-height:8px;display:block"></i>').join('');
   const dayLbl = days.map(d => '<span style="flex:1;text-align:center;font-size:9.5px;color:#6b7280;text-transform:uppercase">'+d+'</span>').join('');
   dash.innerHTML =
     '<div class="hc-dash-grid">' +
@@ -181,15 +170,15 @@
   box.className = 'hc-box';
   box.style.cssText = 'position:relative;z-index:2;flex:1;display:flex;flex-direction:column;min-height:0';
   box.innerHTML =
-    '<div class="hc-nav" style="position:relative;z-index:3;display:flex;align-items:center;gap:12px;padding:14px 20px;background:rgba(5,6,10,.35);backdrop-filter:blur(18px);border-bottom:1px solid rgba(139,92,246,.18)">' +
-      '<div class="hc-logo" style="display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;color:#e8eaf2"><div class="hc-ava" style="width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff;font-weight:700">H</div>Hermes</div>' +
+    '<div class="hc-nav" style="position:relative;z-index:3;display:flex;align-items:center;gap:12px;padding:14px 20px;background:#212121;border-bottom:1px solid rgba(255,255,255,.08)">' +
+      '<div class="hc-logo" style="display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;color:#e8eaf2"><div class="hc-ava" style="width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:#2f2f2f;color:#ececec;font-weight:700;border-radius:50%">H</div>Hermes</div>' +
       '<div class="hc-nav-right" style="margin-left:auto;display:flex;gap:8px;align-items:center">' +
         '<button class="hc-icon-btn" id="hcSidebarBtn" aria-label="Menu" title="Menu"><svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" fill="none" stroke-width="2"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="14" y2="17"/></svg></button>' +
         '<button class="hc-icon-btn" id="hcCloseBtn" aria-label="Back to site" title="Back"><svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>' +
       '</div>' +
     '</div>' +
     '<div style="display:flex;flex:1;min-height:0">' +
-      '<aside class="hc-sidebar" id="hcSidebar" style="position:relative;z-index:3;width:250px;flex:0 0 250px;display:flex;flex-direction:column;gap:6px;padding:16px 12px;background:rgba(8,9,14,.55);backdrop-filter:blur(22px);border-right:1px solid rgba(139,92,246,.18)">' +
+      '<aside class="hc-sidebar" id="hcSidebar" style="position:relative;z-index:3;width:250px;flex:0 0 250px;display:flex;flex-direction:column;gap:6px;padding:16px 12px;background:#171717;border-right:1px solid rgba(255,255,255,.06)">' +
         '<button class="hc-side-btn" id="hcNewChat" style="display:flex;align-items:center;gap:11px;padding:11px 14px;border-radius:13px;background:transparent;color:#c9cede;font-size:13.5px;cursor:pointer;width:100%"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>New Chat</button>' +
         '<button class="hc-side-btn" id="hcSearchBtn" style="display:flex;align-items:center;gap:11px;padding:11px 14px;border-radius:13px;background:transparent;color:#c9cede;font-size:13.5px;cursor:pointer;width:100%"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Search</button>' +
         '<div class="hc-side-label" style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;padding:12px 14px 4px">Recent</div>' +
@@ -198,9 +187,9 @@
         '<button class="hc-side-btn" id="hcSettings" style="display:flex;align-items:center;gap:11px;padding:11px 14px;border-radius:13px;background:transparent;color:#c9cede;font-size:13.5px;cursor:pointer;width:100%">⚙️ Settings</button>' +
       '</aside>' +
       '<main class="hc-main" style="position:relative;z-index:2;flex:1;display:flex;flex-direction:column;min-width:0">' +
-        '<div class="hc-model-bar" style="display:flex;align-items:center;gap:10px;padding:9px 20px;border-bottom:1px solid rgba(139,92,246,.14);background:rgba(8,9,14,.4)"><select class="hc-model-select" id="hcModel" style="padding:8px 13px;border-radius:11px;border:1px solid rgba(139,92,246,.3);background:rgba(124,58,237,.12);color:#e8eaf2;font-size:12.5px"><option value="hermes-1">⚡ Hermes 1</option><option value="hermes-mini">⚡ Hermes Mini</option><option value="hermes-pro">⚡ Hermes Pro</option></select><span class="hc-model-tag" id="hcModelTag" style="font-size:11px;color:#6b7280">offline · pre-generated</span><span id="hcStatus" style="margin-left:auto;font-size:11px;color:#a78bfa">Online</span></div>' +
-        '<div class="hc-body" id="hcBody" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:26px 22px"><div class="hc-welcome" id="hcWelcome" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 20px;min-height:52vh"><h1 style="font-size:clamp(26px,6vw,44px);font-weight:700;color:#e8eaf2;margin:0 0 10px;background:linear-gradient(135deg,#e8eaf2 30%,#a78bfa 70%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Where should we begin?</h1><p style="font-size:14.5px;color:#9aa3b8;margin:0 0 26px;max-width:460px">Ask me anything about Mohit Verma — his projects, skills, website, or work. Fully offline, right in your browser.</p><div class="hc-cards" id="hcCards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;max-width:640px;width:100%"></div></div></div>' +
-        '<div class="hc-composer-wrap" style="padding:10px 16px 18px;display:flex;justify-content:center"><div class="hc-composer" style="display:flex;align-items:center;gap:8px;width:100%;max-width:680px;padding:8px 10px 8px 16px;border-radius:28px;border:1px solid rgba(139,92,246,.3);background:rgba(12,13,20,.72);backdrop-filter:blur(24px)"><input id="hcInput" type="text" placeholder="Message Hermes…" autocomplete="off" maxlength="300" style="flex:1;min-width:0;padding:11px 6px;border:none;background:transparent;color:#e8eaf2;font-size:14.5px;outline:none"><button class="hc-send" id="hcSend" aria-label="Send" style="width:42px;height:42px;border-radius:50%;border:none;background:linear-gradient(135deg,#8b5cf6,#6d28d9);color:#fff;display:grid;place-items:center;cursor:pointer"><svg viewBox="0 0 24 24" width="17" height="17" stroke="#fff" fill="none" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="currentColor" style="fill-opacity:.9"/></svg></button></div></div>' +
+        '<div class="hc-model-bar" style="display:flex;align-items:center;gap:10px;padding:9px 20px;border-bottom:1px solid rgba(255,255,255,.08);background:#212121"><select class="hc-model-select" id="hcModel" style="padding:8px 13px;border-radius:11px;border:1px solid rgba(255,255,255,.14);background:#2f2f2f;color:#ececec;font-size:12.5px"><option value="hermes-1">⚡ Hermes 1</option><option value="hermes-mini">⚡ Hermes Mini</option><option value="hermes-pro">⚡ Hermes Pro</option></select><span class="hc-model-tag" id="hcModelTag" style="font-size:11px;color:#6b7280">offline · pre-generated</span><span id="hcStatus" style="margin-left:auto;font-size:11px;color:#b4b4b4">Online</span></div>' +
+        '<div class="hc-body" id="hcBody" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:18px;padding:26px max(22px,calc(50% - 384px))"><div class="hc-welcome" id="hcWelcome" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 20px;min-height:52vh"><h1 style="font-size:clamp(26px,6vw,40px);font-weight:600;color:#ececec;margin:0 0 10px;letter-spacing:-.01em">Where should we begin?</h1><p style="font-size:14.5px;color:#9aa3b8;margin:0 0 26px;max-width:460px">Ask me anything about Mohit Verma — his projects, skills, website, or work. Fully offline, right in your browser.</p><div class="hc-cards" id="hcCards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;max-width:640px;width:100%"></div></div></div>' +
+        '<div class="hc-composer-wrap" style="padding:10px 16px 18px;display:flex;justify-content:center"><div class="hc-composer" style="display:flex;align-items:center;gap:8px;width:100%;max-width:768px;padding:8px 10px 8px 16px;border-radius:26px;border:1px solid rgba(255,255,255,.14);background:#2f2f2f"><input id="hcInput" type="text" placeholder="Message Hermes…" autocomplete="off" maxlength="300" style="flex:1;min-width:0;padding:11px 6px;border:none;background:transparent;color:#e8eaf2;font-size:14.5px;outline:none"><button class="hc-send" id="hcSend" aria-label="Send" style="width:42px;height:42px;border-radius:50%;border:none;background:#ececec;color:#000;display:grid;place-items:center;cursor:pointer"><svg viewBox="0 0 24 24" width="17" height="17" stroke="#000" fill="none" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="currentColor" style="fill-opacity:.9"/></svg></button></div></div>' +
       '</main>' +
     '</div>';
 
@@ -236,7 +225,7 @@
   function setStatus(text, thinking){
     if(!statusEl) return;
     statusEl.textContent = text || '';
-    statusEl.style.color = thinking ? '#a78bfa' : '#6b7280';
+    statusEl.style.color = thinking ? '#ececec' : '#8e8e8e';
   }
 
   function addMsg(text, who){
@@ -244,7 +233,7 @@
     if(dash) dash.style.display = 'none';
     const m = document.createElement('div');
     m.className = 'hc-msg ' + who;
-    m.style.cssText = who==='user' ? 'max-width:78%;padding:13px 17px;border-radius:18px;font-size:14.5px;line-height:1.65;white-space:pre-wrap;align-self:flex-end;background:linear-gradient(135deg,rgba(139,92,246,.9),rgba(109,40,217,.9));color:#fff;border-top-right-radius:6px;animation:hc-in .3s ease' : 'max-width:78%;padding:13px 17px;border-radius:18px;font-size:14.5px;line-height:1.65;white-space:pre-wrap;align-self:flex-start;background:rgba(20,22,34,.55);backdrop-filter:blur(20px);border:1px solid rgba(139,92,246,.22);color:#e8eaf2;border-top-left-radius:6px';
+    m.style.cssText = who==='user' ? 'max-width:78%;padding:10px 16px;border-radius:24px;font-size:15px;line-height:1.7;white-space:pre-wrap;align-self:flex-end;background:#2f2f2f;color:#fff;animation:hc-in .3s ease' : 'max-width:100%;padding:4px 2px;font-size:15px;line-height:1.7;white-space:pre-wrap;align-self:stretch;background:transparent;border:none;color:#ececec;animation:hc-in .3s ease';
     m.textContent = text;
     body.appendChild(m);
     body.scrollTop = body.scrollHeight;
@@ -254,8 +243,8 @@
     const t = document.createElement('div');
     t.className = 'hc-typing';
     t.id = 'hcTyping';
-    t.style.cssText = 'align-self:flex-start;display:flex;gap:4px;padding:13px 17px;border-radius:16px;background:rgba(20,22,34,.55);border:1px solid rgba(139,92,246,.25)';
-    t.innerHTML = '<span style="width:7px;height:7px;border-radius:50%;background:#a78bfa;animation:hc-dot 1.2s infinite"></span><span style="width:7px;height:7px;border-radius:50%;background:#a78bfa;animation:hc-dot 1.2s .15s infinite"></span><span style="width:7px;height:7px;border-radius:50%;background:#a78bfa;animation:hc-dot 1.2s .3s infinite"></span>';
+    t.style.cssText = 'align-self:flex-start;display:flex;gap:4px;padding:13px 6px;background:transparent;border:none';
+    t.innerHTML = '<span style="width:7px;height:7px;border-radius:50%;background:#b4b4b4;animation:hc-dot 1.2s infinite"></span><span style="width:7px;height:7px;border-radius:50%;background:#b4b4b4;animation:hc-dot 1.2s .15s infinite"></span><span style="width:7px;height:7px;border-radius:50%;background:#b4b4b4;animation:hc-dot 1.2s .3s infinite"></span>';
     body.appendChild(t);
     body.scrollTop = body.scrollHeight;
   }
@@ -352,7 +341,7 @@
     suggestions.forEach(([title, sub])=>{
       const c = document.createElement('button');
       c.className = 'hc-card';
-      c.style.cssText = 'padding:14px 16px;border-radius:16px;border:1px solid rgba(139,92,246,.2);background:rgba(15,17,26,.5);backdrop-filter:blur(16px);color:#c9cede;font-size:13px;cursor:pointer;text-align:left;transition:.2s';
+      c.style.cssText = 'padding:14px 16px;border-radius:16px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.02);color:#b4b4b4;font-size:13px;cursor:pointer;text-align:left;transition:.2s';
       c.innerHTML = '<strong style="display:block;font-size:13.5px;color:#e8eaf2;margin-bottom:3px">'+title+'</strong>'+sub;
       c.addEventListener('click',()=>{
         trackRecent(title);
@@ -385,7 +374,7 @@
     recent.forEach(r=>{
       const d=document.createElement('div');
       d.className='hc-recent';
-      d.style.cssText='font-size:12.5px;color:#9aa3b8;padding:8px 14px;border-radius:10px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis';
+      d.style.cssText='font-size:12.5px;color:#b4b4b4;padding:8px 14px;border-radius:10px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis';
       d.textContent=r;
       d.addEventListener('click',()=>{ if(input){ input.value=r; input.focus(); } });
       el.appendChild(d);
