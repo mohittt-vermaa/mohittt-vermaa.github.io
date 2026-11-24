@@ -798,6 +798,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
 <!-- DEEP SPACE LAYER -->
 <div id="cssStars" style="position:fixed;inset:0;z-index:10001;background:#05060a;pointer-events:none;display:none"></div>
 <div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">drag to explore · pinch to zoom</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterSite" type="button" style="padding:13px 36px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:linear-gradient(135deg,rgba(109,40,217,.5),rgba(236,72,153,.4));color:#fff;font-size:13px;font-weight:800;letter-spacing:.14em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(109,40,217,.4),0 0 20px rgba(236,72,153,.25)">Enter Site</button></div>
+<button id="musicWaveLock" class="music-wave" type="button" aria-label="Play or pause music" title="Music on/off"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></button>
 <aside id="planetInfo" class="planet-info" aria-live="polite" aria-hidden="true"><button id="planetInfoClose" type="button" aria-label="Close planet details">×</button><span class="planet-info-kicker">PLANET EXPLORER</span><strong id="planetInfoName">Earth</strong><p id="planetInfoText">Tap any planet to explore its world.</p><button id="planetFocus" type="button">FOCUS PLANET <span>↗</span></button></aside>
 <button id="closeScanResult" class="scan-close" type="button" aria-label="Close device scan and return to space">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m18 6-12 12M6 6l12 12"/></svg><span>Back to space</span>
@@ -813,7 +814,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
 <!-- NAV -->
 <nav>
   <a href="#" class="logo" aria-label="Mohit Verma home">M</a>
-  <button id="musicWave" type="button" aria-label="Play or pause music" title="Music on/off"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></button>
+  <button id="musicWave" class="music-wave" type="button" aria-label="Play or pause music" title="Music on/off"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></button>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#projects">Projects</a></li>
@@ -2395,7 +2396,7 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
 })();
 
 </script>
-<script src="assets/hermes-chat.js?v=35" defer></script>
+<script src="assets/hermes-chat.js?v=36" defer></script>
 
 <script>
 /* Scroll-driven portrait frames (Mohit's frames) — replaces the old background video.
@@ -2465,51 +2466,51 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
 
 <style>
 #musicWave{display:flex;align-items:flex-end;justify-content:center;gap:4px;height:30px;padding:5px 14px;background:rgba(20,16,32,.45);border:1px solid rgba(255,255,255,.22);border-radius:999px;cursor:pointer;flex:1 1 auto;max-width:360px;min-width:120px;margin:0 14px}
-#musicWave span{display:block;width:4px;height:22%;border-radius:2px;background:linear-gradient(180deg,#ec4899,#8b5cf6);opacity:.55;flex:none}
-#musicWave.playing span{opacity:1;animation:mvWave .9s ease-in-out infinite}
-#musicWave span:nth-child(1){animation-delay:0.00s}
-#musicWave span:nth-child(2){animation-delay:0.12s}
-#musicWave span:nth-child(3){animation-delay:0.24s}
-#musicWave span:nth-child(4){animation-delay:0.36s}
-#musicWave span:nth-child(5){animation-delay:0.48s}
-#musicWave span:nth-child(6){animation-delay:0.60s}
-#musicWave span:nth-child(7){animation-delay:0.72s}
-#musicWave span:nth-child(8){animation-delay:0.84s}
-#musicWave span:nth-child(9){animation-delay:0.96s}
-#musicWave span:nth-child(10){animation-delay:1.08s}
-#musicWave span:nth-child(11){animation-delay:1.20s}
-#musicWave span:nth-child(12){animation-delay:1.32s}
-#musicWave span:nth-child(13){animation-delay:1.44s}
+.music-wave span{display:block;width:4px;height:22%;border-radius:2px;background:linear-gradient(180deg,#ec4899,#8b5cf6);opacity:.55;flex:none}
+.music-wave.playing span{opacity:1;animation:mvWave .9s ease-in-out infinite}
+.music-wave span:nth-child(1){animation-delay:0.00s}
+.music-wave span:nth-child(2){animation-delay:0.12s}
+.music-wave span:nth-child(3){animation-delay:0.24s}
+.music-wave span:nth-child(4){animation-delay:0.36s}
+.music-wave span:nth-child(5){animation-delay:0.48s}
+.music-wave span:nth-child(6){animation-delay:0.60s}
+.music-wave span:nth-child(7){animation-delay:0.72s}
+.music-wave span:nth-child(8){animation-delay:0.84s}
+.music-wave span:nth-child(9){animation-delay:0.96s}
+.music-wave span:nth-child(10){animation-delay:1.08s}
+.music-wave span:nth-child(11){animation-delay:1.20s}
+.music-wave span:nth-child(12){animation-delay:1.32s}
+.music-wave span:nth-child(13){animation-delay:1.44s}
 @keyframes mvWave{0%,100%{height:22%}50%{height:100%}}
+#musicWaveLock{display:flex;align-items:flex-end;justify-content:center;gap:4px;height:30px;width:min(320px,72vw);margin:16px auto 0;padding:5px 14px;background:transparent;pointer-events:auto;border:1px solid rgba(255,255,255,.28);border-radius:999px;cursor:pointer;position:relative;z-index:5}
 </style>
 <script>
-/* Background music (Amour Plastique, full song, looped) — starts when the visitor
-   enters the site (browser autoplay rules need that click). Tap the nav wave to pause/resume. */
+/* Background music (Amour Plastique, full song, looped). Starts from the Enter Site
+   click itself (a browser gesture, so mobile allows sound), from either wave button
+   (lock screen or nav), or as a fallback when entry completes. Both waves mirror state. */
 (function(){
-  var au=document.getElementById('bgMusic'), w=document.getElementById('musicWave');
-  if(!au || !w) return;
+  var au=document.getElementById('bgMusic');
+  if(!au) return;
   au.volume=0.5;
-  function setWave(){ w.classList.toggle('playing', !au.paused); }
-  au.addEventListener('play', setWave);
-  au.addEventListener('pause', setWave);
+  var waves=[].slice.call(document.querySelectorAll('.music-wave'));
+  function sync(){ for(var i=0;i<waves.length;i++) waves[i].classList.toggle('playing', !au.paused); }
+  au.addEventListener('play', sync);
+  au.addEventListener('pause', sync);
+  function startMusic(){ if(au.paused) au.play().catch(function(){}); sync(); }
+  function toggle(){ if(au.paused) startMusic(); else { au.pause(); sync(); } }
+  for(var i=0;i<waves.length;i++){ (function(w){ w.addEventListener('click', function(e){ e.stopPropagation(); toggle(); }); })(waves[i]); }
+  var enter=document.getElementById('enterSite');
+  if(enter) enter.addEventListener('click', startMusic);
   var started=false;
-  function start(){
-    if(started) return; started=true;
-    au.play().catch(function(){});
-    setWave();
-  }
   var mo=new MutationObserver(function(){
+    if(started) return;
     if(!document.documentElement.classList.contains('splash-lock')){
       var l=document.getElementById('loader');
-      if(!l || l.classList.contains('done')) start();
+      if(!l || l.classList.contains('done')){ started=true; startMusic(); }
     }
   });
   mo.observe(document.documentElement, {attributes:true, attributeFilter:['class']});
-  w.addEventListener('click', function(){
-    if(au.paused){ au.play().catch(function(){}); } else { au.pause(); }
-    setWave();
-  });
-  setWave();
+  sync();
 })();
 </script>
 </body>
