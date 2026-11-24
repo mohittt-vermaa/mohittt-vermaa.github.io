@@ -486,7 +486,7 @@ body.dark .form-input,body.dark .form-textarea{background:#1a1a22;border-color:v
 .cur-dot{width:6px;height:6px;background:#fff;transform:translate(-50%,-50%)}
 .cur-ring{width:36px;height:36px;border:1.5px solid #fff;transform:translate(-50%,-50%);transition:transform .2s var(--fast),width .2s,height .2s,opacity .2s}
 .cur-ring.hover{width:58px;height:58px;background:rgba(255,255,255,.1)}
-.no-cur,.no-cur *{cursor:none!important}
+.no-cur,.no-cur *{}
 
 /* ========= REVEAL ========= */
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s var(--fast),transform .8s var(--fast)}
@@ -760,7 +760,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
 #planetInfoClose{position:absolute;right:10px;top:8px;width:28px;height:28px;border:0;border-radius:50%;background:rgba(255,255,255,.08);color:#fff;font-size:19px;cursor:pointer}
 @media(max-width:650px){.planet-info{left:50%;top:auto;bottom:86px;transform:translate(-50%,12px);width:min(310px,calc(100vw - 28px));padding:14px 16px}.planet-info.open{transform:translate(-50%,0)}.planet-info strong{font-size:22px}.planet-info p{margin:6px 0 10px;font-size:11px}}
 </style>
-<link rel="stylesheet" href="assets/hermes-chat.css?v=41">
+<link rel="stylesheet" href="assets/hermes-chat.css?v=42">
 </head>
 <body class="dark">
 
@@ -2316,7 +2316,6 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
   const dot = document.getElementById('curD');
   const ring = document.getElementById('curR');
   if(window.matchMedia('(pointer:fine)').matches){
-    document.body.classList.add('no-cur');
     let dx=0,dy=0,rx=0,ry=0;
     window.addEventListener('mousemove',(e)=>{dx=e.clientX;dy=e.clientY;dot.style.transform=`translate(${dx}px,${dy}px) translate(-50%,-50%)`;});
     function followR(){rx+=(dx-rx)*0.18;ry+=(dy-ry)*0.18;ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;requestAnimationFrame(followR);}
@@ -2413,7 +2412,7 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
 })();
 
 </script>
-<script src="assets/hermes-chat.js?v=46" defer></script>
+<script src="assets/hermes-chat.js?v=47" defer></script>
 
 <script>
 /* Scroll-driven portrait frames (Mohit's frames) — replaces the old background video.
@@ -2547,6 +2546,37 @@ document.querySelectorAll('.proj-visual').forEach(function(v){
   v.addEventListener('mouseleave', stop);
   v.addEventListener('click', function(){ if(v.classList.contains('playing')) stop(); else start(); });
 });
+</script>
+<style>
+  html{scrollbar-width:thin;scrollbar-color:#3f3f46 transparent}
+  ::-webkit-scrollbar{width:8px;height:8px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:#3f3f46;border-radius:8px}
+  #scrollCar{position:fixed;right:10px;top:8px;width:30px;height:58px;z-index:9990;pointer-events:none;transition:top .15s ease-out}
+  html.splash-lock #scrollCar{display:none}
+  #scrollCarSvg{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-90deg);transition:transform .25s ease;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
+</style>
+<div id="scrollCar" aria-hidden="true"><span id="scrollCarSvg"><svg viewBox="0 0 120 48" width="58" height="28" fill="none"><rect x="4" y="2" width="7" height="22" rx="2" fill="#e10600"/><rect x="10" y="12" width="12" height="4" fill="#15151c"/><path d="M12 36 L34 36 L44 25 L74 23 L98 31 L114 36 L114 42 L12 42 Z" fill="#e10600"/><ellipse cx="64" cy="22" rx="11" ry="5" fill="#15151c"/><rect x="106" y="39" width="13" height="4" rx="2" fill="#15151c"/><circle cx="32" cy="40" r="7" fill="#15151c"/><circle cx="32" cy="40" r="3" fill="#9ca3af"/><circle cx="95" cy="40" r="7" fill="#15151c"/><circle cx="95" cy="40" r="3" fill="#9ca3af"/></svg></span></div>
+<script>
+(function(){
+  var car = document.getElementById('scrollCar');
+  var svg = document.getElementById('scrollCarSvg');
+  if(!car || !svg) return;
+  var lastY = window.scrollY || 0;
+  function upd(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - window.innerHeight;
+    var y = window.scrollY || 0;
+    var p = max > 0 ? y / max : 0;
+    car.style.top = (8 + p * Math.max(0, window.innerHeight - 74)) + 'px';
+    if(y > lastY + 2) svg.style.transform = 'translate(-50%,-50%) rotate(90deg)';
+    else if(y < lastY - 2) svg.style.transform = 'translate(-50%,-50%) rotate(-90deg)';
+    lastY = y;
+  }
+  window.addEventListener('scroll', upd, {passive:true});
+  window.addEventListener('resize', upd);
+  upd();
+})();
 </script>
 </body>
 </html>
