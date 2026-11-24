@@ -17,7 +17,7 @@
 
 /* TOP NAV */
 .hc-nav{position:relative;z-index:3;display:flex;align-items:center;gap:12px;padding:14px 20px;
-  background:transparent;border-bottom:1px solid rgba(255,255,255,.08)}
+  background:#171717;border-bottom:1px solid rgba(255,255,255,.08)}
 .hc-logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:#ececec;letter-spacing:.01em}
 .hc-logo .hc-ava{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;
   background:#2f2f2f;color:#ececec;font-size:14px;font-weight:700}
@@ -29,7 +29,7 @@
 
 /* LEFT SIDEBAR (collapsible) */
 .hc-sidebar{position:relative;z-index:3;width:250px;flex:0 0 250px;display:flex;flex-direction:column;gap:6px;padding:16px 12px;
-  background:rgba(6,9,20,.78);border-right:1px solid rgba(255,255,255,.06);transition:margin-left .35s var(--fast),opacity .3s}
+  background:#171717;border-right:1px solid rgba(255,255,255,.06);transition:margin-left .35s var(--fast),opacity .3s}
 .hc-page:not(.sidebar-open) .hc-sidebar{margin-left:-250px;opacity:0;pointer-events:none}
 .hc-side-btn{display:flex;align-items:center;gap:11px;padding:11px 14px;border-radius:10px;border:1px solid transparent;
   background:transparent;color:#ececec;font-size:13.5px;font-weight:500;cursor:pointer;transition:.18s;text-align:left;width:100%}
@@ -43,15 +43,15 @@
 /* MAIN CHAT AREA */
 .hc-main{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;min-width:0}
 .hc-body{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:18px;padding:26px max(22px,calc(50% - 384px));-webkit-overflow-scrolling:touch}
-.hc-welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 20px;min-height:52vh}
+.hc-welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 20px;min-height:52vh;background:#212121;border:1px solid rgba(255,255,255,.08);border-radius:20px}
 .hc-welcome h1{font-size:clamp(26px,6vw,40px);font-weight:600;color:#ececec;letter-spacing:-.01em;margin:0 0 10px}
 .hc-welcome p{font-size:14.5px;color:#b4b4b4;margin:0 0 26px;max-width:460px}
 
 /* messages: ChatGPT style — assistant plain, user in a gray bubble */
 .hc-msg{max-width:100%;font-size:15px;line-height:1.7;white-space:pre-wrap;
   animation:hc-in .3s ease;letter-spacing:.01em}
-.hc-msg.bot{align-self:stretch;background:transparent;border:none;color:#ececec;
-  padding:4px 2px;box-shadow:none}
+.hc-msg.bot{align-self:stretch;background:#2a2a2a;border:1px solid rgba(255,255,255,.09);border-radius:18px;color:#ececec;
+  padding:14px 16px;box-shadow:none}
 .hc-msg.user{align-self:flex-end;max-width:78%;background:#2f2f2f;
   color:#fff;border-radius:24px;padding:10px 16px;box-shadow:none}
 
