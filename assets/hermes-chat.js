@@ -18,9 +18,13 @@
   async function askHermes(userText){
     chatHistory.push({role:'user', content:userText});
     try{
-      const payload = {messages: [{role:'system', content:HERMES_SYSTEM}].concat(chatHistory.slice(-12)), stream:false};
+      const sysContent = HERMES_SYSTEM + '\n\nYou are currently running as the AI model "' + aiCfg.model + '". If the user asks which model you are, answer with exactly that model name.';
+      const payload = {messages: [{role:'system', content:sysContent}].concat(chatHistory.slice(-12)), stream:false};
       if(aiCfg.model) payload.model = aiCfg.model;
-      const res = await fetch(aiBase() + '/chat/completions', {method:'POST', headers: aiHeaders(), body: JSON.stringify(payload)});
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 45000);
+      let res;
+      try{ res = await fetch(aiBase() + '/chat/completions', {method:'POST', headers: aiHeaders(), body: JSON.stringify(payload), signal: ctrl.signal}); } finally { clearTimeout(timer); }
       if(!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
       const text = data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
@@ -88,6 +92,7 @@
   box.innerHTML =
     '<div class="hc-nav" style="position:relative;z-index:3;display:flex;align-items:center;gap:12px;padding:14px 20px;background:transparent;border-bottom:1px solid rgba(255,255,255,.08)">' +
       '<div class="hc-logo" style="display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;color:#e8eaf2"><div class="hc-ava" style="width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:#2f2f2f;color:#ececec;font-weight:700;border-radius:50%">H</div>Hermes</div>' +
+        '<div class="hc-model-picker" style="position:relative"><button id="hcModelBtn" type="button" style="display:flex;align-items:center;gap:7px;padding:8px 13px;border-radius:11px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:#ececec;font-size:13px;font-weight:600;cursor:pointer"><span id="hcModelName">GPT-OSS 120B</span><span style="opacity:.55;font-size:10px">\u25BC</span></button><div id="hcModelMenu" style="display:none;position:absolute;top:calc(100% + 8px);left:0;min-width:258px;background:rgba(9,12,26,.98);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:6px;z-index:60;box-shadow:0 18px 50px rgba(0,0,0,.55)"></div></div>' +
       '<div class="hc-nav-right" style="margin-left:auto;display:flex;gap:8px;align-items:center">' +
         '<button class="hc-icon-btn" id="hcSidebarBtn" aria-label="Menu" title="Menu"><svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" fill="none" stroke-width="2"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="14" y2="17"/></svg></button>' +
         '<button class="hc-icon-btn" id="hcCloseBtn" aria-label="Back to site" title="Back"><svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>' +
@@ -102,8 +107,7 @@
         '<div style="margin-top:auto"></div>' +
       '</aside>' +
       '<main class="hc-main" style="position:relative;z-index:2;flex:1;display:flex;flex-direction:column;min-width:0">' +
-         '<div class="hc-model-bar" style="display:flex;align-items:center;gap:10px;padding:9px 20px;border-bottom:1px solid rgba(255,255,255,.08);background:transparent"><select class="hc-model-select" id="hcModel" style="padding:8px 13px;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(10,14,28,.85);color:#ececec;font-size:12.5px"><option value="openai/gpt-oss-120b">GPT-OSS 120B · Groq</option><option value="gemini-3.6-flash">Gemini 3.6 Flash · Google</option><option value="google/gemma-4-31b-it">Gemma 4 31B · NVIDIA</option></select><span class="hc-model-tag" id="hcModelTag" style="display:none"></span><span id="hcStatus" style="display:none"></span></div>' +
-        '<div class="hc-body" id="hcBody" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:18px;padding:26px max(22px,calc(50% - 384px))"><div class="hc-welcome" id="hcWelcome" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 20px;min-height:52vh"><h1 style="font-size:clamp(26px,6vw,40px);font-weight:600;color:#ececec;margin:0 0 26px;letter-spacing:-.01em">Where should we begin?</h1><div class="hc-cards" id="hcCards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;max-width:640px;width:100%"></div></div></div>' +
+         '<div class="hc-body" id="hcBody" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:18px;padding:26px max(22px,calc(50% - 384px))"><div class="hc-welcome" id="hcWelcome" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 20px;min-height:52vh"><h1 style="font-size:clamp(26px,6vw,40px);font-weight:600;color:#ececec;margin:0 0 26px;letter-spacing:-.01em">Where should we begin?</h1><div class="hc-cards" id="hcCards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;max-width:640px;width:100%"></div></div></div>' +
         '<div class="hc-composer-wrap" style="padding:10px 16px 18px;display:flex;justify-content:center"><div class="hc-composer" style="display:flex;align-items:center;gap:8px;width:100%;max-width:768px;padding:8px 10px 8px 16px;border-radius:26px;border:1px solid rgba(255,255,255,.16);background:rgba(13,17,34,.85)"><input id="hcInput" type="text" placeholder="Message Hermes…" autocomplete="off" maxlength="4000" style="flex:1;min-width:0;padding:11px 6px;border:none;background:transparent;color:#e8eaf2;font-size:14.5px;outline:none"><button class="hc-send" id="hcSend" aria-label="Send" style="width:42px;height:42px;border-radius:50%;border:none;background:#ececec;color:#000;display:grid;place-items:center;cursor:pointer"><svg viewBox="0 0 24 24" width="17" height="17" stroke="#000" fill="none" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="currentColor" style="fill-opacity:.9"/></svg></button></div></div>' +
       '</main>' +
     '</div>';
@@ -123,8 +127,6 @@
   const body = box.querySelector('#hcBody');
   const input = box.querySelector('#hcInput');
   const statusEl = box.querySelector('#hcStatus');
-  const modelSel = box.querySelector('#hcModel');
-  const modelTag = box.querySelector('#hcModelTag');
   const cardsEl = box.querySelector('#hcCards');
   const welcomeEl = box.querySelector('#hcWelcome');
 
@@ -162,14 +164,33 @@
     return html;
   }
 
-  function addMsg(text, who){
+  function addMsg(text, who, model){
     if(welcomeEl) welcomeEl.style.display = 'none';
     const m = document.createElement('div');
     m.className = 'hc-msg ' + who;
     m.style.cssText = who==='user' ? 'max-width:78%;padding:10px 16px;border-radius:24px;font-size:15px;line-height:1.65;white-space:pre-wrap;align-self:flex-end;background:rgba(70,80,180,.30);border:1px solid rgba(255,255,255,.10);color:#fff;animation:hc-in .3s ease' : 'max-width:100%;padding:4px 2px;font-size:15px;line-height:1.7;align-self:stretch;background:transparent;border:none;color:#ececec;animation:hc-in .3s ease';
-    if(who === 'bot') m.innerHTML = mdToHtml(text); else m.textContent = text;
+    if(who === 'bot'){
+      m.innerHTML = mdToHtml(text);
+      if(model){
+        const f = document.createElement('div');
+        f.className = 'hc-msg-foot';
+        const cp = document.createElement('button');
+        cp.type = 'button';
+        cp.className = 'hc-copy-btn';
+        cp.textContent = '\u29C9 Copy';
+        cp.addEventListener('click', () => {
+          const done = () => { cp.textContent = '\u2713 Copied'; setTimeout(() => { cp.textContent = '\u29C9 Copy'; }, 1500); };
+          if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done).catch(done); else done();
+        });
+        const ml = document.createElement('span');
+        ml.textContent = modelName(model);
+        f.appendChild(cp);
+        f.appendChild(ml);
+        m.appendChild(f);
+      }
+    } else m.textContent = text;
     body.appendChild(m);
-    persistMsg(who, text);
+    persistMsg(who, text, model);
     body.scrollTop = body.scrollHeight;
   }
 
@@ -188,13 +209,39 @@
   }
 
 
-  if(modelSel){
-    if([...modelSel.options].some(o => o.value === aiCfg.model)) modelSel.value = aiCfg.model;
-    modelSel.addEventListener('change', ()=>{
-      aiCfg.model = modelSel.value;
-      localStorage.setItem('hermes_model', aiCfg.model);
+  const MODELS = [
+    { id: 'openai/gpt-oss-120b', name: 'GPT-OSS 120B', desc: 'Groq \u00B7 fastest' },
+    { id: 'gemini-3.6-flash', name: 'Gemini 3.6 Flash', desc: 'Google \u00B7 balanced' },
+    { id: 'google/gemma-4-31b-it', name: 'Gemma 4 31B', desc: 'NVIDIA \u00B7 backup' }
+  ];
+  function modelName(id){ const f = MODELS.find(m => m.id === id); return f ? f.name : id; }
+  if(!MODELS.some(m => m.id === aiCfg.model)){ aiCfg.model = MODELS[0].id; localStorage.setItem('hermes_model', aiCfg.model); }
+  const modelBtn = box.querySelector('#hcModelBtn');
+  const modelNameEl = box.querySelector('#hcModelName');
+  const modelMenu = box.querySelector('#hcModelMenu');
+  function renderModelMenu(){
+    if(modelNameEl) modelNameEl.textContent = modelName(aiCfg.model);
+    if(!modelMenu) return;
+    modelMenu.innerHTML = '';
+    MODELS.forEach(mo => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.style.cssText = 'display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 12px;border:none;border-radius:10px;background:' + (mo.id === aiCfg.model ? 'rgba(255,255,255,.08)' : 'transparent') + ';color:#ececec;cursor:pointer';
+      b.innerHTML = '<span style="flex:1"><span style="display:block;font-size:13.5px;font-weight:600">' + mo.name + '</span><span style="display:block;font-size:11.5px;color:#9aa3b8;margin-top:1px">' + mo.desc + '</span></span>' + (mo.id === aiCfg.model ? '<span style="color:#fff;font-size:13px">\u2713</span>' : '');
+      b.addEventListener('click', () => {
+        aiCfg.model = mo.id;
+        localStorage.setItem('hermes_model', aiCfg.model);
+        modelMenu.style.display = 'none';
+        renderModelMenu();
+      });
+      modelMenu.appendChild(b);
     });
   }
+  if(modelBtn && modelMenu){
+    modelBtn.addEventListener('click', (e) => { e.stopPropagation(); modelMenu.style.display = modelMenu.style.display === 'none' ? 'block' : 'none'; });
+    document.addEventListener('click', (e) => { if(modelMenu.style.display !== 'none' && !modelMenu.contains(e.target)) modelMenu.style.display = 'none'; });
+  }
+  renderModelMenu();
 
   let hcBusy = false;
   async function answer(raw){
@@ -204,9 +251,10 @@
     hcBusy = true;
     showTyping();
     try{
+      const usedModel = aiCfg.model;
       const reply = await askHermes(trimmed);
       hideTyping();
-      addMsg(reply, 'bot');
+      addMsg(reply, 'bot', usedModel);
     }catch(e){
       hideTyping();
       addMsg("⚠️ I can't reach the AI server right now. Hermes answers come from a real AI API — if you're Mohit, start the FreeLLMAPI server, or set the endpoint and key from the sidebar Settings. (Keys never live in this website's code.)", 'bot');
@@ -242,7 +290,7 @@
   let currentChatId = null;
   let loadingChat = false;
   function saveChats(){ try{ localStorage.setItem('hermes_chats_v1', JSON.stringify(hcChats.slice(0, 20))); }catch(e){} }
-  function persistMsg(who, text){
+  function persistMsg(who, text, model){
     if(loadingChat) return;
     let chat = hcChats.find(c => c.id === currentChatId);
     if(!chat){
@@ -251,7 +299,9 @@
       hcChats.unshift(chat);
       currentChatId = chat.id;
     }
-    chat.msgs.push({ who, text });
+    const entry = { who, text };
+    if(model) entry.model = model;
+    chat.msgs.push(entry);
     if(chat.msgs.length > 100) chat.msgs = chat.msgs.slice(-100);
     const i = hcChats.indexOf(chat);
     if(i > 0){ hcChats.splice(i, 1); hcChats.unshift(chat); }
@@ -290,7 +340,7 @@
       body.querySelectorAll('.hc-msg, .hc-typing').forEach(m => m.remove());
       if(welcomeEl) welcomeEl.style.display = 'none';
       loadingChat = true;
-      chat.msgs.forEach(m => addMsg(m.text, m.who));
+      chat.msgs.forEach(m => addMsg(m.text, m.who, m.model));
       loadingChat = false;
       body.scrollTop = body.scrollHeight;
     }
@@ -327,9 +377,10 @@
       if(welcomeEl) welcomeEl.style.display='flex';
       chatHistory = [];
       currentChatId = null;
+      page.classList.remove('sidebar-open');
       renderRecent();
     }
-    if(input) input.value='';
+    if(input){ input.value=''; setTimeout(()=>input.focus(), 60); }
   }
 
   // Events
