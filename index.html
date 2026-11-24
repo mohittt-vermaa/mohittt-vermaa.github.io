@@ -2419,5 +2419,35 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
   addEventListener('resize', resize);
 })();
 </script>
+
+<audio id="bgMusic" src="assets/audio/amour-plastique.mp3" loop preload="auto"></audio>
+<button id="musicBtn" type="button" aria-label="Mute or unmute music" title="Music on/off" style="position:fixed;right:18px;bottom:18px;z-index:10005;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(20,16,32,.72);backdrop-filter:blur(8px);color:#fff;font-size:20px;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.45)">🔊</button>
+<script>
+/* Background music (Amour Plastique, full song, looped) — starts when the visitor
+   enters the site (browser autoplay rules need that click). Mute button bottom-right. */
+(function(){
+  var au=document.getElementById('bgMusic'), btn=document.getElementById('musicBtn');
+  if(!au || !btn) return;
+  au.volume=0.5;
+  var started=false;
+  function start(){
+    if(started) return; started=true;
+    btn.style.display='flex';
+    au.play().catch(function(){});
+  }
+  var mo=new MutationObserver(function(){
+    if(!document.documentElement.classList.contains('splash-lock')){
+      var l=document.getElementById('loader');
+      if(!l || l.classList.contains('done')) start();
+    }
+  });
+  mo.observe(document.documentElement, {attributes:true, attributeFilter:['class']});
+  btn.addEventListener('click', function(){
+    au.muted=!au.muted;
+    btn.textContent = au.muted ? '\uD83D\uDD07' : '\uD83D\uDD0A';
+    if(!au.muted && au.paused) au.play().catch(function(){});
+  });
+})();
+</script>
 </body>
 </html>
