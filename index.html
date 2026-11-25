@@ -803,6 +803,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
 <div id="cssStars" style="position:fixed;inset:0;z-index:10001;background:#05060a;pointer-events:none;display:none"></div>
 <div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">drag to explore · pinch to zoom</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterSite" type="button" style="padding:13px 36px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:linear-gradient(135deg,rgba(109,40,217,.5),rgba(236,72,153,.4));color:#fff;font-size:13px;font-weight:800;letter-spacing:.14em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(109,40,217,.4),0 0 20px rgba(236,72,153,.25)">Enter Site</button></div>
 <button id="musicWaveLock" class="music-wave" type="button" aria-label="Play or pause music" title="Music on/off"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></button>
+<div id="galaxySwitch" role="group" aria-label="Choose galaxy"><button type="button" class="gx-btn active" data-galaxy="solar">☀ Solar System</button><button type="button" class="gx-btn" data-galaxy="novaris">✦ Novaris</button></div>
 <aside id="planetInfo" class="planet-info" aria-live="polite" aria-hidden="true"><button id="planetInfoClose" type="button" aria-label="Close planet details">×</button><span class="planet-info-kicker">PLANET EXPLORER</span><strong id="planetInfoName">Earth</strong><p id="planetInfoText">Tap any planet to explore its world.</p><button id="planetFocus" type="button">FOCUS PLANET <span>↗</span></button></aside>
 <button id="closeScanResult" class="scan-close" type="button" aria-label="Close device scan and return to space">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m18 6-12 12M6 6l12 12"/></svg><span>Back to space</span>
@@ -1033,42 +1034,43 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
       <h3>Languages &amp; Tech</h3>
       <p class="sk-sub">Core languages and frameworks I work with daily.</p>
       <div class="chips">
-        <span class="chip">Python</span>
-        <span class="chip">C</span>
-        <span class="chip">HTML &amp; CSS</span>
-        <span class="chip">JavaScript</span>
-        <span class="chip">Git &amp; GitHub</span>
-        <span class="chip">Linux</span>
-        <span class="chip">Bash</span>
+        <span class="chip" data-link="ml">Python</span>
+        <span class="chip" data-link="game">C</span>
+        <span class="chip" data-link="web">HTML &amp; CSS</span>
+        <span class="chip" data-link="web">JavaScript</span>
+        <span class="chip" data-link="oss">Git &amp; GitHub</span>
+        <span class="chip" data-link="auto">Linux</span>
+        <span class="chip" data-link="auto">Bash</span>
       </div>
     </div>
     <div class="sk-card reveal">
       <h3>AI &amp; ML</h3>
       <p class="sk-sub">Fields I'm excited about and actively studying.</p>
       <div class="chips">
-        <span class="chip">Artificial Intelligence</span>
-        <span class="chip">Machine Learning</span>
-        <span class="chip">Generative AI</span>
-        <span class="chip">Computer Vision</span>
-        <span class="chip">Prompt Engineering</span>
-        <span class="chip">Web Development</span>
-        <span class="chip">Open Source</span>
+        <span class="chip" data-link="ai">Artificial Intelligence</span>
+        <span class="chip" data-link="ml">Machine Learning</span>
+        <span class="chip" data-link="ai">Generative AI</span>
+        <span class="chip" data-link="ml">Computer Vision</span>
+        <span class="chip" data-link="ai">Prompt Engineering</span>
+        <span class="chip" data-link="web">Web Development</span>
+        <span class="chip" data-link="oss">Open Source</span>
       </div>
     </div>
     <div class="sk-card reveal">
       <h3>Interests</h3>
       <p class="sk-sub">Things I love exploring beyond the code.</p>
       <div class="chips">
-        <span class="chip">AI Agents</span>
-        <span class="chip">Content Creation</span>
-        <span class="chip">Video Production</span>
-        <span class="chip">Game Development</span>
-        <span class="chip">Automation</span>
-        <span class="chip">Tech Research</span>
-        <span class="chip">Personal Branding</span>
+        <span class="chip" data-link="ai">AI Agents</span>
+        <span class="chip" data-link="create">Content Creation</span>
+        <span class="chip" data-link="create">Video Production</span>
+        <span class="chip" data-link="game">Game Development</span>
+        <span class="chip" data-link="auto">Automation</span>
+        <span class="chip" data-link="ai">Tech Research</span>
+        <span class="chip" data-link="web">Personal Branding</span>
       </div>
     </div>
   </div>
+  <p class="sk-hint reveal">✦ Hover or tap any skill — the skills it connects to light up across all three cards.</p>
 </section>
 
 <!-- BLOG -->
@@ -2309,15 +2311,18 @@ secondPlanetData.forEach(data=>{
  if(data.ring){const rt=makeRingTexture(data.radius*1.3,data.radius*2.1,icyRingProfile);const ring=new THREE.Mesh(new THREE.RingGeometry(data.radius*1.3,data.radius*2.1,256),new THREE.MeshStandardMaterial({map:rt,side:THREE.DoubleSide,transparent:true,opacity:.9,roughness:1,depthWrite:false}));ring.rotation.x=Math.PI/2;planet.add(ring);}
  secondPlanets.push({mesh:planet,radius:data.orbit,speed:data.speed,phase:data.phase});
 });
+let galaxyMode='solar';
 function updateSolarSystem(dt,time){if(!solarSystemGroup.visible)return;for(const p of solarPlanets){const angle=p.phase+time*p.speed;p.mesh.position.set(Math.cos(angle)*p.radius,0,Math.sin(angle)*p.radius);p.mesh.rotation.y+=dt*.12;}for(const m of solarMoons)m.orbit.rotation.y+=dt*.35;if(earthClouds)earthClouds.rotation.y+=dt*.05;asteroidBelt.rotation.y+=dt*.0015;sunCore.rotation.y+=dt*.02;
- const sf=THREE.MathUtils.clamp((spaceZoomCurrent-14)/8,0,1);const selSecond=!!(selectedPlanet&&secondClickables.some(o=>o.userData.planetData===selectedPlanet));secondSystem.visible=sf>0.02||selSecond;
- if(secondSystem.visible){secondSystem.scale.setScalar(1.15*(0.85+0.15*sf));secondSun.rotation.y+=dt*.02;for(const p of secondPlanets){const a=p.phase+time*p.speed;p.mesh.position.set(Math.cos(a)*p.radius,0,Math.sin(a)*p.radius);p.mesh.rotation.y+=dt*.12;}}}
+ const sf=THREE.MathUtils.clamp((spaceZoomCurrent-14)/8,0,1);const selSecond=!!(selectedPlanet&&secondClickables.some(o=>o.userData.planetData===selectedPlanet));secondSystem.visible=sf>0.02||selSecond||galaxyMode==='novaris';
+ if(secondSystem.visible){secondSystem.scale.setScalar(1.15*(0.85+0.15*(galaxyMode==='novaris'?1:sf)));secondSun.rotation.y+=dt*.02;for(const p of secondPlanets){const a=p.phase+time*p.speed;p.mesh.position.set(Math.cos(a)*p.radius,0,Math.sin(a)*p.radius);p.mesh.rotation.y+=dt*.12;}}}
 let selectedPlanet=null;
 const planetInfo=document.getElementById('planetInfo');
 function focusPlanetObject(obj){if(!obj)return;focusSolarTarget.copy(obj.getWorldPosition(new THREE.Vector3()));const radius=(obj.geometry?.parameters?.radius||.5)*obj.getWorldScale(new THREE.Vector3()).x;spaceZoomTarget=THREE.MathUtils.clamp(Math.max(3,radius*5.5)-32,-29,32);updateSpaceZoomLabel();}
 function showPlanetInfo(data){if(!data)return;selectedPlanet=data;document.getElementById('planetInfoName').textContent=data.name;document.getElementById('planetInfoText').textContent=data.fact;planetInfo.classList.add('open');planetInfo.setAttribute('aria-hidden','false');}
 document.getElementById('planetInfoClose')?.addEventListener('click',()=>{planetInfo.classList.remove('open');planetInfo.setAttribute('aria-hidden','true');selectedPlanet=null;});
 document.getElementById('planetFocus')?.addEventListener('click',()=>{if(selectedPlanet){const obj=clickablePlanets.find(o=>o.userData.planetData===selectedPlanet);focusPlanetObject(obj);}});
+function setGalaxy(mode){galaxyMode=mode;document.querySelectorAll('.gx-btn').forEach(b=>b.classList.toggle('active',b.dataset.galaxy===mode));selectedPlanet=null;planetInfo.classList.remove('open');planetInfo.setAttribute('aria-hidden','true');if(mode==='novaris'){focusSolarTarget.copy(secondSystem.position);spaceZoomTarget=-13;}else{focusSolarTarget.set(0,0,-14);spaceZoomTarget=-6;}updateSpaceZoomLabel();}
+document.querySelectorAll('.gx-btn').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();setGalaxy(b.dataset.galaxy);}));
 const planetRaycaster=new THREE.Raycaster(),planetPointer=new THREE.Vector2();
 canvas.addEventListener('click',e=>{if(!solarSystemGroup.visible||!document.documentElement.classList.contains('splash-lock')||document.getElementById('loader')?.classList.contains('scan-open'))return;planetPointer.set((e.clientX/innerWidth)*2-1,-(e.clientY/innerHeight)*2+1);planetRaycaster.setFromCamera(planetPointer,camera);const hitsAll=planetRaycaster.intersectObjects(clickablePlanets,false);const hit=hitsAll.find(h=>{let o=h.object;while(o){if(o===secondSystem)return secondSystem.visible;o=o.parent;}return true;});if(hit){showPlanetInfo(hit.object.userData.planetData);focusPlanetObject(hit.object);}});
 
@@ -2472,7 +2477,7 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
 })();
 
 </script>
-<script src="assets/hermes-chat.js?v=55" defer></script>
+<script src="assets/hermes-chat.js?v=59" defer></script>
 
 <script>
 /* Scroll-driven portrait frames (Mohit's frames) — replaces the old background video.
@@ -2544,6 +2549,7 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
 #musicWave{display:flex;align-items:flex-end;justify-content:center;gap:4px;height:30px;padding:5px 2px;background:transparent;border:none;cursor:pointer;flex:1 1 auto;max-width:360px;min-width:120px;margin:0 14px}
 .music-wave span{display:block;width:4px;height:22%;border-radius:2px;background:linear-gradient(180deg,#ec4899,#8b5cf6);opacity:.55;flex:none}
 .music-wave.playing span{opacity:1;animation:mvWave .9s ease-in-out infinite}
+.music-wave.synced span{animation:none;transition:height .06s linear}
 .music-wave span:nth-child(1){animation-delay:0.00s}
 .music-wave span:nth-child(2){animation-delay:0.12s}
 .music-wave span:nth-child(3){animation-delay:0.24s}
@@ -2559,6 +2565,15 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
 .music-wave span:nth-child(13){animation-delay:1.44s}
 @keyframes mvWave{0%,100%{height:22%}50%{height:100%}}
 #musicWaveLock{display:flex;align-items:flex-end;justify-content:center;gap:4px;height:30px;width:min(320px,72vw);margin:16px auto 0;padding:5px 14px;background:transparent;pointer-events:auto;border:1px solid rgba(255,255,255,.28);border-radius:999px;cursor:pointer;position:relative;z-index:5}
+#galaxySwitch{display:flex;gap:6px;width:fit-content;max-width:92vw;margin:12px auto 0;padding:4px;border:1px solid rgba(255,255,255,.28);border-radius:999px;pointer-events:auto;position:relative;z-index:5;background:rgba(10,10,18,.35)}
+.gx-btn{border:none;background:transparent;color:#c9cede;font-size:12px;font-weight:700;letter-spacing:.06em;padding:7px 14px;border-radius:999px;cursor:pointer;transition:all .25s;font-family:inherit}
+.gx-btn.active{background:linear-gradient(135deg,#6d28d9,#ec4899);color:#fff;box-shadow:0 4px 16px rgba(109,40,217,.45)}
+.chip[data-link]{cursor:pointer}
+.chip.link-on{border-color:#ec4899!important;color:#fff!important;background:linear-gradient(135deg,rgba(109,40,217,.88),rgba(236,72,153,.88))!important;box-shadow:0 0 0 1px rgba(236,72,153,.6),0 6px 22px rgba(236,72,153,.35);transform:translateY(-2px) scale(1.05);opacity:1!important}
+.skills-grid{position:relative}
+.skills-grid::before{content:'';position:absolute;left:6%;right:6%;top:-13px;height:2px;background:linear-gradient(90deg,transparent,#6d28d9,#ec4899,#6d28d9,transparent);opacity:.55;border-radius:2px;pointer-events:none}
+@media(max-width:820px){.skills-grid::before{display:none}}
+.sk-hint{margin-top:20px;text-align:center;font-size:12.5px;color:var(--ink-soft);opacity:.75}
 </style>
 <script>
 /* Background music (Amour Plastique, full song, looped). Starts from the Enter Site
@@ -2569,10 +2584,60 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
   if(!au) return;
   au.volume=0.5;
   var waves=[].slice.call(document.querySelectorAll('.music-wave'));
-  function sync(){ for(var i=0;i<waves.length;i++) waves[i].classList.toggle('playing', !au.paused); }
+  var bars=waves.map(function(w){ return [].slice.call(w.querySelectorAll('span')); });
+  /* Real sound sync: once the music starts from a tap/click, route it through a Web Audio
+     analyser and drive the bars from the song's actual frequency data. If Web Audio is
+     unavailable or still locked, the CSS wave animation above stays as the fallback. */
+  var actx=null, analyser=null, freq=null, synced=false, rafId=null;
+  var binMap=[1,2,3,4,6,8,11,14,18,23,29,37,47];
+  function initSync(){
+    if(actx){ if(actx.state==='suspended') actx.resume(); return; }
+    try{
+      var AC=window.AudioContext||window.webkitAudioContext;
+      if(!AC) return;
+      actx=new AC();
+      var src=actx.createMediaElementSource(au);
+      analyser=actx.createAnalyser();
+      analyser.fftSize=128;
+      analyser.smoothingTimeConstant=.72;
+      src.connect(analyser);
+      analyser.connect(actx.destination);
+      freq=new Uint8Array(analyser.frequencyBinCount);
+      synced=true;
+      actx.onstatechange=function(){ if(actx.state==='running' && !au.paused) startLoop(); };
+    }catch(e){ synced=false; }
+  }
+  function setSynced(on){ for(var i=0;i<waves.length;i++) waves[i].classList.toggle('synced', on); }
+  function resetBars(){ for(var i=0;i<bars.length;i++) for(var j=0;j<bars[i].length;j++) bars[i][j].style.height=''; }
+  function drawWave(){
+    if(!synced || au.paused){ rafId=null; return; }
+    analyser.getByteFrequencyData(freq);
+    for(var i=0;i<bars.length;i++){
+      for(var j=0;j<bars[i].length;j++){
+        var v=freq[binMap[j]]||0;
+        bars[i][j].style.height=(12+(v/255)*88)+'%';
+      }
+    }
+    rafId=requestAnimationFrame(drawWave);
+  }
+  function startLoop(){
+    if(!synced) return;
+    if(actx.state!=='running'){ setSynced(false); return; }
+    setSynced(true);
+    if(rafId===null) rafId=requestAnimationFrame(drawWave);
+  }
+  function stopLoop(){
+    if(rafId!==null){ cancelAnimationFrame(rafId); rafId=null; }
+    setSynced(false);
+    resetBars();
+  }
+  function sync(){
+    for(var i=0;i<waves.length;i++) waves[i].classList.toggle('playing', !au.paused);
+    if(!au.paused) startLoop(); else stopLoop();
+  }
   au.addEventListener('play', sync);
   au.addEventListener('pause', sync);
-  function startMusic(){ if(au.paused) au.play().catch(function(){}); sync(); }
+  function startMusic(){ initSync(); if(au.paused) au.play().catch(function(){}); sync(); }
   function toggle(){ if(au.paused) startMusic(); else { au.pause(); sync(); } }
   for(var i=0;i<waves.length;i++){ (function(w){ w.addEventListener('click', function(e){ e.stopPropagation(); toggle(); }); })(waves[i]); }
   var enter=document.getElementById('enterSite');
@@ -2590,6 +2655,23 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
 })();
 </script>
 
+<script>
+// Skills interlink: hovering or tapping a chip lights up its connected chips across all three cards.
+(function(){
+  var chips=[].slice.call(document.querySelectorAll('.chip[data-link]'));
+  if(!chips.length) return;
+  function light(group,on){ chips.forEach(function(c){ if(c.dataset.link===group) c.classList.toggle('link-on',on); }); }
+  var locked=null;
+  chips.forEach(function(c){
+    c.addEventListener('mouseenter',function(){ light(c.dataset.link,true); });
+    c.addEventListener('mouseleave',function(){ if(locked!==c.dataset.link) light(c.dataset.link,false); });
+    c.addEventListener('click',function(){
+      if(locked===c.dataset.link){ light(c.dataset.link,false); locked=null; }
+      else { if(locked) light(locked,false); locked=c.dataset.link; light(locked,true); }
+    });
+  });
+})();
+</script>
 <script>
 // Project cards: preview videos autoplay when visible (no hover or tap needed)
 (function(){
