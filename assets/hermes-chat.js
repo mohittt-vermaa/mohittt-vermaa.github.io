@@ -192,6 +192,19 @@
     return html;
   }
 
+  function copyText(text, btn){
+    const done = () => { btn.textContent = '✓ Copied'; setTimeout(() => { btn.textContent = '⧉ Copy'; }, 1500); };
+    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done).catch(() => legacyCopy(text, done));
+    else legacyCopy(text, done);
+  }
+  function legacyCopy(text, done){
+    try{
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); ta.remove(); done();
+    }catch(e){ done(); }
+  }
   function addMsg(text, who, model, usage, ms){
     if(welcomeEl) welcomeEl.style.display = 'none';
     if(wmEl) wmEl.style.display = 'none';
@@ -207,12 +220,10 @@
         cp.type = 'button';
         cp.className = 'hc-copy-btn';
         cp.textContent = '\u29C9 Copy';
-        cp.addEventListener('click', () => {
-          const done = () => { cp.textContent = '\u2713 Copied'; setTimeout(() => { cp.textContent = '\u29C9 Copy'; }, 1500); };
-          if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done).catch(done); else done();
-        });
+        cp.addEventListener('click', () => copyText(text, cp));
         const ml = document.createElement('span');
         let label = modelName(model);
+        if(model && aiCfg && aiCfg.model && model !== aiCfg.model) label += ' \u00b7 fallback';
         if(usage && (usage.prompt_tokens != null || usage.completion_tokens != null)) label += ' \u00B7 ' + (usage.prompt_tokens || 0) + ' in \u00B7 ' + (usage.completion_tokens || 0) + ' out';
         if(ms) label += ' \u00B7 ' + (ms / 1000).toFixed(1) + 's';
         ml.textContent = label;
@@ -220,7 +231,16 @@
         f.appendChild(ml);
         m.appendChild(f);
       }
-    } else m.textContent = text;
+    } else {
+      m.textContent = text;
+      const cp = document.createElement('button');
+      cp.type = 'button';
+      cp.className = 'hc-copy-btn';
+      cp.textContent = '⧉ Copy';
+      cp.style.cssText = 'display:block;margin:8px 0 0 auto';
+      cp.addEventListener('click', () => copyText(text, cp));
+      m.appendChild(cp);
+    }
     body.appendChild(m);
     persistMsg(who, text, model, usage, ms);
     body.scrollTop = body.scrollHeight;
