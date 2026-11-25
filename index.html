@@ -2249,6 +2249,11 @@ const earthCloudsTexture=new THREE.TextureLoader(manager).load('assets/textures/
 const earthRoughnessTexture=new THREE.TextureLoader(manager).load('assets/textures/earth-roughness.jpg');
 let earthClouds=null;
 const solarOrbitMaterial=new THREE.LineBasicMaterial({color:0xa8b8d7,transparent:true,opacity:.23,depthWrite:false});
+// Real atmosphere: a fresnel halo shell (BackSide) whose glow is strongest at the planet's limb and fades to zero before the shell's edge — no hard disc outline like a flat transparent sphere gives.
+function makeAtmosphereMesh(radius,colorHex,strength){
+ const mat=new THREE.ShaderMaterial({uniforms:{glowColor:{value:new THREE.Color(colorHex)},strength:{value:strength}},vertexShader:'varying vec3 vN;void main(){vN=normalize(normalMatrix*normal);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',fragmentShader:'uniform vec3 glowColor;uniform float strength;varying vec3 vN;void main(){float t=-dot(vN,vec3(0.,0.,1.));float i=pow(clamp(t/.58,0.,1.),2.2);gl_FragColor=vec4(glowColor,1.)*i*strength;}',side:THREE.BackSide,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false});
+ return new THREE.Mesh(new THREE.SphereGeometry(radius*1.22,48,32),mat);
+}
 solarPlanetData.forEach(data=>{
  // Orbits lie flat in the local XZ plane (the ecliptic disk); the camera views it from above.
  const orbitPoints=[];for(let i=0;i<360;i++){const a=i/360*Math.PI*2;orbitPoints.push(new THREE.Vector3(Math.cos(a)*data.orbit,0,Math.sin(a)*data.orbit));}
@@ -2260,8 +2265,8 @@ solarPlanetData.forEach(data=>{
  planet.rotation.order='ZYX';planet.rotation.z=data.tilt||0;
  solarSystemGroup.add(planet);clickablePlanets.push(planet);
  if(data.ring||data.ringFaint){const rt=makeRingTexture(data.radius*1.25,data.radius*2.27,data.ring?saturnRingProfile:faintRingProfile);const ring=new THREE.Mesh(new THREE.RingGeometry(data.radius*1.25,data.radius*2.27,256),new THREE.MeshStandardMaterial({map:rt,side:THREE.DoubleSide,transparent:true,opacity:.95,roughness:1,depthWrite:false}));ring.rotation.x=Math.PI/2;planet.add(ring);} // Ring lies flat in the planet's equatorial plane; the axial tilt above orients it realistically.
- if(data.name!=='Earth'){const atmoC=data.base||(data.bands?data.bands[1]:'#9db4d8');const atmoGlow=new THREE.Mesh(new THREE.SphereGeometry(data.radius*1.09,48,32),new THREE.MeshBasicMaterial({color:new THREE.Color(atmoC),transparent:true,opacity:data.name==='Venus'?.16:.10,blending:THREE.AdditiveBlending,depthWrite:false}));planet.add(atmoGlow);}
- if(data.name==='Earth'){mat.roughnessMap=earthRoughnessTexture;mat.roughness=1;const atmo=new THREE.Mesh(new THREE.SphereGeometry(data.radius*1.07,48,32),new THREE.MeshBasicMaterial({color:0x6ab7ff,transparent:true,opacity:.15,blending:THREE.AdditiveBlending,depthWrite:false}));planet.add(atmo);earthClouds=new THREE.Mesh(new THREE.SphereGeometry(data.radius*1.025,48,32),new THREE.MeshStandardMaterial({color:0xffffff,alphaMap:earthCloudsTexture,transparent:true,opacity:.85,roughness:1,depthWrite:false}));planet.add(earthClouds);const moon=new THREE.Mesh(new THREE.SphereGeometry(.095,32,24),new THREE.MeshStandardMaterial({map:moonTexture,bumpMap:moonTexture,bumpScale:.06,roughness:1}));moon.position.set(data.radius*1.9,0,0);const moonOrbit=new THREE.Group();moonOrbit.add(moon);planet.add(moonOrbit);solarMoons.push({orbit:moonOrbit,speed:.35});}
+ if(data.name!=='Earth'){const atmoC=data.base||(data.bands?data.bands[1]:'#9db4d8');const atmoGlow=makeAtmosphereMesh(data.radius,atmoC,data.name==='Venus'?.85:.55);planet.add(atmoGlow);}
+ if(data.name==='Earth'){mat.roughnessMap=earthRoughnessTexture;mat.roughness=1;const atmo=makeAtmosphereMesh(data.radius,0x6ab7ff,.7);planet.add(atmo);earthClouds=new THREE.Mesh(new THREE.SphereGeometry(data.radius*1.025,48,32),new THREE.MeshStandardMaterial({color:0xffffff,alphaMap:earthCloudsTexture,transparent:true,opacity:.85,roughness:1,depthWrite:false}));planet.add(earthClouds);const moon=new THREE.Mesh(new THREE.SphereGeometry(.095,32,24),new THREE.MeshStandardMaterial({map:moonTexture,bumpMap:moonTexture,bumpScale:.06,roughness:1}));moon.position.set(data.radius*1.9,0,0);const moonOrbit=new THREE.Group();moonOrbit.add(moon);planet.add(moonOrbit);solarMoons.push({orbit:moonOrbit,speed:.35});}
  solarPlanets.push({mesh:planet,radius:data.orbit,speed:data.speed,phase:data.phase});
 });
 // Asteroid belt, rendered as fine, individually varied rocks between Mars and Jupiter.
@@ -2300,7 +2305,7 @@ secondPlanetData.forEach(data=>{
  const planet=new THREE.Mesh(new THREE.SphereGeometry(data.radius,96,64),new THREE.MeshStandardMaterial({map:makeBandsTexture(data.colors),roughness:.85,metalness:0}));
  planet.name=data.name;planet.userData.planetData={name:data.name,fact:data.fact};planet.userData.isPlanet=true;planet.rotation.order='ZYX';planet.rotation.z=data.tilt||0;
  secondSystem.add(planet);clickablePlanets.push(planet);secondClickables.push(planet);
- const atmo=new THREE.Mesh(new THREE.SphereGeometry(data.radius*1.09,48,32),new THREE.MeshBasicMaterial({color:new THREE.Color(data.colors[2]),transparent:true,opacity:.12,blending:THREE.AdditiveBlending,depthWrite:false}));planet.add(atmo);
+ const atmo=makeAtmosphereMesh(data.radius,data.colors[2],.5);planet.add(atmo);
  if(data.ring){const rt=makeRingTexture(data.radius*1.3,data.radius*2.1,icyRingProfile);const ring=new THREE.Mesh(new THREE.RingGeometry(data.radius*1.3,data.radius*2.1,256),new THREE.MeshStandardMaterial({map:rt,side:THREE.DoubleSide,transparent:true,opacity:.9,roughness:1,depthWrite:false}));ring.rotation.x=Math.PI/2;planet.add(ring);}
  secondPlanets.push({mesh:planet,radius:data.orbit,speed:data.speed,phase:data.phase});
 });
