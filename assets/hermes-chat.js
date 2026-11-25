@@ -526,6 +526,23 @@
   if(input) input.addEventListener('keydown', e=>{ if(e.key==='Enter'){ const v=input.value; answer(v); input.value=''; } });
 
   // Triggers - FIXED: support both mobile and desktop
+  // Mobile Hermes "H" button: injected here so it appears even when the
+  // cached index.html is older than this JS (JS is versioned, HTML is not).
+  // Also strips the music-wave pill border here, same reason.
+  (function(){
+    const wave = document.getElementById('musicWave');
+    if(wave){ wave.style.background = 'transparent'; wave.style.border = 'none'; wave.style.boxShadow = 'none'; }
+    if(!wave || document.querySelector('.hermes-nav-btn')) return;
+    const st = document.createElement('style');
+    st.textContent = '.hermes-nav-btn{display:none}@media(max-width:768px){.hermes-nav-btn{display:grid;place-items:center;width:34px;height:34px;flex:0 0 auto;border-radius:50%;background:#171717;border:1px solid rgba(255,255,255,.22);color:#fff;font-weight:800;font-size:15px;text-decoration:none}#musicWave{max-width:200px;min-width:0;margin:0 8px}}';
+    document.head.appendChild(st);
+    const a = document.createElement('a');
+    a.href = '#'; a.className = 'hermes-nav-btn';
+    a.setAttribute('data-open-hermes', '');
+    a.setAttribute('aria-label', 'Open Hermes chat'); a.title = 'Hermes';
+    a.textContent = 'H';
+    wave.insertAdjacentElement('afterend', a);
+  })();
   const triggers = document.querySelectorAll('#openHermesChat, [data-open-hermes]');
   triggers.forEach(t=>t.addEventListener('click', e=>{ e.preventDefault(); open(); }));
 
