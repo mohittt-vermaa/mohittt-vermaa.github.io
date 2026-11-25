@@ -50,7 +50,7 @@
       const base = custom ? byokBase().replace(/\/+$/,'') : aiBase();
       const headers = custom ? {'Content-Type':'application/json', 'Authorization':'Bearer ' + byok.key} : aiHeaders();
       try{ res = await fetch(base + '/chat/completions', {method:'POST', headers, body: JSON.stringify(payload), signal: ctrl.signal}); } finally { clearTimeout(timer); }
-      if(!res.ok) throw new Error('HTTP ' + res.status);
+      if(!res.ok){ let msg = 'HTTP ' + res.status; try{ const ed = await res.json(); const m = ed && (ed.error && (ed.error.message || ed.error) || ed.message); if(m) msg += ' — ' + String(m).slice(0, 90); }catch(_){} throw new Error(msg); }
       const data = await res.json();
       const text = data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
       if(!text) throw new Error('Empty reply');
@@ -374,6 +374,7 @@
       '<select id="hcByokProvider" style="width:100%;padding:9px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:#171717;color:#ececec;font-size:13px;outline:none">' +
         '<option value="groq">Groq</option><option value="google">Google (Gemini)</option><option value="nvidia">NVIDIA</option><option value="huggingface">Hugging Face</option><option value="custom">Custom (OpenAI-compatible)</option>' +
       '</select>' +
+      '<div id="hcByokHint" style="font-size:11.5px;color:#c9a86a;margin-top:8px;line-height:1.5"></div>' +
       '<input id="hcByokBase" type="url" placeholder="Base URL, e.g. https://api.example.com/v1" style="display:none;width:100%;margin-top:8px;padding:9px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:#171717;color:#ececec;font-size:13px;outline:none">' +
       '<div style="display:flex;gap:6px;margin-top:8px"><input id="hcByokKey" type="password" placeholder="Paste API key…" autocomplete="off" style="flex:1;min-width:0;padding:9px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:#171717;color:#ececec;font-size:13px;outline:none"><button id="hcByokShow" type="button" style="padding:0 10px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:#171717;color:#9aa3b8;font-size:12px;cursor:pointer">Show</button></div>' +
       '<div style="display:flex;gap:8px;margin-top:10px"><button id="hcByokLoad" type="button" style="flex:1;padding:9px 10px;border-radius:10px;border:none;background:#ececec;color:#000;font-size:13px;font-weight:700;cursor:pointer">Load models</button><button id="hcByokRemove" type="button" style="padding:9px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:transparent;color:#ececec;font-size:13px;cursor:pointer">Remove</button></div>' +
@@ -418,13 +419,22 @@
   const byokRemoveEl = document.getElementById('hcByokRemove');
   const byokStatusEl = document.getElementById('hcByokStatus');
   function byokStatus(t){ if(byokStatusEl) byokStatusEl.textContent = t; }
+  function byokHint(){
+    const h = document.getElementById('hcByokHint');
+    if(!h) return;
+    const p = byokProviderEl ? byokProviderEl.value : 'groq';
+    h.textContent = p === 'nvidia'
+      ? 'NVIDIA blocks direct browser requests, so its models cannot load here. Your key is fine — use the built-in models, or Groq / Google with your own key.'
+      : (p === 'huggingface' ? 'Hugging Face chat needs paid credits on your account — the free allowance runs out fast.' : '');
+  }
   function byokFill(){
     if(byokProviderEl) byokProviderEl.value = (byok && byok.provider) || 'groq';
     if(byokBaseEl){ byokBaseEl.style.display = byokProviderEl && byokProviderEl.value === 'custom' ? 'block' : 'none'; byokBaseEl.value = (byok && byok.base) || ''; }
     if(byokKeyEl) byokKeyEl.value = (byok && byok.key) || '';
     byokStatus(byok && byok.models && byok.models.length ? byok.models.length + ' models loaded — pick one from the model menu below the chat box.' : '');
+    byokHint();
   }
-  if(byokProviderEl) byokProviderEl.addEventListener('change', () => { if(byokBaseEl) byokBaseEl.style.display = byokProviderEl.value === 'custom' ? 'block' : 'none'; });
+  if(byokProviderEl) byokProviderEl.addEventListener('change', () => { if(byokBaseEl) byokBaseEl.style.display = byokProviderEl.value === 'custom' ? 'block' : 'none'; byokHint(); });
   if(byokShowEl && byokKeyEl) byokShowEl.addEventListener('click', () => {
     const show = byokKeyEl.type === 'password';
     byokKeyEl.type = show ? 'text' : 'password';
@@ -448,7 +458,10 @@
       byokStatus(ids.length + ' models loaded — pick one from the model menu below the chat box.');
       renderModelMenu();
     }catch(e){
-      byokStatus('Could not load models (' + String(e.message || e).slice(0, 60) + '). Check the key and try again.');
+      const m = String(e.message || e);
+      byokStatus(m.indexOf('Failed to fetch') !== -1 && provider === 'nvidia'
+        ? 'NVIDIA blocks direct browser requests, so models cannot load here. Your key is fine — use the built-in models, or Groq / Google with your own key.'
+        : 'Could not load models (' + m.slice(0, 60) + '). Check the key and try again.');
     }
   });
   if(byokRemoveEl) byokRemoveEl.addEventListener('click', () => {
