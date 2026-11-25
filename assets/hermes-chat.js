@@ -96,6 +96,7 @@
       '<span id="hcClock" style="position:absolute;left:50%;transform:translateX(-50%);font-size:13.5px;font-weight:600;color:#9aa3b8;font-variant-numeric:tabular-nums;letter-spacing:.04em"></span>' +
       '<div class="hc-nav-right" style="margin-left:auto;display:flex;gap:8px;align-items:center">' +
         '<button class="hc-icon-btn" id="hcSidebarBtn" aria-label="Menu" title="Menu"><svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" fill="none" stroke-width="2"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="14" y2="17"/></svg></button>' +
+        '<button class="hc-icon-btn" id="hcSettingsBtn" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>' +
         '<button class="hc-icon-btn" id="hcCloseBtn" aria-label="Back to site" title="Back"><svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>' +
       '</div>' +
     '</div>' +
@@ -297,6 +298,50 @@
 
   const clockEl = box.querySelector('#hcClock');
   if(clockEl){ const tick = () => { clockEl.textContent = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'}); }; tick(); setInterval(tick, 1000); }
+
+  // Settings panel: lifetime per-model usage (all visitors), from the Worker
+  const hcSettingsPanel = document.createElement('div');
+  hcSettingsPanel.id = 'hcSettingsPanel';
+  hcSettingsPanel.style.cssText = 'display:none;position:absolute;top:64px;right:14px;width:min(320px,calc(100vw - 28px));background:#262626;border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:18px;z-index:70;box-shadow:0 18px 50px rgba(0,0,0,.55)';
+  hcSettingsPanel.innerHTML =
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><span style="font-size:15px;font-weight:700;color:#fff">Settings</span><button id="hcSettingsClose" type="button" style="background:none;border:none;color:#9aa3b8;font-size:18px;cursor:pointer;padding:2px 6px" aria-label="Close settings">✕</button></div>' +
+    '<div style="font-size:12px;color:#9aa3b8;margin-bottom:12px">Lifetime usage — all visitors</div>' +
+    '<div id="hcUsageRows" style="display:flex;flex-direction:column;gap:8px">' +
+      '<div style="display:flex;justify-content:space-between;font-size:13.5px"><span style="color:#e8eaf2">GPT-OSS 120B</span><b id="hcUseGpt" style="color:#fff">—</b></div>' +
+      '<div style="display:flex;justify-content:space-between;font-size:13.5px"><span style="color:#e8eaf2">GLM 5.3 Flash</span><b id="hcUseGlm" style="color:#fff">—</b></div>' +
+      '<div style="display:flex;justify-content:space-between;font-size:13.5px"><span style="color:#e8eaf2">Gemini 3.6 Flash</span><b id="hcUseGem" style="color:#fff">—</b></div>' +
+      '<div style="display:flex;justify-content:space-between;font-size:13.5px;border-top:1px solid rgba(255,255,255,.1);padding-top:8px"><span style="color:#e8eaf2">Total replies</span><b id="hcUseTotal" style="color:#fff">—</b></div>' +
+    '</div>' +
+    '<div id="hcUsageNote" style="font-size:11.5px;color:#8e8e8e;margin-top:12px;line-height:1.5">Chats are saved only in this browser, on this device.</div>';
+  page.appendChild(hcSettingsPanel);
+  async function loadUsage(){
+    const set = (id, v) => { const el = document.getElementById(id); if(el) el.textContent = v; };
+    try{
+      const r = await fetch((aiCfg.endpoint || '').replace(/\/$/, '') + '/usage', { headers: aiCfg.key ? { Authorization: 'Bearer ' + aiCfg.key } : {} });
+      if(!r.ok) throw new Error('HTTP ' + r.status);
+      const d = await r.json();
+      const m = d.models || {};
+      const fmt = (n) => (typeof n === 'number' ? n.toLocaleString('en-IN') : '—');
+      set('hcUseGpt', fmt(m['openai/gpt-oss-120b']));
+      set('hcUseGlm', fmt(m['z-ai/glm-5.3-flash']));
+      set('hcUseGem', fmt(m['gemini-3.6-flash']));
+      set('hcUseTotal', fmt(d.total));
+      const note = document.getElementById('hcUsageNote');
+      if(note && d.note) note.textContent = d.note;
+    }catch(e){
+      set('hcUseGpt', '—'); set('hcUseGlm', '—'); set('hcUseGem', '—'); set('hcUseTotal', '—');
+      const note = document.getElementById('hcUsageNote');
+      if(note) note.textContent = 'Usage counts appear after the next Hermes server update.';
+    }
+  }
+  const hcSettingsBtn = document.getElementById('hcSettingsBtn');
+  if(hcSettingsBtn) hcSettingsBtn.addEventListener('click', () => {
+    const open = hcSettingsPanel.style.display === 'block';
+    hcSettingsPanel.style.display = open ? 'none' : 'block';
+    if(!open) loadUsage();
+  });
+  const hcSettingsClose = document.getElementById('hcSettingsClose');
+  if(hcSettingsClose) hcSettingsClose.addEventListener('click', () => { hcSettingsPanel.style.display = 'none'; });
 
   // Giant HERMES wordmark behind every empty (new) chat, OpenCode-style
   const hcMain = box.querySelector('.hc-main');
