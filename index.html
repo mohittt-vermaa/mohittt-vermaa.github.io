@@ -1690,7 +1690,7 @@ renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.
 
 const scene=new THREE.Scene();scene.background=null;
 const camera=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,0.1,500);camera.position.set(0,1.5,14);
-let spaceZoomTarget=0,spaceZoomCurrent=0;
+let spaceZoomTarget=-6,spaceZoomCurrent=-6;
 const focusSolarTarget=new THREE.Vector3(0,0,-14),focusSolarCurrent=new THREE.Vector3(0,0,-14);
 function updateSpaceZoomLabel(){
   const readout=document.getElementById('earthZoomLevel');
@@ -1749,15 +1749,15 @@ window.addEventListener('pointermove',spaceOnPointerMove,{passive:false});
 window.addEventListener('pointerup',spaceOnPointerUp,{passive:true});
 window.addEventListener('pointercancel',spaceOnPointerUp,{passive:true});
 window.resetSpaceZoom=function(){
-  spaceZoomTarget=0;
+  spaceZoomTarget=-6;
   focusSolarTarget.set(0,0,-14);
   spaceOrbitYawT=0; spaceOrbitPitchT=0.38;
   window.spaceOrbitYawT=0; window.spaceOrbitPitchT=0.38;
   updateSpaceZoomLabel();
 };
 
-scene.add(new THREE.AmbientLight(0x3a4666,0.38));
-const keyL=new THREE.DirectionalLight(0xffffff,0.35);keyL.position.set(-4,6,10);scene.add(keyL);
+scene.add(new THREE.AmbientLight(0x1a2438,0.18));
+const keyL=new THREE.DirectionalLight(0xffffff,0.16);keyL.position.set(-4,6,10);scene.add(keyL);
 
 const manager=new THREE.LoadingManager();
 manager.onProgress=(url,loaded,total)=>{document.getElementById('loaderFill').style.width=Math.min(100,loaded/total*100)+'%'};
@@ -2098,9 +2098,8 @@ if(!SITE_CFG.toggles.astronaut){
   if(bhEnterBtn)bhEnterBtn.addEventListener('click',enterBlackholeNow);
 })();
 
-// Sun light only — clean, no glow planes / pulse lights
-const sun=new THREE.DirectionalLight(0xfff1d6,2.6);sun.position.set(28,10,6);scene.add(sun);
-const fillL=new THREE.PointLight(0x334466,1.2,40);fillL.position.set(-12,4,8);scene.add(fillL);
+// (Removed: the old fixed-direction "sun" light — planets are now lit only by their own Sun, so each planet's day/night side is real.)
+const fillL=new THREE.PointLight(0x334466,0.35,40);fillL.position.set(-12,4,8);scene.add(fillL);
 
 // ═══ STARFIELD — 50K pin-point stars (tiny discs, not square dots) ═══
 const STAR_N = (typeof starCount!=='undefined') ? starCount : ((SITE_CFG && SITE_CFG.toggles && typeof SITE_CFG.toggles.starCount!=='undefined') ? SITE_CFG.toggles.starCount : (SITE_CFG && SITE_CFG.preset==='medium'?10000:100000));
@@ -2162,7 +2161,7 @@ const stars=new THREE.Points(starGeo,starMat);scene.add(stars);
 const solarSystemGroup=new THREE.Group();
 solarSystemGroup.position.set(0,0,-14);
 solarSystemGroup.rotation.set(-0.10,0.06,-0.035);
-solarSystemGroup.scale.setScalar(1.18);
+solarSystemGroup.scale.setScalar(1.3);
 solarSystemGroup.visible=!!SITE_CFG.toggles.earth;
 scene.add(solarSystemGroup);
 const solarPlanets=[];
@@ -2181,39 +2180,91 @@ function makeSunGlowTexture(){
   const g=ctx.createRadialGradient(128,128,4,128,128,128);g.addColorStop(0,'rgba(255,253,220,1)');g.addColorStop(.12,'rgba(255,209,100,.95)');g.addColorStop(.35,'rgba(255,127,35,.35)');g.addColorStop(1,'rgba(255,80,20,0)');ctx.fillStyle=g;ctx.fillRect(0,0,256,256);const tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;return tex;
 }
 const sunTexture=new THREE.TextureLoader(manager).load('assets/planet-textures/sun.jpg');sunTexture.colorSpace=THREE.SRGBColorSpace;
-const sunCore=new THREE.Mesh(new THREE.SphereGeometry(1.18,128,96),new THREE.MeshBasicMaterial({map:sunTexture,color:0xffedb2}));solarSystemGroup.add(sunCore);sunCore.name='Sun';sunCore.userData.planetData={name:'Sun',fact:'Our star anchors the solar system. Its gravity holds eight planets in orbit, and its light takes about eight minutes to reach Earth.'};clickablePlanets.push(sunCore);
+const sunCore=new THREE.Mesh(new THREE.SphereGeometry(1.3,128,96),new THREE.MeshBasicMaterial({map:sunTexture,color:0xffedb2}));solarSystemGroup.add(sunCore);sunCore.name='Sun';sunCore.userData.planetData={name:'Sun',fact:'Our star anchors the solar system. Its gravity holds eight planets in orbit, and its light takes about eight minutes to reach Earth.'};clickablePlanets.push(sunCore);
 const sunGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),transparent:true,opacity:.8,depthWrite:false,blending:THREE.AdditiveBlending}));sunGlow.scale.set(10,10,1);solarSystemGroup.add(sunGlow);
 const sunCorona=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),transparent:true,opacity:.30,depthWrite:false,blending:THREE.AdditiveBlending}));sunCorona.scale.set(17,17,1);solarSystemGroup.add(sunCorona);
-const solarSunLight=new THREE.PointLight(0xffd18b,4.5,70,1.2);solarSystemGroup.add(solarSunLight);
+const solarSunLight=new THREE.PointLight(0xffd18b,6,80,1);solarSystemGroup.add(solarSunLight);
 // Real planets: photographic texture maps + true axial tilts (radians).
 const solarPlanetData=[
- {name:'Mercury',orbit:2.45,radius:.23,base:'#8f887d',speed:.24,phase:.35,tilt:.03,fact:'The smallest planet and the closest to the Sun. Its ancient surface is densely scarred by impact craters.'},
- {name:'Venus',orbit:3.55,radius:.32,base:'#c5a76e',speed:.17,phase:2.35,tilt:3.09,fact:'A brilliant, cloud-wrapped world with a crushing carbon-dioxide atmosphere and the hottest surface in the solar system.'},
- {name:'Earth',orbit:4.9,radius:.36,color:0x9bc7ef,speed:.14,phase:4.15,tilt:.41,fact:'Our ocean-rich home is the only world known to support life, with a protective atmosphere and a single large Moon.'},
- {name:'Mars',orbit:6.35,radius:.29,base:'#a64f35',speed:.11,phase:1.55,tilt:.44,fact:'The red planet has giant volcanoes, ancient river valleys, polar ice, and two tiny moons.'},
- {name:'Jupiter',orbit:8.6,radius:.94,speed:.075,phase:3.3,tilt:.05,bands:['#b69072','#e5c9a0','#856956','#d2ad85','#a77d68'],fact:'The largest planet is a gas giant with powerful storms, dozens of moons, and the long-lived Great Red Spot.'},
- {name:'Saturn',orbit:11.2,radius:.78,speed:.057,phase:5.15,tilt:.47,bands:['#d0bb91','#f0ddb5','#a89776','#e5d1a9'],ring:true,fact:'Saturn is a gas giant surrounded by spectacular icy rings, with Titan among its many fascinating moons.'},
- {name:'Uranus',orbit:13.6,radius:.57,speed:.044,phase:2.75,tilt:1.71,bands:['#78b9bb','#add9d5','#579da7','#a7d6d3'],ring:true,fact:'An ice giant with a blue-green atmosphere; Uranus rotates almost on its side and has a faint ring system.'},
- {name:'Neptune',orbit:15.7,radius:.55,speed:.036,phase:.9,tilt:.49,bands:['#345cae','#5f89d2','#23488e','#78a4e2'],fact:'A distant, windy ice giant with deep-blue clouds and fast-moving storms.'}
+ {name:'Mercury',orbit:2.45,radius:.30,base:'#8f887d',rough:.9,speed:.24,phase:.35,tilt:.03,fact:'The smallest planet and the closest to the Sun. Its ancient surface is densely scarred by impact craters.'},
+ {name:'Venus',orbit:3.55,radius:.42,base:'#c5a76e',rough:.95,speed:.17,phase:2.35,tilt:3.09,fact:'A brilliant, cloud-wrapped world with a crushing carbon-dioxide atmosphere and the hottest surface in the solar system.'},
+ {name:'Earth',orbit:4.9,radius:.47,color:0x9bc7ef,rough:.75,speed:.14,phase:4.15,tilt:.41,fact:'Our ocean-rich home is the only world known to support life, with a protective atmosphere and a single large Moon.'},
+ {name:'Mars',orbit:6.35,radius:.38,base:'#a64f35',rough:.9,speed:.11,phase:1.55,tilt:.44,fact:'The red planet has giant volcanoes, ancient river valleys, polar ice, and two tiny moons.'},
+ {name:'Jupiter',orbit:8.6,radius:1.22,speed:.075,phase:3.3,tilt:.05,rough:.55,bands:['#b69072','#e5c9a0','#856956','#d2ad85','#a77d68'],fact:'The largest planet is a gas giant with powerful storms, dozens of moons, and the long-lived Great Red Spot.'},
+ {name:'Saturn',orbit:11.2,radius:1.01,speed:.057,phase:5.15,tilt:.47,rough:.55,bands:['#d0bb91','#f0ddb5','#a89776','#e5d1a9'],ring:true,fact:'Saturn is a gas giant surrounded by spectacular icy rings, with Titan among its many fascinating moons.'},
+ {name:'Uranus',orbit:13.6,radius:.74,speed:.044,phase:2.75,tilt:1.71,rough:.5,bands:['#78b9bb','#add9d5','#579da7','#a7d6d3'],ringFaint:true,fact:'An ice giant with a blue-green atmosphere; Uranus rotates almost on its side and has a faint ring system.'},
+ {name:'Neptune',orbit:15.7,radius:.72,speed:.036,phase:.9,tilt:.49,rough:.5,bands:['#345cae','#5f89d2','#23488e','#78a4e2'],fact:'A distant, windy ice giant with deep-blue clouds and fast-moving storms.'}
 ];
+// Realistic rings: RingGeometry maps textures flat across the disc, so a true
+// ring texture is concentric circles, not a linear gradient. profile(u) returns
+// [r,g,b,alpha] for u = 0..1 across the ring's width.
+function makeRingTexture(inner,outer,profile){
+  const S=512,c=document.createElement('canvas');c.width=c.height=S;const x=c.getContext('2d');
+  const cx=S/2,cy=S/2,innerFrac=inner/outer;
+  for(let r=0;r<S/2;r++){
+    const t=r/(S/2),u=(t-innerFrac)/(1-innerFrac);
+    if(u<0||u>1)continue;
+    const col=profile(u);if(!col||col[3]<=0.01)continue;
+    x.strokeStyle='rgba('+(col[0]|0)+','+(col[1]|0)+','+(col[2]|0)+','+col[3]+')';x.lineWidth=1.6;
+    x.beginPath();x.arc(cx,cy,r,0,Math.PI*2);x.stroke();
+  }
+  const tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;tex.anisotropy=renderer.capabilities.getMaxAnisotropy();return tex;
+}
+function saturnRingProfile(u){
+  const fade=Math.min(1,Math.min(u,1-u)/0.04); // soft inner/outer edges
+  let a=0.75;
+  if(u>0.10&&u<0.55)a=0.9;            // bright B ring
+  if(u>=0.55&&u<0.62)a=0.55;          // inner A ring
+  if(u>=0.62&&u<0.70)a=0.05;          // Cassini Division — the dark gap
+  if(u>=0.70&&u<0.86)a=0.72;          // A ring
+  if(u>=0.86&&u<0.89)a=0.08;          // Encke gap
+  if(u>=0.89)a=0.45;                  // outer A ring
+  const wob=Math.sin(u*220)*0.06;     // fine banding
+  return [212,196,166,Math.max(0,Math.min(1,(a+wob)*fade))];
+}
+function faintRingProfile(u){
+  // Uranus: real rings are thin, dark and barely visible — a few faint lines only.
+  const lines=[0.25,0.42,0.58,0.74,0.9];let a=0;
+  for(const L of lines){const d=Math.abs(u-L);if(d<0.012)a=Math.max(a,0.22*(1-d/0.012));}
+  return [168,188,210,a];
+}
+function icyRingProfile(u){
+  const fade=Math.min(1,Math.min(u,1-u)/0.06);
+  return [214,232,246,Math.max(0,(0.45+Math.sin(u*160)*0.12)*fade)];
+}
+// Soft procedural cloud layer for Earth — white blobs and streaks, transparent between.
+function makeCloudsTexture(){
+  const c=document.createElement('canvas');c.width=1024;c.height=512;const x=c.getContext('2d');
+  const blob=(px,py,r,a)=>{const g=x.createRadialGradient(px,py,0,px,py,r);g.addColorStop(0,'rgba(255,255,255,'+a+')');g.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=g;x.beginPath();x.arc(px,py,r,0,Math.PI*2);x.fill();x.save();x.translate(px,py);x.scale(2.8,0.5);x.fillStyle=g;x.beginPath();x.arc(0,0,r*0.7,0,Math.PI*2);x.fill();x.restore();};
+  for(let i=0;i<430;i++){
+    const px=Math.random()*1024,py=512*(0.10+Math.random()*0.80),r=8+Math.random()*36,a=0.05+Math.random()*0.20;
+    blob(px,py,r,a);
+    if(px<70)blob(px+1024,py,r,a); // seamless horizontal wrap
+    if(px>954)blob(px-1024,py,r,a);
+  }
+  const tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;tex.anisotropy=renderer.capabilities.getMaxAnisotropy();return tex;
+}
+const moonTexture=new THREE.TextureLoader(manager).load('assets/planet-textures/moon.jpg');moonTexture.colorSpace=THREE.SRGBColorSpace;
+let earthClouds=null;
 const solarOrbitMaterial=new THREE.LineBasicMaterial({color:0xa8b8d7,transparent:true,opacity:.23,depthWrite:false});
 solarPlanetData.forEach(data=>{
  // Orbits lie flat in the local XZ plane (the ecliptic disk); the camera views it from above.
  const orbitPoints=[];for(let i=0;i<360;i++){const a=i/360*Math.PI*2;orbitPoints.push(new THREE.Vector3(Math.cos(a)*data.orbit,0,Math.sin(a)*data.orbit));}
  const orbit=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(orbitPoints),solarOrbitMaterial);solarSystemGroup.add(orbit);
- const mat=new THREE.MeshStandardMaterial({map:makePlanetMap(data),color:0xffffff,roughness:data.name==='Venus'?.95:.82,metalness:0});
+ const mat=new THREE.MeshStandardMaterial({map:makePlanetMap(data),color:0xffffff,roughness:data.rough??.85,metalness:0});
  const planet=new THREE.Mesh(new THREE.SphereGeometry(data.radius,96,64),mat);planet.name=data.name;planet.userData.planetData=data;planet.userData.isPlanet=true;
  // Real axial tilt: tilt is applied last (ZYX order), so the planet spins around its own tilted axis.
  planet.rotation.order='ZYX';planet.rotation.z=data.tilt||0;
  solarSystemGroup.add(planet);clickablePlanets.push(planet);
- if(data.ring){const ringTextureCanvas=document.createElement('canvas');ringTextureCanvas.width=512;ringTextureCanvas.height=16;const rctx=ringTextureCanvas.getContext('2d');const rg=rctx.createLinearGradient(0,0,512,0);rg.addColorStop(0,'rgba(188,164,119,0)');rg.addColorStop(.16,'rgba(201,185,151,.42)');rg.addColorStop(.28,'rgba(228,214,184,.9)');rg.addColorStop(.39,'rgba(115,103,88,.26)');rg.addColorStop(.52,'rgba(220,205,176,.86)');rg.addColorStop(.78,'rgba(177,155,120,.7)');rg.addColorStop(1,'rgba(190,170,136,0)');rctx.fillStyle=rg;rctx.fillRect(0,0,256,16);const rt=new THREE.CanvasTexture(ringTextureCanvas);rt.colorSpace=THREE.SRGBColorSpace;const ring=new THREE.Mesh(new THREE.RingGeometry(data.radius*1.25,data.radius*2.15,256),new THREE.MeshStandardMaterial({map:rt,side:THREE.DoubleSide,transparent:true,opacity:.9,roughness:1,depthWrite:false}));ring.rotation.x=Math.PI/2;planet.add(ring);} // Ring lies flat in the planet's equatorial plane; the axial tilt above orients it realistically.
- if(data.name!=='Earth'){const atmoC=data.base||(data.bands?data.bands[1]:'#9db4d8');const atmoGlow=new THREE.Mesh(new THREE.SphereGeometry(data.radius*1.09,48,32),new THREE.MeshBasicMaterial({color:new THREE.Color(atmoC),transparent:true,opacity:.10,blending:THREE.AdditiveBlending,depthWrite:false}));planet.add(atmoGlow);}
- if(data.name==='Earth'){const atmo=new THREE.Mesh(new THREE.SphereGeometry(data.radius*1.07,48,32),new THREE.MeshBasicMaterial({color:0x6ab7ff,transparent:true,opacity:.13,blending:THREE.AdditiveBlending,depthWrite:false}));planet.add(atmo);const moon=new THREE.Mesh(new THREE.SphereGeometry(.095,32,24),new THREE.MeshStandardMaterial({color:0xc6c9cd,roughness:1}));moon.position.set(data.radius*1.9,0,0);const moonOrbit=new THREE.Group();moonOrbit.add(moon);planet.add(moonOrbit);solarMoons.push({orbit:moonOrbit,speed:.35});}
+ if(data.ring||data.ringFaint){const rt=makeRingTexture(data.radius*1.25,data.radius*2.27,data.ring?saturnRingProfile:faintRingProfile);const ring=new THREE.Mesh(new THREE.RingGeometry(data.radius*1.25,data.radius*2.27,256),new THREE.MeshStandardMaterial({map:rt,side:THREE.DoubleSide,transparent:true,opacity:.95,roughness:1,depthWrite:false}));ring.rotation.x=Math.PI/2;planet.add(ring);} // Ring lies flat in the planet's equatorial plane; the axial tilt above orients it realistically.
+ if(data.name!=='Earth'){const atmoC=data.base||(data.bands?data.bands[1]:'#9db4d8');const atmoGlow=new THREE.Mesh(new THREE.SphereGeometry(data.radius*1.09,48,32),new THREE.MeshBasicMaterial({color:new THREE.Color(atmoC),transparent:true,opacity:data.name==='Venus'?.16:.10,blending:THREE.AdditiveBlending,depthWrite:false}));planet.add(atmoGlow);}
+ if(data.name==='Earth'){const atmo=new THREE.Mesh(new THREE.SphereGeometry(data.radius*1.07,48,32),new THREE.MeshBasicMaterial({color:0x6ab7ff,transparent:true,opacity:.15,blending:THREE.AdditiveBlending,depthWrite:false}));planet.add(atmo);earthClouds=new THREE.Mesh(new THREE.SphereGeometry(data.radius*1.025,48,32),new THREE.MeshStandardMaterial({map:makeCloudsTexture(),transparent:true,opacity:.9,roughness:1,depthWrite:false}));planet.add(earthClouds);const moon=new THREE.Mesh(new THREE.SphereGeometry(.095,32,24),new THREE.MeshStandardMaterial({map:moonTexture,roughness:1}));moon.position.set(data.radius*1.9,0,0);const moonOrbit=new THREE.Group();moonOrbit.add(moon);planet.add(moonOrbit);solarMoons.push({orbit:moonOrbit,speed:.35});}
  solarPlanets.push({mesh:planet,radius:data.orbit,speed:data.speed,phase:data.phase});
 });
 // Asteroid belt, rendered as fine, individually varied rocks between Mars and Jupiter.
 const asteroidPositions=new Float32Array(2600*3);for(let i=0;i<2600;i++){const a=Math.random()*Math.PI*2,r=7.15+Math.random()*.55;asteroidPositions[i*3]=Math.cos(a)*r;asteroidPositions[i*3+1]=(Math.random()-.5)*.14;asteroidPositions[i*3+2]=Math.sin(a)*r;}
-const asteroidGeometry=new THREE.BufferGeometry();asteroidGeometry.setAttribute('position',new THREE.BufferAttribute(asteroidPositions,3));const asteroidBelt=new THREE.Points(asteroidGeometry,new THREE.PointsMaterial({color:0xc8b9a1,size:.045,sizeAttenuation:true,transparent:true,opacity:.65,depthWrite:false}));solarSystemGroup.add(asteroidBelt);
+const asteroidDotCanvas=document.createElement('canvas');asteroidDotCanvas.width=asteroidDotCanvas.height=64;const adx=asteroidDotCanvas.getContext('2d');const adg=adx.createRadialGradient(32,32,2,32,32,30);adg.addColorStop(0,'rgba(255,255,255,1)');adg.addColorStop(.6,'rgba(255,255,255,.85)');adg.addColorStop(1,'rgba(255,255,255,0)');adx.fillStyle=adg;adx.fillRect(0,0,64,64);const asteroidDotTex=new THREE.CanvasTexture(asteroidDotCanvas);
+const asteroidGeometry=new THREE.BufferGeometry();asteroidGeometry.setAttribute('position',new THREE.BufferAttribute(asteroidPositions,3));const asteroidBelt=new THREE.Points(asteroidGeometry,new THREE.PointsMaterial({color:0xc8b9a1,size:.045,sizeAttenuation:true,map:asteroidDotTex,transparent:true,opacity:.65,depthWrite:false}));solarSystemGroup.add(asteroidBelt);
 
 // ===== Second solar system (deep space) — reveals itself when you zoom out; its worlds are tappable too. =====
 const secondSystem=new THREE.Group();secondSystem.position.set(-36,15,-58);secondSystem.rotation.set(-0.08,0.3,0.02);secondSystem.visible=false;scene.add(secondSystem);
@@ -2232,7 +2283,7 @@ const secondSun=new THREE.Mesh(new THREE.SphereGeometry(.95,96,64),new THREE.Mes
 secondSun.name='Novaris';secondSun.userData.planetData={name:'Novaris',fact:'A distant orange star far beyond our solar system. Zoom out on the lock screen to find its worlds — tap any of them to visit.'};
 secondSystem.add(secondSun);clickablePlanets.push(secondSun);secondClickables.push(secondSun);
 const secondGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:0xffb36b,transparent:true,opacity:.75,depthWrite:false,blending:THREE.AdditiveBlending}));secondGlow.scale.set(8.5,8.5,1);secondSystem.add(secondGlow);
-secondSystem.add(new THREE.PointLight(0xffb36b,3.5,60,1.2));
+secondSystem.add(new THREE.PointLight(0xffb36b,4.5,70,1));
 const secondPlanetData=[
  {name:'Embera',orbit:2.3,radius:.30,speed:.21,phase:.6,tilt:.20,colors:['#7a2410','#c1441c','#e8763a','#8f2d12'],fact:'A lava world orbiting close to Novaris, its surface cracked with glowing rivers of molten rock.'},
  {name:'Verdania',orbit:3.5,radius:.36,speed:.15,phase:2.4,tilt:.35,colors:['#1d5c38','#2e8b57','#7fc98f','#175030'],fact:'A green world wrapped in forests and oceans — the most Earth-like planet in the Novaris system.'},
@@ -2247,10 +2298,10 @@ secondPlanetData.forEach(data=>{
  planet.name=data.name;planet.userData.planetData={name:data.name,fact:data.fact};planet.userData.isPlanet=true;planet.rotation.order='ZYX';planet.rotation.z=data.tilt||0;
  secondSystem.add(planet);clickablePlanets.push(planet);secondClickables.push(planet);
  const atmo=new THREE.Mesh(new THREE.SphereGeometry(data.radius*1.09,48,32),new THREE.MeshBasicMaterial({color:new THREE.Color(data.colors[2]),transparent:true,opacity:.12,blending:THREE.AdditiveBlending,depthWrite:false}));planet.add(atmo);
- if(data.ring){const rc=document.createElement('canvas');rc.width=512;rc.height=16;const rctx=rc.getContext('2d');const rg=rctx.createLinearGradient(0,0,512,0);rg.addColorStop(0,'rgba(190,215,240,0)');rg.addColorStop(.25,'rgba(220,238,252,.75)');rg.addColorStop(.55,'rgba(160,190,225,.35)');rg.addColorStop(.8,'rgba(225,242,255,.8)');rg.addColorStop(1,'rgba(190,215,240,0)');rctx.fillStyle=rg;rctx.fillRect(0,0,512,16);const rt=new THREE.CanvasTexture(rc);rt.colorSpace=THREE.SRGBColorSpace;const ring=new THREE.Mesh(new THREE.RingGeometry(data.radius*1.3,data.radius*2.1,256),new THREE.MeshStandardMaterial({map:rt,side:THREE.DoubleSide,transparent:true,opacity:.9,roughness:1,depthWrite:false}));ring.rotation.x=Math.PI/2;planet.add(ring);}
+ if(data.ring){const rt=makeRingTexture(data.radius*1.3,data.radius*2.1,icyRingProfile);const ring=new THREE.Mesh(new THREE.RingGeometry(data.radius*1.3,data.radius*2.1,256),new THREE.MeshStandardMaterial({map:rt,side:THREE.DoubleSide,transparent:true,opacity:.9,roughness:1,depthWrite:false}));ring.rotation.x=Math.PI/2;planet.add(ring);}
  secondPlanets.push({mesh:planet,radius:data.orbit,speed:data.speed,phase:data.phase});
 });
-function updateSolarSystem(dt,time){if(!solarSystemGroup.visible)return;for(const p of solarPlanets){const angle=p.phase+time*p.speed;p.mesh.position.set(Math.cos(angle)*p.radius,0,Math.sin(angle)*p.radius);p.mesh.rotation.y+=dt*.12;}for(const m of solarMoons)m.orbit.rotation.y+=dt*.35;asteroidBelt.rotation.y+=dt*.0015;sunCore.rotation.y+=dt*.02;
+function updateSolarSystem(dt,time){if(!solarSystemGroup.visible)return;for(const p of solarPlanets){const angle=p.phase+time*p.speed;p.mesh.position.set(Math.cos(angle)*p.radius,0,Math.sin(angle)*p.radius);p.mesh.rotation.y+=dt*.12;}for(const m of solarMoons)m.orbit.rotation.y+=dt*.35;if(earthClouds)earthClouds.rotation.y+=dt*.05;asteroidBelt.rotation.y+=dt*.0015;sunCore.rotation.y+=dt*.02;
  const sf=THREE.MathUtils.clamp((spaceZoomCurrent-14)/8,0,1);const selSecond=!!(selectedPlanet&&secondClickables.some(o=>o.userData.planetData===selectedPlanet));secondSystem.visible=sf>0.02||selSecond;
  if(secondSystem.visible){secondSystem.scale.setScalar(1.15*(0.85+0.15*sf));secondSun.rotation.y+=dt*.02;for(const p of secondPlanets){const a=p.phase+time*p.speed;p.mesh.position.set(Math.cos(a)*p.radius,0,Math.sin(a)*p.radius);p.mesh.rotation.y+=dt*.12;}}}
 let selectedPlanet=null;
