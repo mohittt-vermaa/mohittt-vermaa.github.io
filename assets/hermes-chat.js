@@ -654,7 +654,7 @@
     if(wave){ wave.style.background = 'transparent'; wave.style.border = 'none'; wave.style.boxShadow = 'none'; }
     if(!wave || document.querySelector('.hermes-nav-btn')) return;
     const st = document.createElement('style');
-    st.textContent = '.hermes-nav-btn{display:none}@media(max-width:768px){.hermes-nav-btn{display:grid;place-items:center;width:34px;height:34px;flex:0 0 auto;border-radius:50%;background:#171717;border:1px solid rgba(255,255,255,.22);color:#fff;font-weight:800;font-size:15px;text-decoration:none}#musicWave{max-width:200px;min-width:0;margin:0 8px}}';
+    st.textContent = '.hermes-nav-btn{display:none}@media(max-width:900px){.hermes-nav-btn{display:grid;place-items:center;width:34px;height:34px;flex:0 0 auto;border-radius:50%;background:#171717;border:1px solid rgba(255,255,255,.22);color:#fff;font-weight:800;font-size:15px;text-decoration:none}#musicWave{max-width:200px;min-width:0;margin:0 8px}}';
     document.head.appendChild(st);
     const a = document.createElement('a');
     a.href = '#'; a.className = 'hermes-nav-btn';
