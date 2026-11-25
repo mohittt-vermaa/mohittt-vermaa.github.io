@@ -15,6 +15,26 @@
   let chatHistory = [];
   function aiHeaders(){ const h = {'Content-Type':'application/json'}; if(aiCfg.key) h['Authorization'] = 'Bearer ' + aiCfg.key; return h; }
   function aiBase(){ return aiCfg.endpoint.replace(/\/+$/,''); }
+
+  // ===== Your API key (BYOK): chat directly with a provider's models =====
+  // The key lives ONLY in this browser (localStorage) and is sent straight
+  // from the browser to the provider — never to the Hermes server or to Muse.
+  const BYOK_PROVIDERS = {
+    groq: { label: 'Groq', base: 'https://api.groq.com/openai/v1' },
+    google: { label: 'Google (Gemini)', base: 'https://generativelanguage.googleapis.com/v1beta/openai' },
+    nvidia: { label: 'NVIDIA', base: 'https://integrate.api.nvidia.com/v1' },
+    huggingface: { label: 'Hugging Face', base: 'https://router.huggingface.co/v1' },
+    custom: { label: 'Custom (OpenAI-compatible)', base: '' }
+  };
+  const BYOK_SKIP = /(embed|rerank|retriev|whisper|tts|guard|moderation|image-gen|audio)/i;
+  function loadByok(){ try{ return JSON.parse(localStorage.getItem('hermes_byok_v1') || 'null') || null; }catch(e){ return null; } }
+  let byok = loadByok(); // {provider, key, base, models:[{id}]}
+  function saveByok(){ if(byok) localStorage.setItem('hermes_byok_v1', JSON.stringify(byok)); else localStorage.removeItem('hermes_byok_v1'); }
+  function byokModel(id){ return !!(byok && byok.models && byok.models.some(m => m.id === id)); }
+  function byokBase(){ return (byok && byok.base) || (byok && BYOK_PROVIDERS[byok.provider] && BYOK_PROVIDERS[byok.provider].base) || ''; }
+  function chatModelIds(ids){
+    return ids.map(id => String(id).replace(/^models\//, '')).filter(id => id && !BYOK_SKIP.test(id)).sort().slice(0, 200);
+  }
   async function askHermes(userText){
     chatHistory.push({role:'user', content:userText});
     try{
@@ -25,7 +45,11 @@
       const ctrl = new AbortController();
       const timer = setTimeout(() => ctrl.abort(), 45000);
       let res;
-      try{ res = await fetch(aiBase() + '/chat/completions', {method:'POST', headers: aiHeaders(), body: JSON.stringify(payload), signal: ctrl.signal}); } finally { clearTimeout(timer); }
+      // A "Your API" model talks straight to its provider with your own key.
+      const custom = byok && byokModel(aiCfg.model);
+      const base = custom ? byokBase().replace(/\/+$/,'') : aiBase();
+      const headers = custom ? {'Content-Type':'application/json', 'Authorization':'Bearer ' + byok.key} : aiHeaders();
+      try{ res = await fetch(base + '/chat/completions', {method:'POST', headers, body: JSON.stringify(payload), signal: ctrl.signal}); } finally { clearTimeout(timer); }
       if(!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
       const text = data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
@@ -267,8 +291,8 @@
     { id: 'gemini-3.6-flash', name: 'Gemini 3.6 Flash', desc: 'Google \u00B7 balanced' },
     { id: 'z-ai/glm-5.3-flash', name: 'GLM 5.3 Flash', desc: 'NVIDIA \u00B7 backup' }
   ];
-  function modelName(id){ const f = MODELS.find(m => m.id === id); return f ? f.name : id; }
-  if(!MODELS.some(m => m.id === aiCfg.model)){ aiCfg.model = MODELS[0].id; localStorage.setItem('hermes_model', aiCfg.model); }
+  function modelName(id){ const f = MODELS.find(m => m.id === id); if(f) return f.name; if(byokModel(id)) return String(id).split('/').pop(); return id; }
+  if(!MODELS.some(m => m.id === aiCfg.model) && !byokModel(aiCfg.model)){ aiCfg.model = MODELS[0].id; localStorage.setItem('hermes_model', aiCfg.model); }
   const modelBtn = box.querySelector('#hcModelBtn');
   const modelNameEl = box.querySelector('#hcModelName');
   const modelMenu = box.querySelector('#hcModelMenu');
@@ -289,6 +313,37 @@
       });
       modelMenu.appendChild(b);
     });
+    // Your API models (from your own key, set in Settings)
+    const sec = document.createElement('div');
+    sec.style.cssText = 'padding:8px 12px 4px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#9aa3b8';
+    sec.textContent = byok && byok.models && byok.models.length ? 'Your API · ' + (BYOK_PROVIDERS[byok.provider] ? BYOK_PROVIDERS[byok.provider].label : byok.provider) : 'Your API';
+    modelMenu.appendChild(sec);
+    if(byok && byok.models && byok.models.length){
+      byok.models.forEach(mo => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.style.cssText = 'display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 12px;border:none;border-radius:10px;background:' + (mo.id === aiCfg.model ? 'rgba(255,255,255,.08)' : 'transparent') + ';color:#ececec;cursor:pointer';
+        b.innerHTML = '<span style="flex:1"><span style="display:block;font-size:13.5px;font-weight:600">' + mo.id.split('/').pop() + '</span><span style="display:block;font-size:11.5px;color:#9aa3b8;margin-top:1px">' + (BYOK_PROVIDERS[byok.provider] ? BYOK_PROVIDERS[byok.provider].label : byok.provider) + ' · your key</span></span>' + (mo.id === aiCfg.model ? '<span style="color:#fff;font-size:13px">✓</span>' : '');
+        b.addEventListener('click', () => {
+          aiCfg.model = mo.id;
+          localStorage.setItem('hermes_model', aiCfg.model);
+          modelMenu.style.display = 'none';
+          renderModelMenu();
+        });
+        modelMenu.appendChild(b);
+      });
+    } else {
+      const hint = document.createElement('button');
+      hint.type = 'button';
+      hint.style.cssText = 'display:block;width:100%;text-align:left;padding:10px 12px;border:none;border-radius:10px;background:transparent;color:#9aa3b8;font-size:12.5px;cursor:pointer';
+      hint.textContent = 'Add your own API key in Settings ⚙';
+      hint.addEventListener('click', () => {
+        modelMenu.style.display = 'none';
+        const p = document.getElementById('hcSettingsPanel');
+        if(p){ p.style.display = 'block'; loadUsage(); }
+      });
+      modelMenu.appendChild(hint);
+    }
   }
   if(modelBtn && modelMenu){
     modelBtn.addEventListener('click', (e) => { e.stopPropagation(); modelMenu.style.display = modelMenu.style.display === 'none' ? 'block' : 'none'; });
@@ -302,7 +357,7 @@
   // Settings panel: lifetime per-model usage (all visitors), from the Worker
   const hcSettingsPanel = document.createElement('div');
   hcSettingsPanel.id = 'hcSettingsPanel';
-  hcSettingsPanel.style.cssText = 'display:none;position:absolute;top:64px;right:14px;width:min(320px,calc(100vw - 28px));background:#262626;border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:18px;z-index:70;box-shadow:0 18px 50px rgba(0,0,0,.55)';
+  hcSettingsPanel.style.cssText = 'display:none;position:absolute;top:64px;right:14px;width:min(320px,calc(100vw - 28px));max-height:calc(100vh - 90px);overflow-y:auto;background:#262626;border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:18px;z-index:70;box-shadow:0 18px 50px rgba(0,0,0,.55)';
   hcSettingsPanel.innerHTML =
     '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><span style="font-size:15px;font-weight:700;color:#fff">Settings</span><button id="hcSettingsClose" type="button" style="background:none;border:none;color:#9aa3b8;font-size:18px;cursor:pointer;padding:2px 6px" aria-label="Close settings">✕</button></div>' +
     '<div style="font-size:12px;color:#9aa3b8;margin-bottom:12px">Lifetime usage — all visitors</div>' +
@@ -312,7 +367,18 @@
       '<div style="display:flex;justify-content:space-between;font-size:13.5px"><span style="color:#e8eaf2">Gemini 3.6 Flash</span><b id="hcUseGem" style="color:#fff">—</b></div>' +
       '<div style="display:flex;justify-content:space-between;font-size:13.5px;border-top:1px solid rgba(255,255,255,.1);padding-top:8px"><span style="color:#e8eaf2">Total replies</span><b id="hcUseTotal" style="color:#fff">—</b></div>' +
     '</div>' +
-    '<div id="hcUsageNote" style="font-size:11.5px;color:#8e8e8e;margin-top:12px;line-height:1.5">Chats are saved only in this browser, on this device.</div>';
+    '<div id="hcUsageNote" style="font-size:11.5px;color:#8e8e8e;margin-top:12px;line-height:1.5">Chats are saved only in this browser, on this device.</div>' +
+    '<div style="border-top:1px solid rgba(255,255,255,.1);margin-top:16px;padding-top:14px">' +
+      '<div style="font-size:13px;font-weight:700;color:#fff">Your API key</div>' +
+      '<div style="font-size:11.5px;color:#9aa3b8;margin:3px 0 10px;line-height:1.5">Chat directly with any model from your own key. The key stays in this browser only — it is never sent to the Hermes server.</div>' +
+      '<select id="hcByokProvider" style="width:100%;padding:9px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:#171717;color:#ececec;font-size:13px;outline:none">' +
+        '<option value="groq">Groq</option><option value="google">Google (Gemini)</option><option value="nvidia">NVIDIA</option><option value="huggingface">Hugging Face</option><option value="custom">Custom (OpenAI-compatible)</option>' +
+      '</select>' +
+      '<input id="hcByokBase" type="url" placeholder="Base URL, e.g. https://api.example.com/v1" style="display:none;width:100%;margin-top:8px;padding:9px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:#171717;color:#ececec;font-size:13px;outline:none">' +
+      '<div style="display:flex;gap:6px;margin-top:8px"><input id="hcByokKey" type="password" placeholder="Paste API key…" autocomplete="off" style="flex:1;min-width:0;padding:9px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:#171717;color:#ececec;font-size:13px;outline:none"><button id="hcByokShow" type="button" style="padding:0 10px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:#171717;color:#9aa3b8;font-size:12px;cursor:pointer">Show</button></div>' +
+      '<div style="display:flex;gap:8px;margin-top:10px"><button id="hcByokLoad" type="button" style="flex:1;padding:9px 10px;border-radius:10px;border:none;background:#ececec;color:#000;font-size:13px;font-weight:700;cursor:pointer">Load models</button><button id="hcByokRemove" type="button" style="padding:9px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:transparent;color:#ececec;font-size:13px;cursor:pointer">Remove</button></div>' +
+      '<div id="hcByokStatus" style="font-size:11.5px;color:#9aa3b8;margin-top:8px;line-height:1.5"></div>' +
+    '</div>';
   page.appendChild(hcSettingsPanel);
   async function loadUsage(){
     const set = (id, v) => { const el = document.getElementById(id); if(el) el.textContent = v; };
@@ -343,6 +409,57 @@
   const hcSettingsClose = document.getElementById('hcSettingsClose');
   if(hcSettingsClose) hcSettingsClose.addEventListener('click', () => { hcSettingsPanel.style.display = 'none'; });
 
+  // Your API key (BYOK) wiring
+  const byokProviderEl = document.getElementById('hcByokProvider');
+  const byokBaseEl = document.getElementById('hcByokBase');
+  const byokKeyEl = document.getElementById('hcByokKey');
+  const byokShowEl = document.getElementById('hcByokShow');
+  const byokLoadEl = document.getElementById('hcByokLoad');
+  const byokRemoveEl = document.getElementById('hcByokRemove');
+  const byokStatusEl = document.getElementById('hcByokStatus');
+  function byokStatus(t){ if(byokStatusEl) byokStatusEl.textContent = t; }
+  function byokFill(){
+    if(byokProviderEl) byokProviderEl.value = (byok && byok.provider) || 'groq';
+    if(byokBaseEl){ byokBaseEl.style.display = byokProviderEl && byokProviderEl.value === 'custom' ? 'block' : 'none'; byokBaseEl.value = (byok && byok.base) || ''; }
+    if(byokKeyEl) byokKeyEl.value = (byok && byok.key) || '';
+    byokStatus(byok && byok.models && byok.models.length ? byok.models.length + ' models loaded — pick one from the model menu below the chat box.' : '');
+  }
+  if(byokProviderEl) byokProviderEl.addEventListener('change', () => { if(byokBaseEl) byokBaseEl.style.display = byokProviderEl.value === 'custom' ? 'block' : 'none'; });
+  if(byokShowEl && byokKeyEl) byokShowEl.addEventListener('click', () => {
+    const show = byokKeyEl.type === 'password';
+    byokKeyEl.type = show ? 'text' : 'password';
+    byokShowEl.textContent = show ? 'Hide' : 'Show';
+  });
+  if(byokLoadEl) byokLoadEl.addEventListener('click', async () => {
+    const provider = byokProviderEl ? byokProviderEl.value : 'groq';
+    const key = byokKeyEl ? byokKeyEl.value.trim() : '';
+    const base = provider === 'custom' ? (byokBaseEl ? byokBaseEl.value.trim().replace(/\/+$/,'') : '') : BYOK_PROVIDERS[provider].base;
+    if(!key){ byokStatus('Paste your API key first.'); return; }
+    if(!base){ byokStatus('Enter the base URL for the custom endpoint.'); return; }
+    byokStatus('Loading models…');
+    try{
+      const r = await fetch(base + '/models', { headers: { 'Authorization': 'Bearer ' + key } });
+      if(!r.ok) throw new Error('HTTP ' + r.status);
+      const d = await r.json();
+      const ids = chatModelIds((d.data || []).map(m => m.id));
+      if(!ids.length){ byokStatus('No chat models found for this key.'); return; }
+      byok = { provider, key, base, models: ids.map(id => ({ id })) };
+      saveByok();
+      byokStatus(ids.length + ' models loaded — pick one from the model menu below the chat box.');
+      renderModelMenu();
+    }catch(e){
+      byokStatus('Could not load models (' + String(e.message || e).slice(0, 60) + '). Check the key and try again.');
+    }
+  });
+  if(byokRemoveEl) byokRemoveEl.addEventListener('click', () => {
+    const wasCustom = byokModel(aiCfg.model);
+    byok = null; saveByok();
+    if(wasCustom){ aiCfg.model = MODELS[0].id; localStorage.setItem('hermes_model', aiCfg.model); }
+    byokFill(); renderModelMenu();
+    byokStatus('Key removed.');
+  });
+  byokFill();
+
   // Giant HERMES wordmark behind every empty (new) chat, OpenCode-style
   const hcMain = box.querySelector('.hc-main');
   if(hcMain){
@@ -369,7 +486,10 @@
       addMsg(r.text, 'bot', r.actual || usedModel, r.usage, r.ms);
     }catch(e){
       hideTyping();
-      addMsg("⚠️ I can't reach the AI server right now. Hermes answers come from a real AI API — if you're Mohit, start the FreeLLMAPI server, or set the endpoint and key from the sidebar Settings. (Keys never live in this website's code.)", 'bot');
+      const custom = byok && byokModel(aiCfg.model);
+      addMsg(custom
+        ? "⚠️ Your API key call failed (" + String(e.message || e).slice(0, 60) + "). Check the key in Settings, or pick another model."
+        : "⚠️ I can't reach the AI server right now. Hermes answers come from a real AI API — if you're Mohit, start the FreeLLMAPI server, or set the endpoint and key from the sidebar Settings. (Keys never live in this website's code.)", 'bot');
     }
     hcBusy = false;
   }
