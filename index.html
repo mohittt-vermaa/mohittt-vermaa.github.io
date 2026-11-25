@@ -2186,10 +2186,10 @@ const sunCorona=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTextur
 const solarSunLight=new THREE.PointLight(0xffd18b,6,80,1);solarSystemGroup.add(solarSunLight);
 // Real planets: photographic texture maps + true axial tilts (radians).
 const solarPlanetData=[
- {name:'Mercury',orbit:2.45,radius:.30,base:'#8f887d',rough:.9,speed:.24,phase:.35,tilt:.03,fact:'The smallest planet and the closest to the Sun. Its ancient surface is densely scarred by impact craters.'},
+ {name:'Mercury',orbit:2.45,radius:.30,base:'#8f887d',rough:.9,bump:.05,speed:.24,phase:.35,tilt:.03,fact:'The smallest planet and the closest to the Sun. Its ancient surface is densely scarred by impact craters.'},
  {name:'Venus',orbit:3.55,radius:.42,base:'#c5a76e',rough:.95,speed:.17,phase:2.35,tilt:3.09,fact:'A brilliant, cloud-wrapped world with a crushing carbon-dioxide atmosphere and the hottest surface in the solar system.'},
- {name:'Earth',orbit:4.9,radius:.47,color:0x9bc7ef,rough:.75,speed:.14,phase:4.15,tilt:.41,fact:'Our ocean-rich home is the only world known to support life, with a protective atmosphere and a single large Moon.'},
- {name:'Mars',orbit:6.35,radius:.38,base:'#a64f35',rough:.9,speed:.11,phase:1.55,tilt:.44,fact:'The red planet has giant volcanoes, ancient river valleys, polar ice, and two tiny moons.'},
+ {name:'Earth',orbit:4.9,radius:.47,color:0x9bc7ef,rough:.75,bump:.02,speed:.14,phase:4.15,tilt:.41,fact:'Our ocean-rich home is the only world known to support life, with a protective atmosphere and a single large Moon.'},
+ {name:'Mars',orbit:6.35,radius:.38,base:'#a64f35',rough:.9,bump:.04,speed:.11,phase:1.55,tilt:.44,fact:'The red planet has giant volcanoes, ancient river valleys, polar ice, and two tiny moons.'},
  {name:'Jupiter',orbit:8.6,radius:1.22,speed:.075,phase:3.3,tilt:.05,rough:.55,bands:['#b69072','#e5c9a0','#856956','#d2ad85','#a77d68'],fact:'The largest planet is a gas giant with powerful storms, dozens of moons, and the long-lived Great Red Spot.'},
  {name:'Saturn',orbit:11.2,radius:1.01,speed:.057,phase:5.15,tilt:.47,rough:.55,bands:['#d0bb91','#f0ddb5','#a89776','#e5d1a9'],ring:true,fact:'Saturn is a gas giant surrounded by spectacular icy rings, with Titan among its many fascinating moons.'},
  {name:'Uranus',orbit:13.6,radius:.74,speed:.044,phase:2.75,tilt:1.71,rough:.5,bands:['#78b9bb','#add9d5','#579da7','#a7d6d3'],ringFaint:true,fact:'An ice giant with a blue-green atmosphere; Uranus rotates almost on its side and has a faint ring system.'},
@@ -2245,6 +2245,8 @@ function makeCloudsTexture(){
   const tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;tex.anisotropy=renderer.capabilities.getMaxAnisotropy();return tex;
 }
 const moonTexture=new THREE.TextureLoader(manager).load('assets/planet-textures/moon.jpg');moonTexture.colorSpace=THREE.SRGBColorSpace;
+const earthCloudsTexture=new THREE.TextureLoader(manager).load('assets/textures/earth-clouds.jpg');
+const earthRoughnessTexture=new THREE.TextureLoader(manager).load('assets/textures/earth-roughness.jpg');
 let earthClouds=null;
 const solarOrbitMaterial=new THREE.LineBasicMaterial({color:0xa8b8d7,transparent:true,opacity:.23,depthWrite:false});
 solarPlanetData.forEach(data=>{
@@ -2252,13 +2254,14 @@ solarPlanetData.forEach(data=>{
  const orbitPoints=[];for(let i=0;i<360;i++){const a=i/360*Math.PI*2;orbitPoints.push(new THREE.Vector3(Math.cos(a)*data.orbit,0,Math.sin(a)*data.orbit));}
  const orbit=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(orbitPoints),solarOrbitMaterial);solarSystemGroup.add(orbit);
  const mat=new THREE.MeshStandardMaterial({map:makePlanetMap(data),color:0xffffff,roughness:data.rough??.85,metalness:0});
+ if(data.bump){mat.bumpMap=mat.map;mat.bumpScale=data.bump;}
  const planet=new THREE.Mesh(new THREE.SphereGeometry(data.radius,96,64),mat);planet.name=data.name;planet.userData.planetData=data;planet.userData.isPlanet=true;
  // Real axial tilt: tilt is applied last (ZYX order), so the planet spins around its own tilted axis.
  planet.rotation.order='ZYX';planet.rotation.z=data.tilt||0;
  solarSystemGroup.add(planet);clickablePlanets.push(planet);
  if(data.ring||data.ringFaint){const rt=makeRingTexture(data.radius*1.25,data.radius*2.27,data.ring?saturnRingProfile:faintRingProfile);const ring=new THREE.Mesh(new THREE.RingGeometry(data.radius*1.25,data.radius*2.27,256),new THREE.MeshStandardMaterial({map:rt,side:THREE.DoubleSide,transparent:true,opacity:.95,roughness:1,depthWrite:false}));ring.rotation.x=Math.PI/2;planet.add(ring);} // Ring lies flat in the planet's equatorial plane; the axial tilt above orients it realistically.
  if(data.name!=='Earth'){const atmoC=data.base||(data.bands?data.bands[1]:'#9db4d8');const atmoGlow=new THREE.Mesh(new THREE.SphereGeometry(data.radius*1.09,48,32),new THREE.MeshBasicMaterial({color:new THREE.Color(atmoC),transparent:true,opacity:data.name==='Venus'?.16:.10,blending:THREE.AdditiveBlending,depthWrite:false}));planet.add(atmoGlow);}
- if(data.name==='Earth'){const atmo=new THREE.Mesh(new THREE.SphereGeometry(data.radius*1.07,48,32),new THREE.MeshBasicMaterial({color:0x6ab7ff,transparent:true,opacity:.15,blending:THREE.AdditiveBlending,depthWrite:false}));planet.add(atmo);earthClouds=new THREE.Mesh(new THREE.SphereGeometry(data.radius*1.025,48,32),new THREE.MeshStandardMaterial({map:makeCloudsTexture(),transparent:true,opacity:.9,roughness:1,depthWrite:false}));planet.add(earthClouds);const moon=new THREE.Mesh(new THREE.SphereGeometry(.095,32,24),new THREE.MeshStandardMaterial({map:moonTexture,roughness:1}));moon.position.set(data.radius*1.9,0,0);const moonOrbit=new THREE.Group();moonOrbit.add(moon);planet.add(moonOrbit);solarMoons.push({orbit:moonOrbit,speed:.35});}
+ if(data.name==='Earth'){mat.roughnessMap=earthRoughnessTexture;mat.roughness=1;const atmo=new THREE.Mesh(new THREE.SphereGeometry(data.radius*1.07,48,32),new THREE.MeshBasicMaterial({color:0x6ab7ff,transparent:true,opacity:.15,blending:THREE.AdditiveBlending,depthWrite:false}));planet.add(atmo);earthClouds=new THREE.Mesh(new THREE.SphereGeometry(data.radius*1.025,48,32),new THREE.MeshStandardMaterial({color:0xffffff,alphaMap:earthCloudsTexture,transparent:true,opacity:.85,roughness:1,depthWrite:false}));planet.add(earthClouds);const moon=new THREE.Mesh(new THREE.SphereGeometry(.095,32,24),new THREE.MeshStandardMaterial({map:moonTexture,bumpMap:moonTexture,bumpScale:.06,roughness:1}));moon.position.set(data.radius*1.9,0,0);const moonOrbit=new THREE.Group();moonOrbit.add(moon);planet.add(moonOrbit);solarMoons.push({orbit:moonOrbit,speed:.35});}
  solarPlanets.push({mesh:planet,radius:data.orbit,speed:data.speed,phase:data.phase});
 });
 // Asteroid belt, rendered as fine, individually varied rocks between Mars and Jupiter.
