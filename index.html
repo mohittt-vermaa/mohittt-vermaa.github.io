@@ -819,6 +819,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
 <nav>
   <a href="#" class="logo" aria-label="Mohit Verma home">M</a>
   <button id="musicWave" class="music-wave" type="button" aria-label="Play or pause music" title="Music on/off"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></button>
+  <a href="#" class="hermes-nav-btn" data-open-hermes aria-label="Open Hermes chat" title="Hermes">H</a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#projects">Projects</a></li>
@@ -2412,7 +2413,7 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
 })();
 
 </script>
-<script src="assets/hermes-chat.js?v=49" defer></script>
+<script src="assets/hermes-chat.js?v=50" defer></script>
 
 <script>
 /* Scroll-driven portrait frames (Mohit's frames) — replaces the old background video.
@@ -2531,21 +2532,30 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
 </script>
 
 <script>
-// Project cards: hover plays the preview video (opencode-style), leave pauses it
-document.querySelectorAll('.proj-visual').forEach(function(v){
-  var vid = v.querySelector('.proj-video');
-  if(!vid) return;
-  function start(){
+// Project cards: preview videos autoplay when visible (no hover or tap needed)
+(function(){
+  var cards = document.querySelectorAll('.proj-visual');
+  function playCard(v){
+    var vid = v.querySelector('.proj-video');
+    if(!vid) return;
     if(!vid.getAttribute('src') && vid.dataset.src) vid.src = vid.dataset.src;
     try{ vid.currentTime = 0; }catch(e){}
     var p = vid.play(); if(p && p.catch) p.catch(function(){});
     v.classList.add('playing');
   }
-  function stop(){ vid.pause(); v.classList.remove('playing'); }
-  v.addEventListener('mouseenter', start);
-  v.addEventListener('mouseleave', stop);
-  v.addEventListener('click', function(){ if(v.classList.contains('playing')) stop(); else start(); });
-});
+  function stopCard(v){
+    var vid = v.querySelector('.proj-video');
+    if(!vid) return;
+    vid.pause(); v.classList.remove('playing');
+  }
+  if(!('IntersectionObserver' in window)){ cards.forEach(playCard); return; }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting) playCard(en.target); else stopCard(en.target);
+    });
+  }, {threshold: 0.35});
+  cards.forEach(function(v){ io.observe(v); });
+})();
 </script>
 <style>
   html{scrollbar-width:thin;scrollbar-color:#3f3f46 transparent}
@@ -2555,6 +2565,10 @@ document.querySelectorAll('.proj-visual').forEach(function(v){
   ::-webkit-scrollbar{width:8px;height:8px}
   ::-webkit-scrollbar-track{background:transparent}
   ::-webkit-scrollbar-thumb{background:#3f3f46;border-radius:8px}
+  .hermes-nav-btn{display:none}
+  @media(max-width:768px){
+    .hermes-nav-btn{display:grid;place-items:center;width:34px;height:34px;flex:0 0 auto;border-radius:50%;background:#171717;border:1px solid rgba(255,255,255,.22);color:#fff;font-weight:800;font-size:15px;text-decoration:none}
+  }
 </style>
 </body>
 </html>
