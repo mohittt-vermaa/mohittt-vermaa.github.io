@@ -803,7 +803,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
 <div id="cssStars" style="position:fixed;inset:0;z-index:10001;background:#05060a;pointer-events:none;display:none"></div>
 <div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">drag to explore · pinch to zoom</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterSite" type="button" style="padding:13px 36px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:linear-gradient(135deg,rgba(109,40,217,.5),rgba(236,72,153,.4));color:#fff;font-size:13px;font-weight:800;letter-spacing:.14em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(109,40,217,.4),0 0 20px rgba(236,72,153,.25)">Enter Site</button></div>
 <button id="musicWaveLock" class="music-wave" type="button" aria-label="Play or pause music" title="Music on/off"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></button>
-<div id="galaxySwitch" role="group" aria-label="Choose galaxy"><button type="button" class="gx-btn active" data-galaxy="solar">☀ Solar System</button><button type="button" class="gx-btn" data-galaxy="novaris">✦ Novaris</button></div>
+<div id="galaxySwitch" role="group" aria-label="Choose galaxy"><button type="button" class="gx-btn active" data-galaxy="solar">☀ Solar System</button><button type="button" class="gx-btn" data-galaxy="novaris">✦ Novaris</button><button type="button" class="gx-btn" data-galaxy="aurelia">🌀 Aurelia</button><button type="button" class="gx-btn" data-galaxy="nyxara">☾ Nyxara</button><button type="button" class="gx-btn" data-galaxy="multiverse">∞ Multiverse</button></div>
 <aside id="planetInfo" class="planet-info" aria-live="polite" aria-hidden="true"><button id="planetInfoClose" type="button" aria-label="Close planet details">×</button><span class="planet-info-kicker">PLANET EXPLORER</span><strong id="planetInfoName">Earth</strong><p id="planetInfoText">Tap any planet to explore its world.</p><button id="planetFocus" type="button">FOCUS PLANET <span>↗</span></button></aside>
 <button id="closeScanResult" class="scan-close" type="button" aria-label="Close device scan and return to space">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m18 6-12 12M6 6l12 12"/></svg><span>Back to space</span>
@@ -2311,20 +2311,72 @@ secondPlanetData.forEach(data=>{
  if(data.ring){const rt=makeRingTexture(data.radius*1.3,data.radius*2.1,icyRingProfile);const ring=new THREE.Mesh(new THREE.RingGeometry(data.radius*1.3,data.radius*2.1,256),new THREE.MeshStandardMaterial({map:rt,side:THREE.DoubleSide,transparent:true,opacity:.9,roughness:1,depthWrite:false}));ring.rotation.x=Math.PI/2;planet.add(ring);}
  secondPlanets.push({mesh:planet,radius:data.orbit,speed:data.speed,phase:data.phase});
 });
+// ===== Distant spiral galaxies with black-hole cores — the multiverse beyond Novaris (v60). =====
+function makeDiskTexture(innerRgba,outerRgba){
+ const c=document.createElement('canvas');c.width=c.height=512;const x=c.getContext('2d');
+ const g=x.createRadialGradient(256,256,80,256,256,256);g.addColorStop(0,'rgba(255,255,255,0)');g.addColorStop(.34,'rgba(255,255,255,.95)');g.addColorStop(.55,innerRgba);g.addColorStop(1,outerRgba);x.fillStyle=g;x.beginPath();x.arc(256,256,256,0,Math.PI*2);x.fill();
+ x.globalCompositeOperation='destination-out';const hole=x.createRadialGradient(256,256,0,256,256,88);hole.addColorStop(0,'rgba(0,0,0,1)');hole.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=hole;x.beginPath();x.arc(256,256,88,0,Math.PI*2);x.fill();x.globalCompositeOperation='source-over';
+ for(let i=0;i<340;i++){const r=92+Math.random()*158,a0=Math.random()*Math.PI*2,len=.25+Math.random()*1.1;x.strokeStyle='rgba(255,255,255,'+(0.05+Math.random()*0.16)+')';x.lineWidth=1+Math.random()*2.4;x.beginPath();x.arc(256,256,r,a0,a0+len);x.stroke();}
+ const tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;return tex;
+}
+function makeSpiralGalaxy(starCount,radius,arms,curvature,coreHex,edgeHex){
+ const pos=new Float32Array(starCount*3),col=new Float32Array(starCount*3);
+ const core=new THREE.Color(coreHex),edge=new THREE.Color(edgeHex),tmp=new THREE.Color();
+ for(let i=0;i<starCount;i++){
+  const r=Math.pow(Math.random(),0.6)*radius;
+  const armA=(i%arms)/arms*Math.PI*2;
+  const a=armA+r*curvature+(Math.random()-.5)*0.55*(1-r/radius+0.25);
+  const spread=(Math.random()+Math.random()+Math.random()-1.5)/1.5;
+  const sx=spread*(1.6*(1-r/radius)+0.25),sy=spread*(0.5*(1-r/radius)+0.06),sz=spread*(1.6*(1-r/radius)+0.25);
+  pos[i*3]=Math.cos(a)*r+sx;pos[i*3+1]=sy;pos[i*3+2]=Math.sin(a)*r+sz;
+  tmp.copy(core).lerp(edge,Math.pow(r/radius,0.8));const v=0.75+Math.random()*0.45;col[i*3]=tmp.r*v;col[i*3+1]=tmp.g*v;col[i*3+2]=tmp.b*v;
+ }
+ const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(pos,3));geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+ return new THREE.Points(geo,new THREE.PointsMaterial({size:.21,map:asteroidDotTex,vertexColors:true,transparent:true,opacity:.95,depthWrite:false,blending:THREE.AdditiveBlending,sizeAttenuation:true}));
+}
+function makeBlackHole(diskInner,diskOuter,coreRadius,tex){
+ const grp=new THREE.Group();
+ grp.add(new THREE.Mesh(new THREE.SphereGeometry(coreRadius,48,32),new THREE.MeshBasicMaterial({color:0x000000})));
+ const spin=new THREE.Group();grp.add(spin);
+ const disk=new THREE.Mesh(new THREE.RingGeometry(diskInner,diskOuter,160,1),new THREE.MeshBasicMaterial({map:tex,side:THREE.DoubleSide,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));
+ disk.rotation.x=-Math.PI/2;spin.add(disk);
+ const ring=new THREE.Mesh(new THREE.TorusGeometry(coreRadius*1.12,coreRadius*0.05,16,140),new THREE.MeshBasicMaterial({color:0xffe9c4,transparent:true,opacity:.9,blending:THREE.AdditiveBlending,depthWrite:false}));
+ ring.rotation.x=Math.PI/2;grp.add(ring);
+ return {grp,spin};
+}
+function makeGalaxy(cfg){
+ const grp=new THREE.Group();grp.position.set(cfg.pos[0],cfg.pos[1],cfg.pos[2]);grp.rotation.set(cfg.tilt[0],cfg.tilt[1],cfg.tilt[2]);grp.visible=false;scene.add(grp);
+ const spiral=makeSpiralGalaxy(cfg.stars,cfg.radius,cfg.arms,cfg.curvature,cfg.coreHex,cfg.edgeHex);grp.add(spiral);
+ const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:cfg.glowHex,transparent:true,opacity:.5,depthWrite:false,blending:THREE.AdditiveBlending}));glow.scale.set(cfg.radius*1.15,cfg.radius*1.15,1);grp.add(glow);
+ const bh=makeBlackHole(cfg.disk[0],cfg.disk[1],cfg.coreR,makeDiskTexture(cfg.diskIn,cfg.diskOut));grp.add(bh.grp);
+ const proxy=new THREE.Mesh(new THREE.SphereGeometry(cfg.coreR*3.1,24,16),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false,colorWrite:false}));
+ proxy.name=cfg.name;proxy.userData.planetData={name:cfg.coreName,fact:cfg.fact};proxy.userData.isPlanet=true;grp.add(proxy);clickablePlanets.push(proxy);
+ const orbiters=new THREE.Group();grp.add(orbiters);
+ for(let i=0;i<3;i++){const s=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:cfg.glowHex,transparent:true,opacity:.85,depthWrite:false,blending:THREE.AdditiveBlending}));s.scale.set(1.15,1.15,1);s.position.set(cfg.disk[1]*(1.25+i*0.33),0,0);const pivot=new THREE.Group();pivot.rotation.y=i*2.1;pivot.add(s);orbiters.add(pivot);}
+ return {grp,spiral,spin:bh.spin,proxy,orbiters,clickables:[proxy]};
+}
+const aurelia=makeGalaxy({name:'Aurelia',pos:[44,-14,-88],tilt:[1.02,0.15,-0.18],stars:6500,radius:13,arms:2,curvature:0.32,coreHex:'#fff3d6',edgeHex:'#e07b2a',glowHex:0xffb36b,disk:[1.15,3.4],coreR:0.92,diskIn:'rgba(255,176,84,0.55)',diskOut:'rgba(255,94,0,0)',coreName:'Aurelia Core — Supermassive Black Hole',fact:'A supermassive black hole spins at the heart of the golden galaxy Aurelia. The glowing disk around it is gas heated to millions of degrees as it spirals in — and nothing that crosses its edge, not even light, ever comes back.'});
+const nyxara=makeGalaxy({name:'Nyxara',pos:[-14,36,-115],tilt:[0.82,-0.3,0.35],stars:8000,radius:17,arms:3,curvature:0.26,coreHex:'#e6dcff',edgeHex:'#5a3fd4',glowHex:0x9a7bff,disk:[1.4,4.3],coreR:1.12,diskIn:'rgba(178,152,255,0.55)',diskOut:'rgba(90,63,212,0)',coreName:'Nyxara Core — Supermassive Black Hole',fact:'Nyxara, the violet galaxy, hides one of the largest black holes in this corner of the multiverse. The bright ring around it is light itself, bent into a circle by gravity too strong for anything to escape.'});
 let galaxyMode='solar';
 function updateSolarSystem(dt,time){if(!solarSystemGroup.visible)return;for(const p of solarPlanets){const angle=p.phase+time*p.speed;p.mesh.position.set(Math.cos(angle)*p.radius,0,Math.sin(angle)*p.radius);p.mesh.rotation.y+=dt*.12;}for(const m of solarMoons)m.orbit.rotation.y+=dt*.35;if(earthClouds)earthClouds.rotation.y+=dt*.05;asteroidBelt.rotation.y+=dt*.0015;sunCore.rotation.y+=dt*.02;
  const sf=THREE.MathUtils.clamp((spaceZoomCurrent-14)/8,0,1);const selSecond=!!(selectedPlanet&&secondClickables.some(o=>o.userData.planetData===selectedPlanet));secondSystem.visible=sf>0.02||selSecond||galaxyMode==='novaris';
- if(secondSystem.visible){secondSystem.scale.setScalar(1.15*(0.85+0.15*(galaxyMode==='novaris'?1:sf)));secondSun.rotation.y+=dt*.02;for(const p of secondPlanets){const a=p.phase+time*p.speed;p.mesh.position.set(Math.cos(a)*p.radius,0,Math.sin(a)*p.radius);p.mesh.rotation.y+=dt*.12;}}}
+ if(secondSystem.visible){secondSystem.scale.setScalar(1.15*(0.85+0.15*(galaxyMode==='novaris'?1:sf)));secondSun.rotation.y+=dt*.02;for(const p of secondPlanets){const a=p.phase+time*p.speed;p.mesh.position.set(Math.cos(a)*p.radius,0,Math.sin(a)*p.radius);p.mesh.rotation.y+=dt*.12;}}
+ const selA=!!(selectedPlanet&&aurelia.clickables.some(o=>o.userData.planetData===selectedPlanet));
+ const selN=!!(selectedPlanet&&nyxara.clickables.some(o=>o.userData.planetData===selectedPlanet));
+ for(const E of [{sys:aurelia,mode:'aurelia',sel:selA},{sys:nyxara,mode:'nyxara',sel:selN}]){
+  E.sys.grp.visible=sf>0.02||E.sel||galaxyMode===E.mode||galaxyMode==='multiverse';
+  if(E.sys.grp.visible){const f=(galaxyMode===E.mode||galaxyMode==='multiverse')?1:sf;E.sys.grp.scale.setScalar(1.15*(0.85+0.15*f));E.sys.spiral.rotation.y+=dt*0.02;E.sys.spin.rotation.y+=dt*0.55;E.sys.orbiters.rotation.y+=dt*0.12;}
+ }}
 let selectedPlanet=null;
 const planetInfo=document.getElementById('planetInfo');
 function focusPlanetObject(obj){if(!obj)return;focusSolarTarget.copy(obj.getWorldPosition(new THREE.Vector3()));const radius=(obj.geometry?.parameters?.radius||.5)*obj.getWorldScale(new THREE.Vector3()).x;spaceZoomTarget=THREE.MathUtils.clamp(Math.max(3,radius*5.5)-32,-29,32);updateSpaceZoomLabel();}
 function showPlanetInfo(data){if(!data)return;selectedPlanet=data;document.getElementById('planetInfoName').textContent=data.name;document.getElementById('planetInfoText').textContent=data.fact;planetInfo.classList.add('open');planetInfo.setAttribute('aria-hidden','false');}
 document.getElementById('planetInfoClose')?.addEventListener('click',()=>{planetInfo.classList.remove('open');planetInfo.setAttribute('aria-hidden','true');selectedPlanet=null;});
 document.getElementById('planetFocus')?.addEventListener('click',()=>{if(selectedPlanet){const obj=clickablePlanets.find(o=>o.userData.planetData===selectedPlanet);focusPlanetObject(obj);}});
-function setGalaxy(mode){galaxyMode=mode;document.querySelectorAll('.gx-btn').forEach(b=>b.classList.toggle('active',b.dataset.galaxy===mode));selectedPlanet=null;planetInfo.classList.remove('open');planetInfo.setAttribute('aria-hidden','true');if(mode==='novaris'){focusSolarTarget.copy(secondSystem.position);spaceZoomTarget=-13;}else{focusSolarTarget.set(0,0,-14);spaceZoomTarget=-6;}updateSpaceZoomLabel();}
+function setGalaxy(mode){galaxyMode=mode;document.querySelectorAll('.gx-btn').forEach(b=>b.classList.toggle('active',b.dataset.galaxy===mode));selectedPlanet=null;planetInfo.classList.remove('open');planetInfo.setAttribute('aria-hidden','true');const V={solar:[[0,0,-14],-6],novaris:[secondSystem.position.toArray(),-13],aurelia:[aurelia.grp.position.toArray(),-12],nyxara:[nyxara.grp.position.toArray(),-4],multiverse:[[0,8,-66],44]}[mode]||[[0,0,-14],-6];focusSolarTarget.set(V[0][0],V[0][1],V[0][2]);spaceZoomTarget=V[1];updateSpaceZoomLabel();}
 document.querySelectorAll('.gx-btn').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();setGalaxy(b.dataset.galaxy);}));
 const planetRaycaster=new THREE.Raycaster(),planetPointer=new THREE.Vector2();
-canvas.addEventListener('click',e=>{if(!solarSystemGroup.visible||!document.documentElement.classList.contains('splash-lock')||document.getElementById('loader')?.classList.contains('scan-open'))return;planetPointer.set((e.clientX/innerWidth)*2-1,-(e.clientY/innerHeight)*2+1);planetRaycaster.setFromCamera(planetPointer,camera);const hitsAll=planetRaycaster.intersectObjects(clickablePlanets,false);const hit=hitsAll.find(h=>{let o=h.object;while(o){if(o===secondSystem)return secondSystem.visible;o=o.parent;}return true;});if(hit){showPlanetInfo(hit.object.userData.planetData);focusPlanetObject(hit.object);}});
+canvas.addEventListener('click',e=>{if(!solarSystemGroup.visible||!document.documentElement.classList.contains('splash-lock')||document.getElementById('loader')?.classList.contains('scan-open'))return;planetPointer.set((e.clientX/innerWidth)*2-1,-(e.clientY/innerHeight)*2+1);planetRaycaster.setFromCamera(planetPointer,camera);const hitsAll=planetRaycaster.intersectObjects(clickablePlanets,false);const hit=hitsAll.find(h=>{let o=h.object;while(o){if(!o.visible)return false;o=o.parent;}return true;});if(hit){showPlanetInfo(hit.object.userData.planetData);focusPlanetObject(hit.object);}});
 
 // Deep space presentation — realistic solar system and starfield
 document.documentElement.classList.add('webgl-ready');
@@ -2565,7 +2617,8 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
 .music-wave span:nth-child(13){animation-delay:1.44s}
 @keyframes mvWave{0%,100%{height:22%}50%{height:100%}}
 #musicWaveLock{display:flex;align-items:flex-end;justify-content:center;gap:4px;height:30px;width:min(320px,72vw);margin:16px auto 0;padding:5px 14px;background:transparent;pointer-events:auto;border:1px solid rgba(255,255,255,.28);border-radius:999px;cursor:pointer;position:relative;z-index:5}
-#galaxySwitch{display:flex;gap:6px;width:fit-content;max-width:92vw;margin:12px auto 0;padding:4px;border:1px solid rgba(255,255,255,.28);border-radius:999px;pointer-events:auto;position:relative;z-index:5;background:rgba(10,10,18,.35)}
+#galaxySwitch{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;width:fit-content;max-width:92vw;margin:12px auto 0;padding:4px;border:1px solid rgba(255,255,255,.28);border-radius:999px;pointer-events:auto;position:relative;z-index:5;background:rgba(10,10,18,.35)}
+@media(max-width:560px){.gx-btn{font-size:10.5px;padding:6px 9px;letter-spacing:.03em}}
 .gx-btn{border:none;background:transparent;color:#c9cede;font-size:12px;font-weight:700;letter-spacing:.06em;padding:7px 14px;border-radius:999px;cursor:pointer;transition:all .25s;font-family:inherit}
 .gx-btn.active{background:linear-gradient(135deg,#6d28d9,#ec4899);color:#fff;box-shadow:0 4px 16px rgba(109,40,217,.45)}
 .chip[data-link]{cursor:pointer}
