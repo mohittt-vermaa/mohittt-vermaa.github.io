@@ -9,6 +9,8 @@
 <meta name="google-site-verification" content="Rz8-di0MGkBmQT6YZdqLyDSrZ6EChOyVqh1XoZNoh7o">
 <meta name="google-site-verification" content="OQAkZ0-QhPDYpwmHeK5DduEP_UHc8Jh_JNdIslOFq50" />
 <meta name="theme-color" content="#0a0a0f">
+<link rel="manifest" href="site.webmanifest">
+<link rel="apple-touch-icon" href="profile.jpg">
 <meta property="og:title" content="Mohit Verma — Student, Teen Coder &amp; Software AI Enthusiast">
 <meta property="og:description" content="Mohit Verma is a student and teen coder exploring Python, AI, machine learning, software development and open source.">
 <meta property="og:type" content="profile">
@@ -2916,9 +2918,10 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
 .sk-hint{margin-top:20px;text-align:center;font-size:12.5px;color:var(--ink-soft);opacity:.75}
 </style>
 <script>
-/* Background music (Amour Plastique, full song, looped). Starts from the Enter Site
-   click itself (a browser gesture, so mobile allows sound), from either wave button
-   (lock screen or nav), or as a fallback when entry completes. Both waves mirror state. */
+/* Background music (Amour Plastique, full song, looped). Autoplay is attempted the
+   moment the page opens; browsers that block sound before a gesture start it on the
+   visitor's first tap/click/keypress anywhere, the Enter Site click, or either wave
+   button (lock screen or nav). Both waves mirror state. */
 (function(){
   var au=document.getElementById('bgMusic');
   if(!au) return;
@@ -2982,6 +2985,15 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
   for(var i=0;i<waves.length;i++){ (function(w){ w.addEventListener('click', function(e){ e.stopPropagation(); toggle(); }); })(waves[i]); }
   var enter=document.getElementById('enterSite');
   if(enter) enter.addEventListener('click', startMusic);
+  var autoKicked=false;
+  function autoKick(e){
+    if(autoKicked) return;
+    if(e.target && e.target.closest && e.target.closest('.music-wave')) return;
+    autoKicked=true;
+    if(au.paused) startMusic();
+  }
+  ['pointerdown','touchstart','keydown'].forEach(function(ev){ document.addEventListener(ev, autoKick); });
+  startMusic();
   var started=false;
   var mo=new MutationObserver(function(){
     if(started) return;
