@@ -2577,13 +2577,26 @@ const cosmicWeb=makePointCloud(750,(i,c)=>{const v=new THREE.Vector3().randomDir
 cosmicWeb.visible=false;scene.add(cosmicWeb);
 const cosmicWebFar=makePointCloud(140,(i,c)=>{const v=new THREE.Vector3().randomDirection();const r=230+Math.random()*220;c.set(['#ffffff','#d8e6ff','#ffe9c4'][i%3]).multiplyScalar(0.6+Math.random()*0.4);return [v.x*r,v.y*r*0.7,v.z*r-160];},5.5,0);
 cosmicWebFar.visible=false;scene.add(cosmicWebFar);
-// ===== Black Hole — the singularity wallpaper video on its own screen in an empty region of the universe (v70). =====
-const bhVideo=document.createElement('video');bhVideo.src='assets/video/blackhole.mp4';bhVideo.loop=true;bhVideo.muted=true;bhVideo.playsInline=true;bhVideo.preload='auto';
-const bhPlay=()=>bhVideo.play().catch(()=>{});bhPlay();addEventListener('pointerdown',bhPlay,{once:true});
-const bhTex=new THREE.VideoTexture(bhVideo);bhTex.colorSpace=THREE.SRGBColorSpace;
-const bhScreen=new THREE.Mesh(new THREE.PlaneGeometry(128,72),new THREE.MeshBasicMaterial({map:bhTex,side:THREE.DoubleSide}));
-bhScreen.position.set(-135,-42,-185);scene.add(bhScreen);
-function faceBhScreen(){bhScreen.quaternion.copy(camera.quaternion);}
+// ===== Black Hole — a real 3D model of the singularity from Mohit's wallpaper video (v71): black core, photon ring, streaked blue accretion disk, gravitational-lensing arcs, and matter spiralling in. Lives alone in a vacant region. =====
+const bhGroup=new THREE.Group();bhGroup.position.set(-135,-42,-185);scene.add(bhGroup);
+function makeBhDiskTexture(){const c=document.createElement('canvas');c.width=c.height=1024;const x=c.getContext('2d');const g=x.createRadialGradient(512,512,100,512,512,512);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(0.22,'rgba(0,0,0,0)');g.addColorStop(0.27,'rgba(225,246,255,0.95)');g.addColorStop(0.34,'rgba(150,205,255,0.55)');g.addColorStop(0.58,'rgba(64,125,255,0.20)');g.addColorStop(1,'rgba(20,50,160,0)');x.fillStyle=g;x.fillRect(0,0,1024,1024);x.globalCompositeOperation='lighter';for(let i=0;i<1000;i++){const r=125+Math.pow(Math.random(),1.5)*370;const a0=Math.random()*Math.PI*2;const len=0.08+Math.random()*0.6;const hue=205+Math.random()*25;const li=55+Math.random()*35;x.beginPath();x.arc(512,512,r,a0,a0+len);x.strokeStyle='hsla('+hue+',100%,'+li+'%,'+(0.05+Math.random()*0.22)+')';x.lineWidth=1+Math.random()*3.2;x.stroke();}const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t;}
+const bhDiskTex=makeBhDiskTexture();
+const bhCore=new THREE.Mesh(new THREE.SphereGeometry(7,40,28),new THREE.MeshBasicMaterial({color:0x000000}));bhGroup.add(bhCore);
+const bhDisk=new THREE.Mesh(new THREE.CircleGeometry(30,72),new THREE.MeshBasicMaterial({map:bhDiskTex,transparent:true,side:THREE.DoubleSide,depthWrite:false,blending:THREE.AdditiveBlending}));
+bhDisk.rotation.x=-Math.PI/2;bhGroup.add(bhDisk);
+const bhFace=new THREE.Group();bhGroup.add(bhFace);
+const bhRing=new THREE.Mesh(new THREE.TorusGeometry(7.7,0.22,10,90),new THREE.MeshBasicMaterial({color:0xd9f4ff,transparent:true,opacity:0.95,blending:THREE.AdditiveBlending,depthWrite:false}));bhFace.add(bhRing);
+const bhGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:0x7fd4ff,transparent:true,opacity:0.85,depthWrite:false,blending:THREE.AdditiveBlending}));bhGlow.scale.set(36,36,1);bhFace.add(bhGlow);
+const bhCoreGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:0xeaf7ff,transparent:true,opacity:0.9,depthWrite:false,blending:THREE.AdditiveBlending}));bhCoreGlow.scale.set(16,16,1);bhFace.add(bhCoreGlow);
+const bhArcMat=new THREE.MeshBasicMaterial({map:bhDiskTex,transparent:true,side:THREE.DoubleSide,depthWrite:false,blending:THREE.AdditiveBlending,opacity:0.9});
+const bhArcTop=new THREE.Mesh(new THREE.TorusGeometry(10.5,2.4,14,80,Math.PI),bhArcMat);bhFace.add(bhArcTop);
+const bhArcBottom=new THREE.Mesh(new THREE.TorusGeometry(10.5,2.0,14,80,Math.PI),bhArcMat.clone());bhArcBottom.material.opacity=0.45;bhArcBottom.rotation.z=Math.PI;bhFace.add(bhArcBottom);
+const BH_N=1600;const bhPos=new Float32Array(BH_N*3);const bhCol=new Float32Array(BH_N*3);const bhDat=[];
+const bhPalette=[[0.65,0.85,1.0],[0.92,0.97,1.0],[0.45,0.65,1.0],[0.75,0.55,1.0]];
+for(let i=0;i<BH_N;i++){bhDat.push({a:Math.random()*Math.PI*2,r:8.5+Math.random()*21.5,y:(Math.random()-.5)*0.7});const c=bhPalette[(Math.random()*bhPalette.length)|0];bhCol[i*3]=c[0];bhCol[i*3+1]=c[1];bhCol[i*3+2]=c[2];}
+const bhGeo=new THREE.BufferGeometry();bhGeo.setAttribute('position',new THREE.BufferAttribute(bhPos,3));bhGeo.setAttribute('color',new THREE.BufferAttribute(bhCol,3));
+const bhPoints=new THREE.Points(bhGeo,new THREE.PointsMaterial({size:0.5,map:asteroidDotTex,vertexColors:true,transparent:true,opacity:0.9,depthWrite:false,blending:THREE.AdditiveBlending,sizeAttenuation:true}));
+bhGroup.add(bhPoints);
 let galaxyMode='solar';
 function updateSolarSystem(dt,time){if(!solarSystemGroup.visible)return;for(const p of solarPlanets){const angle=p.phase+time*p.speed;p.mesh.position.set(Math.cos(angle)*p.radius,0,Math.sin(angle)*p.radius);p.mesh.rotation.y+=dt*.12;}for(const m of solarMoons)m.orbit.rotation.y+=dt*.35;if(earthClouds)earthClouds.rotation.y+=dt*.05;asteroidBelt.rotation.y+=dt*.0015;sunCore.rotation.y+=dt*.02;
  const earthP=solarPlanets.find(p=>p.mesh.userData.planetData&&p.mesh.userData.planetData.name==='Earth');
@@ -2616,7 +2629,9 @@ function updateSolarSystem(dt,time){if(!solarSystemGroup.visible)return;for(cons
  const deepF=THREE.MathUtils.clamp((spaceZoomCurrent-50)/16,0,1);
  cosmicWeb.visible=deepF>0.02;if(cosmicWeb.visible)cosmicWeb.material.opacity=deepF*.85;
  cosmicWebFar.visible=deepF>0.02;if(cosmicWebFar.visible)cosmicWebFar.material.opacity=deepF*.9;
- faceBhScreen();
+ bhFace.quaternion.copy(camera.quaternion);bhDisk.rotation.z+=dt*0.05;bhGlow.material.opacity=0.78+0.14*Math.sin(time*1.4);
+ for(let i=0;i<BH_N;i++){const d=bhDat[i];d.a+=dt*3.1/d.r;d.r-=dt*0.4;if(d.r<8.3){d.r=29.5;d.a=Math.random()*Math.PI*2;}bhPos[i*3]=Math.cos(d.a)*d.r;bhPos[i*3+1]=d.y;bhPos[i*3+2]=Math.sin(d.a)*d.r;}
+ bhGeo.attributes.position.needsUpdate=true;
 }
 let selectedPlanet=null;
 const planetInfo=document.getElementById('planetInfo');
