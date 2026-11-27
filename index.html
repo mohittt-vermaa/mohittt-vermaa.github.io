@@ -804,6 +804,14 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
 <div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">drag to explore · pinch to zoom</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterSite" type="button" style="padding:13px 36px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:linear-gradient(135deg,rgba(109,40,217,.5),rgba(236,72,153,.4));color:#fff;font-size:13px;font-weight:800;letter-spacing:.14em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(109,40,217,.4),0 0 20px rgba(236,72,153,.25)">Enter Site</button></div>
 <button id="musicWaveLock" class="music-wave" type="button" aria-label="Play or pause music" title="Music on/off"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></button>
 <div id="galaxySwitch" role="group" aria-label="Choose galaxy"><button type="button" class="gx-btn active" data-galaxy="solar">☀ Solar System</button><button type="button" class="gx-btn" data-galaxy="milkyway">🌌 Milky Way</button><button type="button" class="gx-btn" data-galaxy="novaris">✦ Novaris</button><button type="button" class="gx-btn" data-galaxy="andromeda">🌀 Andromeda</button><button type="button" class="gx-btn" data-galaxy="triangulum">☾ Triangulum</button><button type="button" class="gx-btn" data-galaxy="multiverse">∞ Multiverse</button></div>
+<button type="button" id="tourBtn">▶ Tour</button><div id="tourCaption" aria-live="polite"></div>
+<style>
+#tourBtn{display:block;margin:10px auto 0;border:1px solid rgba(255,255,255,.35);background:rgba(10,10,18,.45);color:#fff;font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.06em;padding:8px 18px;border-radius:999px;cursor:pointer;pointer-events:auto;position:relative;z-index:5;transition:all .25s}
+#tourBtn.playing{background:linear-gradient(135deg,#6d28d9,#ec4899);border-color:transparent}
+#tourCaption{max-width:min(680px,92vw);margin:10px auto 0;text-align:center;color:#eef2ff;font-size:14.5px;font-weight:600;letter-spacing:.02em;line-height:1.45;padding:10px 18px;border-radius:14px;background:rgba(8,8,16,.55);border:1px solid rgba(255,255,255,.16);opacity:0;transform:translateY(6px);transition:opacity .6s,transform .6s;pointer-events:none;position:relative;z-index:5}
+#tourCaption.show{opacity:1;transform:none}
+@media(max-width:560px){#tourCaption{font-size:12.5px}}
+</style>
 <aside id="planetInfo" class="planet-info" aria-live="polite" aria-hidden="true"><button id="planetInfoClose" type="button" aria-label="Close planet details">×</button><span class="planet-info-kicker">PLANET EXPLORER</span><strong id="planetInfoName">Earth</strong><p id="planetInfoText">Tap any planet to explore its world.</p><button id="planetFocus" type="button">FOCUS PLANET <span>↗</span></button></aside>
 <button id="closeScanResult" class="scan-close" type="button" aria-label="Close device scan and return to space">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m18 6-12 12M6 6l12 12"/></svg><span>Back to space</span>
@@ -2271,6 +2279,11 @@ solarPlanetData.forEach(data=>{
 const asteroidPositions=new Float32Array(2600*3);for(let i=0;i<2600;i++){const a=Math.random()*Math.PI*2,r=7.15+Math.random()*.55;asteroidPositions[i*3]=Math.cos(a)*r;asteroidPositions[i*3+1]=(Math.random()-.5)*.14;asteroidPositions[i*3+2]=Math.sin(a)*r;}
 const asteroidDotCanvas=document.createElement('canvas');asteroidDotCanvas.width=asteroidDotCanvas.height=64;const adx=asteroidDotCanvas.getContext('2d');const adg=adx.createRadialGradient(32,32,2,32,32,30);adg.addColorStop(0,'rgba(255,255,255,1)');adg.addColorStop(.6,'rgba(255,255,255,.85)');adg.addColorStop(1,'rgba(255,255,255,0)');adx.fillStyle=adg;adx.fillRect(0,0,64,64);const asteroidDotTex=new THREE.CanvasTexture(asteroidDotCanvas);
 const asteroidGeometry=new THREE.BufferGeometry();asteroidGeometry.setAttribute('position',new THREE.BufferAttribute(asteroidPositions,3));const asteroidBelt=new THREE.Points(asteroidGeometry,new THREE.PointsMaterial({color:0xc8b9a1,size:.045,sizeAttenuation:true,map:asteroidDotTex,transparent:true,opacity:.65,depthWrite:false}));solarSystemGroup.add(asteroidBelt);
+// Kuiper Belt and Oort cloud — the Solar System's icy outskirts (v67).
+const kuiperPositions=new Float32Array(1800*3);for(let i=0;i<1800;i++){const a=Math.random()*Math.PI*2,r=19+Math.random()*8;kuiperPositions[i*3]=Math.cos(a)*r;kuiperPositions[i*3+1]=(Math.random()+Math.random()+Math.random()-1.5)*0.45;kuiperPositions[i*3+2]=Math.sin(a)*r;}
+const kuiperGeometry=new THREE.BufferGeometry();kuiperGeometry.setAttribute('position',new THREE.BufferAttribute(kuiperPositions,3));const kuiperBelt=new THREE.Points(kuiperGeometry,new THREE.PointsMaterial({color:0xa8c4de,size:.055,sizeAttenuation:true,map:asteroidDotTex,transparent:true,opacity:.5,depthWrite:false}));solarSystemGroup.add(kuiperBelt);
+const oortPositions=new Float32Array(700*3);for(let i=0;i<700;i++){const v=new THREE.Vector3().randomDirection();const r=34+Math.random()*12;oortPositions[i*3]=v.x*r;oortPositions[i*3+1]=v.y*r;oortPositions[i*3+2]=v.z*r;}
+const oortGeometry=new THREE.BufferGeometry();oortGeometry.setAttribute('position',new THREE.BufferAttribute(oortPositions,3));const oortCloud=new THREE.Points(oortGeometry,new THREE.PointsMaterial({color:0xcfd8ea,size:.07,sizeAttenuation:true,map:asteroidDotTex,transparent:true,opacity:.32,depthWrite:false}));solarSystemGroup.add(oortCloud);
 
 // ===== Second solar system (deep space) — reveals itself when you zoom out; its worlds are tappable too. =====
 // ===== Earth's fleet — satellites and a rocket in orbit around Earth (v62). =====
@@ -2349,6 +2362,16 @@ const cometHead=new THREE.Mesh(new THREE.SphereGeometry(.09,16,12),new THREE.Mes
 const cometGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:0xbfe4ff,transparent:true,opacity:.8,depthWrite:false,blending:THREE.AdditiveBlending}));cometGlow.scale.set(.55,.55,1);cometBody.add(cometGlow);
 const cometTailMat=new THREE.MeshBasicMaterial({color:0x9fd0ff,transparent:true,opacity:.35,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide});
 const cometTail=new THREE.Mesh(new THREE.ConeGeometry(.16,2.6,20,1,true),cometTailMat);cometTail.rotation.z=-Math.PI/2;cometBody.add(cometTail);
+// Shooting stars — brief meteor streaks across the Solar System view (v67).
+const meteors=[];
+for(let i=0;i<3;i++){
+ const g=new THREE.Group();
+ const tailMat=new THREE.MeshBasicMaterial({color:0xd8ecff,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide});
+ const tail=new THREE.Mesh(new THREE.CylinderGeometry(.008,.05,1.7,8,1,true),tailMat);tail.rotation.z=-Math.PI/2;g.add(tail);
+ const head=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:0xeaf6ff,transparent:true,opacity:0,depthWrite:false,blending:THREE.AdditiveBlending}));head.scale.set(.34,.34,1);head.position.x=.85;g.add(head);
+ g.visible=false;solarSystemGroup.add(g);
+ meteors.push({g,tailMat,headMat:head.material,wait:2+i*4.5,life:0,vel:new THREE.Vector3()});
+}
 const secondSystem=new THREE.Group();secondSystem.position.set(-36,15,-58);secondSystem.rotation.set(-0.08,0.3,0.02);secondSystem.visible=false;scene.add(secondSystem);
 const secondPlanets=[];const secondClickables=[];
 function makeBandsTexture(colors){
@@ -2490,6 +2513,10 @@ const pulsarSpin=new THREE.Group();pulsarSpin.position.set(-25,2.5,4);pulsarSpin
 pulsarSpin.add(new THREE.Mesh(new THREE.SphereGeometry(.12,16,12),new THREE.MeshBasicMaterial({color:0xeaf4ff})));
 for(const d of [-1,1]){const beam=new THREE.Mesh(new THREE.ConeGeometry(.34,3.6,16,1,true),new THREE.MeshBasicMaterial({color:0xbfe4ff,transparent:true,opacity:.28,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));beam.position.y=d*1.8;if(d<0)beam.rotation.x=Math.PI;pulsarSpin.add(beam);}
 addMwProxy([-25,2.5,4],2.2,{name:'Crab Nebula & Pulsar',fact:'Type: Supernova remnant with a neutron star · Distance: 6,500 light-years · The wreck of a star that exploded in 1054 AD, recorded by astronomers across the world. At its heart sits a pulsar — a city-sized neutron star spinning 30 times a second, sweeping beams of light like a lighthouse.'},-20);
+const betelGroup=new THREE.Group();betelGroup.position.set(20,1.5,-12);milkyWay.add(betelGroup);
+betelGroup.add(new THREE.Mesh(new THREE.SphereGeometry(.16,20,16),new THREE.MeshBasicMaterial({color:0xff6a3c})));
+const betelGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:0xff8a5c,transparent:true,opacity:.6,depthWrite:false,blending:THREE.AdditiveBlending}));betelGlow.scale.set(2.2,2.2,1);betelGroup.add(betelGlow);
+addMwProxy([20,1.5,-12],1.9,{name:'Betelgeuse',fact:'Type: Red supergiant star · Distance: 640 light-years · Betelgeuse is a dying giant about 700 times wider than the Sun, and it visibly swells and dims — in 2019 it faded dramatically in the Great Dimming. One day it will explode as a supernova and shine as bright as the Moon in our sky.'},-22);
 const proximaSystem=new THREE.Group();proximaSystem.position.set(-5.5,0.6,14.5);milkyWay.add(proximaSystem);
 const proxBinary=new THREE.Group();proximaSystem.add(proxBinary);
 const starA=new THREE.Mesh(new THREE.SphereGeometry(.15,20,16),new THREE.MeshBasicMaterial({color:0xfff2d8}));starA.position.set(.55,0,0);proxBinary.add(starA);
@@ -2558,6 +2585,10 @@ function updateSolarSystem(dt,time){if(!solarSystemGroup.visible)return;for(cons
  const ca=time*0.09+2.0,ce=0.62,cA=10.5,cr=cA*(1-ce*ce)/(1+ce*Math.cos(ca));
  cometBody.rotation.y=-ca;cometHead.position.set(cr,0,0);cometGlow.position.set(cr,0,0);
  const tl=THREE.MathUtils.clamp(3.4-cr*0.16,0.7,3.2);cometTail.scale.set(1,tl/2.6,1);cometTail.position.set(cr+tl/2,0,0);cometTailMat.opacity=THREE.MathUtils.clamp(0.55-cr*0.03,0.12,0.5);
+ for(const m of meteors){
+  if(m.life>0){m.life-=dt;m.g.position.addScaledVector(m.vel,dt);const op=THREE.MathUtils.clamp(Math.min(1,m.life/0.35,(1.6-m.life)/0.25),0,1)*.85;m.tailMat.opacity=op;m.headMat.opacity=op;if(m.life<=0){m.g.visible=false;m.wait=3+Math.random()*8;}}
+  else{m.wait-=dt;if(m.wait<=0){const a=Math.random()*Math.PI*2,r=8+Math.random()*7;m.g.position.set(Math.cos(a)*r,1.5+Math.random()*3.5,Math.sin(a)*r);const d=new THREE.Vector3(-Math.sin(a)+(Math.random()-.5)*.8,-0.25-Math.random()*.3,Math.cos(a)+(Math.random()-.5)*.8).normalize();m.vel.copy(d).multiplyScalar(7+Math.random()*4);m.g.quaternion.setFromUnitVectors(new THREE.Vector3(1,0,0),d);m.life=1.1+Math.random()*.5;m.g.visible=true;}}
+ }
  const sf=THREE.MathUtils.clamp((spaceZoomCurrent-14)/8,0,1);const selSecond=!!(selectedPlanet&&secondClickables.some(o=>o.userData.planetData===selectedPlanet));secondSystem.visible=sf>0.02||selSecond||galaxyMode==='novaris';
  if(secondSystem.visible){secondSystem.scale.setScalar(1.15*(0.85+0.15*(galaxyMode==='novaris'?1:sf)));secondSun.rotation.y+=dt*.02;for(const p of secondPlanets){const a=p.phase+time*p.speed;p.mesh.position.set(Math.cos(a)*p.radius,0,Math.sin(a)*p.radius);p.mesh.rotation.y+=dt*.12;}}
  novarisGalaxy.visible=secondSystem.visible;
@@ -2571,7 +2602,7 @@ function updateSolarSystem(dt,time){if(!solarSystemGroup.visible)return;for(cons
  const mwF=THREE.MathUtils.clamp(spaceZoomCurrent/10,0,1);
  const selMW=!!(selectedPlanet&&mwClickables.some(o=>o.userData.planetData===selectedPlanet));
  milkyWay.visible=mwF>0.02||selMW||galaxyMode==='milkyway'||galaxyMode==='multiverse';
- if(milkyWay.visible){const mf=Math.max(mwF,(galaxyMode==='milkyway'||galaxyMode==='multiverse')?1:0);milkyWay.scale.setScalar(0.9+0.1*mf);mwSpiral.rotation.y+=dt*0.004;mwDisk.rotation.y+=dt*0.004;mwBar.rotation.y+=dt*0.004;mwDust.rotation.y+=dt*0.004;mwBH.spin.rotation.y+=dt*0.7;pulsarSpin.rotation.y+=dt*6;proxBinary.rotation.y+=dt*0.5;proxBSpin.rotation.y+=dt*0.8;for(const p of trapPlanets){const a=p.phase+time*p.speed;p.mesh.position.set(Math.cos(a)*p.radius,0,Math.sin(a)*p.radius);}mwMarker.material.opacity=0.55+0.35*Math.sin(time*2.4);}
+ if(milkyWay.visible){const mf=Math.max(mwF,(galaxyMode==='milkyway'||galaxyMode==='multiverse')?1:0);milkyWay.scale.setScalar(0.9+0.1*mf);mwSpiral.rotation.y+=dt*0.004;mwDisk.rotation.y+=dt*0.004;mwBar.rotation.y+=dt*0.004;mwDust.rotation.y+=dt*0.004;mwBH.spin.rotation.y+=dt*0.7;pulsarSpin.rotation.y+=dt*6;proxBinary.rotation.y+=dt*0.5;proxBSpin.rotation.y+=dt*0.8;for(const p of trapPlanets){const a=p.phase+time*p.speed;p.mesh.position.set(Math.cos(a)*p.radius,0,Math.sin(a)*p.radius);}const bf=Math.pow(Math.max(0,Math.sin(time*0.24)),6);betelGlow.scale.set(2.2+bf*3.4,2.2+bf*3.4,1);betelGlow.material.opacity=.55+bf*.45;mwMarker.material.opacity=0.55+0.35*Math.sin(time*2.4);}
  const miniF=THREE.MathUtils.clamp((spaceZoomCurrent-26)/10,0,1);
  for(const M of miniGalaxies){M.grp.visible=miniF>0.02||galaxyMode==='multiverse';if(M.grp.visible)M.spiral.rotation.y+=dt*0.01;}
  for(const F of farGalaxies){const selF=!!(selectedPlanet&&F.clickables.some(o=>o.userData.planetData===selectedPlanet));F.grp.visible=mwF>0.02||miniF>0.02||galaxyMode==='multiverse'||selF;if(F.grp.visible&&F.spin)F.spin.rotation.y+=dt*0.45;}
@@ -2585,8 +2616,27 @@ function focusPlanetObject(obj){if(!obj)return;focusSolarTarget.copy(obj.getWorl
 function showPlanetInfo(data){if(!data)return;selectedPlanet=data;document.getElementById('planetInfoName').textContent=data.name;document.getElementById('planetInfoText').textContent=data.fact;planetInfo.classList.add('open');planetInfo.setAttribute('aria-hidden','false');}
 document.getElementById('planetInfoClose')?.addEventListener('click',()=>{planetInfo.classList.remove('open');planetInfo.setAttribute('aria-hidden','true');selectedPlanet=null;});
 document.getElementById('planetFocus')?.addEventListener('click',()=>{if(selectedPlanet){const obj=clickablePlanets.find(o=>o.userData.planetData===selectedPlanet);focusPlanetObject(obj);}});
-function setGalaxy(mode){galaxyMode=mode;document.querySelectorAll('.gx-btn').forEach(b=>b.classList.toggle('active',b.dataset.galaxy===mode));selectedPlanet=null;planetInfo.classList.remove('open');planetInfo.setAttribute('aria-hidden','true');const V={solar:[[0,0,-14],-6],milkyway:[[8,0,-28],32],novaris:[secondSystem.position.toArray(),-13],andromeda:[andromeda.grp.position.toArray(),-2],triangulum:[triangulum.grp.position.toArray(),-4],multiverse:[[0,4,-70],72]}[mode]||[[0,0,-14],-6];focusSolarTarget.set(V[0][0],V[0][1],V[0][2]);spaceZoomTarget=V[1];updateSpaceZoomLabel();}
+function setGalaxy(mode){if(tourActive)endTour();galaxyMode=mode;document.querySelectorAll('.gx-btn').forEach(b=>b.classList.toggle('active',b.dataset.galaxy===mode));selectedPlanet=null;planetInfo.classList.remove('open');planetInfo.setAttribute('aria-hidden','true');const V={solar:[[0,0,-14],-6],milkyway:[[8,0,-28],32],novaris:[secondSystem.position.toArray(),-13],andromeda:[andromeda.grp.position.toArray(),-2],triangulum:[triangulum.grp.position.toArray(),-4],multiverse:[[0,4,-70],72]}[mode]||[[0,0,-14],-6];focusSolarTarget.set(V[0][0],V[0][1],V[0][2]);spaceZoomTarget=V[1];updateSpaceZoomLabel();}
 document.querySelectorAll('.gx-btn').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();setGalaxy(b.dataset.galaxy);}));
+// ===== Cinematic Tour — a guided Cosmic Eye journey across every scale (v67). =====
+let tourActive=false,tourStep=-1,tourTimer=0;
+const tourCaption=document.getElementById('tourCaption');
+const tourBtn=document.getElementById('tourBtn');
+const earthObj=solarPlanets.find(p=>p.mesh.userData.planetData&&p.mesh.userData.planetData.name==='Earth')?.mesh;
+function setPill(mode){document.querySelectorAll('.gx-btn').forEach(b=>b.classList.toggle('active',b.dataset.galaxy===mode));}
+const tourStops=[
+ {dur:9,cap:'Earth — our home. The only known world with life, oceans, and someone looking up.',go(){if(earthObj){selectedPlanet=earthObj.userData.planetData;focusPlanetObject(earthObj);}}},
+ {dur:8,cap:'The Solar System — one star, eight planets, dwarf worlds, and trillions of icy bodies in the dark beyond Neptune.',go(){selectedPlanet=null;galaxyMode='solar';setPill('solar');focusSolarTarget.set(0,0,-14);spaceZoomTarget=-6;updateSpaceZoomLabel();}},
+ {dur:9,cap:'Sagittarius A* — the supermassive black hole anchoring the Milky Way, 4.3 million Suns heavy.',go(){selectedPlanet=sgrProxy.userData.planetData;galaxyMode='milkyway';setPill('milkyway');focusPlanetObject(sgrProxy);}},
+ {dur:8,cap:'Andromeda — the nearest large galaxy, 2.5 million light-years away… and slowly coming toward us.',go(){selectedPlanet=null;galaxyMode='andromeda';setPill('andromeda');focusSolarTarget.copy(andromeda.grp.position);spaceZoomTarget=-2;updateSpaceZoomLabel();}},
+ {dur:10,cap:'The cosmic web — billions of galaxies woven across the dark. And every one of them is full of worlds.',go(){selectedPlanet=null;galaxyMode='multiverse';setPill('multiverse');focusSolarTarget.set(0,4,-70);spaceZoomTarget=78;updateSpaceZoomLabel();}}
+];
+function nextTourStop(){tourStep++;if(tourStep>=tourStops.length){endTour();return;}const s=tourStops[tourStep];s.go();tourCaption.textContent=s.cap;tourCaption.classList.add('show');tourTimer=s.dur;}
+function startTour(){if(tourActive){endTour();return;}tourActive=true;tourBtn.textContent='■ Stop Tour';tourBtn.classList.add('playing');tourStep=-1;nextTourStop();}
+function endTour(){if(!tourActive)return;tourActive=false;tourBtn.textContent='▶ Tour';tourBtn.classList.remove('playing');tourCaption.classList.remove('show');}
+tourBtn.addEventListener('click',e=>{e.stopPropagation();startTour();});
+renderer.domElement.addEventListener('pointerdown',()=>{if(tourActive)endTour();});
+renderer.domElement.addEventListener('wheel',()=>{if(tourActive)endTour();},{passive:true});
 const planetRaycaster=new THREE.Raycaster(),planetPointer=new THREE.Vector2();
 canvas.addEventListener('click',e=>{if(!solarSystemGroup.visible||!document.documentElement.classList.contains('splash-lock')||document.getElementById('loader')?.classList.contains('scan-open'))return;planetPointer.set((e.clientX/innerWidth)*2-1,-(e.clientY/innerHeight)*2+1);planetRaycaster.setFromCamera(planetPointer,camera);const hitsAll=planetRaycaster.intersectObjects(clickablePlanets,false);const hit=hitsAll.find(h=>{let o=h.object;while(o){if(!o.visible)return false;o=o.parent;}return true;});if(hit){showPlanetInfo(hit.object.userData.planetData);focusPlanetObject(hit.object);}});
 
@@ -2611,6 +2661,7 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
  try{
   if(document.getElementById('loader')?.classList.contains('scan-open')){clock.getDelta();return;}
   const dt=clock.getDelta();time+=dt;spaceZoomCurrent+=(spaceZoomTarget-spaceZoomCurrent)*Math.min(1,dt*7);
+ if(tourActive){tourTimer-=dt;if(tourTimer<=0)nextTourStop();}
   if(typeof window.spaceOrbitYawT==='number')spaceOrbitYawT=window.spaceOrbitYawT;if(typeof window.spaceOrbitPitchT==='number')spaceOrbitPitchT=window.spaceOrbitPitchT;
   spaceOrbitYaw+=(spaceOrbitYawT-spaceOrbitYaw)*Math.min(1,dt*8);spaceOrbitPitch+=(spaceOrbitPitchT-spaceOrbitPitch)*Math.min(1,dt*8);
   focusSolarCurrent.lerp(focusSolarTarget,Math.min(1,dt*3.5));
