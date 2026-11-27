@@ -1708,7 +1708,7 @@ function updateSpaceZoomLabel(){
 }
 window.adjustSpaceZoom=function(direction){
   if(!Number.isFinite(direction)) return;
-  spaceZoomTarget=THREE.MathUtils.clamp(spaceZoomTarget+Math.sign(direction)*3,-29,85);
+  spaceZoomTarget=THREE.MathUtils.clamp(spaceZoomTarget+Math.sign(direction)*3,-29,140);
   updateSpaceZoomLabel();
 };
 let spaceOrbitYaw=0,spaceOrbitPitch=0.38,spaceOrbitYawT=0,spaceOrbitPitchT=0.38;
@@ -1740,7 +1740,7 @@ function spaceOnPointerDown(e){
 function spaceOnPointerMove(e){
   if(e.pointerType==='touch'&&spacePointers.has(e.pointerId)){
     spacePointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
-    if(spacePointers.size>=2){const pts=[...spacePointers.values()];const distance=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y);if(spacePinchDistance){const delta=distance-spacePinchDistance;if(Math.abs(delta)>1){spaceZoomTarget=THREE.MathUtils.clamp(spaceZoomTarget-delta*.12,-29,85);updateSpaceZoomLabel();}}spacePinchDistance=distance;if(e.cancelable)e.preventDefault();return;}
+    if(spacePointers.size>=2){const pts=[...spacePointers.values()];const distance=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y);if(spacePinchDistance){const delta=distance-spacePinchDistance;if(Math.abs(delta)>1){spaceZoomTarget=THREE.MathUtils.clamp(spaceZoomTarget-delta*.12,-29,140);updateSpaceZoomLabel();}}spacePinchDistance=distance;if(e.cancelable)e.preventDefault();return;}
   }
   if(!spaceDragging) return;
   if(e.pointerId!=null && spaceDragPid!=null && e.pointerId!==spaceDragPid) return;
@@ -2577,6 +2577,17 @@ const cosmicWeb=makePointCloud(750,(i,c)=>{const v=new THREE.Vector3().randomDir
 cosmicWeb.visible=false;scene.add(cosmicWeb);
 const cosmicWebFar=makePointCloud(140,(i,c)=>{const v=new THREE.Vector3().randomDirection();const r=230+Math.random()*220;c.set(['#ffffff','#d8e6ff','#ffe9c4'][i%3]).multiplyScalar(0.6+Math.random()*0.4);return [v.x*r,v.y*r*0.7,v.z*r-160];},5.5,0);
 cosmicWebFar.visible=false;scene.add(cosmicWebFar);
+// ===== Singularity vortex — the lock screen's living backdrop (v68): thousands of particles spiral down a funnel into a bright core, a live WebGL recreation of a cosmic-vortex wallpaper. =====
+const vortexGroup=new THREE.Group();vortexGroup.position.set(0,3,-125);scene.add(vortexGroup);
+const VORT_N=4200;const vortPos=new Float32Array(VORT_N*3);const vortCol=new Float32Array(VORT_N*3);const vortDat=[];
+const vortPalette=[[0.62,0.8,1.0],[0.95,0.97,1.0],[0.72,0.55,1.0],[0.45,0.65,1.0],[1.0,0.85,0.95]];
+for(let i=0;i<VORT_N;i++){vortDat.push({a:Math.random()*Math.PI*2,p:Math.random(),j:(Math.random()-.5)*2.2});const c=vortPalette[(Math.random()*vortPalette.length)|0];vortCol[i*3]=c[0];vortCol[i*3+1]=c[1];vortCol[i*3+2]=c[2];}
+const vortGeo=new THREE.BufferGeometry();vortGeo.setAttribute('position',new THREE.BufferAttribute(vortPos,3));vortGeo.setAttribute('color',new THREE.BufferAttribute(vortCol,3));
+const vortex=new THREE.Points(vortGeo,new THREE.PointsMaterial({size:.55,map:asteroidDotTex,vertexColors:true,transparent:true,opacity:.85,depthWrite:false,blending:THREE.AdditiveBlending,sizeAttenuation:true}));
+vortexGroup.add(vortex);
+const vortCore=new THREE.Mesh(new THREE.SphereGeometry(1.6,24,18),new THREE.MeshBasicMaterial({color:0x05060a}));vortexGroup.add(vortCore);
+const vortGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:0x9db8ff,transparent:true,opacity:.95,depthWrite:false,blending:THREE.AdditiveBlending}));vortGlow.scale.set(10,10,1);vortexGroup.add(vortGlow);
+const vortCoreGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:0xffffff,transparent:true,opacity:1,depthWrite:false,blending:THREE.AdditiveBlending}));vortCoreGlow.scale.set(3.6,3.6,1);vortexGroup.add(vortCoreGlow);
 let galaxyMode='solar';
 function updateSolarSystem(dt,time){if(!solarSystemGroup.visible)return;for(const p of solarPlanets){const angle=p.phase+time*p.speed;p.mesh.position.set(Math.cos(angle)*p.radius,0,Math.sin(angle)*p.radius);p.mesh.rotation.y+=dt*.12;}for(const m of solarMoons)m.orbit.rotation.y+=dt*.35;if(earthClouds)earthClouds.rotation.y+=dt*.05;asteroidBelt.rotation.y+=dt*.0015;sunCore.rotation.y+=dt*.02;
  const earthP=solarPlanets.find(p=>p.mesh.userData.planetData&&p.mesh.userData.planetData.name==='Earth');
@@ -2609,6 +2620,9 @@ function updateSolarSystem(dt,time){if(!solarSystemGroup.visible)return;for(cons
  const deepF=THREE.MathUtils.clamp((spaceZoomCurrent-50)/16,0,1);
  cosmicWeb.visible=deepF>0.02;if(cosmicWeb.visible)cosmicWeb.material.opacity=deepF*.85;
  cosmicWebFar.visible=deepF>0.02;if(cosmicWebFar.visible)cosmicWebFar.material.opacity=deepF*.9;
+ vortexGroup.rotation.z+=dt*0.02;const vortPulse=9+Math.sin(time*1.3)*0.8;vortGlow.scale.set(vortPulse,vortPulse,1);
+ for(let i=0;i<VORT_N;i++){const d=vortDat[i];d.p+=dt*0.028*(1.6-d.p);if(d.p>1)d.p-=1;const r=55*(1-d.p)+2.5;const ang=d.a+d.p*5.5+time*0.03;vortPos[i*3]=Math.cos(ang)*r;vortPos[i*3+1]=Math.sin(ang)*r+d.j*(1-d.p*0.6);vortPos[i*3+2]=Math.pow(d.p,2)*14;}
+ vortGeo.attributes.position.needsUpdate=true;
 }
 let selectedPlanet=null;
 const planetInfo=document.getElementById('planetInfo');
@@ -2616,7 +2630,7 @@ function focusPlanetObject(obj){if(!obj)return;focusSolarTarget.copy(obj.getWorl
 function showPlanetInfo(data){if(!data)return;selectedPlanet=data;document.getElementById('planetInfoName').textContent=data.name;document.getElementById('planetInfoText').textContent=data.fact;planetInfo.classList.add('open');planetInfo.setAttribute('aria-hidden','false');}
 document.getElementById('planetInfoClose')?.addEventListener('click',()=>{planetInfo.classList.remove('open');planetInfo.setAttribute('aria-hidden','true');selectedPlanet=null;});
 document.getElementById('planetFocus')?.addEventListener('click',()=>{if(selectedPlanet){const obj=clickablePlanets.find(o=>o.userData.planetData===selectedPlanet);focusPlanetObject(obj);}});
-function setGalaxy(mode){if(tourActive)endTour();galaxyMode=mode;document.querySelectorAll('.gx-btn').forEach(b=>b.classList.toggle('active',b.dataset.galaxy===mode));selectedPlanet=null;planetInfo.classList.remove('open');planetInfo.setAttribute('aria-hidden','true');const V={solar:[[0,0,-14],-6],milkyway:[[8,0,-28],32],novaris:[secondSystem.position.toArray(),-13],andromeda:[andromeda.grp.position.toArray(),-2],triangulum:[triangulum.grp.position.toArray(),-4],multiverse:[[0,4,-70],72]}[mode]||[[0,0,-14],-6];focusSolarTarget.set(V[0][0],V[0][1],V[0][2]);spaceZoomTarget=V[1];updateSpaceZoomLabel();}
+function setGalaxy(mode){if(tourActive)endTour();galaxyMode=mode;document.querySelectorAll('.gx-btn').forEach(b=>b.classList.toggle('active',b.dataset.galaxy===mode));selectedPlanet=null;planetInfo.classList.remove('open');planetInfo.setAttribute('aria-hidden','true');const V={solar:[[0,0,-14],-6],milkyway:[[8,0,-28],32],novaris:[secondSystem.position.toArray(),-13],andromeda:[andromeda.grp.position.toArray(),-2],triangulum:[triangulum.grp.position.toArray(),-4],multiverse:[[0,4,-70],95]}[mode]||[[0,0,-14],-6];focusSolarTarget.set(V[0][0],V[0][1],V[0][2]);spaceZoomTarget=V[1];updateSpaceZoomLabel();}
 document.querySelectorAll('.gx-btn').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();setGalaxy(b.dataset.galaxy);}));
 // ===== Cinematic Tour — a guided Cosmic Eye journey across every scale (v67). =====
 let tourActive=false,tourStep=-1,tourTimer=0;
@@ -2625,11 +2639,11 @@ const tourBtn=document.getElementById('tourBtn');
 const earthObj=solarPlanets.find(p=>p.mesh.userData.planetData&&p.mesh.userData.planetData.name==='Earth')?.mesh;
 function setPill(mode){document.querySelectorAll('.gx-btn').forEach(b=>b.classList.toggle('active',b.dataset.galaxy===mode));}
 const tourStops=[
- {dur:9,cap:'Earth — our home. The only known world with life, oceans, and someone looking up.',go(){if(earthObj){selectedPlanet=earthObj.userData.planetData;focusPlanetObject(earthObj);}}},
- {dur:8,cap:'The Solar System — one star, eight planets, dwarf worlds, and trillions of icy bodies in the dark beyond Neptune.',go(){selectedPlanet=null;galaxyMode='solar';setPill('solar');focusSolarTarget.set(0,0,-14);spaceZoomTarget=-6;updateSpaceZoomLabel();}},
- {dur:9,cap:'Sagittarius A* — the supermassive black hole anchoring the Milky Way, 4.3 million Suns heavy.',go(){selectedPlanet=sgrProxy.userData.planetData;galaxyMode='milkyway';setPill('milkyway');focusPlanetObject(sgrProxy);}},
- {dur:8,cap:'Andromeda — the nearest large galaxy, 2.5 million light-years away… and slowly coming toward us.',go(){selectedPlanet=null;galaxyMode='andromeda';setPill('andromeda');focusSolarTarget.copy(andromeda.grp.position);spaceZoomTarget=-2;updateSpaceZoomLabel();}},
- {dur:10,cap:'The cosmic web — billions of galaxies woven across the dark. And every one of them is full of worlds.',go(){selectedPlanet=null;galaxyMode='multiverse';setPill('multiverse');focusSolarTarget.set(0,4,-70);spaceZoomTarget=78;updateSpaceZoomLabel();}}
+ {dur:5,cap:'Earth — our home. The only known world with life, oceans, and someone looking up.',go(){if(earthObj){selectedPlanet=earthObj.userData.planetData;focusPlanetObject(earthObj);}}},
+ {dur:4,cap:'The Solar System — one star, eight planets, dwarf worlds, and trillions of icy bodies in the dark beyond Neptune.',go(){selectedPlanet=null;galaxyMode='solar';setPill('solar');focusSolarTarget.set(0,0,-14);spaceZoomTarget=-6;updateSpaceZoomLabel();}},
+ {dur:5,cap:'Sagittarius A* — the supermassive black hole anchoring the Milky Way, 4.3 million Suns heavy.',go(){selectedPlanet=sgrProxy.userData.planetData;galaxyMode='milkyway';setPill('milkyway');focusPlanetObject(sgrProxy);}},
+ {dur:4,cap:'Andromeda — the nearest large galaxy, 2.5 million light-years away… and slowly coming toward us.',go(){selectedPlanet=null;galaxyMode='andromeda';setPill('andromeda');focusSolarTarget.copy(andromeda.grp.position);spaceZoomTarget=-2;updateSpaceZoomLabel();}},
+ {dur:6,cap:'The cosmic web — billions of galaxies woven across the dark. And every one of them is full of worlds.',go(){selectedPlanet=null;galaxyMode='multiverse';setPill('multiverse');focusSolarTarget.set(0,4,-70);spaceZoomTarget=78;updateSpaceZoomLabel();}}
 ];
 function nextTourStop(){tourStep++;if(tourStep>=tourStops.length){endTour();return;}const s=tourStops[tourStep];s.go();tourCaption.textContent=s.cap;tourCaption.classList.add('show');tourTimer=s.dur;}
 function startTour(){if(tourActive){endTour();return;}tourActive=true;tourBtn.textContent='■ Stop Tour';tourBtn.classList.add('playing');tourStep=-1;nextTourStop();}
@@ -2660,11 +2674,11 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
  requestAnimationFrame(loop);
  try{
   if(document.getElementById('loader')?.classList.contains('scan-open')){clock.getDelta();return;}
-  const dt=clock.getDelta();time+=dt;spaceZoomCurrent+=(spaceZoomTarget-spaceZoomCurrent)*Math.min(1,dt*7);
+  const dt=clock.getDelta();time+=dt;spaceZoomCurrent+=(spaceZoomTarget-spaceZoomCurrent)*Math.min(1,dt*9);
  if(tourActive){tourTimer-=dt;if(tourTimer<=0)nextTourStop();}
   if(typeof window.spaceOrbitYawT==='number')spaceOrbitYawT=window.spaceOrbitYawT;if(typeof window.spaceOrbitPitchT==='number')spaceOrbitPitchT=window.spaceOrbitPitchT;
   spaceOrbitYaw+=(spaceOrbitYawT-spaceOrbitYaw)*Math.min(1,dt*8);spaceOrbitPitch+=(spaceOrbitPitchT-spaceOrbitPitch)*Math.min(1,dt*8);
-  focusSolarCurrent.lerp(focusSolarTarget,Math.min(1,dt*3.5));
+  focusSolarCurrent.lerp(focusSolarTarget,Math.min(1,dt*5));
   const loaderEl=document.getElementById('loader');const inSplash=document.documentElement.classList.contains('splash-lock')&&loaderEl&&!loaderEl.classList.contains('done');
   const isEntering=!!window._entryAnim;
   if(inSplash||isEntering){
@@ -2880,9 +2894,9 @@ let time=0;const clock=new THREE.Clock();let entryT=0;
 .music-wave span:nth-child(13){animation-delay:1.44s}
 @keyframes mvWave{0%,100%{height:22%}50%{height:100%}}
 #musicWaveLock{display:flex;align-items:flex-end;justify-content:center;gap:4px;height:30px;width:min(320px,72vw);margin:16px auto 0;padding:5px 14px;background:transparent;pointer-events:auto;border:1px solid rgba(255,255,255,.28);border-radius:999px;cursor:pointer;position:relative;z-index:5}
-#galaxySwitch{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;width:fit-content;max-width:92vw;margin:12px auto 0;padding:4px;border:1px solid rgba(255,255,255,.28);border-radius:999px;pointer-events:auto;position:relative;z-index:5;background:rgba(10,10,18,.35)}
-@media(max-width:560px){.gx-btn{font-size:10.5px;padding:6px 9px;letter-spacing:.03em}}
-.gx-btn{border:none;background:transparent;color:#c9cede;font-size:12px;font-weight:700;letter-spacing:.06em;padding:7px 14px;border-radius:999px;cursor:pointer;transition:all .25s;font-family:inherit}
+#galaxySwitch{position:fixed;left:10px;bottom:10px;display:flex;flex-wrap:wrap;justify-content:flex-start;gap:4px;width:fit-content;max-width:47vw;margin:0;padding:3px;border:1px solid rgba(255,255,255,.22);border-radius:14px;pointer-events:auto;z-index:6;background:rgba(10,10,18,.45)}
+@media(max-width:560px){.gx-btn{font-size:9px;padding:4px 7px;letter-spacing:.02em}}
+.gx-btn{border:none;background:transparent;color:#c9cede;font-size:10px;font-weight:700;letter-spacing:.04em;padding:5px 9px;border-radius:999px;cursor:pointer;transition:all .25s;font-family:inherit}
 .gx-btn.active{background:linear-gradient(135deg,#6d28d9,#ec4899);color:#fff;box-shadow:0 4px 16px rgba(109,40,217,.45)}
 .chip[data-link]{cursor:pointer}
 .chip.link-on{border-color:#ec4899!important;color:#fff!important;background:linear-gradient(135deg,rgba(109,40,217,.88),rgba(236,72,153,.88))!important;box-shadow:0 0 0 1px rgba(236,72,153,.6),0 6px 22px rgba(236,72,153,.35);transform:translateY(-2px) scale(1.05);opacity:1!important}
