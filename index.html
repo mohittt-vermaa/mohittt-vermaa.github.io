@@ -2577,17 +2577,13 @@ const cosmicWeb=makePointCloud(750,(i,c)=>{const v=new THREE.Vector3().randomDir
 cosmicWeb.visible=false;scene.add(cosmicWeb);
 const cosmicWebFar=makePointCloud(140,(i,c)=>{const v=new THREE.Vector3().randomDirection();const r=230+Math.random()*220;c.set(['#ffffff','#d8e6ff','#ffe9c4'][i%3]).multiplyScalar(0.6+Math.random()*0.4);return [v.x*r,v.y*r*0.7,v.z*r-160];},5.5,0);
 cosmicWebFar.visible=false;scene.add(cosmicWebFar);
-// ===== Singularity vortex — the lock screen's living backdrop (v68): thousands of particles spiral down a funnel into a bright core, a live WebGL recreation of a cosmic-vortex wallpaper. =====
-const vortexGroup=new THREE.Group();vortexGroup.position.set(0,3,-125);scene.add(vortexGroup);
-const VORT_N=4200;const vortPos=new Float32Array(VORT_N*3);const vortCol=new Float32Array(VORT_N*3);const vortDat=[];
-const vortPalette=[[0.62,0.8,1.0],[0.95,0.97,1.0],[0.72,0.55,1.0],[0.45,0.65,1.0],[1.0,0.85,0.95]];
-for(let i=0;i<VORT_N;i++){vortDat.push({a:Math.random()*Math.PI*2,p:Math.random(),j:(Math.random()-.5)*2.2});const c=vortPalette[(Math.random()*vortPalette.length)|0];vortCol[i*3]=c[0];vortCol[i*3+1]=c[1];vortCol[i*3+2]=c[2];}
-const vortGeo=new THREE.BufferGeometry();vortGeo.setAttribute('position',new THREE.BufferAttribute(vortPos,3));vortGeo.setAttribute('color',new THREE.BufferAttribute(vortCol,3));
-const vortex=new THREE.Points(vortGeo,new THREE.PointsMaterial({size:.55,map:asteroidDotTex,vertexColors:true,transparent:true,opacity:.85,depthWrite:false,blending:THREE.AdditiveBlending,sizeAttenuation:true}));
-vortexGroup.add(vortex);
-const vortCore=new THREE.Mesh(new THREE.SphereGeometry(1.6,24,18),new THREE.MeshBasicMaterial({color:0x05060a}));vortexGroup.add(vortCore);
-const vortGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:0x9db8ff,transparent:true,opacity:.95,depthWrite:false,blending:THREE.AdditiveBlending}));vortGlow.scale.set(10,10,1);vortexGroup.add(vortGlow);
-const vortCoreGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:0xffffff,transparent:true,opacity:1,depthWrite:false,blending:THREE.AdditiveBlending}));vortCoreGlow.scale.set(3.6,3.6,1);vortexGroup.add(vortCoreGlow);
+// ===== Black Hole — the singularity wallpaper video on its own screen in an empty region of the universe (v70). =====
+const bhVideo=document.createElement('video');bhVideo.src='assets/video/blackhole.mp4';bhVideo.loop=true;bhVideo.muted=true;bhVideo.playsInline=true;bhVideo.preload='auto';
+const bhPlay=()=>bhVideo.play().catch(()=>{});bhPlay();addEventListener('pointerdown',bhPlay,{once:true});
+const bhTex=new THREE.VideoTexture(bhVideo);bhTex.colorSpace=THREE.SRGBColorSpace;
+const bhScreen=new THREE.Mesh(new THREE.PlaneGeometry(128,72),new THREE.MeshBasicMaterial({map:bhTex,side:THREE.DoubleSide}));
+bhScreen.position.set(-135,-42,-185);scene.add(bhScreen);
+function faceBhScreen(){bhScreen.quaternion.copy(camera.quaternion);}
 let galaxyMode='solar';
 function updateSolarSystem(dt,time){if(!solarSystemGroup.visible)return;for(const p of solarPlanets){const angle=p.phase+time*p.speed;p.mesh.position.set(Math.cos(angle)*p.radius,0,Math.sin(angle)*p.radius);p.mesh.rotation.y+=dt*.12;}for(const m of solarMoons)m.orbit.rotation.y+=dt*.35;if(earthClouds)earthClouds.rotation.y+=dt*.05;asteroidBelt.rotation.y+=dt*.0015;sunCore.rotation.y+=dt*.02;
  const earthP=solarPlanets.find(p=>p.mesh.userData.planetData&&p.mesh.userData.planetData.name==='Earth');
@@ -2620,9 +2616,7 @@ function updateSolarSystem(dt,time){if(!solarSystemGroup.visible)return;for(cons
  const deepF=THREE.MathUtils.clamp((spaceZoomCurrent-50)/16,0,1);
  cosmicWeb.visible=deepF>0.02;if(cosmicWeb.visible)cosmicWeb.material.opacity=deepF*.85;
  cosmicWebFar.visible=deepF>0.02;if(cosmicWebFar.visible)cosmicWebFar.material.opacity=deepF*.9;
- const vBoost=galaxyMode==='blackhole'?1.9:1;vortexGroup.rotation.z+=dt*0.02*vBoost;const vortPulse=(9+Math.sin(time*1.3)*0.8)*(galaxyMode==='blackhole'?1.35:1);vortGlow.scale.set(vortPulse,vortPulse,1);
- for(let i=0;i<VORT_N;i++){const d=vortDat[i];d.p+=dt*0.028*(1.6-d.p)*vBoost;if(d.p>1)d.p-=1;const r=55*(1-d.p)+2.5;const ang=d.a+d.p*5.5+time*0.03;vortPos[i*3]=Math.cos(ang)*r;vortPos[i*3+1]=Math.sin(ang)*r+d.j*(1-d.p*0.6);vortPos[i*3+2]=Math.pow(d.p,2)*14;}
- vortGeo.attributes.position.needsUpdate=true;
+ faceBhScreen();
 }
 let selectedPlanet=null;
 const planetInfo=document.getElementById('planetInfo');
@@ -2630,7 +2624,7 @@ function focusPlanetObject(obj){if(!obj)return;focusSolarTarget.copy(obj.getWorl
 function showPlanetInfo(data){if(!data)return;selectedPlanet=data;document.getElementById('planetInfoName').textContent=data.name;document.getElementById('planetInfoText').textContent=data.fact;planetInfo.classList.add('open');planetInfo.setAttribute('aria-hidden','false');}
 document.getElementById('planetInfoClose')?.addEventListener('click',()=>{planetInfo.classList.remove('open');planetInfo.setAttribute('aria-hidden','true');selectedPlanet=null;});
 document.getElementById('planetFocus')?.addEventListener('click',()=>{if(selectedPlanet){const obj=clickablePlanets.find(o=>o.userData.planetData===selectedPlanet);focusPlanetObject(obj);}});
-function setGalaxy(mode){if(tourActive)endTour();galaxyMode=mode;document.querySelectorAll('.gx-btn').forEach(b=>b.classList.toggle('active',b.dataset.galaxy===mode));selectedPlanet=null;planetInfo.classList.remove('open');planetInfo.setAttribute('aria-hidden','true');const V={solar:[[0,0,-14],-6],milkyway:[[8,0,-28],32],novaris:[secondSystem.position.toArray(),-13],andromeda:[andromeda.grp.position.toArray(),-2],triangulum:[triangulum.grp.position.toArray(),-4],multiverse:[[0,4,-70],95],blackhole:[[0,3,-125],60]}[mode]||[[0,0,-14],-6];focusSolarTarget.set(V[0][0],V[0][1],V[0][2]);spaceZoomTarget=V[1];updateSpaceZoomLabel();}
+function setGalaxy(mode){if(tourActive)endTour();galaxyMode=mode;document.querySelectorAll('.gx-btn').forEach(b=>b.classList.toggle('active',b.dataset.galaxy===mode));selectedPlanet=null;planetInfo.classList.remove('open');planetInfo.setAttribute('aria-hidden','true');const V={solar:[[0,0,-14],-6],milkyway:[[8,0,-28],32],novaris:[secondSystem.position.toArray(),-13],andromeda:[andromeda.grp.position.toArray(),-2],triangulum:[triangulum.grp.position.toArray(),-4],multiverse:[[0,4,-70],95],blackhole:[[-135,-42,-185],55]}[mode]||[[0,0,-14],-6];focusSolarTarget.set(V[0][0],V[0][1],V[0][2]);spaceZoomTarget=V[1];updateSpaceZoomLabel();}
 document.querySelectorAll('.gx-btn').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();setGalaxy(b.dataset.galaxy);}));
 // ===== Cinematic Tour — a guided Cosmic Eye journey across every scale (v67). =====
 let tourActive=false,tourStep=-1,tourTimer=0;
