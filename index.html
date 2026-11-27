@@ -803,7 +803,7 @@ html.splash-lock #loader>div[style*="display:flex"] button{font-size:10px!import
 <div id="cssStars" style="position:fixed;inset:0;z-index:10001;background:#05060a;pointer-events:none;display:none"></div>
 <div class="loader" id="loader"><div class="loader-brand">MV</div><div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div><div class="loader-status">Entering Deep Space</div><div class="loader-hint" id="loaderHint">drag to explore · pinch to zoom</div><div style="display:flex;gap:12px;margin-top:1.2rem;flex-wrap:wrap;justify-content:center;align-items:center"><button id="enterSite" type="button" style="padding:13px 36px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:linear-gradient(135deg,rgba(109,40,217,.5),rgba(236,72,153,.4));color:#fff;font-size:13px;font-weight:800;letter-spacing:.14em;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 32px rgba(109,40,217,.4),0 0 20px rgba(236,72,153,.25)">Enter Site</button></div>
 <button id="musicWaveLock" class="music-wave" type="button" aria-label="Play or pause music" title="Music on/off"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></button>
-<div id="galaxySwitch" role="group" aria-label="Choose galaxy"><button type="button" class="gx-btn active" data-galaxy="solar">☀ Solar System</button><button type="button" class="gx-btn" data-galaxy="milkyway">🌌 Milky Way</button><button type="button" class="gx-btn" data-galaxy="novaris">✦ Novaris</button><button type="button" class="gx-btn" data-galaxy="aurelia">🌀 Aurelia</button><button type="button" class="gx-btn" data-galaxy="nyxara">☾ Nyxara</button><button type="button" class="gx-btn" data-galaxy="multiverse">∞ Multiverse</button></div>
+<div id="galaxySwitch" role="group" aria-label="Choose galaxy"><button type="button" class="gx-btn active" data-galaxy="solar">☀ Solar System</button><button type="button" class="gx-btn" data-galaxy="milkyway">🌌 Milky Way</button><button type="button" class="gx-btn" data-galaxy="novaris">✦ Novaris</button><button type="button" class="gx-btn" data-galaxy="andromeda">🌀 Andromeda</button><button type="button" class="gx-btn" data-galaxy="triangulum">☾ Triangulum</button><button type="button" class="gx-btn" data-galaxy="multiverse">∞ Multiverse</button></div>
 <aside id="planetInfo" class="planet-info" aria-live="polite" aria-hidden="true"><button id="planetInfoClose" type="button" aria-label="Close planet details">×</button><span class="planet-info-kicker">PLANET EXPLORER</span><strong id="planetInfoName">Earth</strong><p id="planetInfoText">Tap any planet to explore its world.</p><button id="planetFocus" type="button">FOCUS PLANET <span>↗</span></button></aside>
 <button id="closeScanResult" class="scan-close" type="button" aria-label="Close device scan and return to space">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m18 6-12 12M6 6l12 12"/></svg><span>Back to space</span>
@@ -2326,6 +2326,32 @@ const sat2Orbit=makeOrbitCraft(makeSatellite(),.80,-.35,-.4);
 const rocketObj=makeRocket();
 const rocketOrbit=makeOrbitCraft(rocketObj,1.18,.28,-.15);
 rocketObj.rotation.x=Math.PI/2;
+// ===== Dwarf planets, the great moons, and Halley's comet (v64). =====
+const extraSpinners=[];
+function addSpinner(parent,tiltX,tiltZ,speed){const pivot=new THREE.Group();pivot.rotation.set(tiltX,0,tiltZ);parent.add(pivot);const spin=new THREE.Group();spin.userData.speed=speed;pivot.add(spin);extraSpinners.push(spin);return spin;}
+const plutoSpin=addSpinner(solarSystemGroup,0.30,0.08,0.045);
+const pluto=new THREE.Mesh(new THREE.SphereGeometry(.11,24,18),new THREE.MeshStandardMaterial({color:0xc9a37e,roughness:.9}));
+pluto.position.set(13.9,0,0);pluto.userData.planetData={name:'Pluto',fact:'Type: Dwarf planet · Distance from Sun: 39.5 AU · Pluto was the ninth planet until 2006, when it was reclassified as a dwarf planet of the Kuiper Belt. Its orbit is tilted 17 degrees, and its heart-shaped glacier is bigger than Texas.'};pluto.userData.isPlanet=true;plutoSpin.add(pluto);clickablePlanets.push(pluto);
+const ceresSpin=addSpinner(solarSystemGroup,0.02,0,0.12);
+const ceres=new THREE.Mesh(new THREE.SphereGeometry(.055,18,14),new THREE.MeshStandardMaterial({color:0x9a938c,roughness:.95}));
+ceres.position.set(7.42,0,0);ceres.userData.planetData={name:'Ceres',fact:'Type: Dwarf planet · Distance from Sun: 2.77 AU · Ceres is the largest object in the asteroid belt — a rocky, icy world about 940 km wide, visited by NASA\u2019s Dawn spacecraft in 2015.'};ceres.userData.isPlanet=true;ceresSpin.add(ceres);clickablePlanets.push(ceres);
+function addGreatMoons(planetName,moons){
+ const host=solarPlanets.find(p=>p.mesh.userData.planetData&&p.mesh.userData.planetData.name===planetName);
+ if(!host)return;
+ for(const m of moons){
+  const orbit=new THREE.Group();host.mesh.add(orbit);
+  const moon=new THREE.Mesh(new THREE.SphereGeometry(m.size,20,16),new THREE.MeshStandardMaterial({color:m.color,roughness:.9}));
+  moon.position.set(m.dist,0,0);orbit.add(moon);solarMoons.push({orbit,speed:.35});
+ }
+}
+addGreatMoons('Jupiter',[{size:.09,color:0xe8d88a,dist:2.07},{size:.08,color:0xe8e4da,dist:2.62},{size:.11,color:0x9a8d7a,dist:3.32},{size:.10,color:0x6a625a,dist:4.14}]);
+addGreatMoons('Saturn',[{size:.10,color:0xd8a84e,dist:2.63}]);
+const cometPivot=new THREE.Group();cometPivot.rotation.set(0.42,0,0.18);solarSystemGroup.add(cometPivot);
+const cometBody=new THREE.Group();cometPivot.add(cometBody);
+const cometHead=new THREE.Mesh(new THREE.SphereGeometry(.09,16,12),new THREE.MeshBasicMaterial({color:0xeaf6ff}));cometBody.add(cometHead);
+const cometGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:0xbfe4ff,transparent:true,opacity:.8,depthWrite:false,blending:THREE.AdditiveBlending}));cometGlow.scale.set(.55,.55,1);cometBody.add(cometGlow);
+const cometTailMat=new THREE.MeshBasicMaterial({color:0x9fd0ff,transparent:true,opacity:.35,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide});
+const cometTail=new THREE.Mesh(new THREE.ConeGeometry(.16,2.6,20,1,true),cometTailMat);cometTail.rotation.z=-Math.PI/2;cometBody.add(cometTail);
 const secondSystem=new THREE.Group();secondSystem.position.set(-36,15,-58);secondSystem.rotation.set(-0.08,0.3,0.02);secondSystem.visible=false;scene.add(secondSystem);
 const secondPlanets=[];const secondClickables=[];
 function makeBandsTexture(colors){
@@ -2392,13 +2418,17 @@ function makeBlackHole(diskInner,diskOuter,coreRadius,tex){
  disk.rotation.x=-Math.PI/2;spin.add(disk);
  const ring=new THREE.Mesh(new THREE.TorusGeometry(coreRadius*1.12,coreRadius*0.05,16,140),new THREE.MeshBasicMaterial({color:0xffe9c4,transparent:true,opacity:.9,blending:THREE.AdditiveBlending,depthWrite:false}));
  ring.rotation.x=Math.PI/2;grp.add(ring);
+ const lensShell=makeAtmosphereMesh(coreRadius*2.2,0xfff2dc,.45);grp.add(lensShell);
  return {grp,spin};
 }
 function makeGalaxy(cfg){
  const grp=new THREE.Group();grp.position.set(cfg.pos[0],cfg.pos[1],cfg.pos[2]);grp.rotation.set(cfg.tilt[0],cfg.tilt[1],cfg.tilt[2]);grp.visible=false;scene.add(grp);
- const spiral=makeSpiralGalaxy(cfg.stars,cfg.radius,cfg.arms,cfg.curvature,cfg.coreHex,cfg.edgeHex);grp.add(spiral);
+ const spiral=makeSpiralGalaxy(cfg.stars,cfg.radius,cfg.arms,cfg.curvature,cfg.coreHex,cfg.edgeHex,cfg.powVal,cfg.scatter);grp.add(spiral);
  const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:cfg.glowHex,transparent:true,opacity:.5,depthWrite:false,blending:THREE.AdditiveBlending}));glow.scale.set(cfg.radius*1.15,cfg.radius*1.15,1);grp.add(glow);
- const bh=makeBlackHole(cfg.disk[0],cfg.disk[1],cfg.coreR,makeDiskTexture(cfg.diskIn,cfg.diskOut));grp.add(bh.grp);
+ let bh;
+ if(cfg.noBH){const cg=new THREE.Group();cg.add(new THREE.Mesh(new THREE.SphereGeometry(0.55,24,18),new THREE.MeshBasicMaterial({color:0xeaf0ff})));const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:0xcfe0ff,transparent:true,opacity:.85,depthWrite:false,blending:THREE.AdditiveBlending}));gl.scale.set(3.4,3.4,1);cg.add(gl);bh={grp:cg,spin:new THREE.Group()};}
+ else bh=makeBlackHole(cfg.disk[0],cfg.disk[1],cfg.coreR,makeDiskTexture(cfg.diskIn,cfg.diskOut));
+ grp.add(bh.grp);
  const proxy=new THREE.Mesh(new THREE.SphereGeometry(cfg.coreR*3.1,24,16),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false,colorWrite:false}));
  proxy.name=cfg.name;proxy.userData.planetData={name:cfg.coreName,fact:cfg.fact};proxy.userData.isPlanet=true;grp.add(proxy);clickablePlanets.push(proxy);
  const orbiters=new THREE.Group();grp.add(orbiters);
@@ -2420,16 +2450,65 @@ function makeGalaxy(cfg){
  }
  return {grp,spiral,spin:bh.spin,proxy,orbiters,clickables:sProxy?[proxy,sProxy]:[proxy],sysPlanets};
 }
-const aurelia=makeGalaxy({name:'Aurelia',pos:[44,-14,-88],tilt:[1.02,0.15,-0.18],stars:6500,radius:13,arms:2,curvature:0.32,coreHex:'#fff3d6',edgeHex:'#e07b2a',glowHex:0xffb36b,disk:[1.15,3.4],coreR:0.92,diskIn:'rgba(255,176,84,0.55)',diskOut:'rgba(255,94,0,0)',coreName:'Aurelia Core — Supermassive Black Hole',fact:'A supermassive black hole spins at the heart of the golden galaxy Aurelia. The glowing disk around it is gas heated to millions of degrees as it spirals in — and nothing that crosses its edge, not even light, ever comes back.',sys:{pos:[7.5,0,3.5],sunColor:0xffd9a0,name:'Aurelion — a Solar System in Aurelia',fact:'Deep inside Aurelia\u2019s golden arm orbits Aurelion, a sun much like ours, with four planets of its own. Every galaxy holds billions of systems like this \u2014 each point of light is a sun, and many of those suns have worlds.',planets:[{size:.20,orbit:1.20,speed:.50,colors:['#f7c873','#e08a4c','#c96f3f']},{size:.16,orbit:1.80,speed:.38,colors:['#e8d8a8','#b8a888','#8a7a5a']},{size:.24,orbit:2.45,speed:.30,colors:['#d86a4a','#a83a2a','#7a2a1a'],ring:true},{size:.14,orbit:3.10,speed:.24,colors:['#a8c8a0','#6a9868','#4a7850']}]}});
-const nyxara=makeGalaxy({name:'Nyxara',pos:[-14,36,-115],tilt:[0.82,-0.3,0.35],stars:8000,radius:17,arms:3,curvature:0.26,coreHex:'#e6dcff',edgeHex:'#5a3fd4',glowHex:0x9a7bff,disk:[1.4,4.3],coreR:1.12,diskIn:'rgba(178,152,255,0.55)',diskOut:'rgba(90,63,212,0)',coreName:'Nyxara Core — Supermassive Black Hole',fact:'Nyxara, the violet galaxy, hides one of the largest black holes in this corner of the multiverse. The bright ring around it is light itself, bent into a circle by gravity too strong for anything to escape.',sys:{pos:[10,0,-4.5],sunColor:0xc9a8ff,name:'Nyxari — a Solar System in Nyxara',fact:'Nyxari is a violet-lit system in one of Nyxara\u2019s spiral arms \u2014 four strange worlds circling a purple-tinged sun, on the far side of the multiverse from home. Zoom right in: every galaxy you passed on the way out is full of systems like this.',planets:[{size:.19,orbit:1.20,speed:.46,colors:['#b89af0','#7a5fd0','#4a3a9a']},{size:.23,orbit:1.80,speed:.36,colors:['#7fd0e8','#4a90c8','#2a5a9a'],ring:true},{size:.16,orbit:2.45,speed:.28,colors:['#e88ac8','#b85a9a','#7a3a6a']},{size:.14,orbit:3.10,speed:.22,colors:['#9af0d8','#5ac8a8','#3a8a78']}]}});
+const andromeda=makeGalaxy({name:'Andromeda',pos:[44,-14,-88],tilt:[1.02,0.15,-0.18],stars:16000,radius:19,arms:2,curvature:0.24,powVal:1.3,scatter:2.2,coreHex:'#fff2dc',edgeHex:'#8fb4e0',glowHex:0xffd9a8,disk:[1.3,3.9],coreR:1.05,diskIn:'rgba(255,196,120,0.55)',diskOut:'rgba(255,140,60,0)',coreName:'Andromeda Core — M31*',fact:'Type: Supermassive black hole · Distance: 2.5 million light-years · M31*, the black hole at Andromeda\u2019s heart, weighs about 140 million Suns. Andromeda is the nearest large galaxy to our Milky Way — and it is moving toward us: the two galaxies will merge in about 4.5 billion years.',sys:{pos:[7.5,0,3.5],sunColor:0xffd9a0,name:'A Planetary System in Andromeda',fact:'Type: Planetary system · Distance: 2.5 million light-years · Andromeda holds around a trillion stars, and most stars have planets. This sun and its four worlds stand for the countless solar systems scattered through Andromeda\u2019s spiral arms.',planets:[{size:.20,orbit:1.20,speed:.50,colors:['#f7c873','#e08a4c','#c96f3f']},{size:.16,orbit:1.80,speed:.38,colors:['#e8d8a8','#b8a888','#8a7a5a']},{size:.24,orbit:2.45,speed:.30,colors:['#d86a4a','#a83a2a','#7a2a1a'],ring:true},{size:.14,orbit:3.10,speed:.24,colors:['#a8c8a0','#6a9868','#4a7850']}]}});
+const triangulum=makeGalaxy({name:'Triangulum',pos:[-14,36,-115],tilt:[0.82,-0.3,0.35],stars:9000,radius:14,arms:3,curvature:0.28,powVal:1.2,scatter:2.0,coreHex:'#e8f0ff',edgeHex:'#6a9ad8',glowHex:0xaac4ff,noBH:true,disk:[1.4,4.3],coreR:1.12,diskIn:'rgba(178,152,255,0.55)',diskOut:'rgba(90,63,212,0)',coreName:'Triangulum Core — Nuclear Star Cluster',fact:'Type: Nuclear star cluster · Distance: 2.7 million light-years · Unusually, Triangulum may have NO supermassive black hole at its heart — instead its centre is a dense cluster of young, bright stars. It is the third-largest galaxy in our Local Group, after Andromeda and the Milky Way.',sys:{pos:[8,0,-3.5],sunColor:0xd8e4ff,name:'A Planetary System in Triangulum',fact:'Type: Planetary system · Distance: 2.7 million light-years · Triangulum is a loose, star-forming spiral dotted with giant nebulae and young star systems. This sun and its four worlds represent the billions of planetary systems inside it.',planets:[{size:.19,orbit:1.20,speed:.46,colors:['#b89af0','#7a5fd0','#4a3a9a']},{size:.23,orbit:1.80,speed:.36,colors:['#7fd0e8','#4a90c8','#2a5a9a'],ring:true},{size:.16,orbit:2.45,speed:.28,colors:['#e88ac8','#b85a9a','#7a3a6a']},{size:.14,orbit:3.10,speed:.22,colors:['#9af0d8','#5ac8a8','#3a8a78']}]}});
 // ===== The Milky Way — our own galaxy, with the solar system inside one of its arms (v61, Cosmic Eye zoom). =====
 const milkyWay=new THREE.Group();milkyWay.position.set(13,0,-34);milkyWay.rotation.set(0.62,0,0.10);milkyWay.visible=false;scene.add(milkyWay);
-const mwSpiral=makeSpiralGalaxy(20000,30,2,0.14,'#fff6e0','#7fa8d8',1.5,3.0);milkyWay.add(mwSpiral);
+const mwSpiral=makeSpiralGalaxy(22000,30,2,0.13,'#fff6e0','#7fa8d8',1.5,3.0);milkyWay.add(mwSpiral);
 const mwDiskGeo=new THREE.BufferGeometry();
 {const N=9000,dp=new Float32Array(N*3),dc=new Float32Array(N*3);const cA=new THREE.Color('#dfe9ff'),cB=new THREE.Color('#8fb0e0'),tc=new THREE.Color();
 for(let i=0;i<N;i++){const rr=Math.min(30,-Math.log(1-Math.random()*0.999)*11),aa=Math.random()*Math.PI*2;dp[i*3]=Math.cos(aa)*rr;dp[i*3+1]=(Math.random()+Math.random()+Math.random()-1.5)/1.5*(1.2*(1-rr/30)+0.08);dp[i*3+2]=Math.sin(aa)*rr;tc.copy(cA).lerp(cB,rr/30);const v=0.7+Math.random()*0.45;dc[i*3]=tc.r*v;dc[i*3+1]=tc.g*v;dc[i*3+2]=tc.b*v;}
 mwDiskGeo.setAttribute('position',new THREE.BufferAttribute(dp,3));mwDiskGeo.setAttribute('color',new THREE.BufferAttribute(dc,3));}
 const mwDisk=new THREE.Points(mwDiskGeo,new THREE.PointsMaterial({size:.2,map:asteroidDotTex,vertexColors:true,transparent:true,opacity:.65,depthWrite:false,blending:THREE.AdditiveBlending,sizeAttenuation:true}));milkyWay.add(mwDisk);
+// ===== Milky Way structure — central bar, dust lanes, globular-cluster halo, Sagittarius A*, nebulae, the Crab pulsar, and real nearby star systems (v64). =====
+const gauss=()=>(Math.random()+Math.random()+Math.random()-1.5)/1.5;
+function makePointCloud(n,gen,size,opacity,blending){
+ const pos=new Float32Array(n*3),col=new Float32Array(n*3);const c=new THREE.Color();
+ for(let i=0;i<n;i++){const p=gen(i,c);pos[i*3]=p[0];pos[i*3+1]=p[1];pos[i*3+2]=p[2];col[i*3]=c.r;col[i*3+1]=c.g;col[i*3+2]=c.b;}
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));g.setAttribute('color',new THREE.BufferAttribute(col,3));
+ return new THREE.Points(g,new THREE.PointsMaterial({size,map:asteroidDotTex,vertexColors:true,transparent:true,opacity,depthWrite:false,blending:blending||THREE.AdditiveBlending,sizeAttenuation:true}));
+}
+const mwBar=makePointCloud(3000,(i,c)=>{c.set('#ffe9c4').lerp(new THREE.Color('#e8b87a'),Math.random());return [gauss()*7.5,gauss()*0.9,gauss()*2.6];},.2,.9);milkyWay.add(mwBar);
+const mwDust=makePointCloud(2600,(i,c)=>{const r=Math.pow(Math.random(),1.5)*29+1;const arm=(i%2)/2*Math.PI*2;const a=arm+r*0.13-0.16+(Math.random()-.5)*0.14;const s=(Math.random()-.5)*1.4;c.set('#050403');return [Math.cos(a)*r+s,(Math.random()-.5)*0.5,Math.sin(a)*r+s];},.55,.34,THREE.NormalBlending);mwDust.renderOrder=3;milkyWay.add(mwDust);
+const mwHalo=makePointCloud(1600,(i,c)=>{const v=new THREE.Vector3().randomDirection();const r=10+Math.pow(Math.random(),1.6)*30;c.set('#cfd8ea').multiplyScalar(0.4+Math.random()*0.6);return [v.x*r,v.y*r*0.8,v.z*r];},.18,.7);milkyWay.add(mwHalo);
+const mwClickables=[];
+const mwBH=makeBlackHole(0.5,1.6,0.42,makeDiskTexture('rgba(255,214,150,0.55)','rgba(255,140,60,0)'));milkyWay.add(mwBH.grp);
+const sgrProxy=new THREE.Mesh(new THREE.SphereGeometry(1.7,20,14),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false,colorWrite:false}));
+sgrProxy.userData.planetData={name:'Sagittarius A*',fact:'Type: Supermassive black hole · Distance: 26,000 light-years · The 4.3-million-solar-mass black hole at the centre of the Milky Way. In 2022 the Event Horizon Telescope photographed its glowing ring — only the second black hole ever imaged.'};sgrProxy.userData.isPlanet=true;sgrProxy.userData.focusZoom=-16;milkyWay.add(sgrProxy);clickablePlanets.push(sgrProxy);mwClickables.push(sgrProxy);
+function makeNebula(colors,size){
+ const g=new THREE.Group();const n=9+Math.floor(Math.random()*4);
+ for(let i=0;i<n;i++){const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:colors[i%colors.length],transparent:true,opacity:.05+Math.random()*.07,depthWrite:false,blending:THREE.AdditiveBlending}));const sc=size*(0.4+Math.random()*0.75);sp.scale.set(sc,sc,1);sp.position.set((Math.random()-.5)*size*.8,(Math.random()-.5)*size*.3,(Math.random()-.5)*size*.8);g.add(sp);}
+ return g;
+}
+function addMwProxy(pos,radius,data,focusZoom){
+ const p=new THREE.Mesh(new THREE.SphereGeometry(radius,20,14),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false,colorWrite:false}));
+ p.position.set(pos[0],pos[1],pos[2]);p.userData.planetData=data;p.userData.isPlanet=true;p.userData.focusZoom=focusZoom;milkyWay.add(p);clickablePlanets.push(p);mwClickables.push(p);return p;
+}
+const orionNebula=makeNebula([0x7fd4c8,0x4a90c8,0xe8f4ff],3.2);orionNebula.position.set(-9.5,0.8,15.5);milkyWay.add(orionNebula);
+addMwProxy([-9.5,0.8,15.5],2.2,{name:'Orion Nebula (M42)',fact:'Type: Emission nebula — a star-forming region · Distance: 1,344 light-years · A stellar nursery in Orion\u2019s sword where hundreds of new stars are being born. It is one of the brightest nebulae in the sky, visible even to the naked eye.'},-20);
+const eagleNebula=makeNebula([0xe8a0b8,0x9a6ad0,0x6ab7ff],4.2);eagleNebula.position.set(16,1,-8);milkyWay.add(eagleNebula);
+const lagoonNebula=makeNebula([0xff9a7a,0xe86a8a,0xffd4a0],3.6);lagoonNebula.position.set(6,-1,-16);milkyWay.add(lagoonNebula);
+const crabNebula=makeNebula([0xffb37a,0x7ad4c8,0xe8e0ff],3.4);crabNebula.position.set(-25,2.5,4);milkyWay.add(crabNebula);
+const pulsarSpin=new THREE.Group();pulsarSpin.position.set(-25,2.5,4);pulsarSpin.rotation.z=0.5;milkyWay.add(pulsarSpin);
+pulsarSpin.add(new THREE.Mesh(new THREE.SphereGeometry(.12,16,12),new THREE.MeshBasicMaterial({color:0xeaf4ff})));
+for(const d of [-1,1]){const beam=new THREE.Mesh(new THREE.ConeGeometry(.34,3.6,16,1,true),new THREE.MeshBasicMaterial({color:0xbfe4ff,transparent:true,opacity:.28,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));beam.position.y=d*1.8;if(d<0)beam.rotation.x=Math.PI;pulsarSpin.add(beam);}
+addMwProxy([-25,2.5,4],2.2,{name:'Crab Nebula & Pulsar',fact:'Type: Supernova remnant with a neutron star · Distance: 6,500 light-years · The wreck of a star that exploded in 1054 AD, recorded by astronomers across the world. At its heart sits a pulsar — a city-sized neutron star spinning 30 times a second, sweeping beams of light like a lighthouse.'},-20);
+const proximaSystem=new THREE.Group();proximaSystem.position.set(-5.5,0.6,14.5);milkyWay.add(proximaSystem);
+const proxBinary=new THREE.Group();proximaSystem.add(proxBinary);
+const starA=new THREE.Mesh(new THREE.SphereGeometry(.15,20,16),new THREE.MeshBasicMaterial({color:0xfff2d8}));starA.position.set(.55,0,0);proxBinary.add(starA);
+const starB=new THREE.Mesh(new THREE.SphereGeometry(.11,20,16),new THREE.MeshBasicMaterial({color:0xffd9a8}));starB.position.set(-.55,0,0);proxBinary.add(starB);
+const proxGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:0xffe0b8,transparent:true,opacity:.7,depthWrite:false,blending:THREE.AdditiveBlending}));proxGlow.scale.set(1.7,1.7,1);proximaSystem.add(proxGlow);
+const proxDwarf=new THREE.Group();proxDwarf.position.set(1.7,0.15,0.7);proximaSystem.add(proxDwarf);
+proxDwarf.add(new THREE.Mesh(new THREE.SphereGeometry(.09,18,14),new THREE.MeshBasicMaterial({color:0xff7a5c})));
+const proxBSpin=new THREE.Group();proxDwarf.add(proxBSpin);
+const proxB=new THREE.Mesh(new THREE.SphereGeometry(.05,16,12),new THREE.MeshStandardMaterial({map:makeBandsTexture(['#7ab8d8','#4a7ab8','#2a4a78']),roughness:.8}));proxB.position.set(.34,0,0);proxBSpin.add(proxB);
+addMwProxy([-5.5,0.6,14.5],1.7,{name:'Alpha Centauri & Proxima',fact:'Type: Triple star system · Distance: 4.37 light-years · Our closest stellar neighbours. Alpha Centauri A and B circle each other as a binary pair, while the red dwarf Proxima Centauri hosts Proxima b — a rocky planet in the habitable zone, just 4.24 light-years from Earth.'},-24);
+const trappistSystem=new THREE.Group();trappistSystem.position.set(9,0.4,17);milkyWay.add(trappistSystem);
+trappistSystem.add(new THREE.Mesh(new THREE.SphereGeometry(.13,20,16),new THREE.MeshBasicMaterial({color:0xff8a6a})));
+const trapGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:0xff9a6a,transparent:true,opacity:.7,depthWrite:false,blending:THREE.AdditiveBlending}));trapGlow.scale.set(1.6,1.6,1);trappistSystem.add(trapGlow);
+const trapPlanets=[];const trapPalettes=[['#c8b8a8','#8a7a68','#5a4a3a'],['#7ab8d8','#4a7ab8','#2a4a78'],['#a8c8a0','#6a9868','#4a7850'],['#d8a8a0','#a86a5a','#6a3a2a'],['#b8c8e8','#7a90b8','#4a5a78'],['#e0d0b0','#b09a78','#6a5a42'],['#9ad4c8','#5aa898','#2a6a5e']];
+for(let i=0;i<7;i++){const orbit=.5+i*.3;const pm=new THREE.Mesh(new THREE.SphereGeometry(.04,16,12),new THREE.MeshStandardMaterial({map:makeBandsTexture(trapPalettes[i]),roughness:.85}));trappistSystem.add(pm);trapPlanets.push({mesh:pm,radius:orbit,speed:.5-i*.05,phase:i*1.13});const tr=new THREE.Mesh(new THREE.RingGeometry(orbit-.012,orbit+.012,72),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.15,side:THREE.DoubleSide,depthWrite:false}));tr.rotation.x=-Math.PI/2;trappistSystem.add(tr);}
+addMwProxy([9,0.4,17],1.9,{name:'TRAPPIST-1 System',fact:'Type: Red dwarf with seven rocky planets · Distance: 39 light-years · TRAPPIST-1 hosts seven Earth-sized planets — more rocky worlds than any other known system — and at least three of them orbit in the habitable zone, where liquid water could exist on their surfaces.'},-24);
 const mwGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:0xffe6b8,transparent:true,opacity:.55,depthWrite:false,blending:THREE.AdditiveBlending}));mwGlow.scale.set(22,22,1);milkyWay.add(mwGlow);
 const mwMarker=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:0x6ab7ff,transparent:true,opacity:.8,depthWrite:false,blending:THREE.AdditiveBlending}));mwMarker.scale.set(3.4,3.4,1);mwMarker.position.set(-13,0,20);milkyWay.add(mwMarker);
 // ===== Far mini-galaxies — they only appear at the deepest zoom, as the wider multiverse. =====
@@ -2450,25 +2529,50 @@ const ngGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture()
 const ngBH=makeBlackHole(0.85,2.6,0.68,makeDiskTexture('rgba(160,255,220,0.55)','rgba(63,168,143,0)'));novarisGalaxy.add(ngBH.grp);
 const ngProxy=new THREE.Mesh(new THREE.SphereGeometry(2.2,20,14),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false,colorWrite:false}));
 ngProxy.userData.planetData={name:'Novaris Core — Supermassive Black Hole',fact:'The Novaris system is not floating alone in the dark — it orbits inside the Novaris Galaxy, a green spiral of billions of stars, and this black hole anchors its heart, just like the one at the centre of our own Milky Way.'};ngProxy.userData.isPlanet=true;novarisGalaxy.add(ngProxy);clickablePlanets.push(ngProxy);secondClickables.push(ngProxy);
+// ===== Far real galaxies — the Magellanic Clouds and M87 (v64). =====
+const farGalaxies=[];
+function addFarGalaxy(grp,proxy,spin){grp.visible=false;scene.add(grp);farGalaxies.push({grp,clickables:[proxy],spin:spin||null});}
+function farProxy(radius,data){const p=new THREE.Mesh(new THREE.SphereGeometry(radius,20,14),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false,colorWrite:false}));p.userData.planetData=data;p.userData.isPlanet=true;clickablePlanets.push(p);return p;}
+const lmc=new THREE.Group();lmc.position.set(30,-18,-70);lmc.rotation.set(0.4,0.2,0.3);
+lmc.add(makePointCloud(3200,(i,c)=>{c.set('#dfeaff').lerp(new THREE.Color('#7ab8e8'),Math.random());return [gauss()*4.6,gauss()*1.1,gauss()*3.0];},.17,.85));
+const lmcNeb=makeNebula([0xff9ac8,0x7ab8e8,0xe8f4ff],2.6);lmcNeb.position.set(1,0.3,0.5);lmc.add(lmcNeb);
+const lmcGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:0xaac8ff,transparent:true,opacity:.4,depthWrite:false,blending:THREE.AdditiveBlending}));lmcGlow.scale.set(11,11,1);lmc.add(lmcGlow);
+const lmcProxy=farProxy(4.2,{name:'Large Magellanic Cloud',fact:'Type: Dwarf irregular galaxy · Distance: 163,000 light-years · The Milky Way\u2019s largest satellite galaxy, visible from Earth\u2019s southern hemisphere. It holds the Tarantula Nebula — the most active star-forming region in the Local Group.'});lmc.add(lmcProxy);addFarGalaxy(lmc,lmcProxy,null);
+const smc=new THREE.Group();smc.position.set(38,-25,-80);smc.rotation.set(0.2,-0.3,0.5);
+smc.add(makePointCloud(2400,(i,c)=>{c.set('#e4eeff').lerp(new THREE.Color('#8ab8e8'),Math.random());return [gauss()*3.4,gauss()*0.9,gauss()*2.2];},.16,.8));
+const smcGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:0xaac8ff,transparent:true,opacity:.35,depthWrite:false,blending:THREE.AdditiveBlending}));smcGlow.scale.set(8,8,1);smc.add(smcGlow);
+const smcProxy=farProxy(3.4,{name:'Small Magellanic Cloud',fact:'Type: Dwarf irregular galaxy · Distance: 200,000 light-years · The Milky Way\u2019s second satellite galaxy. A stream of gas torn from it — the Magellanic Stream — trails across our sky, feeding future stars in our galaxy.'});smc.add(smcProxy);addFarGalaxy(smc,smcProxy,null);
+const m87=new THREE.Group();m87.position.set(-58,38,-150);m87.rotation.set(0.3,0,0.2);
+m87.add(makePointCloud(3800,(i,c)=>{const v=new THREE.Vector3().randomDirection();const r=Math.pow(Math.random(),2.0)*8.5;c.set('#ffe9c4').lerp(new THREE.Color('#d8a860'),Math.random());return [v.x*r,v.y*r*0.75,v.z*r];},.19,.9));
+const m87Glow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(),color:0xffd9a0,transparent:true,opacity:.5,depthWrite:false,blending:THREE.AdditiveBlending}));m87Glow.scale.set(15,15,1);m87.add(m87Glow);
+const m87BH=makeBlackHole(1.2,4.2,1.1,makeDiskTexture('rgba(255,170,90,0.55)','rgba(255,110,30,0)'));m87.add(m87BH.grp);
+for(const d of [-1,1]){const jet=new THREE.Mesh(new THREE.ConeGeometry(.5,9.5,16,1,true),new THREE.MeshBasicMaterial({color:0x9fd0ff,transparent:true,opacity:.3,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));jet.position.y=d*4.75;if(d<0)jet.rotation.x=Math.PI;m87.add(jet);}
+const m87Proxy=farProxy(4.6,{name:'M87 & M87*',fact:'Type: Giant elliptical galaxy with a supermassive black hole · Distance: 55 million light-years · M87* weighs 6.5 billion Suns and fires a plasma jet 5,000 light-years long. In 2019 it became the first black hole ever photographed by humanity.'});m87.add(m87Proxy);addFarGalaxy(m87,m87Proxy,m87BH.spin);
 let galaxyMode='solar';
 function updateSolarSystem(dt,time){if(!solarSystemGroup.visible)return;for(const p of solarPlanets){const angle=p.phase+time*p.speed;p.mesh.position.set(Math.cos(angle)*p.radius,0,Math.sin(angle)*p.radius);p.mesh.rotation.y+=dt*.12;}for(const m of solarMoons)m.orbit.rotation.y+=dt*.35;if(earthClouds)earthClouds.rotation.y+=dt*.05;asteroidBelt.rotation.y+=dt*.0015;sunCore.rotation.y+=dt*.02;
  const earthP=solarPlanets.find(p=>p.mesh.userData.planetData&&p.mesh.userData.planetData.name==='Earth');
  if(earthP){earthFleet.position.copy(earthP.mesh.position);sat1Orbit.spin.rotation.y+=dt*.55;sat2Orbit.spin.rotation.y-=dt*.42;rocketOrbit.spin.rotation.y+=dt*.30;sat1Orbit.craft.rotation.y+=dt*.3;sat2Orbit.craft.rotation.y-=dt*.24;rocketObj.userData.glow.material.opacity=.45+.25*Math.sin(time*31)+.12*Math.sin(time*47);}
+ for(const s of extraSpinners)s.rotation.y+=dt*(s.userData.speed||0.05);
+ const ca=time*0.09+2.0,ce=0.62,cA=10.5,cr=cA*(1-ce*ce)/(1+ce*Math.cos(ca));
+ cometBody.rotation.y=-ca;cometHead.position.set(cr,0,0);cometGlow.position.set(cr,0,0);
+ const tl=THREE.MathUtils.clamp(3.4-cr*0.16,0.7,3.2);cometTail.scale.set(1,tl/2.6,1);cometTail.position.set(cr+tl/2,0,0);cometTailMat.opacity=THREE.MathUtils.clamp(0.55-cr*0.03,0.12,0.5);
  const sf=THREE.MathUtils.clamp((spaceZoomCurrent-14)/8,0,1);const selSecond=!!(selectedPlanet&&secondClickables.some(o=>o.userData.planetData===selectedPlanet));secondSystem.visible=sf>0.02||selSecond||galaxyMode==='novaris';
  if(secondSystem.visible){secondSystem.scale.setScalar(1.15*(0.85+0.15*(galaxyMode==='novaris'?1:sf)));secondSun.rotation.y+=dt*.02;for(const p of secondPlanets){const a=p.phase+time*p.speed;p.mesh.position.set(Math.cos(a)*p.radius,0,Math.sin(a)*p.radius);p.mesh.rotation.y+=dt*.12;}}
  novarisGalaxy.visible=secondSystem.visible;
  if(novarisGalaxy.visible){novarisGalaxy.scale.setScalar(0.9+0.1*((galaxyMode==='novaris'||galaxyMode==='multiverse')?1:sf));ngSpiral.rotation.y+=dt*0.006;ngBH.spin.rotation.y+=dt*0.5;}
- const selA=!!(selectedPlanet&&aurelia.clickables.some(o=>o.userData.planetData===selectedPlanet));
- const selN=!!(selectedPlanet&&nyxara.clickables.some(o=>o.userData.planetData===selectedPlanet));
- for(const E of [{sys:aurelia,mode:'aurelia',sel:selA},{sys:nyxara,mode:'nyxara',sel:selN}]){
+ const selA=!!(selectedPlanet&&andromeda.clickables.some(o=>o.userData.planetData===selectedPlanet));
+ const selN=!!(selectedPlanet&&triangulum.clickables.some(o=>o.userData.planetData===selectedPlanet));
+ for(const E of [{sys:andromeda,mode:'andromeda',sel:selA},{sys:triangulum,mode:'triangulum',sel:selN}]){
   E.sys.grp.visible=sf>0.02||E.sel||galaxyMode===E.mode||galaxyMode==='multiverse';
   if(E.sys.grp.visible){const f=(galaxyMode===E.mode||galaxyMode==='multiverse')?1:sf;E.sys.grp.scale.setScalar(1.15*(0.85+0.15*f));E.sys.spiral.rotation.y+=dt*0.02;E.sys.spin.rotation.y+=dt*0.55;E.sys.orbiters.rotation.y+=dt*0.12;for(const p of E.sys.sysPlanets){const a=p.phase+time*p.speed;p.mesh.position.set(Math.cos(a)*p.radius,0,Math.sin(a)*p.radius);p.mesh.rotation.y+=dt*0.1;}}
  }
  const mwF=THREE.MathUtils.clamp(spaceZoomCurrent/10,0,1);
- milkyWay.visible=mwF>0.02||galaxyMode==='milkyway'||galaxyMode==='multiverse';
- if(milkyWay.visible){const mf=Math.max(mwF,(galaxyMode==='milkyway'||galaxyMode==='multiverse')?1:0);milkyWay.scale.setScalar(0.9+0.1*mf);mwSpiral.rotation.y+=dt*0.004;mwDisk.rotation.y+=dt*0.004;mwMarker.material.opacity=0.55+0.35*Math.sin(time*2.4);}
+ const selMW=!!(selectedPlanet&&mwClickables.some(o=>o.userData.planetData===selectedPlanet));
+ milkyWay.visible=mwF>0.02||selMW||galaxyMode==='milkyway'||galaxyMode==='multiverse';
+ if(milkyWay.visible){const mf=Math.max(mwF,(galaxyMode==='milkyway'||galaxyMode==='multiverse')?1:0);milkyWay.scale.setScalar(0.9+0.1*mf);mwSpiral.rotation.y+=dt*0.004;mwDisk.rotation.y+=dt*0.004;mwBar.rotation.y+=dt*0.004;mwDust.rotation.y+=dt*0.004;mwBH.spin.rotation.y+=dt*0.7;pulsarSpin.rotation.y+=dt*6;proxBinary.rotation.y+=dt*0.5;proxBSpin.rotation.y+=dt*0.8;for(const p of trapPlanets){const a=p.phase+time*p.speed;p.mesh.position.set(Math.cos(a)*p.radius,0,Math.sin(a)*p.radius);}mwMarker.material.opacity=0.55+0.35*Math.sin(time*2.4);}
  const miniF=THREE.MathUtils.clamp((spaceZoomCurrent-26)/10,0,1);
  for(const M of miniGalaxies){M.grp.visible=miniF>0.02||galaxyMode==='multiverse';if(M.grp.visible)M.spiral.rotation.y+=dt*0.01;}
+ for(const F of farGalaxies){const selF=!!(selectedPlanet&&F.clickables.some(o=>o.userData.planetData===selectedPlanet));F.grp.visible=mwF>0.02||miniF>0.02||galaxyMode==='multiverse'||selF;if(F.grp.visible&&F.spin)F.spin.rotation.y+=dt*0.45;}
 }
 let selectedPlanet=null;
 const planetInfo=document.getElementById('planetInfo');
@@ -2476,7 +2580,7 @@ function focusPlanetObject(obj){if(!obj)return;focusSolarTarget.copy(obj.getWorl
 function showPlanetInfo(data){if(!data)return;selectedPlanet=data;document.getElementById('planetInfoName').textContent=data.name;document.getElementById('planetInfoText').textContent=data.fact;planetInfo.classList.add('open');planetInfo.setAttribute('aria-hidden','false');}
 document.getElementById('planetInfoClose')?.addEventListener('click',()=>{planetInfo.classList.remove('open');planetInfo.setAttribute('aria-hidden','true');selectedPlanet=null;});
 document.getElementById('planetFocus')?.addEventListener('click',()=>{if(selectedPlanet){const obj=clickablePlanets.find(o=>o.userData.planetData===selectedPlanet);focusPlanetObject(obj);}});
-function setGalaxy(mode){galaxyMode=mode;document.querySelectorAll('.gx-btn').forEach(b=>b.classList.toggle('active',b.dataset.galaxy===mode));selectedPlanet=null;planetInfo.classList.remove('open');planetInfo.setAttribute('aria-hidden','true');const V={solar:[[0,0,-14],-6],milkyway:[[8,0,-28],32],novaris:[secondSystem.position.toArray(),-13],aurelia:[aurelia.grp.position.toArray(),-12],nyxara:[nyxara.grp.position.toArray(),-4],multiverse:[[0,4,-70],48]}[mode]||[[0,0,-14],-6];focusSolarTarget.set(V[0][0],V[0][1],V[0][2]);spaceZoomTarget=V[1];updateSpaceZoomLabel();}
+function setGalaxy(mode){galaxyMode=mode;document.querySelectorAll('.gx-btn').forEach(b=>b.classList.toggle('active',b.dataset.galaxy===mode));selectedPlanet=null;planetInfo.classList.remove('open');planetInfo.setAttribute('aria-hidden','true');const V={solar:[[0,0,-14],-6],milkyway:[[8,0,-28],32],novaris:[secondSystem.position.toArray(),-13],andromeda:[andromeda.grp.position.toArray(),-2],triangulum:[triangulum.grp.position.toArray(),-4],multiverse:[[0,4,-70],48]}[mode]||[[0,0,-14],-6];focusSolarTarget.set(V[0][0],V[0][1],V[0][2]);spaceZoomTarget=V[1];updateSpaceZoomLabel();}
 document.querySelectorAll('.gx-btn').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();setGalaxy(b.dataset.galaxy);}));
 const planetRaycaster=new THREE.Raycaster(),planetPointer=new THREE.Vector2();
 canvas.addEventListener('click',e=>{if(!solarSystemGroup.visible||!document.documentElement.classList.contains('splash-lock')||document.getElementById('loader')?.classList.contains('scan-open'))return;planetPointer.set((e.clientX/innerWidth)*2-1,-(e.clientY/innerHeight)*2+1);planetRaycaster.setFromCamera(planetPointer,camera);const hitsAll=planetRaycaster.intersectObjects(clickablePlanets,false);const hit=hitsAll.find(h=>{let o=h.object;while(o){if(!o.visible)return false;o=o.parent;}return true;});if(hit){showPlanetInfo(hit.object.userData.planetData);focusPlanetObject(hit.object);}});
