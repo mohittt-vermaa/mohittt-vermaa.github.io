@@ -2250,16 +2250,12 @@ const moonTexture=new THREE.TextureLoader(manager).load('assets/planet-textures/
 const earthCloudsTexture=new THREE.TextureLoader(manager).load('assets/textures/earth-clouds.jpg');
 const earthRoughnessTexture=new THREE.TextureLoader(manager).load('assets/textures/earth-roughness.jpg');
 let earthClouds=null;
-const solarOrbitMaterial=new THREE.LineBasicMaterial({color:0xa8b8d7,transparent:true,opacity:.23,depthWrite:false});
 // Real atmosphere: a fresnel halo shell (BackSide) whose glow is strongest at the planet's limb and fades to zero before the shell's edge — no hard disc outline like a flat transparent sphere gives.
 function makeAtmosphereMesh(radius,colorHex,strength){
  const mat=new THREE.ShaderMaterial({uniforms:{glowColor:{value:new THREE.Color(colorHex)},strength:{value:strength}},vertexShader:'varying vec3 vN;void main(){vN=normalize(normalMatrix*normal);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',fragmentShader:'uniform vec3 glowColor;uniform float strength;varying vec3 vN;void main(){float t=-dot(vN,vec3(0.,0.,1.));float i=pow(clamp(t/.58,0.,1.),2.2);gl_FragColor=vec4(glowColor,1.)*i*strength;}',side:THREE.BackSide,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false});
  return new THREE.Mesh(new THREE.SphereGeometry(radius*1.22,48,32),mat);
 }
 solarPlanetData.forEach(data=>{
- // Orbits lie flat in the local XZ plane (the ecliptic disk); the camera views it from above.
- const orbitPoints=[];for(let i=0;i<360;i++){const a=i/360*Math.PI*2;orbitPoints.push(new THREE.Vector3(Math.cos(a)*data.orbit,0,Math.sin(a)*data.orbit));}
- const orbit=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(orbitPoints),solarOrbitMaterial);solarSystemGroup.add(orbit);
  const mat=new THREE.MeshStandardMaterial({map:makePlanetMap(data),color:0xffffff,roughness:data.rough??.85,metalness:0});
  if(data.bump){mat.bumpMap=mat.map;mat.bumpScale=data.bump;}
  const planet=new THREE.Mesh(new THREE.SphereGeometry(data.radius,96,64),mat);planet.name=data.name;planet.userData.planetData=data;planet.userData.isPlanet=true;
@@ -2326,6 +2322,7 @@ const sat2Orbit=makeOrbitCraft(makeSatellite(),.80,-.35,-.4);
 const rocketObj=makeRocket();
 const rocketOrbit=makeOrbitCraft(rocketObj,1.18,.28,-.15);
 rocketObj.rotation.x=Math.PI/2;
+sat1Orbit.craft.scale.setScalar(.55);sat2Orbit.craft.scale.setScalar(.55);rocketObj.scale.setScalar(.6);
 // ===== Dwarf planets, the great moons, and Halley's comet (v64). =====
 const extraSpinners=[];
 function addSpinner(parent,tiltX,tiltZ,speed){const pivot=new THREE.Group();pivot.rotation.set(tiltX,0,tiltZ);parent.add(pivot);const spin=new THREE.Group();spin.userData.speed=speed;pivot.add(spin);extraSpinners.push(spin);return spin;}
