@@ -1691,7 +1691,7 @@ renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(deviceP
 renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.2;renderer.outputColorSpace=THREE.SRGBColorSpace;
 
 const scene=new THREE.Scene();scene.background=null;
-const camera=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,0.1,500);camera.position.set(0,1.5,14);
+const camera=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,0.1,1200);camera.position.set(0,1.5,14);
 let spaceZoomTarget=-6,spaceZoomCurrent=-6;
 const focusSolarTarget=new THREE.Vector3(0,0,-14),focusSolarCurrent=new THREE.Vector3(0,0,-14);
 function updateSpaceZoomLabel(){
@@ -1700,7 +1700,7 @@ function updateSpaceZoomLabel(){
 }
 window.adjustSpaceZoom=function(direction){
   if(!Number.isFinite(direction)) return;
-  spaceZoomTarget=THREE.MathUtils.clamp(spaceZoomTarget+Math.sign(direction)*3,-29,48);
+  spaceZoomTarget=THREE.MathUtils.clamp(spaceZoomTarget+Math.sign(direction)*3,-29,85);
   updateSpaceZoomLabel();
 };
 let spaceOrbitYaw=0,spaceOrbitPitch=0.38,spaceOrbitYawT=0,spaceOrbitPitchT=0.38;
@@ -1732,7 +1732,7 @@ function spaceOnPointerDown(e){
 function spaceOnPointerMove(e){
   if(e.pointerType==='touch'&&spacePointers.has(e.pointerId)){
     spacePointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
-    if(spacePointers.size>=2){const pts=[...spacePointers.values()];const distance=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y);if(spacePinchDistance){const delta=distance-spacePinchDistance;if(Math.abs(delta)>1){spaceZoomTarget=THREE.MathUtils.clamp(spaceZoomTarget-delta*.12,-29,48);updateSpaceZoomLabel();}}spacePinchDistance=distance;if(e.cancelable)e.preventDefault();return;}
+    if(spacePointers.size>=2){const pts=[...spacePointers.values()];const distance=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y);if(spacePinchDistance){const delta=distance-spacePinchDistance;if(Math.abs(delta)>1){spaceZoomTarget=THREE.MathUtils.clamp(spaceZoomTarget-delta*.12,-29,85);updateSpaceZoomLabel();}}spacePinchDistance=distance;if(e.cancelable)e.preventDefault();return;}
   }
   if(!spaceDragging) return;
   if(e.pointerId!=null && spaceDragPid!=null && e.pointerId!==spaceDragPid) return;
@@ -2545,6 +2545,11 @@ const m87Glow=new THREE.Sprite(new THREE.SpriteMaterial({map:makeSunGlowTexture(
 const m87BH=makeBlackHole(1.2,4.2,1.1,makeDiskTexture('rgba(255,170,90,0.55)','rgba(255,110,30,0)'));m87.add(m87BH.grp);
 for(const d of [-1,1]){const jet=new THREE.Mesh(new THREE.ConeGeometry(.5,9.5,16,1,true),new THREE.MeshBasicMaterial({color:0x9fd0ff,transparent:true,opacity:.3,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));jet.position.y=d*4.75;if(d<0)jet.rotation.x=Math.PI;m87.add(jet);}
 const m87Proxy=farProxy(4.6,{name:'M87 & M87*',fact:'Type: Giant elliptical galaxy with a supermassive black hole · Distance: 55 million light-years · M87* weighs 6.5 billion Suns and fires a plasma jet 5,000 light-years long. In 2019 it became the first black hole ever photographed by humanity.'});m87.add(m87Proxy);addFarGalaxy(m87,m87Proxy,m87BH.spin);
+// ===== The cosmic web — hundreds of distant galaxies that fade in at the deepest zoom (v66). =====
+const cosmicWeb=makePointCloud(750,(i,c)=>{const v=new THREE.Vector3().randomDirection();const r=250+Math.random()*260;c.set(['#cfe0ff','#ffe9c4','#ffffff','#ffb8d8'][i%4]).multiplyScalar(0.35+Math.random()*0.65);return [v.x*r,v.y*r*0.7,v.z*r-160];},2.6,0);
+cosmicWeb.visible=false;scene.add(cosmicWeb);
+const cosmicWebFar=makePointCloud(140,(i,c)=>{const v=new THREE.Vector3().randomDirection();const r=230+Math.random()*220;c.set(['#ffffff','#d8e6ff','#ffe9c4'][i%3]).multiplyScalar(0.6+Math.random()*0.4);return [v.x*r,v.y*r*0.7,v.z*r-160];},5.5,0);
+cosmicWebFar.visible=false;scene.add(cosmicWebFar);
 let galaxyMode='solar';
 function updateSolarSystem(dt,time){if(!solarSystemGroup.visible)return;for(const p of solarPlanets){const angle=p.phase+time*p.speed;p.mesh.position.set(Math.cos(angle)*p.radius,0,Math.sin(angle)*p.radius);p.mesh.rotation.y+=dt*.12;}for(const m of solarMoons)m.orbit.rotation.y+=dt*.35;if(earthClouds)earthClouds.rotation.y+=dt*.05;asteroidBelt.rotation.y+=dt*.0015;sunCore.rotation.y+=dt*.02;
  const earthP=solarPlanets.find(p=>p.mesh.userData.planetData&&p.mesh.userData.planetData.name==='Earth');
@@ -2570,6 +2575,9 @@ function updateSolarSystem(dt,time){if(!solarSystemGroup.visible)return;for(cons
  const miniF=THREE.MathUtils.clamp((spaceZoomCurrent-26)/10,0,1);
  for(const M of miniGalaxies){M.grp.visible=miniF>0.02||galaxyMode==='multiverse';if(M.grp.visible)M.spiral.rotation.y+=dt*0.01;}
  for(const F of farGalaxies){const selF=!!(selectedPlanet&&F.clickables.some(o=>o.userData.planetData===selectedPlanet));F.grp.visible=mwF>0.02||miniF>0.02||galaxyMode==='multiverse'||selF;if(F.grp.visible&&F.spin)F.spin.rotation.y+=dt*0.45;}
+ const deepF=THREE.MathUtils.clamp((spaceZoomCurrent-50)/16,0,1);
+ cosmicWeb.visible=deepF>0.02;if(cosmicWeb.visible)cosmicWeb.material.opacity=deepF*.85;
+ cosmicWebFar.visible=deepF>0.02;if(cosmicWebFar.visible)cosmicWebFar.material.opacity=deepF*.9;
 }
 let selectedPlanet=null;
 const planetInfo=document.getElementById('planetInfo');
@@ -2577,7 +2585,7 @@ function focusPlanetObject(obj){if(!obj)return;focusSolarTarget.copy(obj.getWorl
 function showPlanetInfo(data){if(!data)return;selectedPlanet=data;document.getElementById('planetInfoName').textContent=data.name;document.getElementById('planetInfoText').textContent=data.fact;planetInfo.classList.add('open');planetInfo.setAttribute('aria-hidden','false');}
 document.getElementById('planetInfoClose')?.addEventListener('click',()=>{planetInfo.classList.remove('open');planetInfo.setAttribute('aria-hidden','true');selectedPlanet=null;});
 document.getElementById('planetFocus')?.addEventListener('click',()=>{if(selectedPlanet){const obj=clickablePlanets.find(o=>o.userData.planetData===selectedPlanet);focusPlanetObject(obj);}});
-function setGalaxy(mode){galaxyMode=mode;document.querySelectorAll('.gx-btn').forEach(b=>b.classList.toggle('active',b.dataset.galaxy===mode));selectedPlanet=null;planetInfo.classList.remove('open');planetInfo.setAttribute('aria-hidden','true');const V={solar:[[0,0,-14],-6],milkyway:[[8,0,-28],32],novaris:[secondSystem.position.toArray(),-13],andromeda:[andromeda.grp.position.toArray(),-2],triangulum:[triangulum.grp.position.toArray(),-4],multiverse:[[0,4,-70],48]}[mode]||[[0,0,-14],-6];focusSolarTarget.set(V[0][0],V[0][1],V[0][2]);spaceZoomTarget=V[1];updateSpaceZoomLabel();}
+function setGalaxy(mode){galaxyMode=mode;document.querySelectorAll('.gx-btn').forEach(b=>b.classList.toggle('active',b.dataset.galaxy===mode));selectedPlanet=null;planetInfo.classList.remove('open');planetInfo.setAttribute('aria-hidden','true');const V={solar:[[0,0,-14],-6],milkyway:[[8,0,-28],32],novaris:[secondSystem.position.toArray(),-13],andromeda:[andromeda.grp.position.toArray(),-2],triangulum:[triangulum.grp.position.toArray(),-4],multiverse:[[0,4,-70],72]}[mode]||[[0,0,-14],-6];focusSolarTarget.set(V[0][0],V[0][1],V[0][2]);spaceZoomTarget=V[1];updateSpaceZoomLabel();}
 document.querySelectorAll('.gx-btn').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();setGalaxy(b.dataset.galaxy);}));
 const planetRaycaster=new THREE.Raycaster(),planetPointer=new THREE.Vector2();
 canvas.addEventListener('click',e=>{if(!solarSystemGroup.visible||!document.documentElement.classList.contains('splash-lock')||document.getElementById('loader')?.classList.contains('scan-open'))return;planetPointer.set((e.clientX/innerWidth)*2-1,-(e.clientY/innerHeight)*2+1);planetRaycaster.setFromCamera(planetPointer,camera);const hitsAll=planetRaycaster.intersectObjects(clickablePlanets,false);const hit=hitsAll.find(h=>{let o=h.object;while(o){if(!o.visible)return false;o=o.parent;}return true;});if(hit){showPlanetInfo(hit.object.userData.planetData);focusPlanetObject(hit.object);}});
